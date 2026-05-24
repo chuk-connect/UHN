@@ -1,6 +1,49 @@
 # Business Hub Verification Framework
 
-Reference implementation of the framework described in the strategy deck. Drop-in deployable as an SFDX source package.
+> Drop-in deployable SFDX source package for verifying source-system data against principal investigator (PI) judgment. Reusable across Business Hub modules via field set configuration.
+
+## Project Overview
+
+| | |
+|---|---|
+| **Salesforce API Version** | 63.0 |
+| **Namespace** | Unmanaged |
+| **Default Branch** | `feature/dev` |
+| **Org Alias** | `uhn-sandbox` |
+
+### Architecture
+
+The framework has three layers:
+
+1. **Rule Engine** — `VerificationReconciliationService.cls`: Bulk-safe Apex service implementing a five-branch reconciliation rule that merges `Source_Payload__c` (raw source JSON) with `Override_Payload__c` (PI corrections delta) to determine final field values and `Verification_Status__c`.
+
+2. **API Surface** — `VerificationCardController.cls`: `@AuraEnabled` controller exposing field set queries, record reads, save/verify operations, and change event retrieval to the LWC.
+
+3. **UI Layer** — `lwc/verificationCard/`: Single LWC component rendering Proposed/Verified/Manual rows with per-row Verify, Verify All, and inline edit modal. Uses Change Data Capture (CDC) for auto-refresh.
+
+### Framework Schema Fields
+
+Every verifiable object requires these fields:
+
+| Field | Type | Purpose |
+|---|---|---|
+| `Verification_Status__c` | Picklist | Proposed / Verified / Manual / Superseded |
+| `Source_Hash__c` | String | Idempotency key for detecting source changes |
+| `Source_Payload__c` | Long Text | Raw source fields as JSON |
+| `Override_Payload__c` | Long Text | PI corrections as JSON delta |
+| `Verified_At__c` | Datetime | Audit stamp |
+| `Verified_By__c` | Lookup(User) | Audit stamp |
+| `External_Id__c` | String | Source system key |
+| `Is_Verified__c` | Boolean | Checkbox mirror of Verified status |
+
+### Key Conventions
+
+- Triggers are thin — business logic lives in handler/service classes
+- `Verification_Change_Event__c` is append-only — never update or delete records
+- `Verification_Binding__mdt` maps a parent object to a child object + field set
+- `UHN_Publication_Author_SourceSyncHandler.cls` is the reference template for new integrations
+
+---
 
 ## What's included
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Institute_Evaluators_AAR_Access</fullName>
+        <accessLevel>Read</accessLevel>
+        <description
+    >Grants AAR Evaluators read access to all active AAR records within the Institute. Account field is the Institute scope gate; membership in AAR_Evaluators public group determines which Institute an evaluator belongs to.</description>
+        <label>Institute Evaluators AAR Access</label>
+        <sharedTo>
+            <group>AAR_Evaluators</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Status__c</field>
+            <operation>notEqual</operation>
+            <value>Superseded</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

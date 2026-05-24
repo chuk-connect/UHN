@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- AAR_Submission__c uses OWD = ReadWrite so access is governed by permission sets,
+     not by sharing rules. Evaluators get Edit via the AAR_Evaluator permission set;
+     PIs have no object permission on this object (evaluations are confidential).
+     This file is intentionally empty. -->
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+</SharingRules>

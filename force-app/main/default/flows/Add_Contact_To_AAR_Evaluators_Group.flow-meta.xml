@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Add_To_Evaluators_Group</name>
+        <label>Add To AAR Evaluators Group</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <actionName>AAR_EvaluatorGroupService</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>contactIds</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>AAR_EvaluatorGroupService</nameSegment>
+    </actionCalls>
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description
+  >When a Contact is marked as an AAR Evaluator (Is_AAR_Evaluator__c = true), finds the linked active Salesforce User and adds them to the AAR_Evaluators public group. Replaces the deprecated Process Builder approach.</description>
+    <interviewLabel
+  >Add Contact To AAR Evaluators Group {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Add Contact To AAR Evaluators Group</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Add_To_Evaluators_Group</targetReference>
+        </connector>
+        <filterFormula>AND(
+    {!$Record.Is_AAR_Evaluator__c} = TRUE,
+    OR(
+        ISNEW(),
+        ISCHANGED({!$Record.Is_AAR_Evaluator__c})
+    )
+)</filterFormula>
+        <object>Contact</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -45,6 +45,9 @@ $RECYCLE.BIN/
 # Claude Code local context
 .claude/
 
+# Retrieved org state
+retrieved_state/
+
 # Python Salesforce Functions
 **/__pycache__/
 **/.venv/

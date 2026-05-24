@@ -48,6 +48,9 @@ $RECYCLE.BIN/
 # Retrieved org state
 retrieved_state/
 
+# Metadata API output
+mdapi_out/
+
 # Python Salesforce Functions
 **/__pycache__/
 **/.venv/

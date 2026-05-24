@@ -25,8 +25,11 @@ public with sharing class AAR_EvaluatorGroupService {
     if (linkedUsers.isEmpty())
       return;
 
-    Set<Id> userIds = new Map<Id, User>(linkedUsers).keySet();
+    addUsersToGroup(groupId, new Map<Id, User>(linkedUsers).keySet());
+  }
 
+  @TestVisible
+  private static void addUsersToGroup(Id groupId, Set<Id> userIds) {
     Set<Id> alreadyMembers = new Set<Id>();
     for (GroupMember gm : [
       SELECT UserOrGroupId

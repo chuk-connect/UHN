@@ -2,16 +2,23 @@
 private class AAR_EvaluatorGroupServiceTest {
   @TestSetup
   static void setup() {
-    Group grp = new Group(
-      Name = 'AAR_Evaluators',
-      DeveloperName = 'AAR_Evaluators',
-      Type = 'Regular'
-    );
-    insert grp;
+    List<Group> existing = [
+      SELECT Id
+      FROM Group
+      WHERE DeveloperName = 'AAR_Evaluators' AND Type = 'Regular'
+      LIMIT 1
+    ];
+    if (existing.isEmpty()) {
+      insert new Group(
+        Name = 'AAR_Evaluators',
+        DeveloperName = 'AAR_Evaluators',
+        Type = 'Regular'
+      );
+    }
   }
 
   @IsTest
-  static void addToEvaluatorsGroup_addsLinkedUserToGroup() {
+  static void addUsersToGroup_addsUserToGroup() {
     Group grp = [
       SELECT Id
       FROM Group
@@ -36,17 +43,8 @@ private class AAR_EvaluatorGroupServiceTest {
     );
     insert u;
 
-    Contact c = new Contact(
-      LastName = 'Evaluator',
-      Email = 'test.evaluator@example.com'
-    );
-    insert c;
-
-    u.ContactId = c.Id;
-    update u;
-
     Test.startTest();
-    AAR_EvaluatorGroupService.addToEvaluatorsGroup(new List<Id>{ c.Id });
+    AAR_EvaluatorGroupService.addUsersToGroup(grp.Id, new Set<Id>{ u.Id });
     Test.stopTest();
 
     List<GroupMember> members = [
@@ -62,7 +60,7 @@ private class AAR_EvaluatorGroupServiceTest {
   }
 
   @IsTest
-  static void addToEvaluatorsGroup_idempotent_noDuplicateMembers() {
+  static void addUsersToGroup_idempotent_noDuplicateMembers() {
     Group grp = [
       SELECT Id
       FROM Group
@@ -87,18 +85,10 @@ private class AAR_EvaluatorGroupServiceTest {
     );
     insert u;
 
-    Contact c = new Contact(
-      LastName = 'Evaluator2',
-      Email = 'test2.evaluator@example.com'
-    );
-    insert c;
-    u.ContactId = c.Id;
-    update u;
-
     insert new GroupMember(GroupId = grp.Id, UserOrGroupId = u.Id);
 
     Test.startTest();
-    AAR_EvaluatorGroupService.addToEvaluatorsGroup(new List<Id>{ c.Id });
+    AAR_EvaluatorGroupService.addUsersToGroup(grp.Id, new Set<Id>{ u.Id });
     Test.stopTest();
 
     List<GroupMember> members = [

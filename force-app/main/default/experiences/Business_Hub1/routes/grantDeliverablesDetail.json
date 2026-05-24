@@ -1,0 +1,12 @@
+{
+  "activeViewId": "cc9eb513-1c1c-4f4a-935f-90b495ad8484",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Grant_Deliverables_Detail__c",
+  "id": "30ddccfe-f399-4365-9d1f-ca8824c8857b",
+  "label": "Grant Deliverables Detail",
+  "objectApiName": "UHN_Grant_Document__c",
+  "routeType": "detail-a0a",
+  "type": "route",
+  "urlPrefix": "uhn-grant-document"
+}

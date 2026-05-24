@@ -1,0 +1,129 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:dynamicLayout",
+  "dataProviders": [],
+  "id": "cbef404b-356c-4226-a847-e6c55446d4b7",
+  "label": "UHN Communities Transfer Journal Entries",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "background": "background: rgba(0,0,0,0)",
+            "backgroundOverlay": "rgba(0,0,0,0.5)",
+            "contentAreaWidth": 100,
+            "sectionConfig": {
+              "UUID": "6c839f01-61a9-4886-9dc1-3fce6c0aa4bf",
+              "columns": [
+                {
+                  "UUID": "e6898880-7417-4e53-9f4e-6ab2c465c1ea",
+                  "columnKey": "1",
+                  "columnName": "Column 1",
+                  "columnWidth": "12",
+                  "seedComponents": []
+                }
+              ]
+            },
+            "sectionHeight": 200
+          },
+          "componentName": "forceCommunity:section",
+          "id": "6c839f01-61a9-4886-9dc1-3fce6c0aa4bf",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordHeadline",
+                  "id": "9405cf89-ed06-465b-b6c6-052d66088c5e",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "e6898880-7417-4e53-9f4e-6ab2c465c1ea",
+              "regionLabel": "Column 1",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "background": "background: rgba(0,0,0,0)",
+            "backgroundOverlay": "rgba(0,0,0,0.5)",
+            "contentAreaWidth": 100,
+            "sectionConfig": {
+              "UUID": "b58641e2-a44e-4430-a331-0bab61884d7f",
+              "columns": [
+                {
+                  "UUID": "477af253-598e-4769-8c9b-ccc265c43111",
+                  "columnKey": "1",
+                  "columnName": "Column 1",
+                  "columnWidth": "12",
+                  "seedComponents": []
+                }
+              ]
+            },
+            "sectionHeight": 300
+          },
+          "componentName": "forceCommunity:section",
+          "id": "b58641e2-a44e-4430-a331-0bab61884d7f",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordDetail",
+                  "id": "6608d996-4a05-4396-955c-3e5dd2e5086c",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "477af253-598e-4769-8c9b-ccc265c43111",
+              "regionLabel": "Column 1",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "642b6345-c942-43ba-bcb4-68b0919f71dc",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "d910cb3a-a528-4972-a13d-5ef17a1cd2ea",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "b59a94b6-2dd0-4c64-bd50-a5c2c9a3fb40",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0J"
+}

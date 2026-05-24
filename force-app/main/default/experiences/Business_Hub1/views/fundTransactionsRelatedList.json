@@ -1,0 +1,45 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "144c29aa-c90f-4ce0-b802-6f3db6095859",
+  "label": "Fund Transactions Related List",
+  "regions": [
+    {
+      "id": "13aa83c2-8f56-465b-a407-780d8c5efdb0",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customTitle": "",
+            "parentRecordId": "{!recordId}",
+            "relatedListName": "{!relationshipApiName}",
+            "showBreadCrumbs": true,
+            "showCustomTitle": false,
+            "showManualRefreshButton": false,
+            "showRowNumbers": true
+          },
+          "componentName": "forceCommunity:relatedList",
+          "id": "d3c80f68-4b61-4bb2-9593-efa99ed14b04",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "043b7839-6a9b-4aa3-8d85-bf3223a0b58a",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "cf442b57-6892-4e54-8ab9-2f0a92284b3d",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "relatedlist-a0u"
+}

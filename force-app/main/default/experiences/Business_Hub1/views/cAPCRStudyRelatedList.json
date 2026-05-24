@@ -1,0 +1,45 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "72e8c623-64f0-4215-8aec-952bd7456e5b",
+  "label": "CAPCR Study Related List",
+  "regions": [
+    {
+      "id": "a361a5b7-cf75-4dbe-97c5-10f89181e306",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customTitle": "",
+            "parentRecordId": "{!recordId}",
+            "relatedListName": "{!relationshipApiName}",
+            "showBreadCrumbs": true,
+            "showCustomTitle": false,
+            "showManualRefreshButton": true,
+            "showRowNumbers": true
+          },
+          "componentName": "forceCommunity:relatedList",
+          "id": "5fb6f83b-ea02-4118-90bf-2c21c1f5a88b",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "b9d11f43-bdea-4c62-a74a-7526a980ac35",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "8eaeeba8-0743-419a-b5ce-a4551576d17d",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "relatedlist-a14"
+}

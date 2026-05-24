@@ -1,0 +1,45 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "8b371a64-36c7-496b-b757-8f7563311a21",
+  "label": "Transfer Journal Entry Related List",
+  "regions": [
+    {
+      "id": "d6553e72-8035-4516-91ad-09253653fd3c",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customTitle": "",
+            "parentRecordId": "{!recordId}",
+            "relatedListName": "{!relationshipApiName}",
+            "showBreadCrumbs": true,
+            "showCustomTitle": false,
+            "showManualRefreshButton": true,
+            "showRowNumbers": true
+          },
+          "componentName": "forceCommunity:relatedList",
+          "id": "e1921518-c4be-4f7d-9f66-e63ca0e534b6",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "a8bdb106-653e-4787-9dbc-e6b86b1258b3",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "47fdaf77-602f-454d-a3e4-cc0fd261821d",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "relatedlist-a0J"
+}

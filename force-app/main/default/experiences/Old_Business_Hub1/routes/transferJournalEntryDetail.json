@@ -1,0 +1,12 @@
+{
+  "activeViewId": "cbef404b-356c-4226-a847-e6c55446d4b7",
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "configurationTags": [],
+  "devName": "Transfer_Journal_Entry_Detail__c",
+  "id": "8edefc7b-6c0a-4e2d-b055-b6accd489c3d",
+  "label": "Transfer Journal Entry Detail",
+  "objectApiName": "UHN_Transfer_Journal_Entry__c",
+  "routeType": "detail-a0J",
+  "type": "route",
+  "urlPrefix": "uhn-transfer-journal-entry"
+}

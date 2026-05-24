@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "4e276bdf-66c4-41cf-a814-57667724d301",
+      "propertyOverrides": {
+        "activeViewId": "b51e8f04-528f-464a-9099-63753ade719b"
+      },
+      "targetId": "82ca3670-a1ac-4ef6-ae23-01120ea2e954",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Case_Detail_Philanthropic_Gift_Page",
+  "id": "6d1fce33-1c21-4a6e-a5eb-d48c47985bb1",
+  "type": "experienceVariation"
+}

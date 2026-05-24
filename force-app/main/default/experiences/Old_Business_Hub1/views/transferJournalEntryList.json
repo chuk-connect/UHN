@@ -1,0 +1,52 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "4b694d6a-f6a2-4aff-8844-aaa45d7614ae",
+  "label": "Transfer Journal Entry List",
+  "regions": [
+    {
+      "id": "7420fd03-a3a1-473d-b186-21184ee4fc7a",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "enableInlineEdit": true,
+            "filterName": "00B4m000000VEBmEAO",
+            "layout": "FULL",
+            "pageSize": 25,
+            "scope": "UHN_Transfer_Journal_Entry__c",
+            "showActionBar": true,
+            "showChartsPanel": true,
+            "showDisplay": "showall",
+            "showFilterPanel": true,
+            "showImageIcon": true,
+            "showManualRefreshButton": true,
+            "showObjectName": true,
+            "showPinnedList": true,
+            "showSearchBar": true
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "e898ed91-a219-4508-b203-7581d0ccd169",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "983789d5-ffff-400c-a971-1029f7fbb55a",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "6be98f7e-1a4f-41e1-af87-14ca48dfc861",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "list-a0J"
+}

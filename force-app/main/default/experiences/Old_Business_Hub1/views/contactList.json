@@ -1,0 +1,52 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "c241c740-8095-4fbb-a1d6-381f27bf8845",
+  "label": "Contact List",
+  "regions": [
+    {
+      "id": "c6eb938e-46c1-4c41-8d00-9aff8b4cfdb6",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "enableInlineEdit": true,
+            "filterName": "MyContacts",
+            "layout": "FULL",
+            "pageSize": 25,
+            "scope": "Contact",
+            "showActionBar": true,
+            "showChartsPanel": true,
+            "showDisplay": "showall",
+            "showFilterPanel": true,
+            "showImageIcon": true,
+            "showManualRefreshButton": true,
+            "showObjectName": true,
+            "showPinnedList": true,
+            "showSearchBar": true
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "ffa7e0a7-a413-4a7c-a362-a57d46bbd13d",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "de3759de-50ce-4d9f-bde9-22fa64925fef",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "2b893ca6-440e-4e28-9c35-b2317f9e061b",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "list-003"
+}

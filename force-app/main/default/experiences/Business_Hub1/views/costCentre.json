@@ -1,0 +1,285 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsTwoCol66Layout",
+  "dataProviders": [],
+  "id": "14dcea38-a379-4194-b3d7-13119e0d2f4c",
+  "label": "Cost Centre",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "082c52b2-7a8f-4a4d-a1e7-3287285e4ef4",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "19158135-0f6d-401e-972a-a5bd15b6aea6",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "tabsetConfig": {
+              "UUID": "88d40d02-91a1-49a5-a00f-b6bd89dd55c4",
+              "activeTab": "",
+              "tabs": [
+                {
+                  "UUID": "5c99d536-3f0e-482b-8ddc-3834011f653f",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "1",
+                  "tabName": "Account Details"
+                },
+                {
+                  "UUID": "fe3072a6-8484-4c78-9b49-5e0aae25a865",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "7b6ce",
+                  "tabName": "Transactions"
+                },
+                {
+                  "UUID": "a3e798db-0a4a-46bf-8cc9-c6f7376fcb3e",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "5ebdd",
+                  "tabName": "Digital Charges"
+                },
+                {
+                  "UUID": "8b890100-6d5a-4d0a-ae4b-b77c4fb24e11",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "13606",
+                  "tabName": "Cases"
+                }
+              ],
+              "useOverflowMenu": false
+            }
+          },
+          "componentName": "forceCommunity:tabset",
+          "id": "88d40d02-91a1-49a5-a00f-b6bd89dd55c4",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordDetail",
+                  "id": "e1b4e925-ae13-40db-9c80-fd411f4a2e80",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "5c99d536-3f0e-482b-8ddc-3834011f653f",
+              "regionLabel": "Account Details",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "Journal_Entries__r",
+                    "relatedListComponentOverride": "ADVGRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "3a86b6fc-392b-4bdb-ab8c-ef2af4aeee59",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "fe3072a6-8484-4c78-9b49-5e0aae25a865",
+              "regionLabel": "Transactions",
+              "regionName": "7b6ce",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "SIMS_Charges__r",
+                    "relatedListComponentOverride": "GRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "e8476939-3026-4a59-8ab9-23e579236ea8",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "a3e798db-0a4a-46bf-8cc9-c6f7376fcb3e",
+              "regionLabel": "Digital Charges",
+              "regionName": "5ebdd",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "Cases__r",
+                    "relatedListComponentOverride": "GRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "d13ba918-9ad8-4dc6-9f38-aa0f2601f731",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "Cases_To_FCC__r",
+                    "relatedListComponentOverride": "ADVGRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "83ddcc84-4573-4850-9910-b14900003cb2",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "8b890100-6d5a-4d0a-ae4b-b77c4fb24e11",
+              "regionLabel": "Cases",
+              "regionName": "13606",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "c32a3a25-93dc-4751-8d9c-783771971433",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "23f0c541-4700-4cd6-a3d3-1e3cf95bd83d",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "09e2f641-28c5-46b2-8eae-fbe5cb9ae847",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "f40aae5a-99b0-4d56-916a-7f40c0816c4b",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "CUST_ID",
+            "reportId": "UHN_Breakdown_of_expenses_Pie",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "44ea99fa-1e39-4611-970d-a2e11040143a",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Delegates__r",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "fd676998-e1b4-472f-9857-d2bc1311621b",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "fe2fcdbf-6877-4719-9f25-44e0d04896a3",
+      "regionName": "featured",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "CUST_ID",
+            "reportId": "UHN_Expenses_by_Month_d2L",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "3d91d894-d547-491f-9af6-340426cb3679",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Delegates__r",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "5e7244f0-e50c-4fe3-816a-67d1d1080492",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "4fe32873-4e13-41f3-bd28-72a9c8f01ef7",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "CUST_ID",
+            "reportId": "UHN_Expenses_by_Month_d2L",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "a4bfbaa6-e6fa-438f-9cb4-3b3a98c47d1e",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "d5d961b8-cef3-47ea-8cde-8dcd5849d9d6",
+      "regionName": "sidebarAlt",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0D"
+}

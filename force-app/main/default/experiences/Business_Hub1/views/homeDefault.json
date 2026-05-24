@@ -1,0 +1,62 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "9887628a-d5a2-4db1-a534-e819a6d874cc",
+  "label": "Home - Default",
+  "regions": [
+    {
+      "id": "daf1cbe5-38ba-4457-847d-2e364fc76e42",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "richTextValue": "<p style=\"text-align: center;\"><span style=\"color: rgb(230, 0, 0); background-color: rgb(255, 255, 255); font-size: 20px;\">﻿You're currently on the default homepage for the Business Hub. Please contact business.hub@uhn.ca for support. Thank you</span></p>"
+          },
+          "componentName": "forceCommunity:richTextInline",
+          "id": "d28831e9-e259-4edf-9b82-02e300fd496a",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "23e0a548-77b9-4f5f-9a3e-3acbbc33dd2e",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "1600039b-5431-4831-9bb8-b0eed43f142b",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "id": "8abbdbb5-9ccc-4ff5-bb05-2040b715d195",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "This is the default homepage for account holders",
+            "title": "Home"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "665c0e3e-5eac-4390-bb11-f5610b4d0409",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "01664bd9-1b15-4073-a14a-7e70fba3d0fa",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "home"
+}

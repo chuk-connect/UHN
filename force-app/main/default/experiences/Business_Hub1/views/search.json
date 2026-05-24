@@ -1,0 +1,75 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "b5cf3641-45c5-4742-b680-a5f0d75da335",
+  "label": "Search",
+  "regions": [
+    {
+      "id": "070f5e6b-b48a-428b-a4c8-ce6d5b077c58",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "scopes": [
+              {
+                "isPublic": true,
+                "name": "UHN_FCC__c"
+              },
+              {
+                "isPublic": true,
+                "name": "UHN_PMCF_Fund_Master__c"
+              },
+              {
+                "isPublic": true,
+                "name": "UHN_Fund_Commitment__c"
+              },
+              {
+                "isPublic": true,
+                "name": "UHN_Journal_Entry__c"
+              },
+              {
+                "isPublic": true,
+                "name": "UHN_SIMS_Charges__c"
+              },
+              {
+                "isPublic": true,
+                "name": "UHN_Contract_Agreement__c"
+              },
+              {
+                "isPublic": false,
+                "name": "Case"
+              },
+              {
+                "isPublic": true,
+                "name": "Contact"
+              }
+            ],
+            "searchResultFiltering": true,
+            "searchTerm": "{!term}",
+            "showTopResults": true
+          },
+          "componentName": "forceCommunity:search",
+          "id": "6208840e-6777-4e58-abed-aa32ff476ac7",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "40521359-f52e-4f96-94df-acae27af7d5b",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "afcacf30-7cef-4b4f-817f-b76373a93f1c",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "global-search"
+}

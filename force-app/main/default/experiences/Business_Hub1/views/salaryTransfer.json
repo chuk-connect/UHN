@@ -1,0 +1,193 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "1de63350-44f7-4987-bf9e-645962dd5412",
+  "label": "Salary Transfer",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "988333b5-4926-4f03-86ec-6beb9588bc31",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "buttonAlignment": "right",
+            "reactorClassStr": "EtInitiator",
+            "recordId": "{!recordId}",
+            "showBackground": true,
+            "titleAlignment": "center"
+          },
+          "componentName": "RRCX:recordReactor",
+          "id": "f8715e82-0ed8-468e-aa80-65f0cdf6a2ff",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "ProcessSteps",
+            "relatedListComponentOverride": "GRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "2e0a5d4f-6c13-41e7-a928-bb3b90ae5bd6",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "c01c4982-e73d-4f85-95c6-dc1f01b5c40a",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "tabsetConfig": {
+              "UUID": "23609a8b-cba4-4b18-b7c5-3cfd411978c3",
+              "activeTab": "",
+              "tabs": [
+                {
+                  "UUID": "19b5fb8d-5bd3-48dc-9560-82d469e076c2",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "1",
+                  "tabName": "Details"
+                },
+                {
+                  "UUID": "0cc05bf8-411a-4cbd-b72b-ebdbfa9b4e13",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "2",
+                  "tabName": "Salary Transactions"
+                },
+                {
+                  "UUID": "90e7cc24-51bd-4222-b0fa-fb1de71d0c42",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "3",
+                  "tabName": "Feed"
+                }
+              ],
+              "useOverflowMenu": true
+            }
+          },
+          "componentName": "forceCommunity:tabLayout",
+          "id": "23609a8b-cba4-4b18-b7c5-3cfd411978c3",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordDetail",
+                  "id": "dacd3474-3005-4cce-9afd-db50dd23bdba",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "19b5fb8d-5bd3-48dc-9560-82d469e076c2",
+              "regionLabel": "Details",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "Salary_Transfer_Transactions__r",
+                    "relatedListComponentOverride": "ADVGRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "58a0dfd0-da32-4642-a9e8-1c5dd38c6d8b",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "0cc05bf8-411a-4cbd-b72b-ebdbfa9b4e13",
+              "regionLabel": "Salary Transactions",
+              "regionName": "2",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "canChangeSorting": true,
+                    "defaultFilter": "",
+                    "defaultSortOrderHomeFeed": "Relevance",
+                    "defaultSortOrderTopicsFeed": "Relevance",
+                    "feedDesign": "DEFAULT",
+                    "hasFeedSearch": true,
+                    "subjectId": "{!recordId}",
+                    "type": "Record"
+                  },
+                  "componentName": "forceCommunity:forceCommunityFeed",
+                  "id": "b43e7f13-62d0-4527-b304-fabdf4faeaa7",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "90e7cc24-51bd-4222-b0fa-fb1de71d0c42",
+              "regionLabel": "Feed",
+              "regionName": "3",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "7b4ff114-317e-4260-bc1c-76f35754c6bb",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "7e8853e6-95db-4832-929e-b88760c0e73b",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "d2dd6782-9444-48cf-a493-4941f7a05af8",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "ec22078f-5dde-4e18-9253-877eb1770b06",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-500"
+}

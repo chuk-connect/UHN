@@ -1,0 +1,12 @@
+{
+  "activeViewId": "25117f64-1023-4760-a563-9e20f8efd171",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "SIMS_Charge_Detail__c",
+  "id": "844f3c6a-5499-446b-a031-4e78940365ef",
+  "label": "SIMS Charge Detail",
+  "objectApiName": "UHN_SIMS_Charges__c",
+  "routeType": "detail-a0L",
+  "type": "route",
+  "urlPrefix": "uhn-sims-charges"
+}

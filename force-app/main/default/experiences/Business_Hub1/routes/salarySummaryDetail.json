@@ -1,0 +1,12 @@
+{
+  "activeViewId": "b4c0056a-c41f-4f94-a62d-47a7d390e0c6",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Salary_Summary_Detail__c",
+  "id": "9c1a5283-7ca8-4872-bf56-cf428576cac8",
+  "label": "Salary Summary Detail",
+  "objectApiName": "UHN_Salary_Summary__c",
+  "routeType": "detail-a0s",
+  "type": "route",
+  "urlPrefix": "uhn-salary-summary"
+}

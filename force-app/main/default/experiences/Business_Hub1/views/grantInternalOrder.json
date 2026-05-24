@@ -1,0 +1,282 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "e2e8c846-82ab-4d1e-a877-3578ff6b89c1",
+  "label": "Grant Internal Order",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "0f0f03de-7354-462c-bd95-5453f024408a",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "richTextValue": "<p style=\"text-align: center;\"><br></p>"
+          },
+          "componentName": "forceCommunity:richTextInline",
+          "id": "206f7eb2-c427-43ac-baae-f8afe47d9b82",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "1af056c7-d2f5-4f87-9489-0cec1e48673a",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "tabsetConfig": {
+              "UUID": "c74b0ecf-01a2-47fe-a0a6-250aafd5e894",
+              "activeTab": "",
+              "tabs": [
+                {
+                  "UUID": "8792d0cd-6cdd-428d-ae46-25db0724f06a",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "1",
+                  "tabName": "FCC HOME"
+                },
+                {
+                  "UUID": "1d1174dc-18bc-4ef9-a7bd-86b4416c511c",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "2",
+                  "tabName": "EXPENSE TRANSFER"
+                }
+              ],
+              "useOverflowMenu": true
+            }
+          },
+          "componentName": "forceCommunity:tabLayout",
+          "id": "c74b0ecf-01a2-47fe-a0a6-250aafd5e894",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "detailsTabLabel": "Details",
+                    "discussionsTabLabel": "Feed",
+                    "recordId": "{!recordId}",
+                    "relatedTabLabel": "Related Records",
+                    "showLegacyActivityComposer": false,
+                    "tab1Type": "details",
+                    "tab2Type": "related",
+                    "tab3Type": "chatter",
+                    "tab4Type": "timeline",
+                    "timelineTabLabel": "Activity"
+                  },
+                  "componentName": "forceCommunity:recordHomeTabs",
+                  "id": "b2ed1bda-66c6-4a5e-866c-8b9e28dcdb56",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "8792d0cd-6cdd-428d-ae46-25db0724f06a",
+              "regionLabel": "FCC HOME",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "bannerText": "User Guide: https://uhn.my.site.com/BusinessHub/resource/ETM_User_Guide_Community?v=3.7",
+                    "bannerTextWithKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineArticles\">articles</a> and <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+                    "bannerTextWithoutKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+                    "pageType": "",
+                    "showSubTopics": true,
+                    "title": "Expense Transfer Module",
+                    "uniqueNameOrId": ""
+                  },
+                  "componentName": "forceCommunity:headline",
+                  "id": "6f16baa2-a7bb-4dc8-b181-b239dda80ce6",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "customTableHeight": 225,
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "c:transactionViewer",
+                  "id": "5e417926-4292-4f7d-9d65-a7d3ba6c15ed",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "1d1174dc-18bc-4ef9-a7bd-86b4416c511c",
+              "regionLabel": "EXPENSE TRANSFER",
+              "regionName": "2",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "68710652-658b-4066-93fb-5dc2b149db20",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "e51ea6c4-0906-44ea-98e3-0f850e9f5992",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "96876a8a-e992-4a98-9eee-5bac2bae2726",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "324e0b88-e356-481e-8359-822e955d09af",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "CUST_ID",
+            "reportId": "UHN_Breakdown_of_expenses_Pie",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "c635d920-3594-4c45-a78f-ab16ef8fd193",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Delegates__r",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "ea381f81-e421-4c21-9cba-5f4aa83d845d",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "83d17fb2-f50d-438f-8091-3d33cb8605b8",
+      "regionName": "featured",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "CUST_ID",
+            "reportId": "UHN_Trend_in_Cash_Balance_12J",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "65fdfd30-72a3-4370-a2e1-15319e5528a2",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "CUST_ID",
+            "reportId": "UHN_Expenses_by_Month_d2L",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "0cf93fcf-0faf-4894-af9c-abe02fb827a0",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "UHN_FCC__c.Id",
+            "reportId": "Salary_Summaries_Report_MMv",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "8cf1079b-42ea-46fb-b71b-88eb5612b8d9",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Delegates__r",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "98b16a89-6329-40ae-8f7f-60fc098772bb",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "897930aa-756b-408e-8f1c-a904d14e26b7",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "CUST_ID",
+            "reportId": "UHN_Expenses_by_Month_d2L",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "50c13480-e813-4128-bb1a-12b5723966e5",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "5705b81a-ea17-4a7e-9553-829a65a6db07",
+      "regionName": "sidebarAlt",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0D"
+}

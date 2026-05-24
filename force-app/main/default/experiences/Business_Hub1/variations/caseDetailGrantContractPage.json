@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "b3a12980-1df7-4638-b055-db0022d73934",
+      "propertyOverrides": {
+        "activeViewId": "64a327b5-508f-41d8-aae7-37abcf2be6a6"
+      },
+      "targetId": "82ca3670-a1ac-4ef6-ae23-01120ea2e954",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Case_Detail_Grant_Contract_Page",
+  "id": "e93f6a6c-1d13-436d-8162-fd32565f5f0c",
+  "type": "experienceVariation"
+}

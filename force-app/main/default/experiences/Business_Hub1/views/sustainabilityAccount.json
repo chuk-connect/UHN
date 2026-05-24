@@ -1,0 +1,218 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsTwoCol66Layout",
+  "dataProviders": [],
+  "id": "9a795fcb-5e40-495b-bc1c-31f68086b667",
+  "label": "Sustainability Account",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "85d59572-b30b-4465-9536-cb30319c196f",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "bf92904c-fbbe-425f-b618-01220c3e10e4",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "tabsetConfig": {
+              "UUID": "1ec3bf28-3cf2-46b2-8b39-3ac17492a6c3",
+              "activeTab": "",
+              "tabs": [
+                {
+                  "UUID": "e1563e59-2808-4eb5-9a36-7ad02b0f0ed7",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "1",
+                  "tabName": "Account Details"
+                },
+                {
+                  "UUID": "d7b04071-5a60-468f-846e-7f45510198a4",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "7b6ce",
+                  "tabName": "Transactions"
+                }
+              ],
+              "useOverflowMenu": false
+            }
+          },
+          "componentName": "forceCommunity:tabset",
+          "id": "1ec3bf28-3cf2-46b2-8b39-3ac17492a6c3",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordDetail",
+                  "id": "4657d989-04bd-4009-8f12-e3f46c543a17",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "e1563e59-2808-4eb5-9a36-7ad02b0f0ed7",
+              "regionLabel": "Account Details",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "Journal_Entries__r",
+                    "relatedListComponentOverride": "ADVGRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "3109b35f-b2db-463b-aa3d-fb41dc4a3fcc",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "d7b04071-5a60-468f-846e-7f45510198a4",
+              "regionLabel": "Transactions",
+              "regionName": "7b6ce",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "015a8981-90fc-4b7d-aaff-5cb885cc964f",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "cb66bd27-d056-4fcf-85cb-bc49f5babc80",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "550b5562-eacb-4d2c-aec1-d96f2e99e277",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "c78b62f8-26c6-4d56-93c7-5dd18ee02945",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "CUST_ID",
+            "reportId": "UHN_Breakdown_of_expenses_Pie",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "6925ae74-ae0b-41d2-8c51-320316f05b3d",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Delegates__r",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "ae8d1c3e-e1c1-4b75-a829-dea49d50c78b",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "e58bf21c-a591-4dad-89da-9b97337a1104",
+      "regionName": "featured",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "CUST_ID",
+            "reportId": "UHN_Trend_in_Cash_Balance_12J",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "a6c94a99-f603-4f08-b915-f4ead8da804c",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Delegates__r",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "aafded19-43d6-47e5-8920-c3f5fc2b5362",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "f4d94034-84ed-46c7-89f6-372910f5e173",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "CUST_ID",
+            "reportId": "UHN_Expenses_by_Month_d2L",
+            "showRefreshButton": true,
+            "showTitle": true
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "a78c425d-c520-44d7-b56e-527a50038a19",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "5934af3a-a235-43bd-973d-1e67c2f1ca48",
+      "regionName": "sidebarAlt",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0D"
+}

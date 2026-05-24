@@ -1,0 +1,12 @@
+{
+  "activeViewId": "25537b99-8041-42c1-9680-421159611c10",
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "configurationTags": [],
+  "devName": "GL_Account_Related_List__c",
+  "id": "6ea758c4-230a-4a22-b480-f11caa032020",
+  "label": "GL Account Related List",
+  "objectApiName": "UHN_GL_Account__c",
+  "routeType": "relatedlist-a0F",
+  "type": "route",
+  "urlPrefix": "uhn-gl-account"
+}

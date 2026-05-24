@@ -1,0 +1,12 @@
+{
+  "activeViewId": "e2f63666-5ae1-4023-a4c5-e551b03476fb",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Transaction_Detail__c",
+  "id": "8d0094b0-987f-4b2d-b4f3-492c55cdfbf3",
+  "label": "Transaction Detail",
+  "objectApiName": "UHN_Journal_Entry__c",
+  "routeType": "detail-a0H",
+  "type": "route",
+  "urlPrefix": "uhn-journal-entry"
+}

@@ -1,0 +1,45 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "182e2e6f-f8cc-497e-9312-0673063c8e9f",
+  "label": "Grant Budget Detail Related List",
+  "regions": [
+    {
+      "id": "0062a3a2-374e-4cce-accf-dfcbc2b91747",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customTitle": "",
+            "parentRecordId": "{!recordId}",
+            "relatedListName": "{!relationshipApiName}",
+            "showBreadCrumbs": true,
+            "showCustomTitle": false,
+            "showManualRefreshButton": true,
+            "showRowNumbers": true
+          },
+          "componentName": "forceCommunity:relatedList",
+          "id": "8db48407-cd26-43a5-be35-34b21578a710",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "59824505-e04e-48d6-b9c0-0ae7699a68cb",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "7e17542d-fce8-4b69-9a10-797aac80476a",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "relatedlist-a0G"
+}

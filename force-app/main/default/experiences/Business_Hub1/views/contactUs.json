@@ -1,0 +1,105 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsTwoCol66Layout",
+  "dataProviders": [],
+  "id": "6d97f9fb-b6d7-44c6-a9eb-67fd178ecdcc",
+  "label": "Contact Us",
+  "regions": [
+    {
+      "id": "8d1716ca-a4af-47d0-8fa9-7f9d8bd03ba7",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "allowAttachments": true,
+            "attachmentLabel": "Upload File",
+            "buttonAlignment": "center",
+            "buttonBgColor": "",
+            "buttonBgHoverColor": "",
+            "buttonBorderColor": "",
+            "buttonMaxWidth": "",
+            "buttonRadius": 0,
+            "buttonTextColor": "",
+            "buttonTextHoverColor": "",
+            "callToAction": false,
+            "callToActionButtonText": "",
+            "callToActionText": "",
+            "callToActionUrl": "",
+            "confirmationSubtext": "We’ll get back to you soon.",
+            "confirmationText": "Your case was created.",
+            "guestQuickActionName": "Select or configure a global action",
+            "headerSubtitle": "Tell us how we can help.",
+            "headerTitle": "Contact Customer Support",
+            "quickActionName": "NewCommunityCase",
+            "requestSummaryText": "Case summary"
+          },
+          "componentName": "forceCommunity:contactSupportForm",
+          "id": "d8b2a34b-1942-43a0-9cf3-627371f124ed",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "dab9f367-fd9c-4f86-9a49-847acff23e2e",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "askConfirmationQuestion": true,
+            "confirmationMessageLabel": "Got it!",
+            "deflectionSubtitle": "Find what you need here.",
+            "deflectionTitle": "Need Answers Fast?",
+            "firstQuestion": "Did this content solve your issue?",
+            "maxResults": 6,
+            "measureDeflection": true,
+            "redirectUrl": "",
+            "secondQuestion": "Stop creating your case?",
+            "showArticles": true,
+            "showDiscussions": false,
+            "topicId": ""
+          },
+          "componentName": "forceCommunity:caseDeflection",
+          "id": "186b2e2e-401a-4a70-b715-dcb7c243e7b7",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "fbad8fe8-77cc-4f75-8faa-401d741c5d91",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "id": "35b1206e-d4dc-4028-8a49-d5b0aac2d93b",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "Contact Us"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "4a9523b4-fb7d-42b2-80ef-c781bf4ac9d7",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "2b87d5d7-7ce5-49df-afd8-c22ac474b3db",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "contactsupport"
+}

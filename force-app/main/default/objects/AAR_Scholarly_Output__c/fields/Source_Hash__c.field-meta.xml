@@ -1,9 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Source_Hash__c</fullName>
-    <description>SHA-256 of the last source payload processed. Used by the reconciliation service to detect drift without diffing JSON.</description>
+    <description
+  >SHA-256 of the last source payload processed. Used by the reconciliation service to detect drift without diffing JSON.</description>
+    <externalId>false</externalId>
     <label>Source Hash</label>
     <length>64</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

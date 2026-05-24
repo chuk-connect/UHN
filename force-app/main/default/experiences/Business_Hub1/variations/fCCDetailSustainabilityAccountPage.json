@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "efd06530-8068-4937-9961-b64c371fedb1",
+      "propertyOverrides": {
+        "activeViewId": "9a795fcb-5e40-495b-bc1c-31f68086b667"
+      },
+      "targetId": "cfa6a0ae-334e-4576-b75d-8e5f1fce5cdf",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "FCC_Detail_Sustainability_Account_Page",
+  "id": "323063da-a804-47d1-8a4b-8b3ca9f382ab",
+  "type": "experienceVariation"
+}

@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "0a170c98-60c1-482f-913b-a550f172141b",
+      "propertyOverrides": {
+        "activeViewId": "37e5e5b4-7864-49e6-a535-2d8e94ee89e7"
+      },
+      "targetId": "5f9f63c2-3fb2-4886-a1c2-9d8d779f1a54",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Contract_Agreement_Detail_Philanthropic_Gift_Contract_Page",
+  "id": "58209ffc-9343-4382-ad12-60078943ee7e",
+  "type": "experienceVariation"
+}

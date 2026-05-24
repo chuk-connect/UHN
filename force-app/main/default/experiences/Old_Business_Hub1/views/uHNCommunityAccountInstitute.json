@@ -1,0 +1,351 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:dynamicLayout",
+  "dataProviders": [],
+  "id": "214f2af2-42f6-4790-9d05-ed8595296836",
+  "label": "UHN Community Account Institute",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "background": "background: rgba(0,0,0,0)",
+            "backgroundOverlay": "rgba(0,0,0,0.5)",
+            "contentAreaWidth": 100,
+            "sectionConfig": {
+              "UUID": "ff70ab99-c712-4995-b4c2-7b4b7a82f653",
+              "columns": [
+                {
+                  "UUID": "7a43c557-253e-47a0-b1ad-d28426fe6c0e",
+                  "columnKey": "1",
+                  "columnName": "Column 1",
+                  "columnWidth": "12",
+                  "seedComponents": []
+                }
+              ]
+            },
+            "sectionHeight": 32
+          },
+          "componentName": "forceCommunity:section",
+          "id": "ff70ab99-c712-4995-b4c2-7b4b7a82f653",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordHeadline",
+                  "id": "d4c4518e-549b-4a0d-ae86-42cfda883351",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "7a43c557-253e-47a0-b1ad-d28426fe6c0e",
+              "regionLabel": "Column 1",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "background": "background: rgba(0,0,0,0)",
+            "backgroundOverlay": "rgba(0,0,0,0.5)",
+            "contentAreaWidth": 100,
+            "sectionConfig": {
+              "UUID": "ba2da288-16a5-4f81-bc31-32b083c6b0b5",
+              "columns": [
+                {
+                  "UUID": "7afd9719-5a07-4471-83e5-911c41410c47",
+                  "columnKey": "1",
+                  "columnName": "Column 1",
+                  "columnWidth": "7",
+                  "seedComponents": []
+                },
+                {
+                  "UUID": "e37e59c5-f213-4607-ad87-81c3e42920e8",
+                  "columnKey": "7c7ca",
+                  "columnName": "Column 2",
+                  "columnWidth": "5",
+                  "seedComponents": []
+                }
+              ]
+            },
+            "sectionHeight": 300
+          },
+          "componentName": "forceCommunity:section",
+          "id": "ba2da288-16a5-4f81-bc31-32b083c6b0b5",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "tabsetConfig": {
+                      "UUID": "5f0138ba-f3c6-46e2-85b3-2e10a24547b4",
+                      "activeTab": "",
+                      "tabs": [
+                        {
+                          "UUID": "710f5f8a-da99-475f-976a-e4af9ec3fbfc",
+                          "allowGuestUser": false,
+                          "locked": false,
+                          "seedComponents": [],
+                          "tabKey": "1",
+                          "tabName": "Details"
+                        },
+                        {
+                          "UUID": "3b9076f5-e9d0-452c-9a69-faa181606498",
+                          "allowGuestUser": false,
+                          "locked": false,
+                          "seedComponents": [],
+                          "tabKey": "2",
+                          "tabName": "FCCs"
+                        },
+                        {
+                          "UUID": "d59805c0-2080-466e-9799-33d0c81bbf86",
+                          "allowGuestUser": false,
+                          "locked": false,
+                          "seedComponents": [],
+                          "tabKey": "3",
+                          "tabName": "Journal Entries"
+                        },
+                        {
+                          "UUID": "5a84051f-ebe5-4dd2-85b6-63293448cca6",
+                          "allowGuestUser": false,
+                          "locked": false,
+                          "seedComponents": [],
+                          "tabKey": "2a385",
+                          "tabName": "Related"
+                        },
+                        {
+                          "UUID": "ab9ee254-74c8-4c0f-be2f-5fd6f65fed5f",
+                          "allowGuestUser": false,
+                          "locked": false,
+                          "seedComponents": [],
+                          "tabKey": "dfdad",
+                          "tabName": "Feed"
+                        }
+                      ],
+                      "useOverflowMenu": false
+                    }
+                  },
+                  "componentName": "forceCommunity:tabset",
+                  "id": "5f0138ba-f3c6-46e2-85b3-2e10a24547b4",
+                  "regions": [
+                    {
+                      "components": [
+                        {
+                          "componentAttributes": {
+                            "recordId": "{!recordId}"
+                          },
+                          "componentName": "forceCommunity:recordDetail",
+                          "id": "7576e701-8462-4b93-ac91-5fe4e985f991",
+                          "renditionMap": {},
+                          "type": "component"
+                        }
+                      ],
+                      "id": "710f5f8a-da99-475f-976a-e4af9ec3fbfc",
+                      "regionLabel": "Details",
+                      "regionName": "1",
+                      "renditionMap": {},
+                      "type": "region"
+                    },
+                    {
+                      "components": [
+                        {
+                          "componentAttributes": {
+                            "relatedListApiName": "FCCs__r",
+                            "relatedListComponentOverride": "ADVGRID",
+                            "width": "SMALL"
+                          },
+                          "componentName": "forceCommunity:relatedListSingle",
+                          "id": "190c1e1d-c0eb-4a62-b32c-241e03ac039e",
+                          "renditionMap": {},
+                          "type": "component"
+                        }
+                      ],
+                      "id": "3b9076f5-e9d0-452c-9a69-faa181606498",
+                      "regionLabel": "FCCs",
+                      "regionName": "2",
+                      "renditionMap": {},
+                      "type": "region"
+                    },
+                    {
+                      "components": [
+                        {
+                          "componentAttributes": {
+                            "relatedListApiName": "Journal_Entries_Institute__r",
+                            "relatedListComponentOverride": "ADVGRID",
+                            "width": "SMALL"
+                          },
+                          "componentName": "forceCommunity:relatedListSingle",
+                          "id": "610e02e7-1743-41c4-8ebb-829b7c1accd4",
+                          "renditionMap": {},
+                          "type": "component"
+                        }
+                      ],
+                      "id": "d59805c0-2080-466e-9799-33d0c81bbf86",
+                      "regionLabel": "Journal Entries",
+                      "regionName": "3",
+                      "renditionMap": {},
+                      "type": "region"
+                    },
+                    {
+                      "components": [
+                        {
+                          "componentAttributes": {
+                            "relatedListApiName": "Contacts",
+                            "relatedListComponentOverride": "CARD",
+                            "width": "SMALL"
+                          },
+                          "componentName": "forceCommunity:relatedListSingle",
+                          "id": "e15a5280-d8c3-4396-9842-97e573af00fb",
+                          "renditionMap": {},
+                          "type": "component"
+                        },
+                        {
+                          "componentAttributes": {
+                            "relatedListApiName": "AttachedContentDocuments",
+                            "relatedListComponentOverride": "CARD",
+                            "width": "MEDIUM"
+                          },
+                          "componentName": "forceCommunity:relatedListSingle",
+                          "id": "5f11daa5-9c86-4e44-be74-f52dd951325b",
+                          "renditionMap": {},
+                          "type": "component"
+                        },
+                        {
+                          "componentAttributes": {
+                            "relatedListApiName": "AttachedContentNotes",
+                            "relatedListComponentOverride": "CARD",
+                            "width": "MEDIUM"
+                          },
+                          "componentName": "forceCommunity:relatedListSingle",
+                          "id": "415fa1f9-924a-44d2-b051-9b088aaba9d0",
+                          "renditionMap": {},
+                          "type": "component"
+                        }
+                      ],
+                      "id": "5a84051f-ebe5-4dd2-85b6-63293448cca6",
+                      "regionLabel": "Related",
+                      "regionName": "2a385",
+                      "renditionMap": {},
+                      "type": "region"
+                    },
+                    {
+                      "components": [
+                        {
+                          "componentAttributes": {
+                            "context": "RECORD",
+                            "recordId": "{!recordId}",
+                            "width": "MEDIUM"
+                          },
+                          "componentName": "forceCommunity:feedPublisher",
+                          "id": "1721a5cb-540a-441d-9dd2-5c6d58462aa9",
+                          "renditionMap": {},
+                          "type": "component"
+                        },
+                        {
+                          "componentAttributes": {
+                            "canChangeSorting": true,
+                            "defaultFilter": "",
+                            "defaultSortOrderHomeFeed": "Relevance",
+                            "defaultSortOrderTopicsFeed": "Relevance",
+                            "feedDesign": "DEFAULT",
+                            "hasFeedSearch": true,
+                            "subjectId": "{!recordId}",
+                            "type": "Record"
+                          },
+                          "componentName": "forceCommunity:forceCommunityFeed",
+                          "id": "51382c3e-8cf8-4d04-ab13-4bb05ec4899a",
+                          "renditionMap": {},
+                          "type": "component"
+                        }
+                      ],
+                      "id": "ab9ee254-74c8-4c0f-be2f-5fd6f65fed5f",
+                      "regionLabel": "Feed",
+                      "regionName": "dfdad",
+                      "renditionMap": {},
+                      "type": "region"
+                    }
+                  ],
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "7afd9719-5a07-4471-83e5-911c41410c47",
+              "regionLabel": "Column 1",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:activityPanel",
+                  "id": "ad5bf3d4-3a39-4f3b-b0b7-8882da422b31",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "Cases",
+                    "relatedListComponentOverride": "ADVGRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:relatedListSingle",
+                  "id": "dcde73b7-db30-47f2-aa92-5586fe9a7886",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "e37e59c5-f213-4607-ad87-81c3e42920e8",
+              "regionLabel": "Column 2",
+              "regionName": "7c7ca",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "e7fc3b6a-1496-436a-bcec-2614a4826a5e",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "ed834bfb-8bc3-4ef3-88b2-48987ad634b5",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "d274bc07-bd23-49a4-9634-b3ada7c6725b",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-001"
+}

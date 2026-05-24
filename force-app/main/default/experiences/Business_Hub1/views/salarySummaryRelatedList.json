@@ -1,0 +1,45 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "30bc6531-fd62-443d-9a8c-6e8683cf530d",
+  "label": "Salary Summary Related List",
+  "regions": [
+    {
+      "id": "008e0a94-61bc-4630-80d8-9da3f065ed13",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customTitle": "",
+            "parentRecordId": "{!recordId}",
+            "relatedListName": "{!relationshipApiName}",
+            "showBreadCrumbs": true,
+            "showCustomTitle": false,
+            "showManualRefreshButton": true,
+            "showRowNumbers": true
+          },
+          "componentName": "forceCommunity:relatedList",
+          "id": "681b7f0d-e607-4eda-96da-ecf6e96b0d65",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "e7b1bd10-ed2b-468b-b933-52f1c808f0af",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "26fe8a95-3d09-41cb-a31f-45caa6b51f7d",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "relatedlist-a0s"
+}

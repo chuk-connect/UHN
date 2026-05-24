@@ -1,0 +1,12 @@
+{
+  "activeViewId": "af1b6e39-2971-4590-b6e8-99760dbe5dac",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Commitment_Summary_List__c",
+  "id": "956572ce-8a0f-420e-ab92-acf6056fbbee",
+  "label": "Commitment Summary List",
+  "objectApiName": "UHN_Commitment_Summary__c",
+  "routeType": "list-a16",
+  "type": "route",
+  "urlPrefix": "uhn-commitment-summary"
+}

@@ -1,0 +1,59 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsTwoCol84Layout",
+  "dataProviders": [],
+  "id": "b4419c4a-d503-4251-a0ff-177f09a9950b",
+  "label": "Case Detail With Create Case Form",
+  "regions": [
+    {
+      "id": "f6a7102d-c123-4a10-a17a-b5da89cfccad",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "attachFiles": true,
+            "authenticatedActionName": "NewCommunityCase",
+            "confirmationMessageDescription": "You'll hear back from us soon.",
+            "confirmationMessageTitle": "Your request was submitted successfully.",
+            "deflectionCategoryGroupName": "{!DataCategoryGroupName}",
+            "deflectionNotHelpful": "Didn't find what you're looking for?",
+            "deflectionNumberOfArticles": 6,
+            "deflectionParentCategory": "{!TopLevelCategory}",
+            "deflectionSubHeader": "Check out these articles...",
+            "deflectionTitle": "Need Answers Fast?",
+            "hasDeflection": true,
+            "headerTitle": "Create a Case",
+            "isReCaptchaEnabled": false,
+            "reCaptchaPrivateKey": "",
+            "reCaptchaPublicKey": "",
+            "unauthenticatedActionName": ""
+          },
+          "componentName": "selfService:caseCreate",
+          "id": "8eb01b6c-1ef4-4160-a380-5d2a4ba34845",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "cc4f0afa-d027-49bf-bbbc-29e85c5b73ca",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "6643c814-72a7-478d-a119-fe2c695250b3",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "id": "dd8df1ef-0d1a-4f31-87dc-a51ea853f8ef",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "list-500"
+}

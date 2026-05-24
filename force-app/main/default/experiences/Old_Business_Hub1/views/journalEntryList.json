@@ -1,0 +1,52 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "c613ff22-be8a-4da8-b2ba-7e7834b5b3e8",
+  "label": "Journal Entry List",
+  "regions": [
+    {
+      "id": "9f1996bb-6579-4fa8-8868-2d714f4c902d",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "enableInlineEdit": true,
+            "filterName": "00B4m000000VEBlEAO",
+            "layout": "FULL",
+            "pageSize": 25,
+            "scope": "UHN_Journal_Entry__c",
+            "showActionBar": true,
+            "showChartsPanel": true,
+            "showDisplay": "showall",
+            "showFilterPanel": true,
+            "showImageIcon": true,
+            "showManualRefreshButton": true,
+            "showObjectName": true,
+            "showPinnedList": true,
+            "showSearchBar": true
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "c9707016-4956-4064-92ac-75a7110f4224",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "3b1d794d-9af8-4d65-8bbe-7fc9267fd28f",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "04cfdf33-4f1a-4ce3-8f69-1fec4bbd2054",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "list-a0H"
+}

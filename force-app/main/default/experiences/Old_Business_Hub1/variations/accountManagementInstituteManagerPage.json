@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "7effb4ad-2862-40df-94b3-f9d5d17d71d2",
+      "propertyOverrides": {
+        "activeViewId": "3de1ec8a-435f-44b5-9f53-3914bf4e0186"
+      },
+      "targetId": "9bb74c7a-456f-4b15-8408-164021fa3996",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Account_Management_Institute_Manager_Page",
+  "id": "85a02043-8ad0-4ee0-bc74-1637fa974300",
+  "type": "experienceVariation"
+}

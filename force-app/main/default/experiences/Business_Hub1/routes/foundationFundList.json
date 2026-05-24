@@ -1,0 +1,12 @@
+{
+  "activeViewId": "51655373-f3e8-4331-bb1a-a41fe23a788e",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Foundation_Fund_List__c",
+  "id": "037595ee-0465-4081-a7a5-caa3bbc7fcd9",
+  "label": "Foundation Fund List",
+  "objectApiName": "UHN_PMCF_Fund_Master__c",
+  "routeType": "list-a0q",
+  "type": "route",
+  "urlPrefix": "uhn-pmcf-fund-master"
+}

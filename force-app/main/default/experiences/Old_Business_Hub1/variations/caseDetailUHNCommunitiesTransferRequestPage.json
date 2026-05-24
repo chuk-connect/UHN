@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "904d6e7f-ea96-4746-8f3e-18e62281f85f",
+      "propertyOverrides": {
+        "activeViewId": "126b63ed-0736-476e-81d5-caa99461b734"
+      },
+      "targetId": "f1a15f33-95ac-415a-818a-85d754294bc1",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Case_Detail_UHN_Communities_Transfer_Request_Page",
+  "id": "08bd7af4-ed17-4c80-89eb-63777ac2a3d3",
+  "type": "experienceVariation"
+}

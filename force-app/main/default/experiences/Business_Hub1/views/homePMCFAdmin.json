@@ -1,0 +1,63 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "888939cc-bd08-416a-8aea-6ca27cbe96c5",
+  "label": "Home - PMCF Admin",
+  "regions": [
+    {
+      "id": "f2d490f0-2b7f-4042-a417-5e28e19857ce",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "height": "800",
+            "recordId": "NTSigsfjMAnHxhvdGpYNYAhCPYbzmm"
+          },
+          "componentName": "forceCommunity:dashboard",
+          "id": "a5ccdc55-a273-416d-a3cd-da99693acad7",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "3a33b126-4331-4559-8398-ff7c58e3fcb3",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "25403314-0688-4b5d-bd9d-b2be77ae5c56",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "id": "1f56e02a-5204-4d68-8413-5230872a82a1",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "This is the default homepage for account holders",
+            "title": "Home"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "3bb212d9-84de-4588-abe1-87430f288550",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "a5a2c791-cc74-4cd9-9ca3-cc21ec2be0ac",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "home"
+}

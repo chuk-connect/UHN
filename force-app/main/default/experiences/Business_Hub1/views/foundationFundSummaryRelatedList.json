@@ -1,0 +1,45 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "5bde95a9-c568-4271-9f81-bf84c7a2f43a",
+  "label": "Foundation Fund Summary Related List",
+  "regions": [
+    {
+      "id": "d86b6e64-7069-405a-acca-76c51a691558",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customTitle": "",
+            "parentRecordId": "{!recordId}",
+            "relatedListName": "{!relationshipApiName}",
+            "showBreadCrumbs": true,
+            "showCustomTitle": false,
+            "showManualRefreshButton": false,
+            "showRowNumbers": true
+          },
+          "componentName": "forceCommunity:relatedList",
+          "id": "e2e97b7a-aefc-40ff-9104-a02f17f955ac",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "339155df-b3f8-43e0-a1be-bb2cf14b46d4",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "0f15720d-1ead-4272-8631-5e872403ae7a",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "relatedlist-a0r"
+}

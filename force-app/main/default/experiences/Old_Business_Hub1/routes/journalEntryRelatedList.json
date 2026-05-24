@@ -1,0 +1,12 @@
+{
+  "activeViewId": "aba7f3b4-ec14-43f5-84c9-002ee7f90cf0",
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "configurationTags": [],
+  "devName": "Journal_Entry_Related_List__c",
+  "id": "8070811a-2b9e-457b-ade9-fb73e0307e8a",
+  "label": "Journal Entry Related List",
+  "objectApiName": "UHN_Journal_Entry__c",
+  "routeType": "relatedlist-a0H",
+  "type": "route",
+  "urlPrefix": "uhn-journal-entry"
+}

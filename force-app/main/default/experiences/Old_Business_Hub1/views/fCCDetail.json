@@ -1,0 +1,159 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "22532daa-d8af-4518-a3ab-b8abddd87cc5",
+  "label": "FCC Detail",
+  "regions": [
+    {
+      "id": "5be20190-7169-4248-a10d-43f0d82ee662",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "7a0d0820-cabf-4032-8c1f-9c1cb0569b12",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "tabsetConfig": {
+              "UUID": "80adaa7c-be88-4e46-9acb-3a79975f4606",
+              "activeTab": "",
+              "tabs": [
+                {
+                  "UUID": "64c9d20e-ccc1-473c-a976-4dd34889b856",
+                  "allowGuestUser": true,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "1",
+                  "tabName": "Detail"
+                },
+                {
+                  "UUID": "d3087606-173c-44ad-a05c-bd17d92d956a",
+                  "allowGuestUser": true,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "2",
+                  "tabName": "Journal Entries"
+                },
+                {
+                  "UUID": "6e975d31-6054-4941-87c9-ed0759d48b32",
+                  "allowGuestUser": true,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "3",
+                  "tabName": "Cases"
+                },
+                {
+                  "UUID": "73914cb8-558b-4860-a5c4-b53b19903c6d",
+                  "allowGuestUser": true,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "138ae",
+                  "tabName": "Application"
+                }
+              ],
+              "useOverflowMenu": false
+            }
+          },
+          "componentName": "forceCommunity:tabset",
+          "id": "80adaa7c-be88-4e46-9acb-3a79975f4606",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordDetail",
+                  "id": "cc70af85-966a-475b-b5fa-6571437982e5",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "64c9d20e-ccc1-473c-a976-4dd34889b856",
+              "regionLabel": "Detail",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "Journal_Entries__r",
+                    "relatedListComponentOverride": "GRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:relatedListSingle",
+                  "id": "de04dd6b-2745-4e4f-955f-e7e349879f1a",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "d3087606-173c-44ad-a05c-bd17d92d956a",
+              "regionLabel": "Journal Entries",
+              "regionName": "2",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "id": "6e975d31-6054-4941-87c9-ed0759d48b32",
+              "regionLabel": "Cases",
+              "regionName": "3",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "id": "73914cb8-558b-4860-a5c4-b53b19903c6d",
+              "regionLabel": "Application",
+              "regionName": "138ae",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "17685a7b-3a55-4098-bfd9-227a84db00b9",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "2b131309-18b1-4fda-8705-d487b7c134f9",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "9f46b702-3b93-40c4-bdc3-10967b494e0b",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "6aa34746-70af-4d0b-92c7-8fbd593d2c87",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0D"
+}

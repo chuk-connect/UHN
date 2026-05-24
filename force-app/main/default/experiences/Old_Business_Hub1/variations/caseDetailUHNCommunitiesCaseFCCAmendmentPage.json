@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "2f87d221-80eb-4070-b12f-edb020ac523d",
+      "propertyOverrides": {
+        "activeViewId": "03bcdf3a-e911-4353-a3f7-78a856f7f2f8"
+      },
+      "targetId": "f1a15f33-95ac-415a-818a-85d754294bc1",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Case_Detail_UHN_Communities_Case_FCC_Amendment_Page",
+  "id": "776d2a0b-955d-4c92-872e-0d3b20dbc9e5",
+  "type": "experienceVariation"
+}

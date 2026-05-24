@@ -1,0 +1,132 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsTwoCol84Layout",
+  "dataProviders": [],
+  "id": "443afc33-a69d-4662-bbff-86f91fc965d0",
+  "label": "Institute Manager Page Variation",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "bannerText": "From here, you can manage your FCCs and cases and create expense transfers.",
+            "bannerTextWithKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineArticles\">articles</a> and <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+            "bannerTextWithoutKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+            "pageType": "",
+            "showSubTopics": true,
+            "title": "Welcome to the Business Hub!",
+            "uniqueNameOrId": ""
+          },
+          "componentName": "forceCommunity:headline",
+          "id": "2e9482f1-6c7f-4ad6-bb62-687ddfb18d98",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "a769a575-c532-4a3d-ace2-931e1e4378a5",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "enableInlineEdit": false,
+            "filterName": "00B4m000000VEBXEA4",
+            "layout": "FULL",
+            "pageSize": 5,
+            "scope": "UHN_FCC__c",
+            "showActionBar": false,
+            "showChartsPanel": false,
+            "showDisplay": "grid",
+            "showFilterPanel": false,
+            "showImageIcon": false,
+            "showManualRefreshButton": false,
+            "showObjectName": false,
+            "showPinnedList": false,
+            "showSearchBar": false
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "5648bc7a-a0ff-40c4-89e8-bdd70bdd8bcd",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "9fb0a65f-e6ae-4fdb-8454-45d8a70d529f",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "",
+            "reportId": "00O4m000000Kr9Q",
+            "showRefreshButton": true,
+            "showTitle": false
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "3b770760-4194-41b5-b50c-f5e1b0c47ec1",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "enableInlineEdit": true,
+            "filterName": "MyCases",
+            "layout": "COMPACT",
+            "pageSize": 3,
+            "scope": "Case",
+            "showActionBar": true,
+            "showChartsPanel": true,
+            "showDisplay": "showall",
+            "showFilterPanel": true,
+            "showImageIcon": true,
+            "showManualRefreshButton": true,
+            "showObjectName": true,
+            "showPinnedList": true,
+            "showSearchBar": true
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "4f4a796e-bc70-4ec7-99a1-b7b3ba8c0749",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "d250b20c-eab0-4c7e-9730-d528c7e7a2da",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "id": "c7e54e78-e5d2-41b4-a279-bfc5bc12014a",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "Home"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "5d8e4f6f-8ce5-4e94-9349-8701bd4ed603",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "9b4b9a7a-7281-469f-9971-64202cefeb6d",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "home"
+}

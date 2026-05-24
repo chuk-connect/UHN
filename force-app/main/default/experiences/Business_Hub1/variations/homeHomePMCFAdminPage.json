@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "f25b5010-d7a6-4542-b478-e92e8ed5b0e8",
+      "propertyOverrides": {
+        "activeViewId": "888939cc-bd08-416a-8aea-6ca27cbe96c5"
+      },
+      "targetId": "5b95e20b-0296-4c5e-bae2-8de77d2b4a20",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Home_Home_PMCF_Admin_Page",
+  "id": "3c2c838e-44f4-4c0f-aecd-b5c5986c3445",
+  "type": "experienceVariation"
+}

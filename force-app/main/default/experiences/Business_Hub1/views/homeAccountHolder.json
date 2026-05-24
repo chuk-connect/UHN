@@ -1,0 +1,198 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "fae1df23-304a-42fd-bd7d-99a4f7b336d8",
+  "label": "Home - Account Holder",
+  "regions": [
+    {
+      "id": "126f5a8f-02ba-4461-8b24-47596f702da2",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "tabsetConfig": {
+              "UUID": "5f20116b-3de8-4bc3-96ae-e53b4f9fbe28",
+              "activeTab": "",
+              "tabs": [
+                {
+                  "UUID": "7c0191d9-faa1-4105-99c2-0d0eb60187ec",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "1",
+                  "tabName": "Grant Management"
+                },
+                {
+                  "UUID": "e43dc418-f77a-45db-848d-80df0bf010f0",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "a8639",
+                  "tabName": "Grant Applications & Contracts"
+                },
+                {
+                  "UUID": "dd737e55-779e-4489-8f12-4f734976e980",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "51f32",
+                  "tabName": "Institutional Authorization"
+                }
+              ],
+              "useOverflowMenu": true
+            }
+          },
+          "componentName": "forceCommunity:tabLayout",
+          "id": "5f20116b-3de8-4bc3-96ae-e53b4f9fbe28",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "height": "775",
+                    "recordId": "iCYHxxiedafTDTJkiAapdLorfFddCY2"
+                  },
+                  "componentName": "forceCommunity:dashboard",
+                  "id": "0db42fd2-d3b7-4e5d-97c5-cc8438480cdf",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "7c0191d9-faa1-4105-99c2-0d0eb60187ec",
+              "regionLabel": "Grant Management",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "buttonAlignment": "center",
+                    "reactorClassStr": "",
+                    "reactorClassesToGenerate": "SharePointLink",
+                    "showBackground": true,
+                    "titleAlignment": "center"
+                  },
+                  "componentName": "RRCX:recordReactor",
+                  "id": "aacd07c9-7618-4df4-baf5-bd3cf162f617",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "e43dc418-f77a-45db-848d-80df0bf010f0",
+              "regionLabel": "Grant Applications & Contracts",
+              "regionName": "a8639",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "enableInlineEdit": false,
+                    "filterName": "All",
+                    "layout": "FULL",
+                    "pageSize": 25,
+                    "scope": "UHN_CAPCR_Study__c",
+                    "showActionBar": false,
+                    "showChartsPanel": false,
+                    "showDisplay": "showall",
+                    "showFilterPanel": true,
+                    "showImageIcon": false,
+                    "showManualRefreshButton": false,
+                    "showObjectName": false,
+                    "showPinnedList": true,
+                    "showSearchBar": true
+                  },
+                  "componentName": "forceCommunity:objectHome",
+                  "id": "a7d2a5bf-5fe2-4177-bdc4-478a781006f1",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "bannerText": "Dashboards and lists to give you insight into studies going through institutional authorization",
+                    "bannerTextWithKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineArticles\">articles</a> and <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+                    "bannerTextWithoutKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+                    "pageType": "",
+                    "showSubTopics": true,
+                    "title": "Coming Soon",
+                    "uniqueNameOrId": ""
+                  },
+                  "componentName": "forceCommunity:headline",
+                  "id": "5694f1f9-1c84-47c9-8d47-61f0141cf5a2",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "dd737e55-779e-4489-8f12-4f734976e980",
+              "regionLabel": "Institutional Authorization",
+              "regionName": "51f32",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "5abea96c-7084-4cfc-8a66-a1a3ec8d847e",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "07199e00-5c0e-4ebc-aa31-c83d5faa53b6",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "height": "485",
+            "recordId": "brTEqqaXUaVmHBFrxwijUfnEoYiVLI11"
+          },
+          "componentName": "forceCommunity:dashboard",
+          "id": "d52ad72c-ad56-4ffa-9b12-a8c3e9031107",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "55d801e9-79f6-4ecc-8305-7b226eaea625",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "This is the default homepage for account holders",
+            "title": "Home"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "000f3919-7e7c-4332-a7d9-c224d55267ed",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "981c1061-f9c8-4d4f-ad5d-f037af09cbd6",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "home"
+}

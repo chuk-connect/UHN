@@ -1,0 +1,12 @@
+{
+  "activeViewId": "182e2e6f-f8cc-497e-9312-0673063c8e9f",
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "configurationTags": [],
+  "devName": "Grant_Budget_Detail_Related_List__c",
+  "id": "39c207ab-0a58-4792-b64c-89df7ddb46ff",
+  "label": "Grant Budget Detail Related List",
+  "objectApiName": "UHN_Grant_Budget_Detail__c",
+  "routeType": "relatedlist-a0G",
+  "type": "route",
+  "urlPrefix": "uhn-grant-budget-detail"
+}

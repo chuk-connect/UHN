@@ -1,0 +1,125 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsTwoCol84SidebarFeaturedLayout",
+  "dataProviders": [],
+  "id": "26e65326-3856-438b-acb0-3a00f0372c2b",
+  "label": "Home",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "bannerText": "From here, you can manage your FCCs and cases and create expense transfers.",
+            "bannerTextWithKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineArticles\">articles</a> and <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+            "bannerTextWithoutKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+            "pageType": "",
+            "showSubTopics": true,
+            "title": "Welcome to Business Hub!",
+            "uniqueNameOrId": ""
+          },
+          "componentName": "forceCommunity:headline",
+          "id": "fa9e8990-0adf-4fd9-b566-5cc330a11164",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "height": "1150",
+            "recordId": "01Z5W0000005ncjUAA"
+          },
+          "componentName": "forceCommunity:dashboard",
+          "id": "4b85f709-5d4f-42f5-b348-0158351a750d",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "7d47afa5-3552-410f-9e75-4808a22c1e27",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "enableInlineEdit": true,
+            "filterName": "00B4m000000VIL5EAO",
+            "layout": "COMPACT",
+            "pageSize": 3,
+            "scope": "Case",
+            "showActionBar": true,
+            "showChartsPanel": true,
+            "showDisplay": "showall",
+            "showFilterPanel": true,
+            "showImageIcon": true,
+            "showManualRefreshButton": true,
+            "showObjectName": true,
+            "showPinnedList": true,
+            "showSearchBar": true
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "959a8d3c-1aa9-430a-9d10-89baf98f8c3f",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "1210f0b8-6266-4d36-97e2-ba621c07641c",
+      "regionName": "featured",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "cacheAge": 1440,
+            "filterName": "",
+            "reportId": "00O4m000000Kr9Q",
+            "showRefreshButton": true,
+            "showTitle": false
+          },
+          "componentName": "forceCommunity:reportChart",
+          "id": "b18c9205-8db2-4f24-b0b5-510728e0ecbc",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "8ad1ce5c-64c0-4a12-957c-7a67d65a96d0",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "d85b9895-e305-4452-b04b-ae7d48de568e",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "id": "56b1b579-2e34-43f3-ad4f-90ac554065dc",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "Home"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "3b536a63-fd85-4482-9bb3-fdb84180d433",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "cacb5980-ed2c-4787-bd88-cd283b4e919b",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "home"
+}

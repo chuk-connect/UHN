@@ -1,0 +1,45 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "fef25161-c993-4fcc-8801-a50ccc1aab9a",
+  "label": "Fund Commitment Related List",
+  "regions": [
+    {
+      "id": "a0c9e2e8-6daf-4d25-bcf8-40178ab6c721",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customTitle": "",
+            "parentRecordId": "{!recordId}",
+            "relatedListName": "{!relationshipApiName}",
+            "showBreadCrumbs": true,
+            "showCustomTitle": false,
+            "showManualRefreshButton": true,
+            "showRowNumbers": true
+          },
+          "componentName": "forceCommunity:relatedList",
+          "id": "76be6eec-70ef-4c3f-a74c-9a04846b9fb6",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "f779550f-1fba-4a00-bac3-763dd81390e7",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "656b1fa7-b615-42eb-b1ac-86657de77786",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "relatedlist-a15"
+}

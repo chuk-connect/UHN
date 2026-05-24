@@ -1,0 +1,141 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsTwoCol84Layout",
+  "dataProviders": [],
+  "id": "e8fe812e-b05e-4e98-bbf8-41b2ee036c02",
+  "label": "Research Grant - Contract",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "6eedc130-1aad-4331-88ef-f0d0b28ccc01",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "c85eccfe-10fb-4045-911f-7f90e571baf0",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordDetail",
+          "id": "2193a6f0-9519-43d9-a5d9-a71991bf6d6e",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "546c46d7-08ed-4c6f-8c39-68240bec86be",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "80d35c12-9c49-4ce5-87b0-aa30e5736b7d",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "f5229795-c315-4cdd-bed5-c418f097a47f",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "7dc71c12-1020-429d-a466-45200ab97671",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Access_Permissions__r",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "02ff7b24-7b93-4516-9551-fa31496b230c",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Amendments__r",
+            "relatedListComponentOverride": "GRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "d30811d2-942b-4ffa-85aa-a445a5e50fde",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Grant_Deliverables__r",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "90b26ba0-65ea-4fdf-89f9-14ae857cab44",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "context": "RECORD",
+            "recordId": "{!recordId}",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:feedPublisher",
+          "id": "e350392b-baf5-40cf-a2fb-df3b2033eb27",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "canChangeSorting": true,
+            "defaultFilter": "",
+            "defaultSortOrderHomeFeed": "Relevance",
+            "defaultSortOrderTopicsFeed": "Relevance",
+            "feedDesign": "DEFAULT",
+            "hasFeedSearch": true,
+            "subjectId": "{!recordId}",
+            "type": "Record"
+          },
+          "componentName": "forceCommunity:forceCommunityFeed",
+          "id": "e1fc5177-8e31-4e17-abb5-a19a6dc6fc15",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "1d90477d-fcf4-42fa-9e61-5e60c8aca52b",
+      "regionName": "sidebar",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0x"
+}

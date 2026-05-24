@@ -1,0 +1,131 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "5e8df1fa-1a5e-4b29-bc0b-aab972d6fc24",
+  "label": "Fund Commitment Detail",
+  "regions": [
+    {
+      "id": "913fdc82-ce0c-44e2-b050-19f5b4e2f3ea",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "18b4221e-cace-4e4d-a5ee-045fd4dabbf5",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "tabsetConfig": {
+              "UUID": "7eb1f50d-56c2-4b54-93bb-0cd219808a75",
+              "activeTab": "",
+              "tabs": [
+                {
+                  "UUID": "36e5ed07-2fc5-4a1c-815e-56f7cd975f54",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "1",
+                  "tabName": "Details"
+                },
+                {
+                  "UUID": "6eb11b46-33e4-4c92-b986-b13e283b0969",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "2",
+                  "tabName": "FY Summaries"
+                }
+              ],
+              "useOverflowMenu": true
+            }
+          },
+          "componentName": "forceCommunity:tabLayout",
+          "id": "7eb1f50d-56c2-4b54-93bb-0cd219808a75",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordDetail",
+                  "id": "37ac6725-5a63-4639-bcdb-ff62bc3f92b4",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "36e5ed07-2fc5-4a1c-815e-56f7cd975f54",
+              "regionLabel": "Details",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "Commitment_Summaries__r",
+                    "relatedListComponentOverride": "ADVGRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "23608c22-5f87-406d-89f7-cd4072e0810f",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "6eb11b46-33e4-4c92-b986-b13e283b0969",
+              "regionLabel": "FY Summaries",
+              "regionName": "2",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "0e94df65-823f-4285-abfc-bcc1fc56218a",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "b9652ea3-3e5e-4dd1-a542-df26ccad6533",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "adc44c7c-0923-4217-82bc-1be6222b9695",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "af73524c-eeae-4f0b-8533-2e4722ad9689",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a15"
+}

@@ -1,0 +1,187 @@
+{
+  "activeBrandingSetId": "c77ce15e-7569-4699-bf00-635345ec9b0b",
+  "customCSS": "",
+  "developerName": "service",
+  "id": "56d49b61-9196-40fa-b5bf-64670b61b685",
+  "label": "Customer Service",
+  "layouts": {
+    "Inner": "b27f0e8a-3b1c-4629-b0ba-e2c2861e5e3d",
+    "Login": "b0e889db-8e6d-4cd3-8f99-aa05872bdce6",
+    "ServiceNotAvailable": "d9b68ec8-9530-4c92-8de9-a7d7253adbe0"
+  },
+  "type": "theme",
+  "views": [
+    {
+      "componentAttributes": {},
+      "componentName": "salesforceIdentity:loginBody2",
+      "id": "b0e889db-8e6d-4cd3-8f99-aa05872bdce6",
+      "label": "Login",
+      "regions": [
+        {
+          "id": "a3c34baa-2f9d-4d21-8b58-86cde3c53a8a",
+          "regionName": "header",
+          "type": "region"
+        },
+        {
+          "id": "5543156d-204c-41e0-a019-b5be1f5120dd",
+          "regionName": "content",
+          "type": "region"
+        },
+        {
+          "id": "616728e0-1f29-49c1-be10-310a6fd16536",
+          "regionName": "footer",
+          "type": "region"
+        }
+      ],
+      "type": "view"
+    },
+    {
+      "componentAttributes": {
+        "IsDefaultHeaderHidden": false,
+        "IsDefaultNotificationsHidden": false,
+        "fixedPageWidth": 1140,
+        "isPageWidthFixed": true
+      },
+      "componentName": "siteforce:serviceBody",
+      "id": "b27f0e8a-3b1c-4629-b0ba-e2c2861e5e3d",
+      "label": "Default",
+      "regions": [
+        {
+          "id": "ce64ae4c-c00d-438c-b78c-8f9c02415c91",
+          "regionName": "customHeader",
+          "type": "region"
+        },
+        {
+          "components": [
+            {
+              "componentAttributes": {
+                "contineActionLabel": "Ask the community",
+                "continueLabel": "Don’t see it?",
+                "crossObjectTypeaheadApiNames": [
+                  {
+                    "isPublic": false,
+                    "name": "Case"
+                  },
+                  {
+                    "isPublic": true,
+                    "name": "UHN_FCC__c"
+                  },
+                  {
+                    "isPublic": true,
+                    "name": "UHN_Delegate__c"
+                  },
+                  {
+                    "isPublic": true,
+                    "name": "Contact"
+                  }
+                ],
+                "disableCrossObjectRelevance": false,
+                "enableAutocomplete": true,
+                "maxNumberOfResults": 6,
+                "placeholder": "Search...",
+                "questionResultsFirst": false,
+                "showContinueAction": true,
+                "showDetails": false,
+                "showTopics": true,
+                "signInActionLabel": "Sign in to ask the community"
+              },
+              "componentName": "forceCommunity:searchBox",
+              "id": "36bde95f-a591-4fa5-a086-05ee0e746fab",
+              "renditionMap": {},
+              "type": "component"
+            }
+          ],
+          "id": "1d3720b6-79dd-4f9d-9e86-61c6cc83b609",
+          "regionName": "search",
+          "type": "region"
+        },
+        {
+          "components": [
+            {
+              "componentAttributes": {
+                "accountManagementLabel": "Account Management",
+                "communityBuilderLabel": "Experience Builder",
+                "communitySetupLabel": "Salesforce Setup",
+                "contactSupportLabel": "Contact Support",
+                "filterName": "MyCases",
+                "homeLabel": "Home",
+                "includeContactSupport": false,
+                "includeMessages": false,
+                "loginLabel": "Login",
+                "logoutLabel": "Logout",
+                "myAccountLabel": "My Account",
+                "showAccountManagement": false,
+                "showUserSettings": false,
+                "userSettingsLabel": "My Settings",
+                "viewProfileLabel": "My Profile"
+              },
+              "componentName": "selfService:userProfileMenu",
+              "id": "8a889db8-442b-4573-91e1-3ed0def7e0d0",
+              "renditionMap": {},
+              "type": "component"
+            }
+          ],
+          "id": "41a2aaa8-3d0c-4a99-835e-988ded80a97f",
+          "regionName": "profileMenu",
+          "type": "region"
+        },
+        {
+          "components": [
+            {
+              "componentAttributes": {
+                "NavigationMenuEditorRefresh": "Default_Navigation",
+                "hideAppLauncher": false,
+                "hideHomeText": false
+              },
+              "componentName": "forceCommunity:globalNavigation",
+              "id": "51472de9-c3f4-4dcc-b979-ce92a56af129",
+              "renditionMap": {},
+              "type": "component"
+            }
+          ],
+          "id": "643d9e26-b524-44e5-9e94-16b0078b5b3f",
+          "regionName": "navBar",
+          "type": "region"
+        },
+        {
+          "id": "45792432-c2b2-451d-9726-5425e557ca0c",
+          "regionName": "customRegion",
+          "type": "region"
+        },
+        {
+          "id": "36dcaf60-d362-45e0-be17-e8990cc5b1be",
+          "regionName": "footer",
+          "type": "region"
+        }
+      ],
+      "type": "view"
+    },
+    {
+      "componentAttributes": {
+        "fixedPageWidth": 1170,
+        "headerBgColor": "rgba(0, 0, 0, 0)",
+        "isHeaderPinned": false,
+        "isHeroUnderHeader": false,
+        "isPageWidthFixed": true,
+        "showHeader": true,
+        "showHero": true
+      },
+      "componentName": "siteforce:themeLayoutStarter",
+      "id": "d9b68ec8-9530-4c92-8de9-a7d7253adbe0",
+      "label": "ServiceNotAvailable",
+      "regions": [
+        {
+          "id": "6a4ca7d8-3431-498a-918b-ebd5793c16de",
+          "regionName": "themeHeader",
+          "type": "region"
+        },
+        {
+          "id": "15a5e966-9100-49a6-932b-0a5ed570e1de",
+          "regionName": "themeFooter",
+          "type": "region"
+        }
+      ],
+      "type": "view"
+    }
+  ]
+}

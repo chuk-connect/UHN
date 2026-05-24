@@ -1,0 +1,12 @@
+{
+  "activeViewId": "e2e8c846-82ab-4d1e-a877-3578ff6b89c1",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "FCC_Detail__c",
+  "id": "cfa6a0ae-334e-4576-b75d-8e5f1fce5cdf",
+  "label": "FCC Detail",
+  "objectApiName": "UHN_FCC__c",
+  "routeType": "detail-a0D",
+  "type": "route",
+  "urlPrefix": "uhn-fcc"
+}

@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "f7063f22-7449-4057-93c6-15b62bdbd100",
+      "propertyOverrides": {
+        "activeViewId": "e8fe812e-b05e-4e98-bbf8-41b2ee036c02"
+      },
+      "targetId": "5f9f63c2-3fb2-4886-a1c2-9d8d779f1a54",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Contract_Agreement_Detail_Research_Grant_Contract_Page",
+  "id": "04ff2c7b-53ca-437d-bb20-9f3c646face4",
+  "type": "experienceVariation"
+}

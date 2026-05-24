@@ -1,0 +1,174 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:dynamicLayout",
+  "dataProviders": [],
+  "id": "a41da3d6-7ea4-4a99-8e1e-b215921781a9",
+  "label": "Draft Application",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "background": "background: rgba(0,0,0,0)",
+            "backgroundOverlay": "rgba(0,0,0,0.5)",
+            "contentAreaWidth": 100,
+            "sectionConfig": {
+              "UUID": "ab58c632-7f29-48f5-bab3-f136ef76ddf5",
+              "columns": [
+                {
+                  "UUID": "c5ca4926-f4b9-4cf5-93b8-77fcfa6e8063",
+                  "columnKey": "1",
+                  "columnName": "Column 1",
+                  "columnWidth": "12",
+                  "seedComponents": []
+                }
+              ]
+            },
+            "sectionHeight": 300
+          },
+          "componentName": "forceCommunity:section",
+          "id": "ab58c632-7f29-48f5-bab3-f136ef76ddf5",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordHeadline",
+                  "id": "e6a94793-b96c-4287-a329-aedfdb3bc02a",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "richTextValue": "<h3 style=\"text-align: center;\"><strong style=\"font-size: 12px; font-family: arial;\">﻿</strong><strong style=\"background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);\">To notify the Research Grants team, scroll to the bottom of this page and click the&nbsp;<em>Submit</em> button.</strong></h3>"
+                  },
+                  "componentName": "forceCommunity:richTextInline",
+                  "id": "c46356f7-f91b-4eb4-bb66-37e98f886f83",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "richTextValue": "<h3 style=\"text-align: center;\"><strong style=\"font-size: 12px; font-family: arial;\">Please use the 'Files' component below to upload any application materials before submission.</strong></h3>"
+                  },
+                  "componentName": "forceCommunity:richTextInline",
+                  "id": "cf8f2870-9c9e-433a-9ffe-098ab56b8831",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "AttachedContentDocuments",
+                    "relatedListComponentOverride": "CARD",
+                    "width": "SMALL"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "f29f4970-7003-4f66-b3b2-72989a9ff698",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordDetail",
+                  "id": "a3b03c74-cdef-4d9a-bc41-befdcb3ecec7",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "bannerText": "Before clicking 'Submit\", please review and revise all information for accuracy and upload related files (e.g., budget and budget justification).",
+                    "bannerTextWithKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineArticles\">articles</a> and <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+                    "bannerTextWithoutKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+                    "pageType": "",
+                    "showSubTopics": true,
+                    "title": "Are you ready to notify the Research Grants team?",
+                    "uniqueNameOrId": ""
+                  },
+                  "componentName": "forceCommunity:headline",
+                  "id": "2f18b1d4-9cfe-4bb8-809e-fa26bb52cfb4",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "align": "Center",
+                    "applyCardBackground": false,
+                    "autoLaunchFlow": false,
+                    "buttonBackgroundColor": "Green",
+                    "buttonBorderRadius": "",
+                    "buttonHeight": "100px",
+                    "buttonLabel": "Submit",
+                    "buttonTextColor": "",
+                    "buttonTextSize": "Large",
+                    "buttonWidth": "100px",
+                    "closeButtonText": "Close",
+                    "fixedButtonWidthHeight": false,
+                    "fixedModalWidthHeight": false,
+                    "flowInputVariablesString": "[   {      \"name\" : \"recordId\", \"type\" : \"String\", \"value\": \"{!recordId}\"    } ]",
+                    "flowModalHeader": "",
+                    "flowName": "Verify_and_Submit_Grant_Application",
+                    "hideButton": false,
+                    "hideFlowTransitionOverlay": true,
+                    "hideModalCloseButton": false,
+                    "modalHeight": "600px",
+                    "modalWidth": "800px",
+                    "redirectUrlOnFlowCompletion": "",
+                    "refreshPageOnFlowCompletion": true,
+                    "renderFooter": false
+                  },
+                  "componentName": "sf_flowmodal:ccp_launchFlowModal",
+                  "id": "f0eaaded-37d4-4fc4-ae00-de42f0c2d06c",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "c5ca4926-f4b9-4cf5-93b8-77fcfa6e8063",
+              "regionLabel": "Column 1",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "34b83eed-6ab0-4c93-82c5-2979ea687328",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "f127c539-72a7-472b-8228-17a31f132681",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "d74abe2a-7f7d-44bd-bd12-1ce9b0a25dff",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-500"
+}

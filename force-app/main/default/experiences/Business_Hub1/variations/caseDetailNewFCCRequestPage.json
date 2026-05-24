@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "77586090-591e-4d6f-8ddf-22812c74e1b7",
+      "propertyOverrides": {
+        "activeViewId": "80ce2b36-7fe2-4f11-891b-335346a45f81"
+      },
+      "targetId": "82ca3670-a1ac-4ef6-ae23-01120ea2e954",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Case_Detail_New_FCC_Request_Page",
+  "id": "a5db3291-50bb-471f-872a-351fc3d95a89",
+  "type": "experienceVariation"
+}

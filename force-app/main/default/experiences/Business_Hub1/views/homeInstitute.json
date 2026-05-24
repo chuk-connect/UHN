@@ -1,0 +1,140 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "fd9159e5-1de8-4120-996c-09aad46378f2",
+  "label": "Home - Institute",
+  "regions": [
+    {
+      "id": "902ae94a-c98c-44af-8730-0b426f42c22d",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "tabsetConfig": {
+              "UUID": "cd2c72e7-c65c-4332-a813-8315ff991984",
+              "activeTab": "",
+              "tabs": [
+                {
+                  "UUID": "5e89991c-cf8a-46c5-b8de-d86ebb2e8f47",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "1",
+                  "tabName": "Finance Dashboard"
+                },
+                {
+                  "UUID": "9c4ed090-73d1-46a0-ae29-6c0c30d41195",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "2",
+                  "tabName": "Grant Applications & Contracts"
+                }
+              ],
+              "useOverflowMenu": true
+            }
+          },
+          "componentName": "forceCommunity:tabLayout",
+          "id": "cd2c72e7-c65c-4332-a813-8315ff991984",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "height": "715",
+                    "recordId": "iCYHxxiedafTDTJkiAapdLorfFddCY11"
+                  },
+                  "componentName": "forceCommunity:dashboard",
+                  "id": "c7c72e80-336e-4480-96bb-19bf39e91b96",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "5e89991c-cf8a-46c5-b8de-d86ebb2e8f47",
+              "regionLabel": "Finance Dashboard",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "buttonAlignment": "center",
+                    "reactorClassStr": "",
+                    "reactorClassesToGenerate": "SharePointLink",
+                    "showBackground": false,
+                    "titleAlignment": "center"
+                  },
+                  "componentName": "RRCX:recordReactor",
+                  "id": "f6d4664b-b922-4ec6-9335-c3ba9fdc79a8",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "height": "485",
+                    "recordId": "brTEqqaXUaVmHBFrxwijUfnEoYiVLI11"
+                  },
+                  "componentName": "forceCommunity:dashboard",
+                  "id": "1c9a1048-6254-4a3a-9527-270cdb73d3fc",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "9c4ed090-73d1-46a0-ae29-6c0c30d41195",
+              "regionLabel": "Grant Applications & Contracts",
+              "regionName": "2",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "33f184bd-ad2c-4629-ace5-d3f13c74d2dd",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "7622ab9e-8ec5-4f06-9eea-871b1cec025f",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "id": "55c659f2-ef95-4ad1-8a1c-f48582d6a1c9",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "This is the default homepage for account holders",
+            "title": "Home"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "a02643d5-7974-4567-83bb-ca5908c66764",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "520e09ce-73f4-4a55-b214-a546dbe3b8a6",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "home"
+}

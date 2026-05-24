@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "0e6ad727-3be3-468f-baae-6b8c6cde2197",
+      "propertyOverrides": {
+        "activeViewId": "214f2af2-42f6-4790-9d05-ed8595296836"
+      },
+      "targetId": "7013774f-bcaf-4f78-8b12-649be835afca",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Account_Detail_UHN_Community_Account_Institute_Page",
+  "id": "fa6e8597-2517-4a52-afc8-a5f7dfdc7399",
+  "type": "experienceVariation"
+}

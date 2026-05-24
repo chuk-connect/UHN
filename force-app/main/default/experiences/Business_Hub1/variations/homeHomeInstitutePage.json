@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "75724c0d-3a69-4a95-94a4-a94813bb15d9",
+      "propertyOverrides": {
+        "activeViewId": "fd9159e5-1de8-4120-996c-09aad46378f2"
+      },
+      "targetId": "5b95e20b-0296-4c5e-bae2-8de77d2b4a20",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Home_Home_Institute_Page",
+  "id": "0240388f-9bc5-44c4-8ace-0e1662ee65c0",
+  "type": "experienceVariation"
+}

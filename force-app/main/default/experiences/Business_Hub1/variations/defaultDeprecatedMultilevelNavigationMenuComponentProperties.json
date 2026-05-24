@@ -1,0 +1,17 @@
+{
+  "componentVariants": [
+    {
+      "id": "a183fbd4-369a-4339-80bc-e894d194eb52",
+      "propertyOverrides": {
+        "componentAttributes": {
+          "NavigationMenuEditorRefresh": "PMCF_Fund_Admin"
+        }
+      },
+      "targetId": "4b91deb2-4135-445e-ba89-9ffceafce200",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Default_Deprecated_Multilevel_Navigation_Menu_Component_Properties",
+  "id": "756bff21-5cca-4029-943b-f6dfa98a350c",
+  "type": "experienceVariation"
+}

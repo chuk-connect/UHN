@@ -1,0 +1,220 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsTwoCol84Layout",
+  "dataProviders": [],
+  "id": "4c4e52d6-fc00-41fd-8f43-291e7ee0bfea",
+  "label": "Foundation Fund Detail",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "77cbec40-53e5-497c-b444-8670e4a7c836",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "690bc1ab-1ad6-404c-84d3-c5151ecc954b",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "tabsetConfig": {
+              "UUID": "1d39da78-1acc-4c69-b5d6-611957519e0d",
+              "activeTab": "",
+              "tabs": [
+                {
+                  "UUID": "d4eb3d46-554c-432c-aa9d-086f42ad3330",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "1",
+                  "tabName": "Details"
+                },
+                {
+                  "UUID": "4b9b16c6-b14d-4818-8dbb-9335a80d3397",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "2",
+                  "tabName": "Fund Financial Summaries"
+                },
+                {
+                  "UUID": "69ee1cdb-8367-48df-ae0a-ad332b219d58",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "53022",
+                  "tabName": "Expenses & Transfers"
+                },
+                {
+                  "UUID": "0c7be901-bee9-4d4c-b862-5c2b9ef70c5c",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "39b39",
+                  "tabName": "Commitments"
+                }
+              ],
+              "useOverflowMenu": true
+            }
+          },
+          "componentName": "forceCommunity:tabLayout",
+          "id": "1d39da78-1acc-4c69-b5d6-611957519e0d",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordDetail",
+                  "id": "a3bcaa4e-4b84-4c36-8073-8a9d06c873e5",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "richTextValue": "<h1 style=\"text-align: center;\"><span style=\"font-size: 14px; color: rgb(23, 43, 77);\">PMCF Fund data is refreshed once a month and only reflects granting and other activity received, processed and approved by the Foundation at the time of the refresh.</span></h1>"
+                  },
+                  "componentName": "forceCommunity:richTextInline",
+                  "id": "d1bd0d11-f411-436c-b5de-d63c96986648",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "d4eb3d46-554c-432c-aa9d-086f42ad3330",
+              "regionLabel": "Details",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "PMCF_Snapshots__r",
+                    "relatedListComponentOverride": "ADVGRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "784e7f95-1350-4e87-8667-5cc96ffeb8d0",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "4b9b16c6-b14d-4818-8dbb-9335a80d3397",
+              "regionLabel": "Fund Financial Summaries",
+              "regionName": "2",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "Fund_Transactions__r",
+                    "relatedListComponentOverride": "ADVGRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "5462b6b4-8778-4b9f-8769-735a6e29d6d4",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "69ee1cdb-8367-48df-ae0a-ad332b219d58",
+              "regionLabel": "Expenses & Transfers",
+              "regionName": "53022",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "Commitments__r",
+                    "relatedListComponentOverride": "ADVGRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "744be961-3fc4-4f25-94cb-11e5cb2a865b",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "0c7be901-bee9-4d4c-b862-5c2b9ef70c5c",
+              "regionLabel": "Commitments",
+              "regionName": "39b39",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "267964d1-4b68-42f5-be71-9b024a932b3f",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "c206fe7f-dfa6-4783-a149-7a8f8e0e1884",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "66973029-d3b0-490e-83a4-2e34879dc785",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "05c55716-3e18-4cc2-99fb-53bcd6b37c31",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Delegates__r",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "a71f4c14-577a-4ab7-9526-7d1e6a4eb9ba",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "7e564000-0124-4da7-b195-4b6a4479d296",
+      "regionName": "sidebar",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0q"
+}

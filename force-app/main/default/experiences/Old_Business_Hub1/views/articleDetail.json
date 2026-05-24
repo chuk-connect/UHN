@@ -1,0 +1,187 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsTwoCol84Layout",
+  "dataProviders": [],
+  "id": "92eb8d85-8835-40d5-91b9-8dd486ae4273",
+  "label": "Article Detail",
+  "regions": [
+    {
+      "id": "5a6d43a5-860f-44e5-a968-5933d1cec746",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "uniqueNameOrId": "{!urlName}"
+          },
+          "componentName": "forceCommunity:breadcrumbs",
+          "id": "07ef1423-d160-4cc7-9742-3e8370a8219d",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "enableVoting": true,
+            "recordId": "{!recordId}",
+            "showTitleInArticleHeader": true,
+            "showTopicPills": true,
+            "urlName": "{!urlName}"
+          },
+          "componentName": "selfService:singleArticleView",
+          "id": "9dd3ca6f-109d-48d0-8bf4-8adccb032b71",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "context": "RECORD",
+            "recordId": "{!recordId}",
+            "width": "WIDE"
+          },
+          "componentName": "forceCommunity:feedPublisher",
+          "id": "26749f5e-c48a-4021-90cb-9dfbceb93444",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "canChangeSorting": false,
+            "defaultFilter": "",
+            "defaultSortOrderHomeFeed": "Relevance",
+            "defaultSortOrderTopicsFeed": "Relevance",
+            "feedDesign": "DEFAULT",
+            "hasFeedSearch": false,
+            "subjectId": "{!recordId}",
+            "type": "Record"
+          },
+          "componentName": "forceCommunity:forceCommunityFeed",
+          "id": "cc694206-a903-4078-8bce-cea8da484fe8",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "c38e725a-52b4-4b84-8521-9fa305b6c188",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "buttonAlignment": "center",
+            "buttonBgColor": "",
+            "buttonBgHoverColor": "",
+            "buttonBorderColor": "",
+            "buttonMaxWidth": 100,
+            "buttonRadius": 0,
+            "buttonTextColor": "",
+            "buttonTextHoverColor": "",
+            "recordId": "{!recordId}",
+            "showNotificationMenu": false
+          },
+          "componentName": "forceCommunity:follow",
+          "id": "57359d29-56b0-46fe-bc0e-aa5d1e22ad33",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "numberOfItems": 5,
+            "showViewCounts": true,
+            "title": "Related Articles"
+          },
+          "componentName": "selfService:similarArticles42",
+          "id": "b36666a6-ae0b-4919-9b6e-ead6a0c498fb",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "numberOfArticles": 5,
+            "title": "Trending Articles",
+            "topicId": "{!topicId}"
+          },
+          "componentName": "selfService:topicTrendingArticles42",
+          "id": "d87ac2f2-7536-49fc-980d-f7a4bfad7960",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "9c955236-55db-4847-8bdc-3ca5b1045f69",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "askCommunityLabel": "Ask a Question",
+            "buttonBgColor": "",
+            "buttonBgHoverColor": "",
+            "buttonBorderColor": "",
+            "buttonRadius": 0,
+            "buttonTextColor": "",
+            "buttonTextHoverColor": "",
+            "buttonTwoBgColor": "",
+            "buttonTwoBgHoverColor": "",
+            "buttonTwoBorderColor": "",
+            "buttonTwoRadius": 0,
+            "buttonTwoTextColor": "",
+            "buttonTwoTextHoverColor": "",
+            "confirmationMessage": "Got it!",
+            "contactSupportLabel": "Contact Support",
+            "followUpPromptLabel": "Can we close your question?",
+            "headerLabel": "Don't see what you're looking for?",
+            "isAskFollowPromptEnabled": true,
+            "isIncludeArticlesEnabled": false,
+            "isIncludeDiscussionsEnabled": true,
+            "isInitialSatisfactionPromptEnabled": true,
+            "isPublisherDeflectionEnabled": true,
+            "maxSuggestions": 5,
+            "satisfactionPromptLabel": "Did we help to answer your question?",
+            "showDetails": false,
+            "showTopics": true
+          },
+          "componentName": "siteforce:napiliFooter",
+          "id": "8e45b77f-3f6e-42c9-af15-0eeeabd50270",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "b9b69eb4-a170-4db8-8182-d11977008626",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "{!Record.Summary}",
+            "title": "{!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "7824306c-7058-4009-8b2c-8b0d3aaf1441",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "0bbcf17e-047c-4711-bed4-c6fecdd50587",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "article"
+}

@@ -1,0 +1,77 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "ae476ece-817e-4d12-9946-40ef1a308b24",
+  "label": "Foundation Fund Summary Detail",
+  "regions": [
+    {
+      "id": "4187486c-3aae-4631-b99a-38c47ec9bbad",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "richTextValue": "<h1 style=\"text-align: center;\"><span style=\"font-size: 14px;\">PMCF Fund data is refreshed once a month and only reflects granting and other activity received, processed and approved by the Foundation at the time of the refresh.</span></h1>"
+          },
+          "componentName": "forceCommunity:richTextInline",
+          "id": "d49719b8-94e3-4ecf-9f89-82e0016153af",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "939689a9-a955-4601-b47a-60aeae9a8df3",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordDetail",
+          "id": "565f6869-0d06-4d6f-8647-8ddd9072abe8",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "3112b34b-ee96-46e1-b4db-8a4902471d54",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "0a5dd518-44ac-4ef5-99f8-c57e30d047a4",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "03011c36-1342-4bbd-9884-1d7c9401ccce",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "e87ff029-581f-4943-b83f-b5ccd43b107c",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0r"
+}

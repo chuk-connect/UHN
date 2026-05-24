@@ -1,0 +1,79 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsTwoCol84Layout",
+  "dataProviders": [],
+  "id": "92a5e0b8-1602-42fc-98d0-4d87fd44ac72",
+  "label": "Topic Detail",
+  "regions": [
+    {
+      "id": "ff176d71-b362-4fb9-b0ed-63a4c8c42431",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "articleListPageSize": 10,
+            "showTitle": true,
+            "title": "Articles",
+            "topicId": "0TO5W0000000AQIWA2"
+          },
+          "componentName": "selfService:topicRelatedArticle",
+          "id": "26221f7f-fb47-4901-a41f-d18abd25e2c3",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "98202370-acc3-4718-9667-42ccd1853dbf",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "showTopicsMetric": true,
+            "title": "Related Topics",
+            "topicId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:relatedTopics",
+          "id": "26c1787e-fe97-4a97-a3b8-36a01c432985",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "8d224521-d17d-4282-b694-77707feb5f26",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "id": "84c17d06-6405-429e-993d-eefb9f110262",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "{!Record.Description}",
+            "title": "{!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "96cb46ee-3c15-4a81-a007-a7428961c7d2",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "72d40359-a39f-4401-9746-affe7f5422d2",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "topic"
+}

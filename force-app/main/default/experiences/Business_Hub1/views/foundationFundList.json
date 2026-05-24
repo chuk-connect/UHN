@@ -1,0 +1,62 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "51655373-f3e8-4331-bb1a-a41fe23a788e",
+  "label": "Foundation Fund List",
+  "regions": [
+    {
+      "id": "f268585c-f6d3-4653-a6e5-93a0361a0ed8",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "richTextValue": "<h1 style=\"text-align: center;\"><span style=\"font-size: 14px;\">PMCF Fund data is refreshed once a month and only reflects granting and other activity received, processed and approved by the Foundation at the time of the refresh.﻿</span></h1>"
+          },
+          "componentName": "forceCommunity:richTextInline",
+          "id": "b8c80966-e482-4306-ba44-1285e2bf6cc2",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "enableInlineEdit": false,
+            "filterName": "{!filterId}",
+            "layout": "FULL",
+            "pageSize": 25,
+            "scope": "{!objectName}",
+            "showActionBar": false,
+            "showChartsPanel": false,
+            "showDisplay": "grid",
+            "showFilterPanel": false,
+            "showImageIcon": false,
+            "showManualRefreshButton": false,
+            "showObjectName": true,
+            "showPinnedList": true,
+            "showSearchBar": true
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "cf5c3386-dae1-4df3-b32f-3e802d464215",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "e0ef3ac6-9efc-4036-8e62-afccbd9cb650",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "3b6da1a6-276b-41b4-bd03-cd06639eab03",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "list-a0q"
+}

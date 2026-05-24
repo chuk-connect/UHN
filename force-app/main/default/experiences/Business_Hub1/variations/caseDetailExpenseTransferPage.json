@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "334df059-5030-4993-97f2-113be938151d",
+      "propertyOverrides": {
+        "activeViewId": "61f007f9-f0c4-44c0-9133-1facbfac9c98"
+      },
+      "targetId": "82ca3670-a1ac-4ef6-ae23-01120ea2e954",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Case_Detail_Expense_Transfer_Page",
+  "id": "653835a2-29bb-40a5-a856-2c08b60e97fd",
+  "type": "experienceVariation"
+}

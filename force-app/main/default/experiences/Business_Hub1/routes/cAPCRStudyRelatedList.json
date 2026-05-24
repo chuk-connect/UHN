@@ -1,0 +1,12 @@
+{
+  "activeViewId": "72e8c623-64f0-4215-8aec-952bd7456e5b",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "CAPCR_Study_Related_List__c",
+  "id": "765dd60b-1c3e-4311-b909-4bbf407a7d21",
+  "label": "CAPCR Study Related List",
+  "objectApiName": "UHN_CAPCR_Study__c",
+  "routeType": "relatedlist-a14",
+  "type": "route",
+  "urlPrefix": "uhn-capcr-study"
+}

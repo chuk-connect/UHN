@@ -1,0 +1,17 @@
+{
+  "componentVariants": [
+    {
+      "id": "16dbd3d3-adf1-43c1-90e2-dd7adadacfff",
+      "propertyOverrides": {
+        "componentAttributes": {
+          "NavigationMenuEditorRefresh": "Institute_Manager"
+        }
+      },
+      "targetId": "4b91deb2-4135-445e-ba89-9ffceafce200",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Default_Multilevel_Navigation_Menu_1_Component_Properties",
+  "id": "05bf92ca-e299-42f4-ad36-5e6992d621c5",
+  "type": "experienceVariation"
+}

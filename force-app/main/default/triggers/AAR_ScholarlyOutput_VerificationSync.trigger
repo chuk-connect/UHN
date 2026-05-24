@@ -17,40 +17,53 @@
  * potential recursion because the modified in-memory values become the
  * "old" values for any subsequent trigger evaluation of the same record.
  */
-trigger AAR_ScholarlyOutput_VerificationSync on AAR_Scholarly_Output__c (before insert, before update) {
-    for (AAR_Scholarly_Output__c newRec : Trigger.new) {
-        AAR_Scholarly_Output__c oldRec = Trigger.isUpdate ? Trigger.oldMap.get(newRec.Id) : null;
+trigger AAR_ScholarlyOutput_VerificationSync on AAR_Scholarly_Output__c(
+  before insert,
+  before update
+) {
+  for (AAR_Scholarly_Output__c newRec : Trigger.new) {
+    AAR_Scholarly_Output__c oldRec = Trigger.isUpdate
+      ? Trigger.oldMap.get(newRec.Id)
+      : null;
 
-        Boolean isVerifiedChanged = oldRec == null
-            ? newRec.Is_Verified__c == true
-            : newRec.Is_Verified__c != oldRec.Is_Verified__c;
+    Boolean isVerifiedChanged = oldRec == null
+      ? newRec.Is_Verified__c == true
+      : newRec.Is_Verified__c != oldRec.Is_Verified__c;
 
-        Boolean statusChanged = oldRec == null
-            ? String.isNotBlank(newRec.Verification_Status__c)
-            : newRec.Verification_Status__c != oldRec.Verification_Status__c;
+    Boolean statusChanged = oldRec == null
+      ? String.isNotBlank(newRec.Verification_Status__c)
+      : newRec.Verification_Status__c != oldRec.Verification_Status__c;
 
-        if (isVerifiedChanged) {
-            // Direction A: Is_Verified__c is the source of truth for this change.
-            if (newRec.Is_Verified__c) {
-                if (newRec.Verification_Status__c != VerificationReconciliationService.STATUS_VERIFIED) {
-                    newRec.Verification_Status__c = VerificationReconciliationService.STATUS_VERIFIED;
-                }
-                if (newRec.Verified_At__c == null) {
-                    newRec.Verified_At__c = System.now();
-                }
-                if (newRec.Verified_By__c == null) {
-                    newRec.Verified_By__c = UserInfo.getUserId();
-                }
-            } else {
-                if (newRec.Verification_Status__c == VerificationReconciliationService.STATUS_VERIFIED) {
-                    newRec.Verification_Status__c = VerificationReconciliationService.STATUS_PROPOSED;
-                    newRec.Verified_At__c = null;
-                    newRec.Verified_By__c = null;
-                }
-            }
-        } else if (statusChanged) {
-            // Direction B: Verification_Status__c changed independently — mirror to checkbox.
-            newRec.Is_Verified__c = newRec.Verification_Status__c == VerificationReconciliationService.STATUS_VERIFIED;
+    if (isVerifiedChanged) {
+      // Direction A: Is_Verified__c is the source of truth for this change.
+      if (newRec.Is_Verified__c) {
+        if (
+          newRec.Verification_Status__c !=
+          VerificationReconciliationService.STATUS_VERIFIED
+        ) {
+          newRec.Verification_Status__c = VerificationReconciliationService.STATUS_VERIFIED;
         }
+        if (newRec.Verified_At__c == null) {
+          newRec.Verified_At__c = System.now();
+        }
+        if (newRec.Verified_By__c == null) {
+          newRec.Verified_By__c = UserInfo.getUserId();
+        }
+      } else {
+        if (
+          newRec.Verification_Status__c ==
+          VerificationReconciliationService.STATUS_VERIFIED
+        ) {
+          newRec.Verification_Status__c = VerificationReconciliationService.STATUS_PROPOSED;
+          newRec.Verified_At__c = null;
+          newRec.Verified_By__c = null;
+        }
+      }
+    } else if (statusChanged) {
+      // Direction B: Verification_Status__c changed independently — mirror to checkbox.
+      newRec.Is_Verified__c =
+        newRec.Verification_Status__c ==
+        VerificationReconciliationService.STATUS_VERIFIED;
     }
+  }
 }

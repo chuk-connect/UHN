@@ -1,0 +1,52 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "4ac9e2f4-a743-4379-943f-0b4325cdc51b",
+  "label": "Salary Summary List",
+  "regions": [
+    {
+      "id": "b0a3f017-c9c7-474f-819c-44c20d26b077",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "enableInlineEdit": false,
+            "filterName": "{!filterId}",
+            "layout": "FULL",
+            "pageSize": 25,
+            "scope": "{!objectName}",
+            "showActionBar": false,
+            "showChartsPanel": false,
+            "showDisplay": "grid",
+            "showFilterPanel": false,
+            "showImageIcon": false,
+            "showManualRefreshButton": false,
+            "showObjectName": true,
+            "showPinnedList": true,
+            "showSearchBar": true
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "f36e28d7-8d6e-4206-8ce3-431d593eb4d6",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "2b3afadf-e8dc-486d-8d2e-cda5e24fd5f6",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "cf42d657-ef98-4138-9ccd-d1dd47805f99",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "list-a0s"
+}

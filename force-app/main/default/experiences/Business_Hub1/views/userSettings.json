@@ -1,0 +1,53 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "b85b0f92-b05a-4183-b170-ec03df8b131d",
+  "label": "User Settings",
+  "regions": [
+    {
+      "id": "56820409-eacc-47d4-9b0e-dd3a6aef74ba",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "accountSectionTitle": "Account",
+            "accountTabName": "Account Details",
+            "connectedSourcesTabName": "Connected Sources",
+            "emailNotificationsTitle": "Email Notifications",
+            "emailSectionDescText": "When email notifications are enabled, email me when someone:",
+            "hideChatterNotificationSettings": true,
+            "hideConnectedSources": false,
+            "hideEmailNotificationSettings": false,
+            "hideProfileVisibilitySettings": true,
+            "id": "{!recordId}",
+            "locationTitle": "Location",
+            "profileSectionDescText": "Customize who is able to see what on your profile page",
+            "profileSectionToolTipText": "Restricted: Visible to the employees of the company that created the site. Members: Visible to logged-in members. Public: Visible to anyone viewing pages that don't require login.",
+            "profileVisibilityTitle": "Profile Visibility",
+            "settingsPageTitle": "My Settings"
+          },
+          "componentName": "forceCommunity:userSettingsCustomizable",
+          "id": "1929dfda-3008-4ebf-b873-09fa5f938482",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "cca0de05-a44a-421e-b256-bdb069091540",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "92c32198-bb9e-47f0-a9db-0cac62701c0c",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "usersettings"
+}

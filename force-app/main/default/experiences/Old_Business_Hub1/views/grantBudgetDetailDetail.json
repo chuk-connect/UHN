@@ -1,0 +1,79 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "ae11359d-7130-459f-ac1b-966930b4dc14",
+  "label": "Grant Budget Detail Detail",
+  "regions": [
+    {
+      "id": "2449b9a8-37c7-4a0e-a920-ef9ce26dd8df",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "c49eeb1c-2b37-4e9c-b421-add343247cae",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordDetail",
+          "id": "3a966b0f-4765-4a43-8e64-032b8f35e236",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Cases__r",
+            "relatedListComponentOverride": "NONE",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:relatedListSingle",
+          "id": "950c2e59-a084-40dc-950e-fb8ac849e030",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "aecbaf76-23ce-4164-b894-86f423c534a9",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "f3456861-8db0-49c8-8d7c-fc65f31130de",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "a96734fb-86f1-4da3-ad0d-c5389c7ce2e2",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "ff137019-acef-4c6b-a27e-0c57f89179ea",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0G"
+}

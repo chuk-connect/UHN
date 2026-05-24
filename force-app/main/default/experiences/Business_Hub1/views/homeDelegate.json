@@ -1,0 +1,173 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "c46a3e04-3f95-4f6c-9263-80ea26903192",
+  "label": "Home - Delegate",
+  "regions": [
+    {
+      "id": "f0e74249-2709-4531-af8e-fc904d3bdc48",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "tabsetConfig": {
+              "UUID": "26e3d73e-f181-4620-ba5b-f0609d94b1c9",
+              "activeTab": "",
+              "tabs": [
+                {
+                  "UUID": "67a570fc-5944-4c87-ab88-632ca2d39b16",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "1",
+                  "tabName": "Grant Management"
+                },
+                {
+                  "UUID": "762bef35-d291-4e85-ac23-09fe40e44297",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "5ecd3",
+                  "tabName": "Grant Applications & Contracts"
+                },
+                {
+                  "UUID": "ed67d4ec-1616-416c-bbf8-ca0b3af282f7",
+                  "allowGuestUser": false,
+                  "locked": false,
+                  "seedComponents": [],
+                  "tabKey": "95813",
+                  "tabName": "Institutional Authorization"
+                }
+              ],
+              "useOverflowMenu": true
+            }
+          },
+          "componentName": "forceCommunity:tabLayout",
+          "id": "26e3d73e-f181-4620-ba5b-f0609d94b1c9",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "height": "750",
+                    "recordId": "ndIyVlXDgKSpqDCgNYkRMJyXFdiCcy"
+                  },
+                  "componentName": "forceCommunity:dashboard",
+                  "id": "1ef71167-f01d-47f9-b146-bb0e80f6bf09",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "67a570fc-5944-4c87-ab88-632ca2d39b16",
+              "regionLabel": "Grant Management",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "buttonAlignment": "center",
+                    "reactorClassStr": "",
+                    "reactorClassesToGenerate": "SharePointLink",
+                    "showBackground": false,
+                    "titleAlignment": "center"
+                  },
+                  "componentName": "RRCX:recordReactor",
+                  "id": "9ae2ba76-0570-4301-b0b2-6988fb7fdad6",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "height": "660",
+                    "recordId": "brTEqqaXUaVmHBFrxwijUfnEoYiVLI11"
+                  },
+                  "componentName": "forceCommunity:dashboard",
+                  "id": "07f89f57-f9c2-408e-bb5b-f89532c5473a",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "762bef35-d291-4e85-ac23-09fe40e44297",
+              "regionLabel": "Grant Applications & Contracts",
+              "regionName": "5ecd3",
+              "renditionMap": {},
+              "type": "region"
+            },
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "bannerText": "Dashboards and lists to give you insight into studies going through institutional authorization",
+                    "bannerTextWithKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineArticles\">articles</a> and <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+                    "bannerTextWithoutKnowledge": "Explore other <a href=\"javascript:void(0)\" class=\"headlineDiscussions\">discussions</a> on this topic.",
+                    "pageType": "",
+                    "showSubTopics": true,
+                    "title": "Coming Soon",
+                    "uniqueNameOrId": ""
+                  },
+                  "componentName": "forceCommunity:headline",
+                  "id": "2885f9c3-33f5-4dc0-88db-0258b6dd2424",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "ed67d4ec-1616-416c-bbf8-ca0b3af282f7",
+              "regionLabel": "Institutional Authorization",
+              "regionName": "95813",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "bf92131a-b354-4cc5-a112-dd7fc7bf3e83",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "6a3fb1ef-3afc-41c0-a4d2-3de55c37e9d1",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "id": "7bc45495-1dfe-4382-8c9b-aa2a86cad8b4",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "This is the default homepage for account holders",
+            "title": "Home"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "42ed56b8-5be3-404a-a6df-ae08576f74d1",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "4c327745-b4c2-4a36-89b7-233dc52a496d",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "home"
+}

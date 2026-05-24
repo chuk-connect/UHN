@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "ce18e59e-2259-4d91-8558-bea1796fc1dd",
+      "propertyOverrides": {
+        "activeViewId": "1de63350-44f7-4987-bf9e-645962dd5412"
+      },
+      "targetId": "82ca3670-a1ac-4ef6-ae23-01120ea2e954",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Case_Detail_Salary_Transfer_Page",
+  "id": "6cc46981-1d87-40a6-8fc3-9a155ec3e037",
+  "type": "experienceVariation"
+}

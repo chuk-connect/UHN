@@ -1,0 +1,131 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsTwoCol84Layout",
+  "dataProviders": [],
+  "id": "80ce2b36-7fe2-4f11-891b-335346a45f81",
+  "label": "New FCC Request",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "buttonAlignment": "right",
+            "reactorClassStr": "DigitizeNewFCC",
+            "recordId": "{!recordId}",
+            "showBackground": true,
+            "titleAlignment": "left"
+          },
+          "componentName": "RRCX:recordReactor",
+          "id": "0a1cc2cf-7daf-4793-a345-17c168b04a9f",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "58be7cd1-9fd2-4849-bd07-a5a162f9b7ca",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "4a660632-5201-4e8f-8087-ce4385da4c85",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordDetail",
+          "id": "6ba8a843-9003-4a93-bc85-b34bbad49104",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "86223167-492e-475e-9591-77b561e2aaac",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "relatedListApiName": "Delegates__r",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "37d51df0-f815-43e9-9efb-d80ce173407e",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "relatedListApiName": "AttachedContentDocuments",
+            "relatedListComponentOverride": "GRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "45954c1a-b090-4b42-a07f-519bc29bf1aa",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "canChangeSorting": true,
+            "defaultFilter": "",
+            "defaultSortOrderHomeFeed": "Relevance",
+            "defaultSortOrderTopicsFeed": "Relevance",
+            "feedDesign": "DEFAULT",
+            "hasFeedSearch": true,
+            "subjectId": "{!recordId}",
+            "type": "Record"
+          },
+          "componentName": "forceCommunity:forceCommunityFeed",
+          "id": "8c43d375-eb01-4add-8b51-20b3b337812f",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "0036425f-bd32-4c97-acc5-d018e2f19956",
+      "regionName": "sidebar",
+      "type": "region"
+    },
+    {
+      "id": "23f5c8fb-0cd6-4bf3-aac2-f8e2fd38a76b",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "81aa5471-b997-4bb3-903b-0b6ec4a356b2",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "87ea39ca-6dec-4785-b89b-5118c99cb7c8",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-500"
+}

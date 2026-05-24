@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Publication Metrics Verified By --></label>
+    <name>Pub_Verified_By__c</name>
+    <relationshipLabel
+  ><!-- Verified Publication Metrics (AAR) --></relationshipLabel>
+</CustomFieldTranslation>

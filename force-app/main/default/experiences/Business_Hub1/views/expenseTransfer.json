@@ -1,0 +1,225 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:dynamicLayout",
+  "dataProviders": [],
+  "id": "61f007f9-f0c4-44c0-9133-1facbfac9c98",
+  "label": "Expense Transfer",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "background": "background: rgba(0,0,0,0)",
+            "backgroundOverlay": "rgba(0,0,0,0.5)",
+            "contentAreaWidth": 100,
+            "sectionConfig": {
+              "UUID": "b7d9e2d6-0acb-4d27-b0c4-8e406e9f2aa7",
+              "columns": [
+                {
+                  "UUID": "eb3e4dac-ae8f-49e1-8bfc-e70e603db5f5",
+                  "columnKey": "1",
+                  "columnName": "Column 1",
+                  "columnWidth": "12",
+                  "seedComponents": []
+                }
+              ]
+            },
+            "sectionHeight": 300
+          },
+          "componentName": "forceCommunity:section",
+          "id": "b7d9e2d6-0acb-4d27-b0c4-8e406e9f2aa7",
+          "regions": [
+            {
+              "components": [
+                {
+                  "componentAttributes": {
+                    "recordId": "{!recordId}"
+                  },
+                  "componentName": "forceCommunity:recordHeadline",
+                  "id": "5fb26d28-5291-45f3-8a03-f02583b64676",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "buttonAlignment": "right",
+                    "reactorClassStr": "EtInitiator",
+                    "recordId": "{!recordId}",
+                    "showBackground": true,
+                    "titleAlignment": "center"
+                  },
+                  "componentName": "RRCX:recordReactor",
+                  "id": "8cfbb0dd-dce0-42db-97fb-9a84b4f00003",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "relatedListApiName": "ProcessSteps",
+                    "relatedListComponentOverride": "GRID",
+                    "width": "MEDIUM"
+                  },
+                  "componentName": "forceCommunity:responsiveRelatedListSingle",
+                  "id": "a214e355-0dcd-4ebf-8b08-e05e9677b306",
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                },
+                {
+                  "componentAttributes": {
+                    "tabsetConfig": {
+                      "UUID": "870252d6-e660-4ffb-ac73-399bdf2475e9",
+                      "activeTab": "",
+                      "tabs": [
+                        {
+                          "UUID": "3a82373f-c8be-49f0-bfd1-96efe8e8a46f",
+                          "allowGuestUser": false,
+                          "locked": false,
+                          "seedComponents": [],
+                          "tabKey": "1",
+                          "tabName": "Details"
+                        },
+                        {
+                          "UUID": "f9dff454-4068-4c4b-b8b2-75ff604dd4ac",
+                          "allowGuestUser": false,
+                          "locked": false,
+                          "seedComponents": [],
+                          "tabKey": "2",
+                          "tabName": "Transfer Transactions"
+                        },
+                        {
+                          "UUID": "408cbddc-5b1c-45b1-b687-c7ba013542b1",
+                          "allowGuestUser": false,
+                          "locked": false,
+                          "seedComponents": [],
+                          "tabKey": "9344f",
+                          "tabName": "Feed"
+                        }
+                      ],
+                      "useOverflowMenu": false
+                    }
+                  },
+                  "componentName": "forceCommunity:tabset",
+                  "id": "870252d6-e660-4ffb-ac73-399bdf2475e9",
+                  "regions": [
+                    {
+                      "components": [
+                        {
+                          "componentAttributes": {
+                            "recordId": "{!recordId}"
+                          },
+                          "componentName": "forceCommunity:recordDetail",
+                          "id": "08c72663-7d3b-471a-bca6-57641930e4a5",
+                          "renditionMap": {},
+                          "type": "component"
+                        }
+                      ],
+                      "id": "3a82373f-c8be-49f0-bfd1-96efe8e8a46f",
+                      "regionLabel": "Details",
+                      "regionName": "1",
+                      "renditionMap": {},
+                      "type": "region"
+                    },
+                    {
+                      "components": [
+                        {
+                          "componentAttributes": {
+                            "relatedListApiName": "Transfer_Journal_Entries__r",
+                            "relatedListComponentOverride": "ADVGRID",
+                            "width": "MEDIUM"
+                          },
+                          "componentName": "forceCommunity:responsiveRelatedListSingle",
+                          "id": "7c1a8086-5c50-4e25-8ca0-6cfe09e5208a",
+                          "renditionMap": {},
+                          "type": "component"
+                        }
+                      ],
+                      "id": "f9dff454-4068-4c4b-b8b2-75ff604dd4ac",
+                      "regionLabel": "Transfer Transactions",
+                      "regionName": "2",
+                      "renditionMap": {},
+                      "type": "region"
+                    },
+                    {
+                      "components": [
+                        {
+                          "componentAttributes": {
+                            "context": "RECORD",
+                            "recordId": "{!recordId}",
+                            "width": "MEDIUM"
+                          },
+                          "componentName": "forceCommunity:feedPublisher",
+                          "id": "6b6bcc6f-5574-4a26-8430-aeae2375fa43",
+                          "renditionMap": {},
+                          "type": "component"
+                        },
+                        {
+                          "componentAttributes": {
+                            "canChangeSorting": true,
+                            "defaultFilter": "",
+                            "defaultSortOrderHomeFeed": "Relevance",
+                            "defaultSortOrderTopicsFeed": "Relevance",
+                            "feedDesign": "DEFAULT",
+                            "hasFeedSearch": true,
+                            "subjectId": "{!recordId}",
+                            "type": "Record"
+                          },
+                          "componentName": "forceCommunity:forceCommunityFeed",
+                          "id": "1a19b447-1447-41d2-96fd-8e1b42ae82f0",
+                          "renditionMap": {},
+                          "type": "component"
+                        }
+                      ],
+                      "id": "408cbddc-5b1c-45b1-b687-c7ba013542b1",
+                      "regionLabel": "Feed",
+                      "regionName": "9344f",
+                      "renditionMap": {},
+                      "type": "region"
+                    }
+                  ],
+                  "renderPriority": "NEUTRAL",
+                  "renditionMap": {},
+                  "type": "component"
+                }
+              ],
+              "id": "eb3e4dac-ae8f-49e1-8bfc-e70e603db5f5",
+              "regionLabel": "Column 1",
+              "regionName": "1",
+              "renditionMap": {},
+              "type": "region"
+            }
+          ],
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "7a45c590-5f60-4217-8513-7640e20a8e47",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "b1a1bb66-bf79-49e2-83ba-caacc2872033",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "8db1a65d-5455-4e96-9352-ca88b835d207",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-500"
+}

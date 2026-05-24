@@ -1,0 +1,52 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "a2b384bd-70a7-4740-909b-290d4aa2d34c",
+  "label": "SIMS Charge List",
+  "regions": [
+    {
+      "id": "9136e8f0-3a4d-43e7-a65d-36dbe5e569c7",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "enableInlineEdit": true,
+            "filterName": "{!filterId}",
+            "layout": "FULL",
+            "pageSize": 25,
+            "scope": "{!objectName}",
+            "showActionBar": false,
+            "showChartsPanel": true,
+            "showDisplay": "grid",
+            "showFilterPanel": true,
+            "showImageIcon": false,
+            "showManualRefreshButton": true,
+            "showObjectName": false,
+            "showPinnedList": true,
+            "showSearchBar": true
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "c0b8cc25-f9cb-4bf8-b737-d9f9ad790818",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "6f68c49e-ae77-404f-816c-9aa572733225",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "55b73e78-6295-4853-aec2-2f361d8bcf47",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "list-a0L"
+}

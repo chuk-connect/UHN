@@ -1,0 +1,12 @@
+{
+  "activeViewId": "37a8cdd9-563a-4f17-9acb-d56ec3b886e9",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Delegate_List__c",
+  "id": "df820c92-4a9b-4a12-823b-6c9720a707f4",
+  "label": "Delegate List",
+  "objectApiName": "UHN_Delegate__c",
+  "routeType": "list-a0E",
+  "type": "route",
+  "urlPrefix": "uhn-delegate"
+}

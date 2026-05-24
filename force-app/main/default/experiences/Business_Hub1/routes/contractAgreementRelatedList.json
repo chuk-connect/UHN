@@ -1,0 +1,12 @@
+{
+  "activeViewId": "9bf28916-80fd-431a-a581-e8d01b878428",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Contract_Agreement_Related_List__c",
+  "id": "ab35abc8-c047-4b5e-95d8-72592e4385e7",
+  "label": "Contract - Agreement Related List",
+  "objectApiName": "UHN_Contract_Agreement__c",
+  "routeType": "relatedlist-a0x",
+  "type": "route",
+  "urlPrefix": "uhn-contract-agreement"
+}

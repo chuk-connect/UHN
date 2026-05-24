@@ -1,0 +1,62 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "a7d4d0d6-e97b-4c15-a2cc-c2efb300e590",
+  "label": "Foundation Fund Summary List",
+  "regions": [
+    {
+      "id": "ff8b5065-4e72-4bd6-bd66-d94aea070b9e",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "richTextValue": "<h1 style=\"text-align: center;\"><span style=\"font-size: 14px;\">PMCF Fund data is refreshed once a month and only reflects granting and other activity received, processed and approved by the Foundation at the time of the refresh.</span></h1>"
+          },
+          "componentName": "forceCommunity:richTextInline",
+          "id": "27bbbf38-b6eb-42c6-9b29-f438a871c3a9",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "enableInlineEdit": true,
+            "filterName": "{!filterId}",
+            "layout": "FULL",
+            "pageSize": 25,
+            "scope": "{!objectName}",
+            "showActionBar": false,
+            "showChartsPanel": false,
+            "showDisplay": "grid",
+            "showFilterPanel": false,
+            "showImageIcon": false,
+            "showManualRefreshButton": false,
+            "showObjectName": true,
+            "showPinnedList": true,
+            "showSearchBar": true
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "6572f841-7c21-449a-8911-4848690961ce",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "8534f1fd-d955-4166-91ad-e4c3d950bcc8",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "93f9e37f-4f63-40d9-aa2a-c12cde37f0a8",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "list-a0r"
+}

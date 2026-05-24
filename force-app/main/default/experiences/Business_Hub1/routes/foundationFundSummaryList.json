@@ -1,0 +1,12 @@
+{
+  "activeViewId": "a7d4d0d6-e97b-4c15-a2cc-c2efb300e590",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Foundation_Fund_Summary_List__c",
+  "id": "4b0b07cf-583f-4eb6-aaec-bea8b3f53c1c",
+  "label": "Foundation Fund Summary List",
+  "objectApiName": "UHN_PMCF_Fund_Summary__c",
+  "routeType": "list-a0r",
+  "type": "route",
+  "urlPrefix": "uhn-pmcf-fund-summary"
+}

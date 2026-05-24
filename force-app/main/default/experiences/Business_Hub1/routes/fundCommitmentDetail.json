@@ -1,0 +1,12 @@
+{
+  "activeViewId": "5e8df1fa-1a5e-4b29-bc0b-aab972d6fc24",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Fund_Commitment_Detail__c",
+  "id": "f71ab87c-8363-4e3e-96dc-6a6715e3654e",
+  "label": "Fund Commitment Detail",
+  "objectApiName": "UHN_Fund_Commitment__c",
+  "routeType": "detail-a15",
+  "type": "route",
+  "urlPrefix": "uhn-fund-commitment"
+}

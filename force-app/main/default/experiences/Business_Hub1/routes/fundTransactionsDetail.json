@@ -1,0 +1,12 @@
+{
+  "activeViewId": "b4876c91-0b7c-40ed-94b7-2fc9c4624dd8",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Fund_Transactions_Detail__c",
+  "id": "d341fe13-0ca1-4cc0-9763-b4f029b1abd0",
+  "label": "Fund Transactions Detail",
+  "objectApiName": "UHN_Fund_Transactions__c",
+  "routeType": "detail-a0u",
+  "type": "route",
+  "urlPrefix": "uhn-fund-transactions"
+}

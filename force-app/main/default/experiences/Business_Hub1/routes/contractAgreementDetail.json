@@ -1,0 +1,12 @@
+{
+  "activeViewId": null,
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "Contract_Agreement_Detail__c",
+  "id": "5f9f63c2-3fb2-4886-a1c2-9d8d779f1a54",
+  "label": "Contract - Agreement Detail",
+  "objectApiName": "UHN_Contract_Agreement__c",
+  "routeType": "detail-a0x",
+  "type": "route",
+  "urlPrefix": "uhn-contract-agreement"
+}

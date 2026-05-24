@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "be066216-17da-481e-b7a3-31db7b765ddd",
+      "propertyOverrides": {
+        "activeViewId": "14dcea38-a379-4194-b3d7-13119e0d2f4c"
+      },
+      "targetId": "cfa6a0ae-334e-4576-b75d-8e5f1fce5cdf",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "FCC_Detail_Cost_Centre_Detail_Public_Page",
+  "id": "c2e3886f-0ba9-4c7b-8539-f43ceae5e27c",
+  "type": "experienceVariation"
+}

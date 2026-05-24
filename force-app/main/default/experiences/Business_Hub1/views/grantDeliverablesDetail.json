@@ -1,0 +1,88 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsTwoCol84Layout",
+  "dataProviders": [],
+  "id": "cc9eb513-1c1c-4f4a-935f-90b495ad8484",
+  "label": "Grant Deliverables Detail",
+  "regions": [
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "28af8f46-1753-4690-81a8-9e8960ababee",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "d3f9a9dc-ce75-4992-9be6-5dae90054de7",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordDetail",
+          "id": "94ab04f7-70d8-4cd5-818e-af2250410bb3",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "e85d10e4-6324-441b-8658-e5ec70e256fa",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "5ce60da1-f7b1-4552-a420-82655fb43ba0",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "4cef1710-3080-4ee4-9929-f7c50539e0b7",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "b1a89063-6b15-4042-bccf-4ec745a749b5",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "relatedListApiName": "AttachedContentDocuments",
+            "relatedListComponentOverride": "ADVGRID",
+            "width": "MEDIUM"
+          },
+          "componentName": "forceCommunity:responsiveRelatedListSingle",
+          "id": "cffddb6f-0fd7-42f1-b084-d09aefe7e4c7",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "6ad82f10-592a-4b6a-ba34-e4f1c23fead4",
+      "regionName": "sidebar",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0a"
+}

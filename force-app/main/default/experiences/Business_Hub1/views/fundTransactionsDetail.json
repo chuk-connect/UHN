@@ -1,0 +1,67 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "b4876c91-0b7c-40ed-94b7-2fc9c4624dd8",
+  "label": "Fund Transactions Detail",
+  "regions": [
+    {
+      "id": "de6d30d0-ae6d-4f87-9188-8b27fa9e75c2",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "04aa91e1-fe90-4ec7-b8dc-cd08e8fdadeb",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordDetail",
+          "id": "0165280a-ef85-4ad6-87c0-d6cb52d2b281",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "2ca99e9f-16df-4313-863e-fdbe137c121e",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "62a3118f-70d7-466f-955a-1d1a96f9c8d3",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "",
+            "title": "{!Record._Object}: {!Record._Title}"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "6e7e5cfe-fe7c-4158-b566-1454072850a3",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "1db5d04a-26ca-413b-845f-1c5f6fe0320f",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0u"
+}

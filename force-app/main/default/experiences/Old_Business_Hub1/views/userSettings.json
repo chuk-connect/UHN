@@ -1,0 +1,53 @@
+{
+  "appPageId": "40923056-f290-4512-974c-2d1f492967a7",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "ddef6343-4bff-45c1-9024-59465015c4e9",
+  "label": "User Settings",
+  "regions": [
+    {
+      "id": "df7992a8-715e-4730-9f81-bf4e4eb859d5",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "accountSectionTitle": "Account",
+            "accountTabName": "Account Details",
+            "connectedSourcesTabName": "Connected Sources",
+            "emailNotificationsTitle": "Email Notifications",
+            "emailSectionDescText": "When email notifications are enabled, email me when someone:",
+            "hideChatterNotificationSettings": false,
+            "hideConnectedSources": false,
+            "hideEmailNotificationSettings": false,
+            "hideProfileVisibilitySettings": false,
+            "id": "{!recordId}",
+            "locationTitle": "Location",
+            "profileSectionDescText": "Customize who is able to see what on your profile page",
+            "profileSectionToolTipText": "Restricted: Visible to the employees of the company that created the site. Members: Visible to logged-in members. Public: Visible to anyone viewing pages that don't require login.",
+            "profileVisibilityTitle": "Profile Visibility",
+            "settingsPageTitle": "My Settings"
+          },
+          "componentName": "forceCommunity:userSettingsCustomizable",
+          "id": "d7842db6-fb41-4190-ab37-76266a1b1f93",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "7c7f1f23-8b32-4709-aade-b87e55dea76b",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "b5cf7bb7-4053-4026-a56e-49144d9a51b8",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "usersettings"
+}

@@ -16,46 +16,47 @@
  * of building this as platform.
  */
 public with sharing class UHN_Publication_Author_SourceSyncHandler {
+  /**
+   * Called by the Wellspring sync. Each WellspringPubPayload represents
+   * one author-on-publication record from the source system.
+   */
+  public static void handleIncoming(List<WellspringPubPayload> incoming) {
+    if (incoming == null || incoming.isEmpty())
+      return;
 
-    /**
-     * Called by the Wellspring sync. Each WellspringPubPayload represents
-     * one author-on-publication record from the source system.
-     */
-    public static void handleIncoming(List<WellspringPubPayload> incoming) {
-        if (incoming == null || incoming.isEmpty()) return;
+    List<VerificationReconciliationService.SourceUpsert> upserts = new List<VerificationReconciliationService.SourceUpsert>();
 
-        List<VerificationReconciliationService.SourceUpsert> upserts =
-            new List<VerificationReconciliationService.SourceUpsert>();
+    for (WellspringPubPayload p : incoming) {
+      // Project the source payload into the canonical map. Keys must
+      // match the field API names on UHN_Publication_Author__c —
+      // anything that doesn't match is silently ignored by the service.
+      Map<String, Object> projection = new Map<String, Object>{
+        'Title__c' => p.title,
+        'Role__c' => p.authorRole
+      };
 
-        for (WellspringPubPayload p : incoming) {
-            // Project the source payload into the canonical map. Keys must
-            // match the field API names on UHN_Publication_Author__c —
-            // anything that doesn't match is silently ignored by the service.
-            Map<String, Object> projection = new Map<String, Object>{
-                'Title__c' => p.title,
-                'Role__c'  => p.authorRole
-            };
-
-            upserts.add(new VerificationReconciliationService.SourceUpsert(
-                UHN_Publication_Author__c.SObjectType,
-                p.wellspringId,
-                projection
-            ));
-        }
-
-        // The service handles bulk safety, the rule engine, and the change log.
-        // We just hand it the batch.
-        VerificationReconciliationService.reconcile(upserts);
+      upserts.add(
+        new VerificationReconciliationService.SourceUpsert(
+          UHN_Publication_Author__c.SObjectType,
+          p.wellspringId,
+          projection
+        )
+      );
     }
 
-    /**
-     * Wire DTO. Source systems will deserialize their payloads into this.
-     * Kept dumb — no behaviour. The translation to the framework's shape
-     * happens in handleIncoming.
-     */
-    public class WellspringPubPayload {
-        public String wellspringId;
-        public String title;
-        public String authorRole;
-    }
+    // The service handles bulk safety, the rule engine, and the change log.
+    // We just hand it the batch.
+    VerificationReconciliationService.reconcile(upserts);
+  }
+
+  /**
+   * Wire DTO. Source systems will deserialize their payloads into this.
+   * Kept dumb — no behaviour. The translation to the framework's shape
+   * happens in handleIncoming.
+   */
+  public class WellspringPubPayload {
+    public String wellspringId;
+    public String title;
+    public String authorRole;
+  }
 }

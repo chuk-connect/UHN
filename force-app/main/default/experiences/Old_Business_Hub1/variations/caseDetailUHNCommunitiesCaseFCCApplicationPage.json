@@ -1,0 +1,15 @@
+{
+  "componentVariants": [
+    {
+      "id": "b91f1957-50e5-4ed4-8dd5-d8b6f2957a09",
+      "propertyOverrides": {
+        "activeViewId": "56dad479-9e46-4929-b083-c7b45528afc9"
+      },
+      "targetId": "f1a15f33-95ac-415a-818a-85d754294bc1",
+      "type": "componentVariant"
+    }
+  ],
+  "developerName": "Case_Detail_UHN_Communities_Case_FCC_Application_Page",
+  "id": "4df0ab19-06ae-4bfa-85bf-290b69123b2a",
+  "type": "experienceVariation"
+}

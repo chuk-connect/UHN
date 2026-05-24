@@ -1,0 +1,52 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "dbb5860c-355b-4dab-b54d-7cac7776cfd2",
+  "label": "Transaction List",
+  "regions": [
+    {
+      "id": "1d1539af-e0a1-41cc-8914-a408f6b73df2",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "enableInlineEdit": false,
+            "filterName": "{!filterId}",
+            "layout": "FULL",
+            "pageSize": 25,
+            "scope": "{!objectName}",
+            "showActionBar": false,
+            "showChartsPanel": false,
+            "showDisplay": "grid",
+            "showFilterPanel": false,
+            "showImageIcon": false,
+            "showManualRefreshButton": false,
+            "showObjectName": false,
+            "showPinnedList": true,
+            "showSearchBar": true
+          },
+          "componentName": "forceCommunity:objectHome",
+          "id": "b1250e52-f1d5-482c-bc9a-f26be5bec384",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "1bee5d0f-7aae-4f24-bac3-917fd7a04641",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "805fa055-c81e-4bdc-b5f7-6693fef29487",
+      "regionName": "footer",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "list-a0H"
+}

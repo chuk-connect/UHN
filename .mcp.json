@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "salesforce": {
+      "command": "sf-mcp-server",
+      "args": [
+        "-o",
+        "uhn-sandbox",
+        "--dynamic-tools"
+      ]
+    },
+    "devMCP": {
+      "command": "sf-mcp-server",
+      "args": [
+        "-o",
+        "uhn-sandbox",
+        "--dynamic-tools"
+      ]
+    }
+  }
+}

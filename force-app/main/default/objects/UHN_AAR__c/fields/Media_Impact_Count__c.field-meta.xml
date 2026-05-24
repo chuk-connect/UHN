@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Media_Impact_Count__c</fullName>
+    <label>Media_Impact_Count</label>
+    <summaryFilterItems>
+        <field>AAR_Scholarly_Output__c.RecordTypeId</field>
+        <operation>equals</operation>
+        <value>Media &amp; Impact</value>
+    </summaryFilterItems>
+    <summaryForeignKey>AAR_Scholarly_Output__c.AAR_Record__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

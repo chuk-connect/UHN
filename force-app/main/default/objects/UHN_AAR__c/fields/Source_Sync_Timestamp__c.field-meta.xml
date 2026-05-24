@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_Sync_Timestamp__c</fullName>
+    <description>Timestamp of the most recent successful sync from any external source system. Updated by sync handlers on each run.</description>
+    <label>Last Source Sync</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

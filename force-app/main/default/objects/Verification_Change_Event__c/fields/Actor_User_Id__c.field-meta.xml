@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Actor_User_Id__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Who performed the action. UserInfo.getUserId() at the time of the event.</description>
+    <label>Actor User Id</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Verification Events</relationshipLabel>
+    <relationshipName>Verification_Events</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

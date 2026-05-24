@@ -1,0 +1,10 @@
+{
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/.sf": true,
+    "**/.sfdx": true
+  },
+  "merge-conflict.autoNavigateNextConflict.enabled": true,
+  "salesforce.einsteinForDevelopers.enable": true
+}

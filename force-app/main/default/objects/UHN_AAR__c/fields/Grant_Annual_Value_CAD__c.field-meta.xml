@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grant_Annual_Value_CAD__c</fullName>
+    <description>Annualized grant funding attributable to the review year in Canadian dollars. Populated by external grants sync.</description>
+    <label>Annual Grant Value (CAD)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

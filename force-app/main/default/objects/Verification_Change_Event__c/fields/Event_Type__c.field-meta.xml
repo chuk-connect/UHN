@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_Type__c</fullName>
+    <description>The transition that occurred. Constrained to the values the service emits.</description>
+    <label>Event Type</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Proposed Created</fullName>
+                <default>false</default>
+                <label>Proposed Created</label>
+            </value>
+            <value>
+                <fullName>Proposed Updated</fullName>
+                <default>false</default>
+                <label>Proposed Updated</label>
+            </value>
+            <value>
+                <fullName>Verified</fullName>
+                <default>false</default>
+                <label>Verified</label>
+            </value>
+            <value>
+                <fullName>Override Applied</fullName>
+                <default>false</default>
+                <label>Override Applied</label>
+            </value>
+            <value>
+                <fullName>Source Changed Under Verified</fullName>
+                <default>false</default>
+                <label>Source Changed Under Verified</label>
+            </value>
+            <value>
+                <fullName>Manual Created</fullName>
+                <default>false</default>
+                <label>Manual Created</label>
+            </value>
+            <value>
+                <fullName>Manual Superseded</fullName>
+                <default>false</default>
+                <label>Manual Superseded</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grant_Source_Payload__c</fullName>
+    <description>JSON snapshot of the last grants projection received from the source system. Merged with Grant_Override_Payload__c at display time.</description>
+    <label>Grant Source Payload</label>
+    <length>131072</length>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AAR__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Parent AAR Workspace record. Default parent lookup expected by VerificationCardController; can be overridden via Verification_Binding__mdt.</description>
+    <label>AAR</label>
+    <referenceTo>UHN_AAR__c</referenceTo>
+    <relationshipLabel>Publication Authors</relationshipLabel>
+    <relationshipName>Publication_Authors</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

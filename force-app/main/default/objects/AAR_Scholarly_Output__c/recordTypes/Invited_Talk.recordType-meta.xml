@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invited_Talk</fullName>
+    <active>true</active>
+    <label>Invited Talk</label>
+    <picklistValues>
+        <picklist>Source_System__c</picklist>
+        <values>
+            <fullName>CAPCR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FCC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellspring</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Source__c</picklist>
+        <values>
+            <fullName>Manual Entry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Suggested from System</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Verification_Status__c</picklist>
+        <values>
+            <fullName>Manual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Proposed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Superseded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Verified</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

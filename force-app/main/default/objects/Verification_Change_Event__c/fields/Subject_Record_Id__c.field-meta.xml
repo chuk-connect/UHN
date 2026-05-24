@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subject_Record_Id__c</fullName>
+    <description>Id of the verifiable record this event refers to. Polymorphic by design — we don&apos;t lock the event log to a single object type so the same log can serve every Business Hub module.</description>
+    <externalId>true</externalId>
+    <label>Subject Record Id</label>
+    <length>18</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

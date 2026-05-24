@@ -1,0 +1,153 @@
+<template>
+    <lightning-card title={cardTitle} icon-name="standard:approval">
+        <template lwc:if={hasRows}>
+            <div slot="actions">
+                <lightning-button
+                    label="Verify All Proposed"
+                    variant="brand"
+                    icon-name="utility:check"
+                    onclick={handleVerifyAll}
+                    disabled={noProposed}>
+                </lightning-button>
+            </div>
+        </template>
+
+        <!-- Loading -->
+        <template lwc:if={isLoading}>
+            <div class="slds-p-around_large slds-text-align_center">
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Error -->
+        <template lwc:if={error}>
+            <div class="slds-p-around_medium">
+                <div class="slds-box slds-theme_error slds-theme_alert-texture" role="alert">
+                    <span class="slds-assistive-text">Error</span>
+                    <p class="slds-text-body_small">{error}</p>
+                </div>
+            </div>
+        </template>
+
+        <!-- Empty -->
+        <template lwc:if={isEmpty}>
+            <div class="slds-p-around_medium slds-text-align_center slds-text-color_weak">
+                No records to verify.
+            </div>
+        </template>
+
+        <!-- Rows -->
+        <template lwc:if={hasRows}>
+            <ul class="slds-has-dividers_around-space slds-p-horizontal_medium verification-list">
+                <template for:each={rows} for:item="row">
+                    <li key={row.recordId} class={row.cssClass}>
+                        <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-spread slds-wrap">
+
+                            <!-- Status badge -->
+                            <div class="slds-col slds-size_2-of-12 slds-align-middle verification-col_badge">
+                                <lightning-badge
+                                    label={row.status}
+                                    variant={row.badgeVariant}>
+                                </lightning-badge>
+                            </div>
+
+                            <!-- Field display -->
+                            <div class="slds-col slds-size_7-of-12 slds-align-middle verification-col_fields">
+                                <template for:each={row.displayFields} for:item="f">
+                                    <div key={f.apiName} class="slds-grid slds-p-vertical_xx-small">
+                                        <div class="slds-col slds-size_5-of-12 slds-text-color_weak slds-text-body_small verification-col_label">
+                                            {f.label}
+                                        </div>
+                                        <div class="slds-col slds-size_7-of-12 verification-col_value">
+                                            <template lwc:if={f.isOverridden}>
+                                                <span class="overridden-value" title={f.sourceTooltip}>
+                                                    <span class="slds-truncate overridden-text">{f.displayValue}</span>
+                                                    <lightning-icon
+                                                        icon-name="utility:edit"
+                                                        size="xx-small"
+                                                        class="slds-m-left_xx-small overridden-icon"
+                                                        alternative-text="Corrected">
+                                                    </lightning-icon>
+                                                </span>
+                                            </template>
+                                            <template lwc:else>
+                                                <span class="slds-truncate">{f.displayValue}</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <template lwc:if={row.verifiedFootnote}>
+                                    <div class="slds-text-color_weak slds-text-body_small slds-m-top_x-small verification-footnote">
+                                        {row.verifiedFootnote}
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="slds-col slds-size_3-of-12 slds-align-middle verification-col_actions">
+                                <div class="slds-grid slds-grid_align-end slds-grid_vertical-align-center">
+                                    <template lwc:if={row.canVerify}>
+                                        <lightning-button
+                                            label="Verify"
+                                            variant="brand-outline"
+                                            data-record-id={row.recordId}
+                                            onclick={handleVerifyOne}>
+                                        </lightning-button>
+                                    </template>
+                                    <template lwc:if={row.canEdit}>
+                                        <lightning-button-icon
+                                            icon-name="utility:edit"
+                                            alternative-text="Edit overrides"
+                                            data-record-id={row.recordId}
+                                            onclick={handleEditClick}
+                                            class="slds-m-left_x-small">
+                                        </lightning-button-icon>
+                                    </template>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                </template>
+            </ul>
+        </template>
+    </lightning-card>
+
+    <!-- Edit modal — outside lightning-card so the backdrop covers the full viewport -->
+    <template lwc:if={showEditModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading"
+                 class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button type="button" class="slds-button slds-button_icon slds-modal__close"
+                            onclick={handleEditCancel}>
+                        <lightning-icon icon-name="utility:close" size="small"
+                                        alternative-text="Close"></lightning-icon>
+                    </button>
+                    <h2 id="modal-heading" class="slds-modal__title slds-hyphenate">Correct values</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template for:each={editingFields} for:item="f">
+                        <lightning-input
+                            key={f.apiName}
+                            label={f.label}
+                            name={f.apiName}
+                            value={f.editValue}
+                            onchange={handleEditChange}>
+                        </lightning-input>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button type="button" class="slds-button slds-button_neutral" onclick={handleEditCancel}>
+                        Cancel
+                    </button>
+                    <button type="button" class="slds-button slds-button_brand" onclick={handleEditSave}>
+                        Save &amp; Verify
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

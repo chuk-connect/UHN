@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>AAR__c</fullName>
+        <description>Lookup to the parent UHN_AAR__c record. Used by the Verification Framework to scope child records to their AAR when the card is placed on a UHN_AAR__c page.</description>
+        <label>AAR</label>
+        <referenceTo>UHN_AAR__c</referenceTo>
+        <relationshipLabel>Publication Authors</relationshipLabel>
+        <relationshipName>Publication_Authors</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>External_Id__c</fullName>
+        <description>Stable identifier from the upstream source system (Wellspring, etc.). Used by the reconciliation service to match incoming source updates to existing records.</description>
+        <externalId>true</externalId>
+        <label>External Id</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Override_Payload__c</fullName>
+        <description>JSON delta of PI corrections. {&quot;Title__c&quot;: &quot;Corrected Title&quot;}. New overrideable fields require zero schema migration — just update the field set the verification card reads. This is the schema trick from the framework deck.</description>
+        <label>Override Payload</label>
+        <length>131072</length>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Source_Hash__c</fullName>
+        <description>SHA-256 of the last source payload we processed. The reconciliation service compares incoming hashes against this to detect drift cheaply, without having to diff JSON.</description>
+        <label>Source Hash</label>
+        <length>64</length>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Source_Payload__c</fullName>
+        <description>JSON snapshot of the last source projection we processed. Read at display time and merged with Override_Payload__c.</description>
+        <label>Source Payload</label>
+        <length>131072</length>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Verification_Status__c</fullName>
+        <description>Current state in the verification state machine. Managed by VerificationReconciliationService — do not update directly.</description>
+        <label>Verification Status</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Proposed</fullName>
+                    <default>true</default>
+                    <label>Proposed</label>
+                </value>
+                <value>
+                    <fullName>Verified</fullName>
+                    <default>false</default>
+                    <label>Verified</label>
+                </value>
+                <value>
+                    <fullName>Manual</fullName>
+                    <default>false</default>
+                    <label>Manual</label>
+                </value>
+                <value>
+                    <fullName>Superseded</fullName>
+                    <default>false</default>
+                    <label>Superseded</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Verified_At__c</fullName>
+        <description>Timestamp of the most recent PI attestation.</description>
+        <label>Verified At</label>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Verified_By__c</fullName>
+        <description>User who most recently attested to this record.</description>
+        <label>Verified By</label>
+        <referenceTo>User</referenceTo>
+        <relationshipLabel>Verified Publication Authors</relationshipLabel>
+        <relationshipName>Verified_Publication_Authors</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fieldSets>
+        <fullName>AAR_Verification</fullName>
+        <description>Default field set used by the c-verification-card LWC. Lists the framework&apos;s verification metadata fields. Edit in Setup to control which fields the card renders and edits.</description>
+        <displayedFields>
+            <field>Verification_Status__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>External_Id__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Verified_At__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>AAR Verification</label>
+    </fieldSets>
+</CustomObject>

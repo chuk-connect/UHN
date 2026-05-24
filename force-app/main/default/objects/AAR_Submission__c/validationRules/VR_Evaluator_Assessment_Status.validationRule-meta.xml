@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR_Evaluator_Assessment_Status</fullName>
+    <active>true</active>
+    <description
+  >Prevents evaluators from entering or changing assessment data (score, comments) unless the linked AAR is in Submitted status.</description>
+    <errorConditionFormula>AND(
+    $Permission.AAR_Evaluator,
+    OR(
+        ISCHANGED(Evaluator_Score__c),
+        ISCHANGED(Evaluator_Comments__c)
+    ),
+    NOT(ISPICKVAL(AAR_Record__r.Status__c, "Submitted"))
+)</errorConditionFormula>
+    <errorMessage
+  >Evaluator assessment can only be completed for Submitted AARs.</errorMessage>
+</ValidationRule>

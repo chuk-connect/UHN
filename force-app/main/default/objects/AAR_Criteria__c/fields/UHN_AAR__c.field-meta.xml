@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UHN_AAR__c</fullName>
+    <externalId>false</externalId>
+    <label>AAR</label>
+    <referenceTo>UHN_AAR__c</referenceTo>
+    <relationshipLabel>AAR Criteria</relationshipLabel>
+    <relationshipName>AAR_Criteria</relationshipName>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+    <deleteConstraint>SetNull</deleteConstraint>
+</CustomField>

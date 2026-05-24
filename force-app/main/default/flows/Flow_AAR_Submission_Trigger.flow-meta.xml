@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <decisions>
+        <name>Check_Admin_Set</name>
+        <label>Is Research Admin Set?</label>
+        <locationX>182</locationX>
+        <locationY>638</locationY>
+        <defaultConnectorLabel>No Admin Set</defaultConnectorLabel>
+        <rules>
+            <name>Admin_Is_Set</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference
+        >$Record.Research_Admin__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Research_Admin</targetReference>
+            </connector>
+            <label>Admin Is Set</label>
+        </rules>
+    </decisions>
+    <description
+  >Sets Submission_Date, emails the PI, and notifies the designated Research Admin when an AAR record is submitted.</description>
+    <environments>Default</environments>
+    <interviewLabel
+  >Flow AAR Submission Trigger {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Flow AAR Submission Trigger</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <actionCalls>
+        <name>Send_Admin_Notification</name>
+        <label>Send Research Admin Notification</label>
+        <locationX>50</locationX>
+        <locationY>878</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>varAdmin.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>AAR Submission Ready for Review</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>tplAdminEmail</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_PI_Confirmation</name>
+        <label>Send PI Confirmation Email</label>
+        <locationX>182</locationX>
+        <locationY>518</locationY>
+        <connector>
+            <targetReference>Check_Admin_Set</targetReference>
+        </connector>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>varContact.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue
+        >Your Annual Activity Report Has Been Submitted</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>tplPIEmail</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <recordLookups>
+        <name>Get_Contact</name>
+        <label>Get PI Contact</label>
+        <locationX>182</locationX>
+        <locationY>278</locationY>
+        <connector>
+            <targetReference>Update_Submission_Date</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Contact__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <outputReference>varContact</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Email</queriedFields>
+        <queriedFields>FirstName</queriedFields>
+        <queriedFields>LastName</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Research_Admin</name>
+        <label>Get Research Admin User</label>
+        <locationX>50</locationX>
+        <locationY>758</locationY>
+        <connector>
+            <targetReference>Send_Admin_Notification</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Research_Admin__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <outputReference>varAdmin</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Email</queriedFields>
+        <queriedFields>Name</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Submission_Date</name>
+        <label>Set Submission Date</label>
+        <locationX>182</locationX>
+        <locationY>398</locationY>
+        <connector>
+            <targetReference>Send_PI_Confirmation</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Submission_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Contact</targetReference>
+        </connector>
+        <filterFormula>AND(
+  ISPICKVAL({!$Record.Status__c}, &quot;Submitted&quot;),
+  NOT(ISPICKVAL({!$Record__Prior.Status__c}, &quot;Submitted&quot;))
+)</filterFormula>
+        <object>UHN_AAR__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>tplAdminEmail</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text
+    >A new Annual Activity Report has been submitted and is awaiting your review.
+
+Record: {!$Record.Name}
+PI: {!varContact.FirstName} {!varContact.LastName}
+Pillar: {!$Record.Krembil_Pillar__c}
+Review Year: {!$Record.Review_Year__c}
+
+Please log in to Salesforce to action this approval.</text>
+    </textTemplates>
+    <textTemplates>
+        <name>tplPIEmail</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear {!varContact.FirstName},
+
+Your Annual Activity Report ({!$Record.Name}) for {!$Record.Review_Year__c} has been successfully submitted.
+
+Your designated Research Admin has been notified and will review your submission. You will be contacted if any revisions are required.
+
+Thank you.</text>
+    </textTemplates>
+    <variables>
+        <name>varAdmin</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>User</objectType>
+    </variables>
+    <variables>
+        <name>varContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+</Flow>

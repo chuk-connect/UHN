@@ -21,6 +21,16 @@
         <label>Under Review</label>
     </customValue>
     <customValue>
+        <fullName>Returned for Revision</fullName>
+        <default>false</default>
+        <label>Returned for Revision</label>
+    </customValue>
+    <customValue>
+        <fullName>Approved</fullName>
+        <default>false</default>
+        <label>Approved</label>
+    </customValue>
+    <customValue>
         <fullName>Complete</fullName>
         <default>false</default>
         <label>Complete</label>

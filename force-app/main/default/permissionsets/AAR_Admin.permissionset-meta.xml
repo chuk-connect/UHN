@@ -344,6 +344,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>UHN_AAR__c.Research_Admin__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>UHN_AAR__c.Circumstances_Productivity__c</field>
         <readable>true</readable>
     </fieldPermissions>

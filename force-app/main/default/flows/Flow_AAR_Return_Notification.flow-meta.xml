@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <decisions>
+        <name>Check_Post_Exists</name>
+        <label>Has Reviewer Notes?</label>
+        <locationX>182</locationX>
+        <locationY>398</locationY>
+        <defaultConnector>
+            <targetReference>Send_Return_Email_No_Notes</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Chatter Post Found</defaultConnectorLabel>
+        <rules>
+            <name>Post_Exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varLatestPost.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Return_Email_With_Notes</targetReference>
+            </connector>
+            <label>Chatter Post Found</label>
+        </rules>
+    </decisions>
+    <description
+  >Emails the PI when their AAR is returned for revision, including the most recent Chatter reviewer notes.</description>
+    <environments>Default</environments>
+    <interviewLabel
+  >Flow AAR Return Notification {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Flow AAR Return Notification</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <actionCalls>
+        <name>Send_Return_Email_No_Notes</name>
+        <label>Send Return Email (No Notes)</label>
+        <locationX>314</locationX>
+        <locationY>518</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>varContact.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue
+        >Your AAR Has Been Returned for Revision</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>tplReturnEmailNoNotes</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Return_Email_With_Notes</name>
+        <label>Send Return Email (With Notes)</label>
+        <locationX>50</locationX>
+        <locationY>518</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>varContact.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue
+        >Your AAR Has Been Returned for Revision</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>tplReturnEmailWithNotes</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <recordLookups>
+        <name>Get_Contact</name>
+        <label>Get PI Contact</label>
+        <locationX>182</locationX>
+        <locationY>158</locationY>
+        <connector>
+            <targetReference>Get_Latest_Chatter_Post</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Contact__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <outputReference>varContact</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Email</queriedFields>
+        <queriedFields>FirstName</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Latest_Chatter_Post</name>
+        <label>Get Latest Chatter Post</label>
+        <locationX>182</locationX>
+        <locationY>278</locationY>
+        <connector>
+            <targetReference>Check_Post_Exists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ParentId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>FeedItem</object>
+        <outputReference>varLatestPost</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Body</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+    </recordLookups>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Contact</targetReference>
+        </connector>
+        <filterFormula>AND(
+  ISPICKVAL({!$Record.Status__c}, &quot;Returned for Revision&quot;),
+  NOT(ISPICKVAL({!$Record__Prior.Status__c}, &quot;Returned for Revision&quot;))
+)</filterFormula>
+        <object>UHN_AAR__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>tplReturnEmailNoNotes</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear {!varContact.FirstName},
+
+Your Annual Activity Report ({!$Record.Name}) for {!$Record.Review_Year__c} has been returned for revision.
+
+Please log in to Salesforce to review the feedback on your record and resubmit once revisions are complete.
+
+Thank you.</text>
+    </textTemplates>
+    <textTemplates>
+        <name>tplReturnEmailWithNotes</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear {!varContact.FirstName},
+
+Your Annual Activity Report ({!$Record.Name}) for {!$Record.Review_Year__c} has been returned for revision.
+
+Reviewer Notes:
+{!varLatestPost.Body}
+
+Please address the feedback above and resubmit your AAR.
+
+Thank you.</text>
+    </textTemplates>
+    <variables>
+        <name>varContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <name>varLatestPost</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>FeedItem</objectType>
+    </variables>
+</Flow>

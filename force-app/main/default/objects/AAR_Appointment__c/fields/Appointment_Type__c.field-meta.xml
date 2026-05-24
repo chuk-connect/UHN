@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appointment_Type__c</fullName>
+    <label>Appointment Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Primary</fullName><default>false</default><label
+        >Primary</label></value>
+            <value><fullName>Cross-Appointment</fullName><default
+        >false</default><label>Cross-Appointment</label></value>
+            <value><fullName>Status-Only</fullName><default
+        >false</default><label>Status-Only</label></value>
+            <value><fullName>Adjunct</fullName><default>false</default><label
+        >Adjunct</label></value>
+            <value><fullName>Honorary</fullName><default>false</default><label
+        >Honorary</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Scientist_Role__c</fullName>
+    <label>Scientist Role</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Principal Investigator (PI)</fullName><default
+        >false</default><label>Principal Investigator (PI)</label></value>
+            <value><fullName>Co-PI</fullName><default>false</default><label
+        >Co-PI</label></value>
+            <value><fullName>Co-Investigator</fullName><default
+        >false</default><label>Co-Investigator</label></value>
+            <value><fullName>Collaborator</fullName><default
+        >false</default><label>Collaborator</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

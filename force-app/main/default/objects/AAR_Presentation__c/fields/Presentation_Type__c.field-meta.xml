@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Presentation_Type__c</fullName>
+    <label>Presentation Type</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Keynote</fullName><default>false</default><label
+        >Keynote</label></value>
+            <value><fullName>Plenary</fullName><default>false</default><label
+        >Plenary</label></value>
+            <value><fullName>Named Lecture</fullName><default
+        >false</default><label>Named Lecture</label></value>
+            <value><fullName>Invited Talk</fullName><default
+        >false</default><label>Invited Talk</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

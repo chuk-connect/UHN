@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR_Amount_Received_Cannot_Exceed_Total</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT(ISBLANK(Total_Award_Amount__c)),
+  NOT(ISBLANK(Amount_Received_Year__c)),
+  Amount_Received_Year__c &gt; Total_Award_Amount__c
+)</errorConditionFormula>
+    <errorMessage
+  >Amount received this year cannot exceed the total award amount.</errorMessage>
+    <errorDisplayField>Amount_Received_Year__c</errorDisplayField>
+</ValidationRule>

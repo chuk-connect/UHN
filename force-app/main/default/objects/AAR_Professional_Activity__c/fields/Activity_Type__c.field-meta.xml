@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activity_Type__c</fullName>
+    <label>Activity Type</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Committee / Board Membership</fullName><default
+        >false</default><label>Committee / Board Membership</label></value>
+            <value><fullName>Grant Reviewing</fullName><default
+        >false</default><label>Grant Reviewing</label></value>
+            <value><fullName>Journal Reviewing</fullName><default
+        >false</default><label>Journal Reviewing</label></value>
+            <value><fullName>Professional Society</fullName><default
+        >false</default><label>Professional Society</label></value>
+            <value><fullName>Conference Organization</fullName><default
+        >false</default><label>Conference Organization</label></value>
+            <value><fullName>UHN / Institute Contribution</fullName><default
+        >false</default><label>UHN / Institute Contribution</label></value>
+            <value><fullName>Consulting</fullName><default>false</default><label
+        >Consulting</label></value>
+            <value><fullName>Other Academic Activity</fullName><default
+        >false</default><label>Other Academic Activity</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -2,8 +2,6 @@
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <description
   >The PI Permission Set needs to grant the basic CRUD capabilities.</description>
-    <hasActivationRequired>true</hasActivationRequired>
-    <label>AAR PI</label>
     <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Criteria__c.Description__c</field>
@@ -39,6 +37,8 @@
         <field>AAR_Submission__c.Evaluator_Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <hasActivationRequired>true</hasActivationRequired>
+    <label>AAR PI</label>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>

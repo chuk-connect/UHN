@@ -6,14 +6,14 @@
         <description
     >Grants AAR Evaluators read access to all active AAR records within the Institute. Account field is the Institute scope gate; membership in AAR_Evaluators public group determines which Institute an evaluator belongs to.</description>
         <label>Institute Evaluators AAR Access</label>
+        <sharedTo>
+            <group>AAR_Evaluators</group>
+        </sharedTo>
         <criteriaItems>
             <field>Status__c</field>
             <operation>notEqual</operation>
             <value>Superseded</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-        <sharedTo>
-            <group>AAR_Evaluators</group>
-        </sharedTo>
     </sharingCriteriaRules>
 </SharingRules>

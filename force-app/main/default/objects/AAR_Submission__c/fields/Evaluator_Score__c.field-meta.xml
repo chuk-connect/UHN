@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>Evaluator Score</label>
     <precision>5</precision>
+    <required>false</required>
     <scale>1</scale>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

@@ -2,8 +2,6 @@
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <description
   >Admins need unrestricted, cross-org visibility and editability on all AAR-related objects.</description>
-    <hasActivationRequired>true</hasActivationRequired>
-    <label>AAR Admin</label>
     <fieldPermissions>
         <editable>true</editable>
         <field>AAR_Criteria__c.Description__c</field>
@@ -39,6 +37,8 @@
         <field>AAR_Submission__c.Evaluator_Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <hasActivationRequired>true</hasActivationRequired>
+    <label>AAR Admin</label>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -50,16 +50,6 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>AAR_Submission__c</object>
-        <viewAllFields>true</viewAllFields>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
@@ -67,6 +57,16 @@
         <modifyAllRecords>true</modifyAllRecords>
         <object>AAR_Recognition__c</object>
         <viewAllFields>false</viewAllFields>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>AAR_Submission__c</object>
+        <viewAllFields>true</viewAllFields>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

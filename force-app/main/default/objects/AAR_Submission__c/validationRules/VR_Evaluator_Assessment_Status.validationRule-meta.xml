@@ -10,7 +10,7 @@
         ISCHANGED(Evaluator_Score__c),
         ISCHANGED(Evaluator_Comments__c)
     ),
-    NOT(ISPICKVAL(AAR_Record__r.Status__c, "Submitted"))
+    NOT(ISPICKVAL(AAR_Record__r.Status__c, &quot;Submitted&quot;))
 )</errorConditionFormula>
     <errorMessage
   >Evaluator assessment can only be completed for Submitted AARs.</errorMessage>

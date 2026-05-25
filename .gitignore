@@ -42,8 +42,10 @@ $RECYCLE.BIN/
 # Local environment variables
 .env
 
-# Claude Code local context
-.claude/
+# Claude Code local context (commands/ is tracked for shared project skills)
+.claude/*
+!.claude/commands/
+!.claude/commands/**
 
 # Retrieved org state
 retrieved_state/

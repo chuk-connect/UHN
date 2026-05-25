@@ -36,6 +36,11 @@
         <label>Complete</label>
     </customValue>
     <customValue>
+        <fullName>Withdrawn</fullName>
+        <default>false</default>
+        <label>Withdrawn</label>
+    </customValue>
+    <customValue>
         <fullName>Superseded</fullName>
         <default>false</default>
         <label>Superseded</label>

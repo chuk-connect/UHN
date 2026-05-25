@@ -4,11 +4,6 @@
   >Grants evaluators read/edit access on AARs they are assigned to via AAR_Reviewer__c records, read-only access to AAR Submissions, and read-only access to Commercialization records.</description>
     <fieldPermissions>
         <editable>true</editable>
-        <field>AAR_Reviewer__c.AAR_Record__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>AAR_Reviewer__c.Assignment_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -28,11 +23,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>AAR_Reviewer__c.Review_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Submission__c.AAR_Record__c</field>
         <readable>true</readable>
@@ -49,11 +39,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>AAR_Submission__c.Submission_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>AAR_Submission__c.Submitted_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -64,37 +49,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Commercialization__c.Contact__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Commercialization__c.Title__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Commercialization__c.Wellspring_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>UHN_AAR__c.Completion_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>UHN_AAR__c.Contact__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>UHN_AAR__c.Institute__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>UHN_AAR__c.Review_Year__c</field>
+        <field>UHN_AAR__c.Prepopulated_From_Grants__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

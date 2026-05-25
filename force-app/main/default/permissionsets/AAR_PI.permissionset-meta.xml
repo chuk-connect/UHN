@@ -422,6 +422,11 @@
         <field>UHN_AAR__c.Research_Keywords__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>UHN_AAR__c.Submission_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>true</hasActivationRequired>
     <label>AAR PI</label>
     <objectPermissions>

@@ -437,6 +437,11 @@
         <field>UHN_AAR__c.Research_Keywords__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Submission_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>true</hasActivationRequired>
     <label>AAR Admin</label>
     <objectPermissions>

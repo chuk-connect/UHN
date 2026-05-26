@@ -38,6 +38,7 @@ npm run test:unit:debug
 ```
 
 **Salesforce deployments (via SF CLI):**
+
 ```bash
 # Deploy source to connected org
 sfdx force:source:deploy -p force-app
@@ -50,6 +51,7 @@ sfdx force:source:status
 ```
 
 **Scratch org setup:**
+
 ```bash
 sfdx org login web
 sfdx org create scratch --definition-file config/project-scratch-def.json
@@ -72,16 +74,16 @@ The verification framework has three layers:
 
 Every verifiable object must have these fields:
 
-| Field | Type | Purpose |
-|---|---|---|
-| `Verification_Status__c` | Picklist | Proposed / Verified / Manual / Superseded |
-| `Source_Hash__c` | String | Idempotency key for detecting source changes |
-| `Source_Payload__c` | Long Text | Raw source fields as JSON |
-| `Override_Payload__c` | Long Text | PI corrections as JSON delta |
-| `Verified_At__c` | Datetime | Audit stamp |
-| `Verified_By__c` | Lookup(User) | Audit stamp |
-| `External_Id__c` | String | Source system key |
-| `Is_Verified__c` | Boolean | Checkbox mirror of Verified status |
+| Field                    | Type         | Purpose                                      |
+| ------------------------ | ------------ | -------------------------------------------- |
+| `Verification_Status__c` | Picklist     | Proposed / Verified / Manual / Superseded    |
+| `Source_Hash__c`         | String       | Idempotency key for detecting source changes |
+| `Source_Payload__c`      | Long Text    | Raw source fields as JSON                    |
+| `Override_Payload__c`    | Long Text    | PI corrections as JSON delta                 |
+| `Verified_At__c`         | Datetime     | Audit stamp                                  |
+| `Verified_By__c`         | Lookup(User) | Audit stamp                                  |
+| `External_Id__c`         | String       | Source system key                            |
+| `Is_Verified__c`         | Boolean      | Checkbox mirror of Verified status           |
 
 ### Custom Metadata for Configuration
 
@@ -104,3 +106,61 @@ Triggers in `force-app/main/default/triggers/` are thin — business logic lives
 LWC unit tests use `@salesforce/sfdx-lwc-jest`. Apex tests follow the `*Test.cls` naming convention and are colocated with their classes. `UHN_TestDataFactory.cls` provides shared test data builders.
 
 Pre-commit hooks (Husky + lint-staged) run ESLint and Prettier automatically on staged files.
+
+## Git Workflow
+
+All new work must go through a feature branch and a pull request. Never commit directly to `master`.
+
+### Branch naming
+
+```
+feature/bh-<ticket>        # single ticket
+feature/bh-<ticket1>-<ticket2>  # spanning two tickets
+hotfix/bh-<ticket>         # urgent sandbox/production fix
+```
+
+Examples: `feature/bh-1122`, `feature/bh-1130-1131`, `hotfix/bh-1125`
+
+### Step-by-step
+
+```bash
+# 1. Start from a clean, up-to-date master
+git checkout master
+git pull origin master
+
+# 2. Create and switch to the feature branch
+git checkout -b feature/bh-<ticket>
+
+# 3. Do the work — commit as often as makes sense
+git add <files>
+git commit -m "BH-<ticket>: <what and why>"
+
+# 4. Push the branch to remote
+git push -u origin feature/bh-<ticket>
+
+# 5. Open a PR into master on GitHub
+gh pr create --base master --head feature/bh-<ticket> \
+  --title "BH-<ticket>: <short description>" \
+  --body "..."
+
+# 6. After sandbox validation and PR approval — merge and tag
+git checkout master && git pull origin master
+git tag -a "bh-<ticket>" -m "<delivery summary>"
+git push origin --tags
+```
+
+### Delivery tags
+
+After a validated delivery merges to `master`, create an annotated tag on the merge commit:
+
+```
+bh-1116/1121   # single delivery covering multiple tickets uses /
+bh-1122        # single-ticket delivery
+```
+
+### Rules
+
+- PRs must pass all pre-commit hooks (ESLint + Prettier) before merge.
+- Apex tests must be run in the target sandbox and pass before PR approval.
+- Never force-push to `master`.
+- Tag every validated delivery on `master` before starting the next ticket.

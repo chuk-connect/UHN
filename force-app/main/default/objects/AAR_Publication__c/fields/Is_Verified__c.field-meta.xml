@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Title__c</fullName>
-    <label>Title</label>
-    <length>255</length>
-    <required>true</required>
+    <fullName>Is_Verified__c</fullName>
+    <defaultValue>false</defaultValue>
+    <label>Is Verified</label>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Checkbox</type>
 </CustomField>

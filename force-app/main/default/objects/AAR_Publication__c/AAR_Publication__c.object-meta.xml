@@ -2,7 +2,7 @@
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <deploymentStatus>Deployed</deploymentStatus>
     <description
-  >Stores patents, licenses, IP disclosures, and other commercialization activities sourced from the Wellspring system via CSV upsert. Full field list deferred until Wellspring CSV schema confirmed (BH-1142).</description>
+  >Tracks publications associated with an AAR record. Source can be manual entry or ORCID import. Field history enabled for 7-year Shield retention per BH-1126.</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
@@ -12,16 +12,16 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>Private</externalSharingModel>
-    <label>Commercialization</label>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <label>AAR Publication</label>
     <nameField>
-        <displayFormat>COMM-{0000}</displayFormat>
-        <label>Commercialization Name</label>
+        <displayFormat>PUB-{0000}</displayFormat>
+        <label>Publication Name</label>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Commercializations</pluralLabel>
+    <pluralLabel>AAR Publications</pluralLabel>
     <searchLayouts />
-    <sharingModel>Private</sharingModel>
+    <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

@@ -1,19 +1,14 @@
 {
   "mcpServers": {
     "salesforce": {
-      "command": "sf-mcp-server",
+      "command": "npx",
       "args": [
-        "-o",
+        "-y",
+        "@salesforce/mcp",
+        "--orgs",
         "uhn-sandbox",
-        "--dynamic-tools"
-      ]
-    },
-    "devMCP": {
-      "command": "sf-mcp-server",
-      "args": [
-        "-o",
-        "uhn-sandbox",
-        "--dynamic-tools"
+        "--toolsets",
+        "all"
       ]
     }
   }

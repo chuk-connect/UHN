@@ -1,0 +1,722 @@
+[
+  {
+    "id": "sf_object_001",
+    "category": "salesforce_object",
+    "jira_ref": "BH-1116",
+    "object": {
+      "label": "AAR Record",
+      "api_name": "AAR_Record__c",
+      "object_type": "custom",
+      "description": "Top-level Annual Activity Review record owned by a Principal Investigator. One per PI per review cycle.",
+      "record_name": {
+        "type": "auto_number",
+        "format": "AAR-{0000}"
+      },
+      "features": {
+        "activities": true,
+        "chatter": true,
+        "reports": true,
+        "search": true,
+        "sharing_model": "Private"
+      },
+      "tabs": ["Research"],
+      "permission_notes": "PIs can only access their own AAR records. Evaluators get read/edit on assigned records. Institute leadership gets read visibility across their institute."
+    },
+    "fields": [
+      {
+        "label": "PI",
+        "api_name": "Contact__c",
+        "data_type": "Lookup",
+        "lookup_target": "Contact",
+        "required": true,
+        "custom": true,
+        "notes": "Links AAR to the Principal Investigator's Contact record. Drives ownership and sharing."
+      },
+      {
+        "label": "Review Year",
+        "api_name": "Review_Year__c",
+        "data_type": "Number(4,0)",
+        "required": true,
+        "custom": true,
+        "notes": "Fiscal or calendar year for the review cycle."
+      },
+      {
+        "label": "Status",
+        "api_name": "Status__c",
+        "data_type": "Picklist",
+        "required": true,
+        "custom": true,
+        "picklist_values": [
+          "Draft",
+          "Submitted",
+          "Under Review",
+          "Complete",
+          "Withdrawn"
+        ],
+        "notes": "Drives workflow stages and evaluator visibility."
+      },
+      {
+        "label": "Institute",
+        "api_name": "Institute__c",
+        "data_type": "Picklist",
+        "required": true,
+        "custom": true,
+        "notes": "Research institute the PI belongs to. Used for institute leadership rollup visibility."
+      },
+      {
+        "label": "Submission Date",
+        "api_name": "Submission_Date__c",
+        "data_type": "DateTime",
+        "required": false,
+        "custom": true,
+        "notes": "Stamped automatically when Status transitions to Submitted."
+      },
+      {
+        "label": "Completion Date",
+        "api_name": "Completion_Date__c",
+        "data_type": "DateTime",
+        "required": false,
+        "custom": true
+      },
+      {
+        "label": "Pre-Populated From Grants",
+        "api_name": "Prepopulated_From_Grants__c",
+        "data_type": "Checkbox",
+        "required": false,
+        "custom": true,
+        "notes": "Indicates whether the record was seeded from the Grants system integration."
+      }
+    ]
+  },
+
+  {
+    "id": "sf_object_002",
+    "category": "salesforce_object",
+    "jira_ref": "BH-1116",
+    "object": {
+      "label": "AAR Submission",
+      "api_name": "AAR_Submission__c",
+      "object_type": "custom",
+      "description": "Child object capturing the PI's formal submission content within an AAR Record.",
+      "record_name": {
+        "type": "auto_number",
+        "format": "SUB-{0000}"
+      },
+      "features": {
+        "activities": false,
+        "chatter": false,
+        "reports": true,
+        "sharing_model": "Controlled by Parent"
+      },
+      "tabs": []
+    },
+    "fields": [
+      {
+        "label": "AAR Record",
+        "api_name": "AAR_Record__c",
+        "data_type": "Master-Detail",
+        "lookup_target": "AAR_Record__c",
+        "required": true,
+        "custom": true,
+        "notes": "Master-detail to AAR_Record__c. Deletion of parent cascades to submissions."
+      },
+      {
+        "label": "Submitted By",
+        "api_name": "Submitted_By__c",
+        "data_type": "Lookup",
+        "lookup_target": "User",
+        "required": false,
+        "custom": true
+      },
+      {
+        "label": "Submission Date",
+        "api_name": "Submission_Date__c",
+        "data_type": "DateTime",
+        "required": false,
+        "custom": true
+      },
+      {
+        "label": "PI Narrative",
+        "api_name": "PI_Narrative__c",
+        "data_type": "Long Text Area(32768)",
+        "required": false,
+        "custom": true,
+        "notes": "Free-text PI self-assessment narrative submitted as part of the AAR."
+      },
+      {
+        "label": "Status",
+        "api_name": "Status__c",
+        "data_type": "Picklist",
+        "required": true,
+        "custom": true,
+        "picklist_values": ["Draft", "Final"]
+      }
+    ]
+  },
+
+  {
+    "id": "sf_object_003",
+    "category": "salesforce_object",
+    "jira_ref": "BH-1116",
+    "object": {
+      "label": "AAR Reviewer",
+      "api_name": "AAR_Reviewer__c",
+      "object_type": "custom",
+      "description": "Junction/child object linking an Evaluator (User or Contact) to a specific AAR Record. Drives evaluator access via sharing rules.",
+      "record_name": {
+        "type": "auto_number",
+        "format": "REV-{0000}"
+      },
+      "features": {
+        "activities": false,
+        "chatter": false,
+        "reports": true,
+        "sharing_model": "Controlled by Parent"
+      }
+    },
+    "fields": [
+      {
+        "label": "AAR Record",
+        "api_name": "AAR_Record__c",
+        "data_type": "Master-Detail",
+        "lookup_target": "AAR_Record__c",
+        "required": true,
+        "custom": true,
+        "notes": "Master-detail to AAR_Record__c. Evaluator assignment is scoped to one AAR."
+      },
+      {
+        "label": "Evaluator",
+        "api_name": "Evaluator__c",
+        "data_type": "Lookup",
+        "lookup_target": "User",
+        "required": true,
+        "custom": true,
+        "notes": "The internal Salesforce User designated as evaluator for this AAR."
+      },
+      {
+        "label": "Assignment Date",
+        "api_name": "Assignment_Date__c",
+        "data_type": "Date",
+        "required": false,
+        "custom": true
+      },
+      {
+        "label": "Review Status",
+        "api_name": "Review_Status__c",
+        "data_type": "Picklist",
+        "required": true,
+        "custom": true,
+        "picklist_values": ["Assigned", "In Progress", "Complete"]
+      },
+      {
+        "label": "Evaluator Notes",
+        "api_name": "Evaluator_Notes__c",
+        "data_type": "Long Text Area(32768)",
+        "required": false,
+        "custom": true
+      },
+      {
+        "label": "Completed Date",
+        "api_name": "Completed_Date__c",
+        "data_type": "DateTime",
+        "required": false,
+        "custom": true
+      }
+    ]
+  },
+
+  {
+    "id": "sf_object_004",
+    "category": "salesforce_object",
+    "jira_ref": "BH-1121",
+    "object": {
+      "label": "Commercialization",
+      "api_name": "Commercialization__c",
+      "object_type": "custom",
+      "description": "Stores patents, licenses, IP disclosures, and other commercialization activities sourced from the Wellspring system via CSV upsert.",
+      "record_name": {
+        "type": "auto_number",
+        "format": "COMM-{0000}"
+      },
+      "features": {
+        "activities": false,
+        "chatter": false,
+        "reports": true,
+        "search": true,
+        "sharing_model": "Private"
+      },
+      "tabs": ["Research"],
+      "implementation_phase": {
+        "now": "Create object shell with core structural fields only (Wellspring_ID__c, Contact__c, AAR_Record__c, Title__c)",
+        "deferred": "Full field list deferred until Wellspring CSV schema confirmed by Research Strategy",
+        "integration_ticket": "BH-1142"
+      }
+    },
+    "fields": {
+      "core_structural_implement_now": [
+        {
+          "label": "Wellspring ID",
+          "api_name": "Wellspring_ID__c",
+          "data_type": "Text(80)",
+          "required": true,
+          "custom": true,
+          "attributes": ["External ID", "Unique"],
+          "notes": "Primary key from Wellspring. Used as upsert key during CSV integration."
+        },
+        {
+          "label": "PI / Inventor",
+          "api_name": "Contact__c",
+          "data_type": "Lookup",
+          "lookup_target": "Contact",
+          "required": true,
+          "custom": true,
+          "notes": "Links the commercialization activity to the PI/Inventor Contact record."
+        },
+        {
+          "label": "AAR Record",
+          "api_name": "AAR_Record__c",
+          "data_type": "Lookup",
+          "lookup_target": "AAR_Record__c",
+          "required": false,
+          "custom": true,
+          "notes": "Optional link to the parent AAR Record. Nullable until CSV data confirms match."
+        },
+        {
+          "label": "Title",
+          "api_name": "Title__c",
+          "data_type": "Text(255)",
+          "required": true,
+          "custom": true
+        }
+      ],
+      "deferred_pending_csv_schema": [
+        {
+          "label": "Type",
+          "api_name": "Type__c",
+          "data_type": "Picklist",
+          "required": true,
+          "custom": true,
+          "picklist_values": [
+            "Patent",
+            "License",
+            "IP Disclosure",
+            "Trademark",
+            "Copyright",
+            "Spin-Off Company",
+            "Material Transfer",
+            "Other"
+          ]
+        },
+        {
+          "label": "Status",
+          "api_name": "Status__c",
+          "data_type": "Picklist",
+          "required": true,
+          "custom": true,
+          "picklist_values": [
+            "Disclosed",
+            "Filed",
+            "Under Review",
+            "Granted",
+            "Executed",
+            "Active",
+            "Expired",
+            "Abandoned",
+            "Pending"
+          ]
+        },
+        {
+          "label": "Disclosure Date",
+          "api_name": "Disclosure_Date__c",
+          "data_type": "Date",
+          "required": false,
+          "custom": true
+        },
+        {
+          "label": "Filing Date",
+          "api_name": "Filing_Date__c",
+          "data_type": "Date",
+          "required": false,
+          "custom": true
+        },
+        {
+          "label": "Grant Date",
+          "api_name": "Grant_Date__c",
+          "data_type": "Date",
+          "required": false,
+          "custom": true
+        },
+        {
+          "label": "Execution Date",
+          "api_name": "Execution_Date__c",
+          "data_type": "Date",
+          "required": false,
+          "custom": true
+        },
+        {
+          "label": "Expiration Date",
+          "api_name": "Expiration_Date__c",
+          "data_type": "Date",
+          "required": false,
+          "custom": true
+        },
+        {
+          "label": "Description",
+          "api_name": "Description__c",
+          "data_type": "Long Text Area(32768)",
+          "required": false,
+          "custom": true
+        },
+        {
+          "label": "Patent Number",
+          "api_name": "Patent_Number__c",
+          "data_type": "Text(80)",
+          "required": false,
+          "custom": true
+        },
+        {
+          "label": "License Number",
+          "api_name": "License_Number__c",
+          "data_type": "Text(80)",
+          "required": false,
+          "custom": true
+        },
+        {
+          "label": "Technology Category",
+          "api_name": "Technology_Category__c",
+          "data_type": "Picklist",
+          "required": false,
+          "custom": true,
+          "picklist_values": [
+            "Medical Device",
+            "Software",
+            "Therapeutics",
+            "Diagnostics",
+            "Research Tool",
+            "Other"
+          ]
+        },
+        {
+          "label": "Last Sync Date",
+          "api_name": "Last_Sync_Date__c",
+          "data_type": "DateTime",
+          "required": false,
+          "custom": true,
+          "notes": "Timestamp of last successful Wellspring CSV sync for this record."
+        }
+      ]
+    },
+    "page_layout": {
+      "sections": ["Identification", "Dates", "Details", "Integration"]
+    }
+  },
+
+  {
+    "id": "sf_object_005",
+    "category": "salesforce_object_standard_extension",
+    "jira_ref": "BH-1116",
+    "object": {
+      "label": "Contact",
+      "api_name": "Contact",
+      "object_type": "standard",
+      "description": "Standard Contact object extended to serve as the PI/Inventor anchor. All custom AAR and Commercialization objects relate back to Contact for ownership and sharing."
+    },
+    "fields": [
+      {
+        "label": "Grants System ID",
+        "api_name": "Grants_System_ID__c",
+        "data_type": "Text(80)",
+        "required": false,
+        "custom": true,
+        "attributes": ["External ID", "Unique"],
+        "notes": "Used for 100% match validation during Grants system integration. Required for pre-population accuracy tracking (>95% target per Phase 1 gate)."
+      },
+      {
+        "label": "Institute",
+        "api_name": "Institute__c",
+        "data_type": "Picklist",
+        "required": false,
+        "custom": true,
+        "notes": "Mirrors the Institute field on AAR_Record__c. Drives institute leadership sharing rules."
+      },
+      {
+        "label": "Is Active PI",
+        "api_name": "Is_Active_PI__c",
+        "data_type": "Checkbox",
+        "required": false,
+        "custom": true,
+        "notes": "Flag synced from Grants system. Only active PIs are eligible for AAR creation."
+      }
+    ]
+  },
+
+  {
+    "id": "sf_relationships_001",
+    "category": "relationships",
+    "jira_ref": "BH-1116",
+    "relationships": [
+      {
+        "name": "AAR_Record__c → Contact",
+        "parent": "Contact",
+        "child": "AAR_Record__c",
+        "child_field": "Contact__c",
+        "type": "Lookup",
+        "cardinality": "Many-to-One",
+        "required": true,
+        "cascade_delete": false,
+        "notes": "Each AAR belongs to one PI (Contact). A PI may have multiple AARs across years."
+      },
+      {
+        "name": "AAR_Submission__c → AAR_Record__c",
+        "parent": "AAR_Record__c",
+        "child": "AAR_Submission__c",
+        "child_field": "AAR_Record__c",
+        "type": "Master-Detail",
+        "cardinality": "Many-to-One (expect 1 active per AAR)",
+        "required": true,
+        "cascade_delete": true,
+        "notes": "Submission is tightly owned by the AAR. Sharing and visibility are controlled by the parent."
+      },
+      {
+        "name": "AAR_Reviewer__c → AAR_Record__c",
+        "parent": "AAR_Record__c",
+        "child": "AAR_Reviewer__c",
+        "child_field": "AAR_Record__c",
+        "type": "Master-Detail",
+        "cardinality": "Many-to-One (multiple evaluators per AAR allowed)",
+        "required": true,
+        "cascade_delete": true,
+        "notes": "Reviewer records drive evaluator access. Deleting the AAR removes all reviewer assignments."
+      },
+      {
+        "name": "AAR_Reviewer__c → User",
+        "parent": "User",
+        "child": "AAR_Reviewer__c",
+        "child_field": "Evaluator__c",
+        "type": "Lookup",
+        "cardinality": "Many-to-One",
+        "required": true,
+        "cascade_delete": false,
+        "notes": "Evaluator must be a licensed internal Salesforce User. Used to derive sharing rule grant."
+      },
+      {
+        "name": "Commercialization__c → Contact",
+        "parent": "Contact",
+        "child": "Commercialization__c",
+        "child_field": "Contact__c",
+        "type": "Lookup",
+        "cardinality": "Many-to-One",
+        "required": true,
+        "cascade_delete": false,
+        "notes": "Ties each commercialization activity to the PI/Inventor. Required for Experience Cloud FLS."
+      },
+      {
+        "name": "Commercialization__c → AAR_Record__c",
+        "parent": "AAR_Record__c",
+        "child": "Commercialization__c",
+        "child_field": "AAR_Record__c",
+        "type": "Lookup",
+        "cardinality": "Many-to-One",
+        "required": false,
+        "cascade_delete": false,
+        "notes": "Optional. Populated when a Commercialization record is associated with a specific review year. May be null at import time and resolved later."
+      }
+    ]
+  },
+
+  {
+    "id": "sf_security_001",
+    "category": "security_model",
+    "jira_ref": "BH-1116",
+    "sharing_model": {
+      "AAR_Record__c": "Private",
+      "AAR_Submission__c": "Controlled by Parent",
+      "AAR_Reviewer__c": "Controlled by Parent",
+      "Commercialization__c": "Private"
+    },
+    "permission_sets": [
+      {
+        "name": "AAR_PI_Access",
+        "description": "Grants PIs read/edit access to their own AAR records only.",
+        "object_access": [
+          {
+            "object": "AAR_Record__c",
+            "create": true,
+            "read": true,
+            "edit": true,
+            "delete": false
+          },
+          {
+            "object": "AAR_Submission__c",
+            "create": true,
+            "read": true,
+            "edit": true,
+            "delete": false
+          },
+          {
+            "object": "Commercialization__c",
+            "create": false,
+            "read": true,
+            "edit": false,
+            "delete": false
+          }
+        ]
+      },
+      {
+        "name": "AAR_Evaluator_Access",
+        "description": "Grants evaluators read/edit on AARs they are assigned to via AAR_Reviewer__c records.",
+        "object_access": [
+          {
+            "object": "AAR_Record__c",
+            "create": false,
+            "read": true,
+            "edit": true,
+            "delete": false
+          },
+          {
+            "object": "AAR_Submission__c",
+            "create": false,
+            "read": true,
+            "edit": false,
+            "delete": false
+          },
+          {
+            "object": "AAR_Reviewer__c",
+            "create": false,
+            "read": true,
+            "edit": true,
+            "delete": false
+          },
+          {
+            "object": "Commercialization__c",
+            "create": false,
+            "read": true,
+            "edit": false,
+            "delete": false
+          }
+        ]
+      },
+      {
+        "name": "AAR_Institute_Leadership",
+        "description": "Grants institute leaders read-only visibility to all AARs within their institute.",
+        "object_access": [
+          {
+            "object": "AAR_Record__c",
+            "create": false,
+            "read": true,
+            "edit": false,
+            "delete": false
+          },
+          {
+            "object": "AAR_Submission__c",
+            "create": false,
+            "read": true,
+            "edit": false,
+            "delete": false
+          },
+          {
+            "object": "Commercialization__c",
+            "create": false,
+            "read": true,
+            "edit": false,
+            "delete": false
+          }
+        ]
+      }
+    ],
+    "sharing_rules": [
+      {
+        "name": "Evaluator_AAR_Share",
+        "type": "Criteria-based or Apex Managed Sharing",
+        "description": "When an AAR_Reviewer__c record is created, share the parent AAR_Record__c with the Evaluator__c User at Read/Write.",
+        "trigger": "AAR_Reviewer__c insert/update",
+        "implementation_note": "Recommend Apex Managed Sharing via trigger on AAR_Reviewer__c for dynamic, row-level control."
+      },
+      {
+        "name": "Institute_Leadership_Share",
+        "type": "Criteria-based Sharing Rule",
+        "description": "Share all AAR_Record__c records where Institute__c = [leader's institute] with the appropriate public group or role at Read Only.",
+        "trigger": "Institute__c field value on AAR_Record__c"
+      }
+    ],
+    "field_level_security": {
+      "experience_cloud_profiles": "All Commercialization__c fields must have FLS configured for Experience Cloud guest and authenticated profiles.",
+      "sensitive_fields": ["PI_Narrative__c", "Evaluator_Notes__c"],
+      "sensitive_field_rule": "Evaluator_Notes__c must not be visible to the PI profile or Experience Cloud profiles."
+    }
+  },
+
+  {
+    "id": "sf_integration_001",
+    "category": "integration",
+    "jira_ref": "BH-1121",
+    "integrations": [
+      {
+        "name": "Wellspring CSV Upsert",
+        "status": "On Hold",
+        "ticket": "BH-1142",
+        "mechanism": "CSV upsert via Data Loader or equivalent",
+        "external_id_field": "Wellspring_ID__c",
+        "object": "Commercialization__c",
+        "blocker": "Wellspring CSV schema pending from Research Strategy. Sample files not yet received.",
+        "pre_requisites": [
+          "Wellspring CSV schema confirmed",
+          "Commercialization__c full field list finalized",
+          "Mapping document approved by Research Strategy"
+        ]
+      },
+      {
+        "name": "Grants System Sync",
+        "status": "Required for Phase 1 gate",
+        "mechanism": "API or batch process (TBD)",
+        "external_id_field": "Grants_System_ID__c",
+        "object": "Contact",
+        "success_criteria": [
+          "100% match on active PIs",
+          "Pre-population accuracy > 95%"
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "sf_implementation_plan_001",
+    "category": "implementation_plan",
+    "jira_ref": "BH-1116",
+    "phases": [
+      {
+        "phase": "Phase 1A — Week 1 (Now)",
+        "deliverables": [
+          "Create AAR_Record__c object with all fields",
+          "Create AAR_Submission__c object with master-detail to AAR_Record__c",
+          "Create AAR_Reviewer__c object with master-detail to AAR_Record__c and lookup to User",
+          "Create Commercialization__c SHELL only: Wellspring_ID__c, Contact__c, AAR_Record__c, Title__c",
+          "Extend Contact with Grants_System_ID__c, Institute__c, Is_Active_PI__c",
+          "Configure page layouts",
+          "Create permission sets: AAR_PI_Access, AAR_Evaluator_Access, AAR_Institute_Leadership",
+          "Configure sharing model (Private) on AAR_Record__c and Commercialization__c"
+        ]
+      },
+      {
+        "phase": "Phase 1B — Pending Wellspring CSV",
+        "deliverables": [
+          "Add deferred fields to Commercialization__c once CSV schema confirmed",
+          "Set FLS for all Commercialization__c fields on Experience Cloud profiles",
+          "Configure Wellspring upsert mapping (BH-1142)"
+        ]
+      },
+      {
+        "phase": "Phase 1 → Phase 2 Gate",
+        "owner": "Rob Chen (Product Owner)",
+        "criteria_summary": "All Phase 1 stories Done, UAT signed off, zero P1/P2 defects, 80% PI completion in pilot, Grants sync 100% match, security review approved"
+      }
+    ],
+    "git_remote": "https://github.com/chuk-connect/UHN.git",
+    "deployment_notes": [
+      "Validate all objects and permission sets in sandbox before production deploy",
+      "Run Apex tests after any trigger deployment (especially AAR_Reviewer__c Apex Managed Sharing)",
+      "Confirm FLS on Experience Cloud profiles post-deploy",
+      "Manual push confirmation required before any remote repository update"
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Peer_Review_Needs_Epub_Date</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  ISPICKVAL(Publication_Type__c, 'Peer-Reviewed'),
+  ISBLANK(Epub_Date__c)
+)</errorConditionFormula>
+    <errorMessage
+  >ePub Date is required for peer-reviewed publications.</errorMessage>
+    <errorDisplayField>Epub_Date__c</errorDisplayField>
+</ValidationRule>

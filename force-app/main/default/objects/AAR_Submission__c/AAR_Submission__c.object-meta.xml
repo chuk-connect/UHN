@@ -147,7 +147,7 @@
   >Stores evaluator assessments (score, comments, recommendation) for a submitted AAR. One record per evaluator per AAR.</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
-    <enableFeeds>false</enableFeeds>
+    <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>true</enableReports>

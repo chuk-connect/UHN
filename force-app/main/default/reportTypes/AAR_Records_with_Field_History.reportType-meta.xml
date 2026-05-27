@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>UHN_AAR__c</baseObject>
+    <category>other</category>
+    <deployed>true</deployed>
+    <description
+  >AAR Records base report type for auditing and compliance. Use with the Salesforce auto-generated AAR Record History report type (available in Reports when field history tracking is enabled) to report on field changes.</description>
+    <label>AAR Records with Field History</label>
+    <sections>
+        <masterLabel>AAR Record Details</masterLabel>
+        <columns>
+            <field>Name</field>
+            <table>UHN_AAR__c</table>
+        </columns>
+        <columns>
+            <field>CreatedDate</field>
+            <table>UHN_AAR__c</table>
+        </columns>
+        <columns>
+            <field>Status__c</field>
+            <table>UHN_AAR__c</table>
+        </columns>
+        <columns>
+            <field>Submission_Date__c</field>
+            <table>UHN_AAR__c</table>
+        </columns>
+        <columns>
+            <field>Attestation_Date__c</field>
+            <table>UHN_AAR__c</table>
+        </columns>
+        <columns>
+            <field>Top_Constraints__c</field>
+            <table>UHN_AAR__c</table>
+        </columns>
+        <columns>
+            <field>Service_Narrative__c</field>
+            <table>UHN_AAR__c</table>
+        </columns>
+    </sections>
+</ReportType>

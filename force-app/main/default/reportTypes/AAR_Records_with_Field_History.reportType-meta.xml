@@ -4,50 +4,37 @@
     <category>other</category>
     <deployed>true</deployed>
     <description
-  >AAR Records with related field history entries for auditing and compliance reporting. Tracks changes to Status, Submissions, Attestation, and narrative fields.</description>
+  >AAR Records base report type for auditing and compliance. Use with the Salesforce auto-generated AAR Record History report type (available in Reports when field history tracking is enabled) to report on field changes.</description>
     <label>AAR Records with Field History</label>
     <sections>
+        <masterLabel>AAR Record Details</masterLabel>
         <columns>
-            <field>NAME</field>
+            <field>Name</field>
+            <table>UHN_AAR__c</table>
         </columns>
         <columns>
-            <field>OWNER</field>
-        </columns>
-        <columns>
-            <field>CREATED_DATE</field>
+            <field>CreatedDate</field>
+            <table>UHN_AAR__c</table>
         </columns>
         <columns>
             <field>Status__c</field>
+            <table>UHN_AAR__c</table>
         </columns>
         <columns>
             <field>Submission_Date__c</field>
+            <table>UHN_AAR__c</table>
         </columns>
         <columns>
             <field>Attestation_Date__c</field>
+            <table>UHN_AAR__c</table>
         </columns>
-        <label>AAR Record Details</label>
+        <columns>
+            <field>Top_Constraints__c</field>
+            <table>UHN_AAR__c</table>
+        </columns>
+        <columns>
+            <field>Service_Narrative__c</field>
+            <table>UHN_AAR__c</table>
+        </columns>
     </sections>
-    <relationships>
-        <join>OUTER</join>
-        <label>AAR Record Histories</label>
-        <object>UHN_AAR__History</object>
-        <sections>
-            <columns>
-                <field>CREATED_DATE</field>
-            </columns>
-            <columns>
-                <field>CREATED_BY</field>
-            </columns>
-            <columns>
-                <field>FIELD</field>
-            </columns>
-            <columns>
-                <field>OLD_VALUE</field>
-            </columns>
-            <columns>
-                <field>NEW_VALUE</field>
-            </columns>
-            <label>Field History Details</label>
-        </sections>
-    </relationships>
 </ReportType>

@@ -161,6 +161,10 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>OwnerId</fullName>
+        <trackHistory>true</trackHistory>
+    </fields>
     <label>AAR Record</label>
     <nameField>
         <displayFormat>AAR-{0000}</displayFormat>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>UHN_AAR__c</baseObject>
+    <category>other</category>
+    <deployed>true</deployed>
+    <description
+  >AAR Records with related field history entries for auditing and compliance reporting. Tracks changes to Status, Submissions, Attestation, and narrative fields.</description>
+    <label>AAR Records with Field History</label>
+    <sections>
+        <columns>
+            <field>NAME</field>
+        </columns>
+        <columns>
+            <field>OWNER</field>
+        </columns>
+        <columns>
+            <field>CREATED_DATE</field>
+        </columns>
+        <columns>
+            <field>Status__c</field>
+        </columns>
+        <columns>
+            <field>Submission_Date__c</field>
+        </columns>
+        <columns>
+            <field>Attestation_Date__c</field>
+        </columns>
+        <label>AAR Record Details</label>
+    </sections>
+    <relationships>
+        <join>OUTER</join>
+        <label>AAR Record Histories</label>
+        <object>UHN_AAR__History</object>
+        <sections>
+            <columns>
+                <field>CREATED_DATE</field>
+            </columns>
+            <columns>
+                <field>CREATED_BY</field>
+            </columns>
+            <columns>
+                <field>FIELD</field>
+            </columns>
+            <columns>
+                <field>OLD_VALUE</field>
+            </columns>
+            <columns>
+                <field>NEW_VALUE</field>
+            </columns>
+            <label>Field History Details</label>
+        </sections>
+    </relationships>
+</ReportType>

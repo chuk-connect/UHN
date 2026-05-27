@@ -4,8 +4,8 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <label>Scientist</label>
     <referenceTo>Contact</referenceTo>
-    <relationshipLabel>AAR Submissions</relationshipLabel>
-    <relationshipName>AAR_Submissions</relationshipName>
+    <relationshipLabel>AAR Submissions (Scientist)</relationshipLabel>
+    <relationshipName>AAR_Submissions_Scientist</relationshipName>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

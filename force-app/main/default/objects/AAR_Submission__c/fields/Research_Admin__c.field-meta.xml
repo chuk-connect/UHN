@@ -4,8 +4,8 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <label>Research Admin</label>
     <referenceTo>User</referenceTo>
-    <relationshipLabel>AAR Submissions</relationshipLabel>
-    <relationshipName>AAR_Submissions</relationshipName>
+    <relationshipLabel>AAR Submissions (Research Admin)</relationshipLabel>
+    <relationshipName>AAR_Submissions_Admin</relationshipName>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

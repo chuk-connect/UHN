@@ -28,8 +28,9 @@
     <environments>Default</environments>
     <formulas>
         <name>frmCurrentYear</name>
-        <dataType>String</dataType>
-        <expression>TEXT(YEAR(TODAY()))</expression>
+        <dataType>Number</dataType>
+        <expression>YEAR(TODAY())</expression>
+        <scale>0</scale>
     </formulas>
     <formulas>
         <name>frmIsJan1</name>

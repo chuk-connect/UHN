@@ -144,8 +144,8 @@
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
     <description
-  >Stores evaluator assessments (score, comments, recommendation) for a submitted AAR. One record per evaluator per AAR.</description>
-    <enableActivities>false</enableActivities>
+  >Annual Activity Report submission for a Krembil researcher, covering grants, publications, presentations, HQP, teaching, commercialization, and compliance declarations for a given reporting year.</description>
+    <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>

@@ -4,6 +4,11 @@
   >Admins need unrestricted, cross-org visibility and editability on all AAR-related objects.</description>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AAR_Appointment__c.AAR_Submission__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AAR_Appointment__c.Appointment_Title__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -39,6 +44,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AAR_Award__c.Announcement_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Award__c.Award_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AAR_Criteria__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -50,6 +65,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AAR_Criteria__c.Weight__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Grant__c.AAR_Submission__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -99,6 +119,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AAR_HQP__c.AAR_Submission__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AAR_HQP__c.Employment_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -119,6 +144,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AAR_IP_Disclosure__c.AAR_Submission__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AAR_IP_Disclosure__c.Disclosure_Status_TDC__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -130,6 +160,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AAR_IP_Disclosure__c.TDC_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_License__c.AAR_Submission__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -150,6 +185,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AAR_License__c.TDC_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Outreach__c.AAR_Submission__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -184,6 +224,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AAR_Patent__c.AAR_Submission__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AAR_Patent__c.Application_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -209,6 +254,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AAR_Presentation__c.AAR_Submission__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AAR_Presentation__c.Event_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -225,6 +275,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AAR_Presentation__c.Organizing_Body__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Professional_Activity__c.AAR_Submission__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -254,6 +309,101 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AAR_Publication__c.AAR_Submission__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Additional_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Article_Title__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Article_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Author_List__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Authorship_Role__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.DOI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Epub_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Is_Corresponding_Author__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Is_Verified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Journal__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.PMID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Publication_Title__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Publication_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Publication_Year__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.Source_Journal__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Publication__c.WOS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Startup__c.AAR_Submission__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AAR_Startup__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -279,6 +429,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AAR_Submission__c.Circumstances_Productivity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Clinical_Duties__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.CMaRS_Updated__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AAR_Submission__c.Evaluator_Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -290,6 +455,131 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AAR_Submission__c.Evaluator_Score__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Form_Confirmed_Accurate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Form_Feedback__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Grants_Good_Standing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Hours_Completing_AAR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Krembil_Pillar__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Krembil_Sub_Grouping__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Lay_Summary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Leave_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Leave_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Mandatory_Training_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Patient_Engagement_Survey__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.PI_Narrative__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Protected_Time_Research__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Reporting_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Reporting_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Reporting_Year__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Research_Admin__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Research_Career_Stage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Research_Keywords__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Scientist__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Submission_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Submitted_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Submission__c.Submitted_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Teaching__c.AAR_Submission__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -339,12 +629,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>UHN_AAR__c.CMaRS_Updated__c</field>
+        <field>UHN_AAR__c.Attestation_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>UHN_AAR__c.Research_Admin__c</field>
+        <field>UHN_AAR__c.Attested_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -359,97 +649,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>UHN_AAR__c.Form_Confirmed_Accurate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Form_Feedback__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Grants_Good_Standing__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Hours_Completing_AAR__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Krembil_Pillar__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Krembil_Sub_Grouping__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Lay_Summary__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Leave_End_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Leave_Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Mandatory_Training_Complete__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Patient_Engagement_Survey__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Protected_Time_Research__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Reporting_End_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Reporting_Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Research_Career_Stage__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Research_Keywords__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Submission_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Attestation_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_AAR__c.Attested_By__c</field>
+        <field>UHN_AAR__c.CMaRS_Updated__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -460,6 +660,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>UHN_AAR__c.External_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Form_Confirmed_Accurate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Form_Feedback__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -523,6 +733,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Grants_Good_Standing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Hours_Completing_AAR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>UHN_AAR__c.Invited_Talk_Count__c</field>
         <readable>true</readable>
@@ -538,6 +758,36 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Krembil_Pillar__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Krembil_Sub_Grouping__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Lay_Summary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Leave_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Leave_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Mandatory_Training_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>UHN_AAR__c.Media_Impact_Count__c</field>
         <readable>true</readable>
@@ -549,12 +799,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>UHN_AAR__c.Patient_Engagement_Survey__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>UHN_AAR__c.Postdoc_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_AAR__c.Presentation_Count__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Protected_Time_Research__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -619,7 +879,32 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>UHN_AAR__c.Reporting_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Reporting_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Research_Admin__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>UHN_AAR__c.Research_Assistant_Count__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Research_Career_Stage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>UHN_AAR__c.Research_Keywords__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -635,6 +920,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>UHN_AAR__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>UHN_AAR__c.Submission_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -666,6 +956,16 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>AAR_Appointment__c</object>
+        <viewAllFields>true</viewAllFields>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>AAR_Award__c</object>
         <viewAllFields>true</viewAllFields>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -756,6 +1056,16 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>AAR_Professional_Activity__c</object>
+        <viewAllFields>true</viewAllFields>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>AAR_Publication__c</object>
         <viewAllFields>true</viewAllFields>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>

@@ -459,18 +459,22 @@ def build_interactive_validation_section(pdf):
         NAVY)
 
     pdf.test_card(
-        "VAL-01", "All Custom Objects Are Deployed",
+        "VAL-01", "All Custom Objects, Record Page, and Permission Sets Are Deployed",
         "Gear icon (top-right) > Setup > Quick Find > type 'Object Manager' > Enter",
         [
             "In Object Manager, type 'AAR' in the search box at the top of the list.",
             "Count the results. You should see 14 objects whose names start with 'AAR_'.",
             "Click each object name. On the Details tab, confirm Deployment Status = Deployed.",
-            "For AAR_Submission__c specifically, also confirm Activities and Chatter are enabled.",
+            "For AAR_Submission__c: confirm Activities = Enabled and Chatter = Enabled.",
+            "From AAR_Submission__c > Lightning Record Pages, confirm 'AAR Submission Record Page' has Type = Org Default.",
+            "Navigate to Setup > Permission Sets and confirm AAR_Admin and AAR_PI_Access both exist.",
         ],
         [
-            "14 AAR_ objects are listed (AAR_Submission__c, AAR_Appointment__c, AAR_Grant__c, AAR_Publication__c, AAR_HQP__c, AAR_Teaching__c, AAR_Award__c, AAR_Presentation__c, AAR_IP_Disclosure__c, AAR_Patent__c, AAR_License__c, AAR_Startup__c, AAR_Outreach__c, AAR_Professional_Activity__c).",
-            "Every object shows 'Deployed' next to Deployment Status.",
-            "AAR_Submission__c detail page lists both Activities and Chatter as active features.",
+            "14 AAR_ objects listed: AAR_Submission__c, AAR_Appointment__c, AAR_Grant__c, AAR_Publication__c, AAR_HQP__c, AAR_Teaching__c, AAR_Award__c, AAR_Presentation__c, AAR_IP_Disclosure__c, AAR_Patent__c, AAR_License__c, AAR_Startup__c, AAR_Outreach__c, AAR_Professional_Activity__c.",
+            "Every object shows Deployment Status = Deployed.",
+            "AAR_Submission__c: Activities = Enabled, Chatter = Enabled.",
+            "'AAR Submission Record Page' is listed with Type = Org Default (highlights panel + Details + Related + Activity sidebar).",
+            "AAR_Admin and AAR_PI_Access permission sets exist and cover all 14 AAR objects.",
         ]
     )
 
@@ -572,21 +576,27 @@ def build_interactive_validation_section(pdf):
     )
 
     pdf.test_card(
-        "VAL-07", "Open the Draft Annual Report for 2025",
+        "VAL-07", "Open the Draft Annual Report for 2025 -- Verify Record Page Layout",
         "AAR Submissions list > click the Draft record for Reporting Year 2025",
         [
-            "Click the record name (e.g. AAR-2025-00001) to open it.",
-            "Review Section 1 -- Identity: confirm Scientist = Dr. Sarah Chen, Reporting Year = 2025, Status = Draft.",
-            "Review Section 2 -- Research Profile: confirm the Research Keywords multi-select picklist and Lay Summary fields are present.",
-            "Scroll to Section 3 -- Context: confirm Circumstances Affecting Productivity and Leave Start/End Date fields are visible.",
-            "Scroll to Section 4 -- Compliance Declarations: confirm all 5 checkboxes are unchecked.",
+            "Click the record name (e.g. SUB-0001) to open it.",
+            "Confirm the page has a highlights panel at the top, a Details tab (active by default), a Related tab, and an Activity sidebar on the right.",
+            "On the Details tab, scroll through all 9 sections: Identity, Research Profile, Lay Summary, Context - Leave & Circumstances, Circumstances Affecting Productivity, Clinical Duties, Compliance Declarations, Feedback on Form, System Information.",
+            "In Identity: confirm Submission Status = Draft (or Final), Submission Name = SUB-xxxx.",
+            "Click Edit -- confirm all fields are editable including Scientist, Reporting Year, Krembil Pillar, Research Keywords, all checkboxes.",
+            "Scroll to Compliance Declarations: confirm all 5 checkboxes (Mandatory Training, Patient Engagement, CMaRS, Grants in Good Standing, Form Confirmed) are unchecked.",
+            "Click Cancel to exit Edit mode.",
+            "Click the Related tab -- confirm all 13 related lists are present (Appointments, Grants, Publications, Awards, HQP, Teaching, Presentations, IP Disclosures, Patents, Licenses, Startups, Outreach, Professional Activities).",
         ],
         [
-            "Record opens with Status = Draft.",
-            "All 4 layout sections are visible in the correct order: Identity, Research Profile, Context, Compliance Declarations.",
-            "The Circumstances Affecting Productivity field is in a prominently placed section.",
-            "All 5 compliance checkboxes are unchecked (no pre-filled values).",
-        ]
+            "Record opens with highlights panel, Details tab active, Related tab, and Activity sidebar (timeline).",
+            "All 9 layout sections are visible when clicking Edit: Identity, Research Profile, Lay Summary, Context - Leave & Circumstances, Circumstances Affecting Productivity, Clinical Duties, Compliance Declarations, Feedback on Form, System Information.",
+            "Krembil-specific fields visible in Identity: Krembil Pillar, Krembil Sub Grouping, Research Career Stage, Reporting Year, Reporting Start/End Date.",
+            "5 compliance checkboxes present and unchecked.",
+            "Related tab shows 13 separate child object sections with New buttons in each.",
+            "Activity sidebar shows the activity timeline (Tasks, Emails, Chatter).",
+        ],
+        tip="Sections with no data entered show as collapsed or hidden in view mode -- click Edit to see all 9 sections in full. This is standard Lightning behaviour."
     )
 
     pdf.test_card(
@@ -1060,7 +1070,7 @@ def build_interactive_validation_section(pdf):
             ("VAL-04", "[P2] OWD = Private / child objects = Controlled by Parent", "N/A"),
             ("VAL-05", "[P2] FLS: WOS and TDC fields hidden from Scientist profile", "N/A"),
             ("VAL-06", "[P2] Scientist sees only their own records (needs OWD)", "N/A"),
-            ("VAL-07", "Draft AAR opens with correct 4-section layout", ""),
+            ("VAL-07", "Draft AAR opens with correct 9-section layout + record page", ""),
             ("VAL-08", "Research Profile and Context sections save correctly", ""),
             ("VAL-09", "Appointment record adds to related list", ""),
             ("VAL-10", "Funded-Active grant record saves (rollup counter is P2)", ""),
@@ -1160,7 +1170,9 @@ def build_pdf():
             ("Master Object",      "AAR_Submission__c -- one record per scientist per year"),
             ("Custom Objects",     "15 total (14 AAR objects + Contact extended with ORCID)"),
             ("Custom Fields",      "174 fields across all objects"),
-            ("Security Profiles",  "AAR Scientist  /  AAR Research Admin  /  AAR Institute Leadership"),
+            ("Record Page",        "AAR Submission Record Page -- active as Org Default; highlights panel, 9-section Details layout, 13-list Related tab, Activity sidebar"),
+            ("Permission Sets",    "AAR_Admin (full CRUD + viewAllFields on all 14 AAR objects)  /  AAR_PI_Access (CRE, explicit FLS on all fields)"),
+            ("Security Profiles",  "AAR Scientist  /  AAR Research Admin  /  AAR Institute Leadership  [Phase 2]"),
             ("Automation",         "3 Flows active (submit trigger, return notification, annual rollover) + Approval Process [Phase 2]"),
             ("Validation Rules",   "6 rules active: 5 on AAR Submission + 1 on AAR Publication"),
             ("Reports/Dashboards", "3 custom report types, 4 key reports, 2 dashboards [Phase 2]"),
@@ -1231,6 +1243,10 @@ def build_pdf():
     pdf.checklist_item("DONE: Confirm all 3 Flows are Active in Setup > Flows (VAL-02 -- IDs verified in sandbox)")
     pdf.checklist_item("DONE: AAR_Submission__c, AAR_Publication__c, AAR_Award__c and all 12 child objects deployed with fields")
     pdf.checklist_item("DONE: 5 validation rules active on AAR_Submission__c + 1 on AAR_Publication__c")
+    pdf.checklist_item("DONE: Lightning Record Page 'AAR Submission Record Page' deployed and activated as Org Default -- highlights panel, Details tab (9 sections), Related tab (13 lists), Activity sidebar")
+    pdf.checklist_item("DONE: Activities enabled on AAR_Submission__c -- Activity timeline and Chatter sidebar are live")
+    pdf.checklist_item("DONE: AAR_Admin and AAR_PI_Access permission sets updated with full field coverage for all 14 AAR objects (incl. AAR_Award__c, AAR_Publication__c, and all Krembil-era AAR_Submission__c fields)")
+    pdf.checklist_item("Activate Lightning Record Page if not yet org default: Setup > Object Manager > AAR Submission > Lightning Record Pages > Activate > Org Default")
     pdf.checklist_item("Verify email deliverability is ON in Setup > Email > Deliverability (set to All Email for sandbox testing)")
     pdf.checklist_item("Clear browser cache / use incognito tabs for clean demo views")
     pdf.ln(2)

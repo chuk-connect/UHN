@@ -98,6 +98,46 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>AAR_Evaluation__c.AAR_Record__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AAR_Evaluation__c.Concerns__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AAR_Evaluation__c.Evaluation_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AAR_Evaluation__c.Evaluator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AAR_Evaluation__c.Rating__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AAR_Evaluation__c.Recommendations__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AAR_Evaluation__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AAR_Evaluation__c.Strengths__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>AAR_Recognition__c.Awarding_Agency__c</field>
         <readable>true</readable>
@@ -105,6 +145,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AAR_Recognition__c.Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AAR_Recognition__c.Data_Origin__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -125,7 +170,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Scholarly_Output__c.AAR__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AAR_Scholarly_Output__c.Data_Origin__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -135,7 +185,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Scholarly_Output__c.External_Id__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -148,24 +198,24 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>AAR_Scholarly_Output__c.Override_Payload__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Scholarly_Output__c.Source_Hash__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Scholarly_Output__c.Source_Payload__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Scholarly_Output__c.Source_System__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -175,12 +225,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Scholarly_Output__c.Verification_Status__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Scholarly_Output__c.Verified_At__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -910,82 +960,87 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.AAR__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>UHN_Publication_Author__c.Data_Origin__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.External_Id__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>UHN_Publication_Author__c.Override_Payload__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>UHN_Publication_Author__c.Role__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.Source_Hash__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.Source_Payload__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>UHN_Publication_Author__c.Title__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.UHN_Author_Entity__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.UHN_Author_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.UHN_Checksum_Flag_changes__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.UHN_ENID_is_Corresp_Auth__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.UHN_ENID_is_FirstLast_Auth__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.UHN_INV_is_First_Author__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.UHN_INV_is_Last_Author__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.Verified_At__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_Publication_Author__c.Verified_By__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1137,6 +1192,10 @@ sfdc_default_ReportExport_Protection_Flow;
         <layout>AAR_Recognition__c-AAR Recognition Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AAR_Recognition__c-Manual Entry Layout</layout>
+        <recordType>AAR_Recognition__c.Manual_Entry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>AAR_Scholarly_Output__c-AAR Scholarly Output Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -1165,7 +1224,19 @@ sfdc_default_ReportExport_Protection_Flow;
         <layout>UHN_AAR__c-AAR_Recordc Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>UHN_Publication_Author__c-Manual Entry Layout</layout>
+        <recordType>UHN_Publication_Author__c.Manual_Entry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>UHN_Publication_Author__c-Proposed Layout</layout>
+        <recordType>UHN_Publication_Author__c.Proposed</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>UHN_Publication_Author__c-Publication Author Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>UHN_Publication_Author__c-Verified Layout</layout>
+        <recordType>UHN_Publication_Author__c.Verified</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Verification__mdt-Verification Layout</layout>
@@ -1190,6 +1261,11 @@ sfdc_default_ReportExport_Protection_Flow;
         <viewAllFields>false</viewAllFields>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>AAR_Recognition__c.Manual_Entry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>AAR_Scholarly_Output__c.Invited_Talk</recordType>
@@ -1228,6 +1304,21 @@ sfdc_default_ReportExport_Protection_Flow;
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Contact.UHN_Other_UHN_staff</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>UHN_Publication_Author__c.Manual_Entry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>UHN_Publication_Author__c.Proposed</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>UHN_Publication_Author__c.Verified</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>

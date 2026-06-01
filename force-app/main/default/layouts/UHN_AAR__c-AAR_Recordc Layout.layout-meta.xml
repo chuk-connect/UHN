@@ -195,6 +195,14 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Evaluator__c</fields>
+        <fields>Rating__c</fields>
+        <fields>Status__c</fields>
+        <fields>Evaluation_Date__c</fields>
+        <relatedList>AAR_Evaluation__c.AAR_Record__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <fields>Publication_Title__c</fields>
         <fields>Publication_Year__c</fields>
         <fields>Journal__c</fields>

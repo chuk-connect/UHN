@@ -4,8 +4,8 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <label>AAR Record</label>
     <referenceTo>UHN_AAR__c</referenceTo>
-    <relationshipLabel>Commercialization Activities</relationshipLabel>
-    <relationshipName>Commercialization_Activities</relationshipName>
+    <relationshipLabel>Commercializations</relationshipLabel>
+    <relationshipName>Commercializations</relationshipName>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

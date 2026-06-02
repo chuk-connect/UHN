@@ -1,0 +1,1267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      BH-1121 Validation Checklist — Commercialization__c Custom Object
+    </title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 14px;
+        color: #1a1a2e;
+        background: #f4f6fb;
+      }
+      @media print {
+        body {
+          background: #fff;
+          font-size: 12px;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .card {
+          box-shadow: none !important;
+          border: 1px solid #ccc !important;
+          break-inside: avoid;
+        }
+        .page-header {
+          background: #1e3a5f !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        h2 {
+          color: #1e3a5f !important;
+        }
+        .badge-pass {
+          background: #d1fae5 !important;
+          color: #065f46 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .badge-fail {
+          background: #fee2e2 !important;
+          color: #991b1b !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .badge-pending {
+          background: #fef9c3 !important;
+          color: #713f12 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .badge-na {
+          background: #f3f4f6 !important;
+          color: #374151 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+      .page-header {
+        background: #1e3a5f;
+        color: #fff;
+        padding: 28px 36px;
+      }
+      .page-header h1 {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+      }
+      .page-header .meta {
+        font-size: 12px;
+        opacity: 0.75;
+        margin-top: 6px;
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .container {
+        max-width: 1060px;
+        margin: 0 auto;
+        padding: 28px 20px 48px;
+      }
+      h2 {
+        font-size: 15px;
+        font-weight: 700;
+        color: #1e3a5f;
+        margin: 32px 0 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 6px;
+      }
+      h3 {
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+        margin: 0 0 10px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        padding: 18px 20px;
+        margin-bottom: 12px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 9px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      .badge-pass {
+        background: #d1fae5;
+        color: #065f46;
+      }
+      .badge-fail {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      .badge-pending {
+        background: #fef9c3;
+        color: #713f12;
+      }
+      .badge-blocked {
+        background: #ede9fe;
+        color: #5b21b6;
+      }
+      .badge-na {
+        background: #f3f4f6;
+        color: #374151;
+      }
+      .badge-deferred {
+        background: #e0f2fe;
+        color: #0c4a6e;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 8px;
+      }
+      th {
+        background: #f8fafc;
+        text-align: left;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #64748b;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      td {
+        padding: 8px 12px;
+        font-size: 13px;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: top;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      .checklist {
+        list-style: none;
+      }
+      .checklist li {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 9px 0;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .checklist li:last-child {
+        border-bottom: none;
+      }
+      .checklist li input[type="checkbox"] {
+        margin-top: 3px;
+        flex-shrink: 0;
+        width: 16px;
+        height: 16px;
+        accent-color: #1e3a5f;
+        cursor: pointer;
+      }
+      .step-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #1e3a5f;
+        color: #fff;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .step-content {
+        flex: 1;
+      }
+      .step-content strong {
+        display: block;
+        margin-bottom: 2px;
+      }
+      .step-content .expected {
+        color: #059669;
+        font-size: 12px;
+        margin-top: 3px;
+      }
+      .step-content .if-not {
+        color: #dc2626;
+        font-size: 12px;
+        margin-top: 2px;
+      }
+      .step-content .note {
+        color: #7c3aed;
+        font-size: 12px;
+        margin-top: 2px;
+        font-style: italic;
+      }
+      .soql {
+        background: #0f172a;
+        color: #7dd3fc;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 12px;
+        border-radius: 6px;
+        padding: 10px 14px;
+        margin-top: 8px;
+        overflow-x: auto;
+        white-space: pre;
+      }
+      .alert {
+        border-left: 4px solid;
+        padding: 12px 14px;
+        border-radius: 0 6px 6px 0;
+        margin-bottom: 12px;
+        font-size: 13px;
+      }
+      .alert-warn {
+        background: #fffbeb;
+        border-color: #f59e0b;
+      }
+      .alert-err {
+        background: #fef2f2;
+        border-color: #ef4444;
+      }
+      .alert-info {
+        background: #eff6ff;
+        border-color: #3b82f6;
+      }
+      .alert-ok {
+        background: #f0fdf4;
+        border-color: #22c55e;
+      }
+      .status-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        padding: 16px 20px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+      }
+      .status-item {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .status-item .label {
+        font-size: 10px;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+      }
+      .status-item .value {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1a1a2e;
+      }
+      .git-block {
+        background: #0f172a;
+        color: #e2e8f0;
+        border-radius: 8px;
+        padding: 16px 18px;
+        margin-top: 8px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 12px;
+        line-height: 1.8;
+      }
+      .git-block .comment {
+        color: #94a3b8;
+      }
+      .git-block .cmd {
+        color: #7dd3fc;
+      }
+      .final-status {
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a9e 100%);
+        color: #fff;
+        border-radius: 10px;
+        padding: 20px 24px;
+        margin-top: 32px;
+        text-align: center;
+      }
+      .final-status .label {
+        font-size: 11px;
+        opacity: 0.7;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 6px;
+      }
+      .final-status .value {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .print-btn {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: #1e3a5f;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+      }
+      .print-btn:hover {
+        background: #2d5a9e;
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 680px) {
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-header">
+      <h1>
+        BH-1121 — Validation Checklist: Commercialization__c Custom Object
+      </h1>
+      <div class="meta">
+        <span>Ticket: BH-1121</span>
+        <span>Story Points: 5</span>
+        <span>Sprint: Phase 1A (Week 1)</span>
+        <span>Org: UHN-SANDBOX (uhn--aar1.sandbox.my.salesforce.com)</span>
+        <span>Branch: feature/bh-1121</span>
+        <span>Date: 2026-06-02</span>
+        <span>Assignee: Chuck</span>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <div class="status-item">
+          <div class="label">Object</div>
+          <div class="value">Commercialization__c</div>
+        </div>
+        <div class="status-item">
+          <div class="label">Fields Deployed</div>
+          <div class="value">8 / 8 (shell)</div>
+        </div>
+        <div class="status-item">
+          <div class="label">Tab</div>
+          <div class="value">Deployed ✓</div>
+        </div>
+        <div class="status-item">
+          <div class="label">AAR_Admin Permissions</div>
+          <div class="value">SOQL Verified ✓</div>
+        </div>
+        <div class="status-item">
+          <div class="label">EC Perm Sets (3)</div>
+          <div class="value">SOQL Verified ✓</div>
+        </div>
+        <div class="status-item">
+          <div class="label">App Tab</div>
+          <div class="value badge badge-blocked">Manual Needed</div>
+        </div>
+        <div class="status-item">
+          <div class="label">PR Status</div>
+          <div class="value badge badge-pending">Pending</div>
+        </div>
+      </div>
+
+      <!-- Blockers -->
+      <div class="alert alert-err">
+        <strong>Action Required Before PR:</strong> Delete the misplaced file to
+        clear the SF CLI TypeInferenceError.<br />
+        Run in terminal:
+        <code
+          >! Remove-Item
+          "force-app\main\default\objects\AAR_Recognition__c\layouts\AAR_Recognition__c-Manual
+          Entry Layout.layout-meta.xml" -Force</code
+        ><br />
+        After deletion: retrieve the Research Strategy app, add the
+        Commercializations tab, redeploy the app, then commit and push.
+      </div>
+      <div class="alert alert-warn">
+        <strong>Manual Step Required:</strong> Commercializations tab must be
+        added to the Research Strategy (UHN_Grant_Applications) app.<br />
+        Setup → App Manager → Research Strategy → Edit → Navigation Items → Add
+        Commercializations → Save.
+      </div>
+
+      <!-- Deployment Summary -->
+      <h2>1. Deployment Summary</h2>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Metadata Type</th>
+              <th>API Name</th>
+              <th>Action</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CustomObject</td>
+              <td>Commercialization__c</td>
+              <td>Deployed</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>CustomField</td>
+              <td>
+                Commercialization__c.Wellspring_ID__c — Text(80), External ID,
+                Unique, Required
+              </td>
+              <td>Deployed</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>CustomField</td>
+              <td>
+                Commercialization__c.Contact__c — Lookup(Contact), "PI /
+                Inventor", Required
+              </td>
+              <td>Deployed</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>CustomField</td>
+              <td>
+                Commercialization__c.AAR_Record__c — Lookup(UHN_AAR__c),
+                Optional
+              </td>
+              <td>Deployed + Relationship Name Fixed</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>CustomField</td>
+              <td>Commercialization__c.Title__c — Text(255), Required</td>
+              <td>Deployed</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>CustomField</td>
+              <td>Commercialization__c.Type__c — Picklist</td>
+              <td>Deployed (ahead of spec)</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>CustomField</td>
+              <td>Commercialization__c.Status__c — Picklist</td>
+              <td>Deployed (ahead of spec)</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>CustomField</td>
+              <td>Commercialization__c.Filing_Date__c — Date</td>
+              <td>Deployed (ahead of spec)</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>CustomField</td>
+              <td>Commercialization__c.Grant_Date__c — Date</td>
+              <td>Deployed (ahead of spec)</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>Layout</td>
+              <td>Commercialization__c-Commercialization Layout</td>
+              <td>Deployed</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>CustomTab</td>
+              <td>Commercialization__c</td>
+              <td>Deployed</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>PermissionSet</td>
+              <td>AAR_Admin — Full CRUD + ViewAllFields + ModifyAllRecords</td>
+              <td>Deployed &amp; SOQL Verified</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>PermissionSet</td>
+              <td>AAR_PI_Access — Read-only + 5 field FLS</td>
+              <td>Deployed &amp; SOQL Verified</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>PermissionSet</td>
+              <td>AAR_Evaluator_Access — Read-only + 5 field FLS</td>
+              <td>Deployed &amp; SOQL Verified</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>PermissionSet</td>
+              <td>AAR_Institute_Leadership — Read-only + 5 field FLS</td>
+              <td>Deployed &amp; SOQL Verified</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>Layout</td>
+              <td>AAR_Recognition__c-Manual Entry Layout (relocated)</td>
+              <td>Deployed (moved from wrong dir)</td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>CustomApplication</td>
+              <td>UHN_Grant_Applications — Add Commercializations tab</td>
+              <td>Not completed</td>
+              <td><span class="badge badge-blocked">Blocked</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Structural Fixes -->
+      <h2>2. Structural Fixes Applied</h2>
+      <div class="two-col">
+        <div class="card">
+          <h3>Critical — Duplicate Relationship Name</h3>
+          <p style="font-size: 13px; line-height: 1.6; color: #374151">
+            Both <code>Contact__c</code> and <code>AAR_Record__c</code> on
+            <code>Commercialization__c</code> had
+            <code>relationshipName: Commercialization_Activities</code>. This is
+            a deploy-blocking conflict (Salesforce enforces unique relationship
+            names per object). Fixed: <code>AAR_Record__c</code> now uses
+            <code>relationshipName: Commercializations</code>.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Medium — Misplaced Layout File</h3>
+          <p style="font-size: 13px; line-height: 1.6; color: #374151">
+            <code>objects/AAR_Recognition__c/layouts/</code> is not a valid SFDX
+            source format path for layouts. File moved to
+            <code>force-app/main/default/layouts/</code> and deployed. Old file
+            still on disk — must be deleted manually then staged with
+            <code>git rm</code>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Validation Steps -->
+      <h2>3. Sandbox Validation Steps</h2>
+
+      <div class="card">
+        <h3>Object &amp; Field Verification</h3>
+        <ul class="checklist">
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">1</span>
+            <div class="step-content">
+              <strong>Verify object exists in Object Manager</strong>
+              Setup → Object Manager → search "Commercialization"
+              <div class="expected">
+                Expected: Object with label Commercialization, API name
+                Commercialization__c, Auto-Number format COMM-{0000}
+              </div>
+              <div class="if-not">
+                If not: Redeploy
+                force-app/main/default/objects/Commercialization__c/
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">2</span>
+            <div class="step-content">
+              <strong
+                >Verify Wellspring_ID__c is marked External ID + Unique</strong
+              >
+              Object Manager → Commercialization → Fields &amp; Relationships →
+              Wellspring_ID__c
+              <div class="expected">
+                Expected: Type = Text(80), External ID checkbox = checked,
+                Unique checkbox = checked
+              </div>
+              <div class="if-not">
+                If not: This will break future BH-1142 Wellspring CSV upsert —
+                redeploy the field
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">3</span>
+            <div class="step-content">
+              <strong
+                >Verify AAR_Record__c relationship label is "Commercializations"
+                (not "Commercialization Activities")</strong
+              >
+              Object Manager → Commercialization → Fields → AAR_Record__c →
+              Field Name = Commercializations
+              <div class="expected">
+                Expected: Relationship Name = Commercializations, Related To =
+                UHN AAR
+              </div>
+              <div class="if-not">
+                If still shows "Commercialization Activities": Redeploy
+                objects/Commercialization__c/fields/AAR_Record__c.field-meta.xml
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">4</span>
+            <div class="step-content">
+              <strong>Verify all 8 shell fields are present</strong>
+              Object Manager → Commercialization → Fields &amp; Relationships
+              <div class="expected">
+                Expected: Contact__c, AAR_Record__c, Title__c, Wellspring_ID__c,
+                Type__c, Status__c, Filing_Date__c, Grant_Date__c
+              </div>
+              <div class="if-not">
+                If any missing: Check deploy logs and redeploy the specific
+                field XML
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Tab &amp; Layout Verification</h3>
+        <ul class="checklist">
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">5</span>
+            <div class="step-content">
+              <strong>Verify Commercializations tab in Setup → Tabs</strong>
+              Setup → Tabs → Custom Object Tabs
+              <div class="expected">
+                Expected: "Commercializations" tab visible with Suitcase icon
+              </div>
+              <div class="if-not">
+                If missing: Redeploy
+                force-app/main/default/tabs/Commercialization__c.tab-meta.xml
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">6</span>
+            <div class="step-content">
+              <strong>Verify page layout structure</strong>
+              Object Manager → Commercialization → Page Layouts →
+              Commercialization Layout
+              <div class="expected">
+                Expected: "Information" section (2 columns: Name, AAR Record,
+                Type, Status / Contact, Title, Filing Date, Grant Date) +
+                "System Information" section (Wellspring ID)
+              </div>
+              <div class="if-not">
+                If layout is empty or wrong structure: Redeploy
+                layouts/Commercialization__c-Commercialization
+                Layout.layout-meta.xml
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">7</span>
+            <div class="step-content">
+              <strong
+                >Add Commercializations tab to Research Strategy app (manual
+                step)</strong
+              >
+              Setup → App Manager → Research Strategy → Edit → Navigation Items
+              → Add Commercializations
+              <div class="expected">
+                Expected: "Commercializations" tab appears in Research Strategy
+                app navigation bar
+              </div>
+              <div class="note">
+                Note: Source-controlled app deploy is blocked until misplaced
+                layout file is deleted. This step must be done manually in
+                Setup.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Admin Access Test (AAR_Admin Permission Set)</h3>
+        <ul class="checklist">
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">8</span>
+            <div class="step-content">
+              <strong>SOQL verify AAR_Admin object permissions</strong>
+              <div class="soql">
+                SELECT Id, PermissionsCreate, PermissionsRead, PermissionsEdit,
+                PermissionsDelete, PermissionsViewAllFields,
+                PermissionsModifyAllRecords FROM ObjectPermissions WHERE
+                SobjectType = 'Commercialization__c' AND Parent.Name =
+                'AAR_Admin'
+              </div>
+              <div class="expected">
+                Expected: Create=true, Read=true, Edit=true, Delete=true,
+                ViewAllFields=true, ModifyAllRecords=true
+              </div>
+              <div class="if-not">
+                If empty: Redeploy AAR_Admin.permissionset-meta.xml
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">9</span>
+            <div class="step-content">
+              <strong
+                >SOQL verify AAR_Admin field-level security (5 non-required
+                fields)</strong
+              >
+              <div class="soql">
+                SELECT Field, PermissionsRead, PermissionsEdit FROM
+                FieldPermissions WHERE SobjectType = 'Commercialization__c' AND
+                Parent.Name = 'AAR_Admin' ORDER BY Field
+              </div>
+              <div class="expected">
+                Expected: 5 records — AAR_Record__c, Filing_Date__c,
+                Grant_Date__c, Status__c, Type__c — all PermissionsRead=true,
+                PermissionsEdit=true
+              </div>
+              <div class="note">
+                Note: Contact__c, Title__c, Wellspring_ID__c are required=true
+                fields and do not have explicit FLS entries — visibility is
+                automatic via object permissions
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">10</span>
+            <div class="step-content">
+              <strong
+                >UI test — Create a Commercialization record as admin</strong
+              >
+              Log in as user with AAR_Admin assigned → navigate to
+              Commercializations tab → click New
+              <div class="expected">
+                Expected: New record form shows required fields. Enter a
+                Contact, Title, and Wellspring_ID__c. Save. Record auto-numbers
+                as COMM-0001.
+              </div>
+              <div class="if-not">
+                If tab not visible: Confirm tab visibility is not hidden per
+                personal customization. If form errors on required fields: Check
+                field definition.
+              </div>
+              <div class="note">
+                Note: AAR_Admin has hasActivationRequired=true (session-based
+                perm set). If admin cannot access, they may need to elevate
+                their session via Identity Verification.
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">11</span>
+            <div class="step-content">
+              <strong
+                >Verify all 8 fields visible and editable on record
+                detail</strong
+              >
+              Open the COMM-0001 record created above
+              <div class="expected">
+                Expected: All 8 fields visible and editable in the layout.
+                Wellspring ID in System Information section.
+              </div>
+              <div class="if-not">
+                If fields hidden: FLS may not be applied. Re-check AAR_Admin
+                field permissions in Setup.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>
+          Experience Cloud Access Test (PI / Evaluator / Institute Leadership)
+        </h3>
+        <ul class="checklist">
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">12</span>
+            <div class="step-content">
+              <strong
+                >SOQL verify read-only object permissions for all 3 EC perm
+                sets</strong
+              >
+              <div class="soql">
+                SELECT Parent.Name, PermissionsCreate, PermissionsRead,
+                PermissionsEdit, PermissionsDelete FROM ObjectPermissions WHERE
+                SobjectType = 'Commercialization__c' AND Parent.Name IN
+                ('AAR_PI_Access','AAR_Evaluator_Access','AAR_Institute_Leadership')
+                ORDER BY Parent.Name
+              </div>
+              <div class="expected">
+                Expected: 3 rows — each with Create=false, Read=true,
+                Edit=false, Delete=false
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">13</span>
+            <div class="step-content">
+              <strong
+                >SOQL verify 5 read-only FLS entries per EC perm set (15 records
+                total)</strong
+              >
+              <div class="soql">
+                SELECT Parent.Name, Field, PermissionsRead, PermissionsEdit FROM
+                FieldPermissions WHERE SobjectType = 'Commercialization__c' AND
+                Parent.Name IN
+                ('AAR_PI_Access','AAR_Evaluator_Access','AAR_Institute_Leadership')
+                ORDER BY Parent.Name, Field
+              </div>
+              <div class="expected">
+                Expected: 15 records — 5 fields × 3 perm sets — AAR_Record__c,
+                Filing_Date__c, Grant_Date__c, Status__c, Type__c — all
+                PermissionsRead=true, PermissionsEdit=false
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">14</span>
+            <div class="step-content">
+              <strong>UI test — Verify read-only access as PI user</strong>
+              Assign AAR_PI_Access to a test user. Log in. Navigate to
+              Commercializations.
+              <div class="expected">
+                Expected: Can VIEW existing records. Cannot create, edit, or
+                delete. New button absent or disabled.
+              </div>
+              <div class="if-not">
+                If no records visible: Sharing model is Private — PI user may
+                need record shared with them (OWD) or a sharing rule applied.
+                This is expected behaviour for the shell.
+              </div>
+              <div class="note">
+                Note: Repeat same test with AAR_Evaluator_Access and
+                AAR_Institute_Leadership users.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Relationship &amp; Integration Readiness</h3>
+        <ul class="checklist">
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">15</span>
+            <div class="step-content">
+              <strong
+                >Verify "Commercializations" related list on UHN_AAR__c
+                record</strong
+              >
+              Open any existing UHN_AAR__c record
+              <div class="expected">
+                Expected: "Commercializations" related list is available (may
+                need to be manually added to the UHN_AAR__c page layout if not
+                auto-added)
+              </div>
+              <div class="if-not">
+                If missing: Object Manager → UHN AAR → Page Layouts → Edit →
+                Related Lists → drag Commercializations to the layout
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">16</span>
+            <div class="step-content">
+              <strong>Verify Wellspring_ID__c upsert readiness</strong>
+              Setup → Object Manager → Commercialization → Fields →
+              Wellspring_ID__c → confirm "External ID" and "Unique" are both
+              checked
+              <div class="expected">
+                Expected: Both checkboxes checked — required for future BH-1142
+                CSV upsert via external ID
+              </div>
+              <div class="note">
+                Note: BH-1009/BH-1142 CSV integration remains on hold until
+                sample CSV arrives from Research Strategy
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Regression — Existing Object Stability</h3>
+        <ul class="checklist">
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">17</span>
+            <div class="step-content">
+              <strong
+                >Verify AAR_Recognition__c layout still renders
+                correctly</strong
+              >
+              Open any existing AAR_Recognition__c record
+              <div class="expected">
+                Expected: "Honours &amp; Awards" layout renders with Contact,
+                Recognition Name, Category, Date Announced, Awarding Agency,
+                External URL, Description, Data Origin fields — identical to
+                before
+              </div>
+              <div class="if-not">
+                If layout is missing or broken: The old misplaced layout file
+                may need to be cleaned up; the correctly-placed layout was
+                deployed but verify it is assigned
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">18</span>
+            <div class="step-content">
+              <strong
+                >Verify no regression on UHN_AAR__c, AAR_Submission__c,
+                AAR_Publication__c</strong
+              >
+              Open records of each type — confirm pages load, related lists
+              appear, and no unexpected errors
+              <div class="expected">
+                Expected: All existing records display normally with no new
+                errors, broken layouts, or missing fields
+              </div>
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num">19</span>
+            <div class="step-content">
+              <strong
+                >Verify Contact record shows "Commercialization Activities"
+                related list</strong
+              >
+              Open any Contact → scroll to related lists
+              <div class="expected">
+                Expected: "Commercialization Activities" related list from the
+                Contact__c lookup (relationship label unchanged — only the
+                AAR_Record__c relationship was renamed)
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Not Completed -->
+      <h2>4. Not Completed / Deferred</h2>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Reason</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>App tab: Commercializations in Research Strategy app</td>
+              <td>
+                Blocked by misplaced layout file preventing SF CLI retrieve of
+                the app. Manual Setup UI workaround available.
+              </td>
+              <td><span class="badge badge-blocked">Blocked</span></td>
+            </tr>
+            <tr>
+              <td>
+                Delete misplaced layout file at
+                objects/AAR_Recognition__c/layouts/
+              </td>
+              <td>
+                Requires user to run: Remove-Item on that path, then git rm +
+                commit
+              </td>
+              <td><span class="badge badge-pending">User Action</span></td>
+            </tr>
+            <tr>
+              <td>
+                Deferred fields: Description__c, Patent_Number__c,
+                License_Number__c, Technology_Category__c, Last_Sync_Date__c,
+                Disclosure_Date__c, Execution_Date__c, Expiration_Date__c
+              </td>
+              <td>
+                Per Apr 24 sprint decision — awaiting Wellspring sample CSV from
+                Research Strategy
+              </td>
+              <td>
+                <span class="badge badge-deferred">Deferred by Design</span>
+              </td>
+            </tr>
+            <tr>
+              <td>CSV integration (BH-1142 / BH-1009)</td>
+              <td>On hold until Wellspring CSV schema confirmed</td>
+              <td>
+                <span class="badge badge-deferred">Deferred by Design</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Lightning Record Page (FlexiPage) for Commercialization__c
+              </td>
+              <td>Not required for shell — layout-only per spec</td>
+              <td><span class="badge badge-na">Not Required</span></td>
+            </tr>
+            <tr>
+              <td>Apex tests</td>
+              <td>
+                No Apex code added for BH-1121 (object/field/permission metadata
+                only)
+              </td>
+              <td><span class="badge badge-na">N/A</span></td>
+            </tr>
+            <tr>
+              <td>manifest/retrieve-app.xml</td>
+              <td>
+                Temp file created during app retrieve attempt — delete before
+                commit
+              </td>
+              <td>
+                <span class="badge badge-pending">Delete Before Commit</span>
+              </td>
+            </tr>
+            <tr>
+              <td>BH-1142 vs BH-1009 ticket reference reconciliation</td>
+              <td>
+                Open action from original spec — two ticket numbers reference
+                the same CSV integration; confirm with Christopher King which is
+                authoritative
+              </td>
+              <td>
+                <span class="badge badge-pending">Pending Clarification</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Git Handoff -->
+      <h2>5. Git Handoff Checkpoint</h2>
+      <div class="card">
+        <h3>Files Changed on feature/bh-1121</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Change Type</th>
+              <th>Commit Ready?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                force-app/main/default/objects/Commercialization__c/fields/AAR_Record__c.field-meta.xml
+              </td>
+              <td>Modified — relationship name fix</td>
+              <td><span class="badge badge-pass">Yes</span></td>
+            </tr>
+            <tr>
+              <td>
+                force-app/main/default/tabs/Commercialization__c.tab-meta.xml
+              </td>
+              <td>New file — custom tab</td>
+              <td><span class="badge badge-pass">Yes</span></td>
+            </tr>
+            <tr>
+              <td>
+                force-app/main/default/layouts/AAR_Recognition__c-Manual Entry
+                Layout.layout-meta.xml
+              </td>
+              <td>New file — relocated from wrong path</td>
+              <td><span class="badge badge-pass">Yes</span></td>
+            </tr>
+            <tr>
+              <td>
+                force-app/main/default/permissionsets/AAR_Admin.permissionset-meta.xml
+              </td>
+              <td>Modified — added Commercialization CRUD + 5 FLS entries</td>
+              <td><span class="badge badge-pass">Yes</span></td>
+            </tr>
+            <tr>
+              <td>
+                force-app/main/default/objects/AAR_Recognition__c/layouts/AAR_Recognition__c-Manual
+                Entry Layout.layout-meta.xml
+              </td>
+              <td>Must be DELETED — misplaced file (git rm)</td>
+              <td><span class="badge badge-fail">Must Remove</span></td>
+            </tr>
+            <tr>
+              <td>manifest/retrieve-app.xml</td>
+              <td>Temp file — must be DELETED before commit</td>
+              <td><span class="badge badge-fail">Must Delete</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin-top: 16px">
+          Commit Commands (after deleting old files)
+        </h3>
+        <div class="git-block">
+          <span class="comment"
+            ># 1. Delete old misplaced layout (user must run this first)</span
+          ><br />
+          <span class="cmd"
+            >Remove-Item
+            "force-app\main\default\objects\AAR_Recognition__c\layouts\AAR_Recognition__c-Manual
+            Entry Layout.layout-meta.xml" -Force</span
+          ><br />
+          <span class="cmd">Remove-Item "manifest\retrieve-app.xml" -Force</span
+          ><br /><br />
+          <span class="comment"># 2. Stage changes</span><br />
+          <span class="cmd"
+            >git add
+            force-app/main/default/objects/Commercialization__c/fields/AAR_Record__c.field-meta.xml</span
+          ><br />
+          <span class="cmd"
+            >git add
+            force-app/main/default/tabs/Commercialization__c.tab-meta.xml</span
+          ><br />
+          <span class="cmd"
+            >git add force-app/main/default/layouts/"AAR_Recognition__c-Manual
+            Entry Layout.layout-meta.xml"</span
+          ><br />
+          <span class="cmd"
+            >git add
+            force-app/main/default/permissionsets/AAR_Admin.permissionset-meta.xml</span
+          ><br />
+          <span class="cmd"
+            >git rm
+            "force-app/main/default/objects/AAR_Recognition__c/layouts/AAR_Recognition__c-Manual
+            Entry Layout.layout-meta.xml"</span
+          ><br /><br />
+          <span class="comment"># 3. Commit</span><br />
+          <span class="cmd"
+            >git commit -m "BH-1121: Add Commercialization__c tab, fix
+            AAR_Record__c relationship name, add AAR_Admin CRUD, relocate
+            AAR_Recognition layout"</span
+          ><br /><br />
+          <span class="comment"
+            ># 4. Push — ONLY after explicit user confirmation</span
+          ><br />
+          <span class="cmd">git push -u origin feature/bh-1121</span>
+        </div>
+
+        <div class="alert alert-warn" style="margin-top: 14px">
+          <strong>Manual Push Confirmation Required.</strong><br />
+          The remote repository at
+          <strong>https://github.com/chuk-connect/UHN.git</strong> has NOT been
+          pushed to.<br />
+          No push will occur until you confirm with:
+          <em>"Confirm push to remote"</em> or
+          <em>"Proceed with remote push."</em>
+        </div>
+      </div>
+
+      <!-- Open Actions -->
+      <h2>6. Open Actions from BH-1121 Spec</h2>
+      <div class="card">
+        <ul class="checklist">
+          <li>
+            <input type="checkbox" />
+            <span class="step-num" style="background: #7c3aed">!</span>
+            <div class="step-content">
+              <strong
+                >Reconcile BH-1142 vs BH-1009 for CSV integration ticket</strong
+              >
+              BH-1121 spec technical notes cite BH-1142; the Apr 24 comment
+              cites BH-1009. Confirm with Christopher King which ticket is
+              authoritative for the Wellspring CSV integration work.
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num" style="background: #7c3aed">!</span>
+            <div class="step-content">
+              <strong
+                >Await Wellspring sample CSV from Research Strategy team</strong
+              >
+              Once CSV schema is confirmed, create a follow-up task for full
+              field build-out (Description__c, Type picklist values finalised,
+              Status picklist values, date fields, etc.)
+            </div>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span class="step-num" style="background: #7c3aed">!</span>
+            <div class="step-content">
+              <strong
+                >Confirm tab and Experience Cloud FLS scope for shell
+                delivery</strong
+              >
+              BH-1121 spec says "Confirm whether tab/app config and Experience
+              Cloud FLS apply to the shell or wait for full field set." — Tab
+              and perm set entries have been deployed. Confirm this matches
+              stakeholder expectation.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Final Status -->
+      <div class="final-status">
+        <div class="label">Final Delivery Status — BH-1121</div>
+        <div class="value">Pending User Validation in Sandbox</div>
+        <div style="font-size: 12px; opacity: 0.8; margin-top: 8px">
+          Core metadata deployed &amp; SOQL-verified · App tab requires manual
+          step · Old layout file requires user deletion · PR pending manual push
+          confirmation
+        </div>
+      </div>
+    </div>
+
+    <button class="print-btn no-print" onclick="window.print()">
+      Print / Save PDF
+    </button>
+  </body>
+</html>

@@ -2,8 +2,15 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>VR_Lock_After_Submit</fullName>
     <active>true</active>
-    <errorConditionFormula
-  >ISPICKVAL(PRIORVALUE(Status__c), 'Submitted')</errorConditionFormula>
+    <errorConditionFormula>AND(
+  ISPICKVAL(PRIORVALUE(Status__c), 'Submitted'),
+  OR(
+    ISCHANGED(Rating__c),
+    ISCHANGED(Strengths__c),
+    ISCHANGED(Concerns__c),
+    ISCHANGED(Recommendations__c)
+  )
+)</errorConditionFormula>
     <errorMessage
-  >Record is locked after submission. Rating and comment fields cannot be modified.</errorMessage>
+  >Rating and comment fields are locked once the evaluation is submitted and cannot be modified.</errorMessage>
 </ValidationRule>

@@ -125,4 +125,12 @@ private class AAR_EvaluatorGroupServiceTest {
     Test.stopTest();
     System.assert(true, 'Should complete without exception for empty input');
   }
+
+  @IsTest
+  static void addToEvaluatorsGroup_nullInput_noError() {
+    Test.startTest();
+    AAR_EvaluatorGroupService.addToEvaluatorsGroup(null);
+    Test.stopTest();
+    System.assert(true, 'Should complete without exception for null input');
+  }
 }

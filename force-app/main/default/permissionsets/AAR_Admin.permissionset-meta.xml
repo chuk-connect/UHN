@@ -439,6 +439,36 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AAR_Recognition__c.Awarding_Agency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Recognition__c.Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Recognition__c.Data_Origin__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Recognition__c.Date_Announced__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Recognition__c.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AAR_Recognition__c.External_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AAR_Startup__c.AAR_Submission__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1214,4 +1244,20 @@
         <viewAllFields>false</viewAllFields>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>AAR_Recognition__c.Manual_Entry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>UHN_Publication_Author__c.Manual_Entry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>UHN_Publication_Author__c.Proposed</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>UHN_Publication_Author__c.Verified</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
 </PermissionSet>

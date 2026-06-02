@@ -734,4 +734,20 @@
         <viewAllFields>false</viewAllFields>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>AAR_Recognition__c.Manual_Entry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>UHN_Publication_Author__c.Manual_Entry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>UHN_Publication_Author__c.Proposed</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>UHN_Publication_Author__c.Verified</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
 </PermissionSet>

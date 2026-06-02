@@ -19,10 +19,12 @@ public with sharing class UHN_Publication_Author_SourceSyncHandler {
   /**
    * Called by the Wellspring sync. Each WellspringPubPayload represents
    * one author-on-publication record from the source system.
+   * @param incoming List of WellspringPubPayload DTOs from the source system.
    */
   public static void handleIncoming(List<WellspringPubPayload> incoming) {
-    if (incoming == null || incoming.isEmpty())
+    if (incoming == null || incoming.isEmpty()) {
       return;
+    }
 
     List<VerificationReconciliationService.SourceUpsert> upserts = new List<VerificationReconciliationService.SourceUpsert>();
 
@@ -32,7 +34,8 @@ public with sharing class UHN_Publication_Author_SourceSyncHandler {
       // anything that doesn't match is silently ignored by the service.
       Map<String, Object> projection = new Map<String, Object>{
         'Title__c' => p.title,
-        'Role__c' => p.authorRole
+        'Role__c' => p.authorRole,
+        'Data_Origin__c' => 'Wellspring'
       };
 
       upserts.add(

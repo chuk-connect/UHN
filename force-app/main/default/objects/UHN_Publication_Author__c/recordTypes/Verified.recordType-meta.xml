@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Verified</fullName>
+    <active>true</active>
+    <description
+  >PI-confirmed authorship. Source fields locked. PI can augment fields. Audit stamps (Verified_By__c, Verified_At__c) set on transition from Proposed via BH-1249 Flow. Terminal state.</description>
+    <label>Verified</label>
+    <picklistValues>
+        <picklist>Data_Origin__c</picklist>
+        <values>
+            <fullName>Manual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ORCID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellspring</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Integration</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Verification_Status__c</picklist>
+        <values>
+            <fullName>Proposed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Verified</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Manual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Superseded</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

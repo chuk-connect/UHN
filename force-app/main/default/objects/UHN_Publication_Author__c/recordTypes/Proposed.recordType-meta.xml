@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposed</fullName>
+    <active>true</active>
+    <description
+  >Publication authorship suggested by an integration (e.g. ORCID). Source fields are read-only. PI must verify or reject via the BH-1249 Screen Flow launched from the Proposed page layout. Transitions to Verified via Flow.</description>
+    <label>Proposed</label>
+    <picklistValues>
+        <picklist>Data_Origin__c</picklist>
+        <values>
+            <fullName>Manual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ORCID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellspring</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Integration</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Verification_Status__c</picklist>
+        <values>
+            <fullName>Proposed</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Verified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Superseded</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -3,7 +3,7 @@
     <fullName>Recognition_Name__c</fullName>
     <externalId>false</externalId>
     <label>Recognition Name</label>
-    <length>30</length>
+    <length>255</length>
     <required>true</required>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

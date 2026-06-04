@@ -1,11 +1,13 @@
 ---
 name: salesforce-delivery-validator
-description: "After Salesforce work is completed, produce a strict handoff with what was completed, what was not completed or not verified, and a Salesforce-specific validation guide for Apex, Flow, deployments, sandbox testing, permissions, and data checks, and a final Git workflow checkpoint before PR creation and remote push."
+description: "After Salesforce work is completed, produce a strict handoff with what was completed, what was not completed or not verified, and a Salesforce-specific validation guide for Apex, Flow, deployments, sandbox testing, permissions, and data checks, and a final Git workflow checkpoint before PR creation and remote push. Safely sync local changes to remote, create or update Jira task branches, resolve conflicts conservatively, and push clean Git history without AI attribution.
+
+"
 ---
 
 # Salesforce Delivery Validator
 
-Use this skill after any Salesforce-related implementation, code completion, configuration change, deployment prep, or troubleshooting task.
+Use this skills during any Salesforce-related implementation, code completion, configuration change, deployment prep, or troubleshooting task and when the user wants to commit, branch, reconcile, and push repository changes tied to Jira issues.
 
 This skill is Salesforce-first and must prioritize:
 
@@ -19,6 +21,16 @@ This skill is Salesforce-first and must prioritize:
 - Manual confirmation before pushing to the remote repository.
 
 ## Core objective
+
+Always confirm the MCP is connected and the Skill is loaded before performing any task. All testing must be conducted in a manner that ensures no existing functionality in the sandbox is broken or adversely affected.
+
+# Goals
+
+- Sync recent verified changes from the working tree to the remote repository.
+- Create missing Jira-linked branches and update existing ones.
+- Resolve conflicts using the latest validated and tested code as the source of truth.
+- Avoid AI attribution in commit and PR metadata.
+- Never risk protected branches or secrets.
 
 After a successful Salesforce task, always produce a structured handoff that tells the user:
 
@@ -202,6 +214,16 @@ It should help the user:
 - Verify error handling.
 - Verify regression impact.
 
+# Security Notes
+
+- Ensure that all AAR fields have field security set as visible to the system administrator and account use profiles.
+
+# Delivery Summary Note
+
+- Generate the delivery summary of all implementation
+- Include a step-by-step guide of how to verify the implemented tasks
+- Create a step-by-step downloadable PDF that documents all completed tasks, along with an interactive walkthrough guide to verify each implemented task.
+
 # Apex Testing Notes
 
 - Run the relevant test class.
@@ -231,12 +253,74 @@ It should help the user:
 
 Use this file when Salesforce work is ready to move from validation to source control handoff.
 
+# Goals
+
+- Sync recent verified changes from the working tree to the remote repository.
+- Create missing Jira-linked branches and update existing ones.
+- Resolve conflicts using the latest validated and tested code as the source of truth.
+- Avoid AI attribution in commit and PR metadata.
+- Never risk protected branches or secrets.
+
 ## Required behavior
 
 - Validate the work first.
 - Prepare a pull request summary after validation.
 - Stop before any remote push unless the user manually confirms it.
 - Never assume the remote repository can be updated automatically.
+
+# Required checks
+
+- Confirm the current repository is valid and has a remote named origin.
+- Detect the validated base branch (main or develop) from repository settings or existing branch conventions.
+- Inspect working tree state with git status.
+- Refuse to proceed if sensitive files are staged or modified for commit, including .env, secrets credentials, tokens, or private keys.
+- Summarize intended actions before any history rewrite or force push.
+
+# Branch workflow
+
+Fetch latest remote state:
+git fetch --all --prune
+
+# Identify Jira issue keys from:
+
+branch names
+recent commit messages
+changed file context if clearly mapped
+
+# For each Jira task:
+
+- If no branch exists remotely, create one using repository convention.
+- If a branch exists, check it out and update it.
+
+# Use naming convention from repository config, for example:
+
+- feature/BH-1234-short-description
+- bugfix/BH-1234-short-description
+
+# Conflict policy
+
+- Prefer the most recent validated, tested, and verified implementation.
+- Do not preserve stale code just to avoid manual resolution.
+- Do not invent new logic during conflict resolution - unless required to restore tested behavior.
+- If the validated source of truth is unclear, stop and ask.
+
+# Commit policy
+
+Stage only intended files.
+Use Jira-linked commit messages.
+Do not include:
+
+- Co-Authored-By: Claude
+- Generated with Claude Code
+- any AI attribution footer
+
+Keep commit messages concise and repository-conformant.
+
+# Push policy
+
+Push task branches to origin.
+Use --force-with-lease only for non-protected branches and only when history rewrite is necessary.
+Never force-push protected branches such as main, master, or develop unless explicitly authorized.
 
 ## Manual confirmation rule
 
@@ -249,6 +333,28 @@ Before any push to the remote repository, require a clear user confirmation such
 ## Intended remote
 
 https://github.com/chuk-connect/UHN.git
+
+## Existing attribution cleanup
+
+If existing non-protected task branches contain Claude attribution in commit messages:
+
+Identify affected commits.
+Rewrite history only on those non-protected branches.
+Remove attribution lines.
+Push with --force-with-lease.
+Do not rewrite protected branch history unless explicitly authorized.
+
+# Output
+
+Report:
+
+base branch used
+branches created
+branches updated
+conflicts resolved
+commits created
+branches pushed
+any skipped actions and why
 
 ## PR handoff contents
 

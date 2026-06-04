@@ -1,3 +1,6 @@
+/**
+ * Trigger handler that generates and attaches a CSV file to a Case when management approval is set.
+ */
 public with sharing class CreateAndAttachCSVHandler {
   @TestVisible
   private static List<UHN_Transfer_Journal_Entry__c> mockExpenseEntries;
@@ -5,6 +8,14 @@ public with sharing class CreateAndAttachCSVHandler {
   @TestVisible
   private static List<UHN_Salary_Transfer_Transaction__c> mockSalaryEntries;
 
+  /**
+   * Generates and attaches CSV documents for eligible Cases.
+   * @param newCases updated Case list
+   * @param oldMap previous Case values
+   */
+  @SuppressWarnings(
+    'PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.NcssCount'
+  )
   public static void handleAfterUpdate(
     List<Case> newCases,
     Map<Id, Case> oldMap
@@ -13,7 +24,9 @@ public with sharing class CreateAndAttachCSVHandler {
     // Build a fallback lookup from RecordTypeId to label via Schema describe.
     Map<Id, String> rtIdToLabel = new Map<Id, String>();
     for (
-      Schema.RecordTypeInfo rti : Case.SObjectType.getDescribe()
+      Schema.RecordTypeInfo rti : Case.SObjectType.getDescribe(
+          SObjectDescribeOptions.DEFERRED
+        )
         .getRecordTypeInfosById()
         .values()
     ) {
@@ -24,9 +37,7 @@ public with sharing class CreateAndAttachCSVHandler {
     Map<Id, String> caseToRtName = new Map<Id, String>();
 
     for (Case c : newCases) {
-      String rtName = c.UHN_RecordType_Name__c != null
-        ? c.UHN_RecordType_Name__c
-        : rtIdToLabel.get(c.RecordTypeId);
+      String rtName = resolveRtName(c, rtIdToLabel);
       Boolean isEligibleRT =
         rtName == 'Expense Transfer Request' ||
         rtName == 'Salary Expense Transfer Request';
@@ -68,6 +79,11 @@ public with sharing class CreateAndAttachCSVHandler {
       indexToCaseId.put(versionsToInsert.size() - 1, c.Id);
     }
 
+    if (!Schema.sObjectType.ContentVersion.isCreateable()) {
+      throw new System.SecurityException(
+        'Insufficient access to create ContentVersion'
+      );
+    }
     insert versionsToInsert;
 
     Set<Id> insertedIds = new Map<Id, ContentVersion>(versionsToInsert)
@@ -77,6 +93,7 @@ public with sharing class CreateAndAttachCSVHandler {
       SELECT Id, ContentDocumentId
       FROM ContentVersion
       WHERE Id IN :insertedIds
+      WITH USER_MODE
     ]) {
       cvIdToDocId.put(cv.Id, cv.ContentDocumentId);
     }
@@ -93,7 +110,18 @@ public with sharing class CreateAndAttachCSVHandler {
       );
     }
 
+    if (!Schema.sObjectType.ContentDocumentLink.isCreateable()) {
+      throw new System.SecurityException(
+        'Insufficient access to create ContentDocumentLink'
+      );
+    }
     insert links;
+  }
+
+  private static String resolveRtName(Case c, Map<Id, String> rtIdToLabel) {
+    return c.UHN_RecordType_Name__c != null
+      ? c.UHN_RecordType_Name__c
+      : rtIdToLabel.get(c.RecordTypeId);
   }
 
   // --- Expense Transfer (UHN_Transfer_Journal_Entry__c) ---
@@ -115,6 +143,7 @@ public with sharing class CreateAndAttachCSVHandler {
             UHN_Description__c
           FROM UHN_Transfer_Journal_Entry__c
           WHERE UHN_Transfer_Request__c = :c.Id AND UHN_Is_Declined__c = FALSE
+          WITH USER_MODE
           ORDER BY UHN_CSV_SortOrder__c DESC
         ];
 
@@ -164,6 +193,7 @@ public with sharing class CreateAndAttachCSVHandler {
             UHN_Item_Text__c
           FROM UHN_Salary_Transfer_Transaction__c
           WHERE UHN_Transfer_Request__c = :c.Id AND UHN_Is_Declined__c = FALSE
+          WITH USER_MODE
           ORDER BY UHN_CSV_SortOrder__c DESC
         ];
 
@@ -195,11 +225,13 @@ public with sharing class CreateAndAttachCSVHandler {
   }
 
   private static String csvVal(Object val) {
-    if (val == null)
+    if (val == null) {
       return '';
+    }
     String s = String.valueOf(val);
-    if (s == 'null')
+    if (s == 'null') {
       return '';
+    }
     if (s.contains(',') || s.contains('"') || s.contains('\n')) {
       return '"' + s.replace('"', '""') + '"';
     }

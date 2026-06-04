@@ -1,0 +1,1624 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BH-1121 — Verification Framework Validation Checklist v3</title>
+    <style>
+      /* ===== RESET & BASE ===== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-size: 13px;
+        line-height: 1.5;
+        background: #f0f2f5;
+        color: #1e2a3a;
+      }
+
+      /* ===== LAYOUT ===== */
+      .page-wrapper {
+        max-width: 1100px;
+        margin: 24px auto;
+        background: #fff;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      /* ===== HEADER ===== */
+      .doc-header {
+        background: #1a2a4a;
+        color: #fff;
+        padding: 32px 40px 24px;
+        position: relative;
+      }
+      .doc-header .logo-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .doc-header .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: #2d9cdb;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 900;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .doc-header h1 {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        line-height: 1.2;
+      }
+      .doc-header h2 {
+        font-size: 14px;
+        font-weight: 400;
+        color: #a8bcd4;
+        margin-top: 2px;
+      }
+      .header-meta {
+        display: grid;
+        grid-template-columns: repeat(5, auto);
+        gap: 0;
+        margin-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        padding-top: 16px;
+      }
+      .header-meta .meta-item {
+        padding: 0 20px 0 0;
+        border-right: 1px solid rgba(255, 255, 255, 0.12);
+        margin-right: 20px;
+      }
+      .header-meta .meta-item:last-child {
+        border-right: none;
+        margin-right: 0;
+      }
+      .meta-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: #7a9bbf;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+      .meta-value {
+        font-size: 12px;
+        color: #d0e4f7;
+        font-weight: 500;
+      }
+      .meta-value a {
+        color: #5dade2;
+        text-decoration: none;
+      }
+      .print-btn {
+        position: absolute;
+        top: 28px;
+        right: 40px;
+        background: #2d9cdb;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 18px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        letter-spacing: 0.3px;
+        transition: background 0.2s;
+      }
+      .print-btn:hover {
+        background: #1d8fc4;
+      }
+
+      /* ===== CONTENT AREA ===== */
+      .content {
+        padding: 32px 40px;
+      }
+
+      /* ===== SECTION HEADING ===== */
+      .section-heading {
+        background: #1a2a4a;
+        color: #fff;
+        padding: 10px 18px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        border-radius: 4px 4px 0 0;
+        margin-top: 32px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-heading .sec-num {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 3px;
+        padding: 2px 7px;
+        font-size: 11px;
+      }
+      .section-body {
+        border: 1px solid #d6dde8;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        overflow: hidden;
+      }
+
+      /* ===== TABLES ===== */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+      }
+      thead tr {
+        background: #eef1f6;
+      }
+      thead th {
+        padding: 9px 12px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        color: #4a5568;
+        text-transform: uppercase;
+        border-bottom: 2px solid #c9d3e0;
+      }
+      tbody tr {
+        border-bottom: 1px solid #e8edf3;
+      }
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+      tbody tr:hover {
+        background: #f7f9fc;
+      }
+      tbody td {
+        padding: 9px 12px;
+        vertical-align: top;
+      }
+      td.num {
+        width: 36px;
+        font-weight: 700;
+        color: #7a8fa6;
+        font-size: 11px;
+      }
+      td.artifact {
+        font-weight: 600;
+        color: #1a2a4a;
+        font-size: 12px;
+      }
+      td.layer {
+        color: #4a6080;
+        font-size: 11.5px;
+      }
+      td.desc {
+        color: #2d3a4a;
+      }
+
+      /* ===== STATUS BADGES ===== */
+      .badge {
+        display: inline-block;
+        padding: 3px 9px;
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .badge-new {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #b8dfc4;
+      }
+      .badge-modified {
+        background: #cce5ff;
+        color: #004085;
+        border: 1px solid #b3d3f5;
+      }
+      .badge-complete {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #b8dfc4;
+      }
+      .badge-pending {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #f0d97a;
+      }
+      .badge-gap {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #f0d97a;
+      }
+      .badge-none {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #b8dfc4;
+      }
+      .badge-medium {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f0b8be;
+      }
+      .badge-low {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #f0d97a;
+      }
+      .badge-lowmed {
+        background: #fde8d0;
+        color: #7d4200;
+        border: 1px solid #f0c898;
+      }
+
+      /* ===== NAMING NOTE ===== */
+      .note-box {
+        background: #f0f7ff;
+        border-left: 4px solid #2d9cdb;
+        padding: 14px 18px;
+        font-size: 12.5px;
+        color: #1e3a5a;
+        line-height: 1.6;
+      }
+      .note-box strong {
+        color: #1a2a4a;
+      }
+
+      /* ===== CHECKLIST SECTION ===== */
+      .checklist-subsection {
+        background: #f5f7fa;
+        padding: 8px 14px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: #4a5568;
+        border-bottom: 1px solid #d6dde8;
+      }
+      .checklist-table table {
+        table-layout: fixed;
+      }
+      .checklist-table thead th:nth-child(1) {
+        width: 42px;
+      }
+      .checklist-table thead th:nth-child(2) {
+        width: 42px;
+      }
+      .checklist-table thead th:nth-child(3) {
+        width: 30%;
+      }
+      .checklist-table thead th:nth-child(4) {
+        width: 30%;
+      }
+      .checklist-table thead th:nth-child(5) {
+      } /* If Failed */
+
+      input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: #2d9cdb;
+        cursor: pointer;
+        margin: 0;
+      }
+      td.cb {
+        text-align: center;
+        vertical-align: middle;
+      }
+      td.step-num {
+        font-weight: 700;
+        color: #7a8fa6;
+        font-size: 11px;
+        vertical-align: middle;
+      }
+      td.step-text {
+        font-size: 12.5px;
+      }
+      td.step-text code {
+        background: #eef1f6;
+        border-radius: 3px;
+        padding: 1px 5px;
+        font-size: 11px;
+        font-family: "Consolas", "Courier New", monospace;
+        color: #1a2a4a;
+      }
+      td.expected {
+        font-size: 12px;
+        color: #2d5a27;
+      }
+      td.if-failed {
+        font-size: 11.5px;
+        color: #7d3030;
+        font-style: italic;
+      }
+
+      /* ===== RISK TABLE ===== */
+      .risk-table thead th:nth-child(1) {
+        width: 35%;
+      }
+      .risk-table thead th:nth-child(2) {
+        width: 14%;
+      }
+      .risk-table thead th:nth-child(3) {
+        width: 37%;
+      }
+      .risk-table thead th:nth-child(4) {
+        width: 14%;
+      }
+
+      /* ===== GAPS LIST ===== */
+      .gaps-list {
+        padding: 14px 20px;
+      }
+      .gap-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 10px 0;
+        border-bottom: 1px solid #e8edf3;
+      }
+      .gap-item:last-child {
+        border-bottom: none;
+      }
+      .gap-num {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #f0d97a;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        min-width: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .gap-text {
+        font-size: 12.5px;
+        color: #2d3a4a;
+        line-height: 1.5;
+      }
+      .gap-text strong {
+        color: #1a2a4a;
+      }
+
+      /* ===== GIT HANDOFF ===== */
+      .git-section {
+        padding: 20px 24px;
+      }
+      .git-meta-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .git-meta-item {
+        background: #f5f7fa;
+        border-radius: 4px;
+        padding: 10px 14px;
+        border: 1px solid #d6dde8;
+      }
+      .git-meta-item .gm-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: #6b7a8d;
+        font-weight: 700;
+        margin-bottom: 3px;
+      }
+      .git-meta-item .gm-value {
+        font-size: 12.5px;
+        color: #1a2a4a;
+        font-weight: 600;
+      }
+      .git-meta-item .gm-value a {
+        color: #2d9cdb;
+        text-decoration: none;
+      }
+      .warning-box {
+        background: #fff0f0;
+        border: 2px solid #e74c3c;
+        border-radius: 5px;
+        padding: 14px 18px;
+        margin-bottom: 16px;
+        font-size: 12.5px;
+        color: #c0392b;
+        font-weight: 700;
+        line-height: 1.5;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .warning-icon {
+        font-size: 18px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .code-block {
+        background: #1a2a4a;
+        color: #a8d8ea;
+        border-radius: 5px;
+        padding: 16px 18px;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 12px;
+        line-height: 1.7;
+        overflow-x: auto;
+        margin-top: 12px;
+      }
+      .code-block .comment {
+        color: #5d8a9e;
+      }
+      .code-block .cmd {
+        color: #7ec8e3;
+      }
+      .code-block .arg {
+        color: #b8e0b0;
+      }
+      .code-block .flag {
+        color: #f0c06a;
+      }
+
+      /* ===== FOOTER ===== */
+      .doc-footer {
+        background: #1a2a4a;
+        padding: 18px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .footer-left {
+        font-size: 11px;
+        color: #7a9bbf;
+      }
+      .footer-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .footer-status {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #f0d97a;
+        border-radius: 14px;
+        padding: 5px 16px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+      }
+
+      /* ===== LEGEND ===== */
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px 16px;
+        background: #f9fafc;
+        border-bottom: 1px solid #e0e6ed;
+        align-items: center;
+      }
+      .legend-title {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: #6b7a8d;
+        margin-right: 4px;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        color: #4a5568;
+      }
+
+      /* ===== PRINT ===== */
+      @media print {
+        body {
+          background: #fff;
+          font-size: 11px;
+        }
+        .page-wrapper {
+          max-width: 100%;
+          margin: 0;
+          box-shadow: none;
+          border-radius: 0;
+        }
+        .print-btn {
+          display: none !important;
+        }
+        .section-heading {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .doc-header {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .doc-footer {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .badge {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        thead tr {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .warning-box {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .code-block {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .gap-num {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .footer-status {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .checklist-subsection {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        tr {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <!-- ===== HEADER ===== -->
+      <div class="doc-header">
+        <button class="print-btn" onclick="window.print()">
+          &#128438; Print / Save PDF
+        </button>
+        <div class="logo-bar">
+          <div class="logo-icon">BH</div>
+          <div>
+            <h1>Business Hub Verification Framework</h1>
+            <h2>BH-1121 — Implementation Validation Checklist v3</h2>
+          </div>
+        </div>
+        <div class="header-meta">
+          <div class="meta-item">
+            <div class="meta-label">Date</div>
+            <div class="meta-value">2026-06-02</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Branch</div>
+            <div class="meta-value">feature/bh-1121</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Target Org</div>
+            <div class="meta-value">Sandbox</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Remote</div>
+            <div class="meta-value">
+              <a href="https://github.com/chuk-connect/UHN.git"
+                >github.com/chuk-connect/UHN.git</a
+              >
+            </div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">API Version</div>
+            <div class="meta-value">63.0 (unmanaged)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== LEGEND ===== -->
+      <div class="legend">
+        <span class="legend-title">Badge Legend:</span>
+        <span class="legend-item"
+          ><span class="badge badge-new">NEW</span> New artifact</span
+        >
+        <span class="legend-item"
+          ><span class="badge badge-modified">MODIFIED</span> Existing artifact
+          changed</span
+        >
+        <span class="legend-item"
+          ><span class="badge badge-complete">COMPLETE</span> Verified in
+          sandbox</span
+        >
+        <span class="legend-item"
+          ><span class="badge badge-pending">PENDING</span> Awaiting
+          validation</span
+        >
+        <span class="legend-item"
+          ><span class="badge badge-gap">GAP</span> Known gap / not
+          implemented</span
+        >
+        <span class="legend-item"
+          ><span class="badge badge-none">NONE</span> Risk resolved</span
+        >
+        <span class="legend-item"
+          ><span class="badge badge-medium">MEDIUM</span> Risk level</span
+        >
+      </div>
+
+      <div class="content">
+        <!-- ===== SECTION 1 ===== -->
+        <div class="section-heading">
+          <span class="sec-num">1</span>
+          What Was Implemented
+        </div>
+        <div class="section-body">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 36px">#</th>
+                <th style="width: 22%">Artifact</th>
+                <th style="width: 24%">Object / Layer</th>
+                <th>Description</th>
+                <th style="width: 100px">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num">1</td>
+                <td class="artifact">Is_Verified__c</td>
+                <td class="layer">UHN_Publication_Author__c</td>
+                <td class="desc">
+                  New Checkbox field — mirror of Verification_Status__c for
+                  integrations and formula references
+                </td>
+                <td><span class="badge badge-new">NEW</span></td>
+              </tr>
+              <tr>
+                <td class="num">2</td>
+                <td class="artifact">Last_Sync_At__c</td>
+                <td class="layer">AAR_Scholarly_Output__c</td>
+                <td class="desc">
+                  DateTime field — records timestamp of last inbound source sync
+                  for this record
+                </td>
+                <td><span class="badge badge-new">NEW</span></td>
+              </tr>
+              <tr>
+                <td class="num">3</td>
+                <td class="artifact">Last_Sync_At__c</td>
+                <td class="layer">UHN_Publication_Author__c</td>
+                <td class="desc">
+                  DateTime field — records timestamp of last inbound source sync
+                  for this record
+                </td>
+                <td><span class="badge badge-new">NEW</span></td>
+              </tr>
+              <tr>
+                <td class="num">4</td>
+                <td class="artifact">stampLastSyncAt()</td>
+                <td class="layer">VerificationReconciliationService.cls</td>
+                <td class="desc">
+                  Private helper method — stamps Last_Sync_At__c = now() on
+                  reconciliation Cases A, 2, and 4 (source ingest paths);
+                  skipped on Case 1 (no-op hash match) and Case 3 (drift under
+                  verified)
+                </td>
+                <td><span class="badge badge-modified">MODIFIED</span></td>
+              </tr>
+              <tr>
+                <td class="num">5</td>
+                <td class="artifact">buildFieldList() schema guard</td>
+                <td class="layer">VerificationReconciliationService.cls</td>
+                <td class="desc">
+                  Conditionally includes optional framework fields
+                  (Last_Sync_At__c, Is_Verified__c) only when present on the
+                  target object's schema — safe on older objects that predate
+                  this delivery
+                </td>
+                <td><span class="badge badge-modified">MODIFIED</span></td>
+              </tr>
+              <tr>
+                <td class="num">6</td>
+                <td class="artifact">getRecentChangeEvents()</td>
+                <td class="layer">VerificationCardController.cls</td>
+                <td class="desc">
+                  @AuraEnabled(cacheable=true) method returning recent
+                  Verification_Change_Event__c records for a given parent record
+                  — implements USER_MODE for FLS enforcement; supports audit
+                  trail panel in LWC
+                </td>
+                <td><span class="badge badge-modified">MODIFIED</span></td>
+              </tr>
+              <tr>
+                <td class="num">7</td>
+                <td class="artifact">AAR_PI_Access FLS</td>
+                <td class="layer">Permission Set</td>
+                <td class="desc">
+                  32 new fieldPermissions entries + 3 objectPermissions blocks
+                  covering AAR_Scholarly_Output__c (CRED),
+                  UHN_Publication_Author__c (CRED), and
+                  Verification_Change_Event__c (CR) — ordered alphabetically per
+                  SF XML spec
+                </td>
+                <td><span class="badge badge-modified">MODIFIED</span></td>
+              </tr>
+              <tr>
+                <td class="num">8</td>
+                <td class="artifact">AAR_PI FLS</td>
+                <td class="layer">Permission Set</td>
+                <td class="desc">
+                  Same FLS coverage as AAR_PI_Access — 32 fieldPermissions + 4
+                  objectPermissions in strict alpha order; both permsets now
+                  provide equivalent verification field access
+                </td>
+                <td><span class="badge badge-modified">MODIFIED</span></td>
+              </tr>
+              <tr>
+                <td class="num">9</td>
+                <td class="artifact">AAR_Admin FLS</td>
+                <td class="layer">Permission Set</td>
+                <td class="desc">
+                  Full CRUD + 35 fieldPermissions across all 3 objects — extends
+                  previous delivery to include Last_Sync_At__c and
+                  Is_Verified__c on both objects
+                </td>
+                <td><span class="badge badge-modified">MODIFIED</span></td>
+              </tr>
+              <tr>
+                <td class="num">10</td>
+                <td class="artifact">AAR_Institute_Leadership FLS</td>
+                <td class="layer">Permission Set</td>
+                <td class="desc">
+                  Read-only FLS for 9 verification fields + 2 new
+                  objectPermissions (Read-only) for AAR_Scholarly_Output__c and
+                  UHN_Publication_Author__c — leadership observability without
+                  edit capability
+                </td>
+                <td><span class="badge badge-modified">MODIFIED</span></td>
+              </tr>
+              <tr>
+                <td class="num">11</td>
+                <td class="artifact">verificationCard.css border removal</td>
+                <td class="layer">LWC — verificationCard</td>
+                <td class="desc">
+                  Removed 2px solid blue debug border from .card-wrapper
+                  selector; row cards now render with clean status-tinted
+                  backgrounds and no extraneous border artifact visible in
+                  production
+                </td>
+                <td><span class="badge badge-modified">MODIFIED</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ===== SECTION 2 ===== -->
+        <div class="section-heading">
+          <span class="sec-num">2</span>
+          Naming Resolution Note
+        </div>
+        <div class="section-body">
+          <div class="note-box">
+            <p>
+              <strong>Source_Record_Id__c vs External_Id__c:</strong> The
+              original BH-1121 proposal referred to a field named
+              <code
+                style="
+                  background: #daeaf8;
+                  border-radius: 3px;
+                  padding: 1px 5px;
+                  font-family: Consolas, monospace;
+                  font-size: 11px;
+                "
+                >Source_Record_Id__c</code
+              >
+              as the source-system key. The implementation uses
+              <code
+                style="
+                  background: #daeaf8;
+                  border-radius: 3px;
+                  padding: 1px 5px;
+                  font-family: Consolas, monospace;
+                  font-size: 11px;
+                "
+                >External_Id__c</code
+              >
+              for this purpose. This is an
+              <strong>intentional and safe divergence</strong> — the
+              reconciliation service uses this field only as an idempotency key
+              for upsert operations; there are no cross-reference joins that
+              depend on the name.
+            </p>
+            <p style="margin-top: 10px">
+              <strong>Last_Sync_At__c (new field):</strong> This field was not
+              present in the original proposal schema table but was added per
+              delivery spec as a first-class audit timestamp. It is stamped by
+              the reconciliation service on all ingest paths and is included in
+              all four permission sets. This is an
+              <strong>architecturally sound addition</strong> consistent with
+              the framework's append-only audit philosophy.
+            </p>
+            <p style="margin-top: 10px">
+              <strong>Source_Payload__c (implementation addition):</strong>
+              Present in the framework schema (see CLAUDE.md) but not originally
+              specified in the BH-1121 proposal body. Included as a required
+              framework field — every verifiable object must carry it. No action
+              required; FLS coverage already added in all permsets.
+            </p>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 3 ===== -->
+        <div class="section-heading">
+          <span class="sec-num">3</span>
+          Risk Resolution Summary
+        </div>
+        <div class="section-body">
+          <table class="risk-table">
+            <thead>
+              <tr>
+                <th>Risk</th>
+                <th>Original Level</th>
+                <th>Resolution</th>
+                <th>Post-Fix Level</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>No FLS on verification fields across permission sets</td>
+                <td><span class="badge badge-medium">MEDIUM</span></td>
+                <td>
+                  Added FLS to all 4 relevant permission sets (AAR_PI_Access,
+                  AAR_PI, AAR_Admin, AAR_Institute_Leadership) covering all
+                  framework fields
+                </td>
+                <td><span class="badge badge-none">NONE</span></td>
+              </tr>
+              <tr>
+                <td>
+                  No object permissions for AAR_Scholarly_Output__c on PI and
+                  Admin permsets
+                </td>
+                <td><span class="badge badge-medium">MEDIUM</span></td>
+                <td>
+                  Added CRED (Create/Read/Edit/Delete) to PI and Admin permsets;
+                  Read-only added to Institute Leadership
+                </td>
+                <td><span class="badge badge-none">NONE</span></td>
+              </tr>
+              <tr>
+                <td>
+                  Missing Is_Verified__c checkbox on UHN_Publication_Author__c
+                </td>
+                <td><span class="badge badge-low">LOW–MED</span></td>
+                <td>
+                  Field created and included in permset FLS across all 4
+                  permsets
+                </td>
+                <td><span class="badge badge-none">NONE</span></td>
+              </tr>
+              <tr>
+                <td>Missing Last_Sync_At__c on both verifiable objects</td>
+                <td><span class="badge badge-low">LOW</span></td>
+                <td>
+                  Fields created on both objects; stampLastSyncAt() helper added
+                  to reconciliation service; FLS covered in all permsets
+                </td>
+                <td><span class="badge badge-none">NONE</span></td>
+              </tr>
+              <tr>
+                <td>
+                  Missing getRecentChangeEvents() endpoint for audit trail UI
+                </td>
+                <td><span class="badge badge-low">LOW–MED</span></td>
+                <td>
+                  Method added to VerificationCardController.cls with
+                  @AuraEnabled(cacheable=true) and USER_MODE enforcement
+                </td>
+                <td><span class="badge badge-none">NONE</span></td>
+              </tr>
+              <tr>
+                <td>
+                  Solid blue debug border on verification card wrapper (UX
+                  regression)
+                </td>
+                <td><span class="badge badge-lowmed">LOW–MED (UX)</span></td>
+                <td>
+                  Border declaration removed from .card-wrapper in
+                  verificationCard.css; aesthetics restored to clean card design
+                </td>
+                <td><span class="badge badge-none">NONE</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ===== SECTION 4 ===== -->
+        <div class="section-heading">
+          <span class="sec-num">4</span>
+          Sandbox Validation Checklist
+        </div>
+        <div class="section-body checklist-table">
+          <!-- PRE-DEPLOY -->
+          <div class="checklist-subsection">A. Pre-Deploy</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Done</th>
+                <th>#</th>
+                <th>Step</th>
+                <th>Expected Result</th>
+                <th>If Failed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">1</td>
+                <td class="step-text">
+                  Run <code>npm run prettier:verify</code> from project root
+                </td>
+                <td class="expected">
+                  Exit code 0, no formatting diffs reported
+                </td>
+                <td class="if-failed">
+                  Run <code>npm run prettier</code> and re-stage affected files
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">2</td>
+                <td class="step-text">
+                  Run <code>npm run lint</code> to validate LWC JavaScript
+                </td>
+                <td class="expected">
+                  Exit code 0, zero ESLint errors or warnings
+                </td>
+                <td class="if-failed">
+                  Fix LWC lint warnings before deploying — do not suppress with
+                  eslint-disable without review
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">3</td>
+                <td class="step-text">
+                  Confirm sandbox org is connected: <code>sfdx org list</code>
+                </td>
+                <td class="expected">
+                  Target sandbox appears in the authenticated org list with a
+                  valid alias
+                </td>
+                <td class="if-failed">
+                  Run <code>sfdx org login web</code> and authenticate to the
+                  sandbox org
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- DEPLOY -->
+          <div class="checklist-subsection">B. Deploy</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Done</th>
+                <th>#</th>
+                <th>Step</th>
+                <th>Expected Result</th>
+                <th>If Failed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">4</td>
+                <td class="step-text">
+                  Run <code>sfdx force:source:deploy -p force-app</code>
+                </td>
+                <td class="expected">
+                  Deploy succeeded — 0 errors, 0 failures; component count
+                  matches expected metadata
+                </td>
+                <td class="if-failed">
+                  Check for fieldPermissions ordering errors (see Memory:
+                  Permission Set XML Ordering) or missing required field values
+                  in XML
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- SCHEMA VALIDATION -->
+          <div class="checklist-subsection">C. Schema Validation</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Done</th>
+                <th>#</th>
+                <th>Step</th>
+                <th>Expected Result</th>
+                <th>If Failed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">5</td>
+                <td class="step-text">
+                  In Object Manager, open
+                  <strong>AAR_Scholarly_Output__c</strong> → Fields &amp;
+                  Relationships → verify <strong>Last_Sync_At__c</strong>
+                </td>
+                <td class="expected">
+                  DateTime field visible in list, not required, API name exactly
+                  Last_Sync_At__c
+                </td>
+                <td class="if-failed">
+                  Redeploy the field from
+                  <code>objects/AAR_Scholarly_Output__c/fields/</code> directory
+                  individually
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">6</td>
+                <td class="step-text">
+                  Open <strong>UHN_Publication_Author__c</strong> → Fields &amp;
+                  Relationships → verify both
+                  <strong>Is_Verified__c</strong> and
+                  <strong>Last_Sync_At__c</strong>
+                </td>
+                <td class="expected">
+                  Both fields visible; Is_Verified__c is Checkbox type,
+                  Last_Sync_At__c is DateTime type
+                </td>
+                <td class="if-failed">
+                  Redeploy the field directory for UHN_Publication_Author__c;
+                  check for deploy conflicts
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">7</td>
+                <td class="step-text">
+                  Open <strong>AAR_Scholarly_Output__c</strong> →
+                  Verification_Status__c field → confirm Global Value Set
+                  binding
+                </td>
+                <td class="expected">
+                  Picklist field using shared GVS; values include Proposed,
+                  Verified, Manual, Superseded in correct order
+                </td>
+                <td class="if-failed">
+                  Check GVS deployment; confirm VerificationStatus GVS was
+                  included in force-app deploy path
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- PERMISSION SET VALIDATION -->
+          <div class="checklist-subsection">D. Permission Set Validation</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Done</th>
+                <th>#</th>
+                <th>Step</th>
+                <th>Expected Result</th>
+                <th>If Failed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">8</td>
+                <td class="step-text">
+                  Setup → Permission Sets → <strong>AAR PI Access</strong> →
+                  Object Settings → AAR Scholarly Output
+                </td>
+                <td class="expected">
+                  Object permissions show: Read ✓ Create ✓ Edit ✓ Delete ✓ (no
+                  View All / Modify All)
+                </td>
+                <td class="if-failed">
+                  Check XML ordering in permset file — fieldPermissions must
+                  appear before hasActivationRequired/label; redeploy permset
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">9</td>
+                <td class="step-text">
+                  Within AAR PI Access → AAR Scholarly Output field permissions
+                  — check Verification_Status__c, Is_Verified__c,
+                  Source_Payload__c, Override_Payload__c
+                </td>
+                <td class="expected">
+                  All four fields show Read Access enabled;
+                  Verification_Status__c and Override_Payload__c also show Edit
+                  Access
+                </td>
+                <td class="if-failed">
+                  Inspect FLS XML entries; confirm editable=true/false values
+                  match intended access model; redeploy
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">10</td>
+                <td class="step-text">
+                  Check <strong>AAR Admin</strong> → Object Settings →
+                  Verification Change Event object permissions
+                </td>
+                <td class="expected">
+                  Create ✓ and Read ✓ only — Edit and Delete must NOT be checked
+                  (append-only by framework design)
+                </td>
+                <td class="if-failed">
+                  Review XML for AAR_Admin permset; correct objectPermissions
+                  block for Verification_Change_Event__c to CR only
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">11</td>
+                <td class="step-text">
+                  Assign <strong>AAR PI Access</strong> to a test PI user →
+                  navigate to an AAR Scholarly Output record
+                </td>
+                <td class="expected">
+                  Record is visible; verification fields
+                  (Verification_Status__c, Source_Payload__c, etc.) are visible
+                  on the record detail page
+                </td>
+                <td class="if-failed">
+                  Check OWD settings for AAR_Scholarly_Output__c; verify sharing
+                  rules if OWD is Private; confirm permset was saved and
+                  activated
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- FUNCTIONAL VERIFICATION CARD TEST -->
+          <div class="checklist-subsection">
+            E. Functional Verification Card Test
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Done</th>
+                <th>#</th>
+                <th>Step</th>
+                <th>Expected Result</th>
+                <th>If Failed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">12</td>
+                <td class="step-text">
+                  As PI user, open an AAR page with the verification card placed
+                  for <strong>AAR_Scholarly_Output__c</strong>
+                </td>
+                <td class="expected">
+                  Card loads without error; verification rows are visible; no
+                  blue border surrounds the card wrapper
+                </td>
+                <td class="if-failed">
+                  Check LWC deployment completed; verify page layout assignment
+                  includes the verificationCard component with correct
+                  properties
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">13</td>
+                <td class="step-text">
+                  Click <strong>Verify</strong> on a Proposed row
+                </td>
+                <td class="expected">
+                  Row background turns green (Verified); Last_Sync_At__c is NOT
+                  updated by the verify action (only ingest paths stamp it)
+                </td>
+                <td class="if-failed">
+                  Check Verification_Change_Event__c Create permission on PI
+                  permset; inspect browser console and Apex debug log for DML
+                  errors
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">14</td>
+                <td class="step-text">
+                  Click <strong>Edit</strong> on a Verified row, modify a field
+                  value, click <strong>Save &amp; Verify</strong>
+                </td>
+                <td class="expected">
+                  Edited field shows dashed blue underline + pencil icon in the
+                  row; hovering the icon reveals the original source value as a
+                  tooltip
+                </td>
+                <td class="if-failed">
+                  Check Override_Payload__c FLS (Edit access required); confirm
+                  verificationCard.js override logic and LWC re-render on save
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">15</td>
+                <td class="step-text">
+                  Click <strong>Verify All Proposed</strong> with multiple
+                  Proposed rows present
+                </td>
+                <td class="expected">
+                  All Proposed rows transition to Verified in a single
+                  operation; no 'Too many DML statements' error in debug log
+                </td>
+                <td class="if-failed">
+                  Check bulk DML pattern in controller — must use single DML
+                  list update not per-row DML; inspect governor limit debug log
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">16</td>
+                <td class="step-text">Hover over a verification row card</td>
+                <td class="expected">
+                  Row lifts ~1px with a deeper drop shadow on hover; no blue
+                  border visible anywhere on the card or its children
+                </td>
+                <td class="if-failed">
+                  Confirm CSS deployed correctly; check browser dev tools for
+                  any inherited border styles from parent components or SLDS
+                  overrides
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- APEX TEST EXECUTION -->
+          <div class="checklist-subsection">F. Apex Test Execution</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Done</th>
+                <th>#</th>
+                <th>Step</th>
+                <th>Expected Result</th>
+                <th>If Failed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">17</td>
+                <td class="step-text">
+                  Run <strong>VerificationReconciliationServiceTest</strong> in
+                  sandbox Developer Console or via CLI
+                </td>
+                <td class="expected">
+                  All test methods pass; class coverage ≥ 75%; zero unexpected
+                  DML or SOQL exceptions
+                </td>
+                <td class="if-failed">
+                  Check for REQUIRED_FIELD_MISSING on new fields
+                  (Is_Verified__c, Last_Sync_At__c); check test data factory
+                  doesn't omit required fields; fix and re-run
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">18</td>
+                <td class="step-text">
+                  Run <strong>VerificationCardControllerTest</strong> in sandbox
+                </td>
+                <td class="expected">
+                  All test methods pass including any new test for
+                  getRecentChangeEvents; coverage ≥ 75%
+                </td>
+                <td class="if-failed">
+                  Add test coverage for getRecentChangeEvents if missing; check
+                  mock data setup for Verification_Change_Event__c records in
+                  test context
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">19</td>
+                <td class="step-text">
+                  Confirm <strong>rule1_hashMatch_isNoop</strong> test method
+                  still passes (true no-op — no DML on Case 1)
+                </td>
+                <td class="expected">
+                  Test passes; 0 DML rows written on hash-match path; no
+                  stampLastSyncAt() call triggered on Case 1
+                </td>
+                <td class="if-failed">
+                  Verify stampLastSyncAt() is guarded inside the Case 2/4
+                  branches only — the hashMatch case must short-circuit before
+                  reaching it
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- AUDIT LOG VALIDATION -->
+          <div class="checklist-subsection">G. Audit Log Validation</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Done</th>
+                <th>#</th>
+                <th>Step</th>
+                <th>Expected Result</th>
+                <th>If Failed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">20</td>
+                <td class="step-text">
+                  After a Verify action, query
+                  <code
+                    >SELECT Id, Event_Type__c, CreatedDate FROM
+                    Verification_Change_Event__c ORDER BY CreatedDate DESC LIMIT
+                    5</code
+                  >
+                </td>
+                <td class="expected">
+                  At least one row with Event_Type__c = 'Verified' and
+                  CreatedDate matching the verify action timestamp
+                </td>
+                <td class="if-failed">
+                  Check controller DML in verify path; confirm Create permission
+                  on Verification_Change_Event__c is present on PI permset
+                </td>
+              </tr>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">21</td>
+                <td class="step-text">
+                  Trigger a source re-sync on a Verified record where source
+                  data has changed
+                </td>
+                <td class="expected">
+                  A new Verification_Change_Event__c row with Event_Type__c =
+                  'Source Changed Under Verified' is written; the main record is
+                  NOT updated (drift preserved)
+                </td>
+                <td class="if-failed">
+                  Check reconciliation service Case 3 branch logic; confirm
+                  drift-detection writes an audit event without mutating the
+                  Verified record
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- INSTITUTE LEADERSHIP TEST -->
+          <div class="checklist-subsection">
+            H. Institute Leadership Access Test
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Done</th>
+                <th>#</th>
+                <th>Step</th>
+                <th>Expected Result</th>
+                <th>If Failed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cb"><input type="checkbox" /></td>
+                <td class="step-num">22</td>
+                <td class="step-text">
+                  Assign <strong>AAR Institute Leadership</strong> permset to a
+                  test user → navigate to an AAR Scholarly Output record
+                </td>
+                <td class="expected">
+                  Verification_Status__c and Is_Verified__c are visible in
+                  read-only mode; no Edit button or inline-edit available on
+                  these fields
+                </td>
+                <td class="if-failed">
+                  Check FLS XML — editable must be false for all fields in
+                  AAR_Institute_Leadership permset; confirm OWD allows Read
+                  access at minimum
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- end section-body -->
+
+        <!-- ===== SECTION 5 ===== -->
+        <div class="section-heading">
+          <span class="sec-num">5</span>
+          Known Gaps — Items NOT Implemented in This Delivery
+        </div>
+        <div class="section-body">
+          <div class="gaps-list">
+            <div class="gap-item">
+              <div class="gap-num">1</div>
+              <div class="gap-text">
+                <strong
+                  >Is_Verified__c sync trigger for UHN_Publication_Author__c not
+                  created.</strong
+                >
+                The checkbox field exists but no trigger or handler was built to
+                bidirectionally sync Is_Verified__c with Verification_Status__c
+                on this object. The existing
+                AAR_ScholarlyOutput_VerificationSync.trigger provides the
+                reference pattern but has not been cloned for
+                UHN_Publication_Author__c. This field will remain out of sync
+                until a future delivery adds the trigger.
+              </div>
+            </div>
+            <div class="gap-item">
+              <div class="gap-num">2</div>
+              <div class="gap-text">
+                <strong
+                  >getRecentChangeEvents() is not yet wired in the LWC.</strong
+                >
+                The Apex method exists on VerificationCardController.cls and is
+                callable, but verificationCard.js does not invoke it and there
+                is no audit trail panel rendered in the component HTML. A future
+                delivery will need to add the UI panel and wire the @wire or
+                imperative call in the LWC.
+              </div>
+            </div>
+            <div class="gap-item">
+              <div class="gap-num">3</div>
+              <div class="gap-text">
+                <strong
+                  >New field test coverage — stampLastSyncAt() not yet asserted
+                  in any test class.</strong
+                >
+                The helper is invoked on Cases A, 2, and 4 but no existing test
+                method asserts that Last_Sync_At__c is populated after a
+                reconciliation run. Test coverage for this method should be
+                added before the next delivery cycle.
+              </div>
+            </div>
+            <div class="gap-item">
+              <div class="gap-num">4</div>
+              <div class="gap-text">
+                <strong
+                  >Last_Sync_At__c is intentionally NOT stamped on Case 3 (drift
+                  detected) or Case 1 (no-op hash match).</strong
+                >
+                This is by design — only genuine ingest paths (Cases A, 2, 4)
+                should update the sync timestamp. No action required, but
+                testers should be aware that a failed sync or a drift-detection
+                pass will not update this field.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 6 ===== -->
+        <div class="section-heading">
+          <span class="sec-num">6</span>
+          Git Handoff
+        </div>
+        <div class="section-body">
+          <div class="git-section">
+            <div class="git-meta-grid">
+              <div class="git-meta-item">
+                <div class="gm-label">Branch</div>
+                <div class="gm-value">feature/bh-1121</div>
+              </div>
+              <div class="git-meta-item">
+                <div class="gm-label">Remote</div>
+                <div class="gm-value">
+                  <a href="https://github.com/chuk-connect/UHN.git"
+                    >https://github.com/chuk-connect/UHN.git</a
+                  >
+                </div>
+              </div>
+              <div class="git-meta-item">
+                <div class="gm-label">Push Status</div>
+                <div class="gm-value" style="color: #c0392b">
+                  NOT pushed to remote
+                </div>
+              </div>
+              <div class="git-meta-item">
+                <div class="gm-label">PR Status</div>
+                <div class="gm-value" style="color: #856404">
+                  Not yet created
+                </div>
+              </div>
+            </div>
+
+            <div class="warning-box">
+              <span class="warning-icon">&#9888;</span>
+              <div>
+                STOP — MANUAL CONFIRMATION REQUIRED BEFORE ANY REMOTE PUSH.<br />
+                The user must explicitly confirm sandbox validation is complete
+                and all checklist items above are satisfied before running git
+                push or gh pr create. Never assume permission to push to the
+                remote repository.
+              </div>
+            </div>
+
+            <p style="font-size: 12.5px; color: #2d3a4a; margin-bottom: 8px">
+              After all sandbox validation steps above are confirmed, run the
+              following commands in sequence:
+            </p>
+            <div class="code-block">
+              <span class="comment"
+                ># Stage all force-app changes for this delivery</span
+              >
+              <span class="cmd">git add</span>
+              <span class="arg">force-app/</span>
+
+              <span class="comment"
+                ># Commit with BH ticket reference and delivery summary</span
+              >
+              <span class="cmd">git commit -m</span>
+              <span class="arg"
+                >"BH-1121: Close FLS gaps, add Last_Sync_At__c + Is_Verified__c,
+                wire getRecentChangeEvents, clean VC border"</span
+              >
+
+              <span class="comment"
+                ># Push branch to remote (first push sets upstream
+                tracking)</span
+              >
+              <span class="cmd">git push</span> <span class="flag">-u</span>
+              <span class="arg">origin feature/bh-1121</span>
+
+              <span class="comment"># Open pull request into master</span>
+              <span class="cmd">gh pr create</span>
+              <span class="flag">--base</span> <span class="arg">master</span>
+              <span class="flag">--head</span>
+              <span class="arg">feature/bh-1121</span> \
+              <span class="flag">--title</span>
+              <span class="arg"
+                >"BH-1121: Verification framework FLS, schema, and UI
+                cleanup"</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end .content -->
+
+      <!-- ===== FOOTER ===== -->
+      <div class="doc-footer">
+        <div class="footer-left">
+          Business Hub Verification Framework &nbsp;|&nbsp; BH-1121 Validation
+          Checklist v3 &nbsp;|&nbsp; Generated 2026-06-02 &nbsp;|&nbsp; Branch:
+          feature/bh-1121
+        </div>
+        <div class="footer-right">
+          <span style="font-size: 11px; color: #7a9bbf">Overall Status:</span>
+          <span class="footer-status"
+            >&#9679; Pending User Validation in Sandbox</span
+          >
+        </div>
+      </div>
+    </div>
+    <!-- end .page-wrapper -->
+  </body>
+</html>

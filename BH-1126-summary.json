@@ -1,0 +1,324 @@
+{
+  "ticket": {
+    "key": "BH-1126",
+    "title": "AAR Field History Tracking Configuration",
+    "type": "Story",
+    "status": "Initial Review",
+    "priority": "Medium",
+    "project": "Business Hub",
+    "parent": "AAR Core Data Model & Security (BH-1116)",
+    "epic_link": "AAR Core Data Model & Security",
+    "reporter": "Christopher King",
+    "assignee": "Chuck",
+    "labels": ["AAR"],
+    "story_points": 2,
+    "created": "2025-12-23",
+    "updated": "2026-05-29"
+  },
+  "user_story": {
+    "as_a": "Business Hub administrator",
+    "i_want": "field history tracking enabled on AAR objects",
+    "so_that": "we have full audit trails of who changed what content and when, supporting accountability and compliance requirements"
+  },
+  "scope_revisions": {
+    "reclassified_as_checklist": {
+      "source": "Mar 2026 backlog review",
+      "decision": "Do NOT treat as standalone sprint story. Convert to checklist task within BH-987 (data model story). Developer ticks field history boxes in Setup before closing BH-987.",
+      "rationale": "Implementation is ~entirely Setup UI clicks (Object Manager → Fields & Relationships → Set History Tracking) plus one custom report type. 2 story points.",
+      "documentation_note": "Keep the detailed field-by-field spec in this story as REFERENCE DOCUMENTATION."
+    },
+    "evaluator_field_conflict": {
+      "source": "Mar 2026 backlog review",
+      "decision": "REMOVE all Evaluator_1_* and Evaluator_2_* fields from AAR_Record__c tracking list. Those fields are NOT on AAR_Record__c — per BH-1246, evaluator state lives on a separate AAR_Evaluation__c object.",
+      "replacement": "Configure field history on AAR_Evaluation__c (Rating__c, Status__c, Evaluation_Date__c at minimum)",
+      "impact": "AAR_Record__c tracked-field count drops from 20 to ~14 (core/content/metadata only)"
+    },
+    "data_protection_clarification": {
+      "source": "Apr 24, 2026 sprint kick-off",
+      "decision": "Do NOT frame Shield as the data recovery backstop. Shield = audit + field history + 7-year retention. Hourly org backups = point-in-time recovery. They are complementary, not redundant.",
+      "dod_update": "Note that backup recovery is handled at the org level independently of this story."
+    }
+  },
+  "platform_context": {
+    "shield_enabled": true,
+    "field_history_limits": {
+      "standard_salesforce": {
+        "fields_per_object": 20,
+        "retention": "18 months"
+      },
+      "with_shield": {
+        "fields_per_object": 60,
+        "retention": "7 years (10 years optional)"
+      }
+    },
+    "shield_benefits_used": [
+      "60 fields per object (vs 20 standard) — expansion capacity",
+      "7 years retention (vs 18 months) — multi-year trend analysis",
+      "Platform Event Monitoring — enhanced audit",
+      "Field Audit Trail — extended retention for critical compliance fields"
+    ]
+  },
+  "objects_to_configure": {
+    "AAR_Record__c": {
+      "history_tracking": "enabled",
+      "retention": "7 years (Shield)",
+      "original_field_count": 20,
+      "revised_field_count": 14,
+      "field_slots_reserved": 40,
+      "tracked_fields": {
+        "core_workflow": [
+          {
+            "api_name": "Status__c",
+            "rationale": "Track workflow progression",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Owner",
+            "rationale": "Track ownership changes (PI reassignment)",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Attested_By__c",
+            "rationale": "Track who signed off",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Attestation_Date__c",
+            "rationale": "Track when signed off",
+            "status": "BUILD"
+          }
+        ],
+        "content": [
+          {
+            "api_name": "Top_Constraints__c",
+            "rationale": "PI priorities and blockers",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Supervision_Narrative__c",
+            "rationale": "Content edits by PI/delegate",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Service_Narrative__c",
+            "rationale": "Content edits by PI/delegate",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Presentations__c",
+            "rationale": "Scholarly output additions",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Media_Impact__c",
+            "rationale": "Scholarly output additions",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Invited_Talks__c",
+            "rationale": "Scholarly output additions",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Postdoc_Count__c",
+            "rationale": "Supervision metrics",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Graduate_Student_Count__c",
+            "rationale": "Supervision metrics",
+            "status": "BUILD"
+          }
+        ],
+        "evaluator_review_REMOVED": {
+          "note": "REMOVED per Mar 2026 conflict resolution — these fields do not exist on AAR_Record__c. Configure on AAR_Evaluation__c instead.",
+          "previously_listed": [
+            "Evaluator_1_Name__c",
+            "Evaluator_1_Comments__c",
+            "Evaluator_1_Reviewed_Date__c",
+            "Evaluator_2_Name__c",
+            "Evaluator_2_Comments__c",
+            "Evaluator_2_Reviewed_Date__c"
+          ]
+        },
+        "metadata": [
+          {
+            "api_name": "Account__c",
+            "rationale": "Track institute reassignments",
+            "status": "BUILD"
+          },
+          {
+            "api_name": "Review_Year__c",
+            "rationale": "Track year corrections",
+            "status": "BUILD"
+          }
+        ]
+      },
+      "reserved_capacity_use_cases": [
+        "Additional evaluator fields (3rd evaluator, escalation)",
+        "Custom metrics and KPIs",
+        "Integration source tracking",
+        "Enhanced audit fields"
+      ]
+    },
+    "AAR_Evaluation__c": {
+      "history_tracking": "enabled",
+      "source": "Added per Mar 2026 evaluator conflict resolution (was not in original spec)",
+      "tracked_fields_minimum": [
+        { "api_name": "Rating__c" },
+        { "api_name": "Status__c" },
+        { "api_name": "Evaluation_Date__c" }
+      ],
+      "reference_ticket": "BH-1246 (defines AAR_Evaluation__c: Lookup to AAR_Record__c, Evaluator__c User Lookup, Rating__c, Strengths__c, Concerns__c, Recommendations__c, Evaluation_Date__c, Status__c)"
+    },
+    "AAR_Recognition__c": {
+      "history_tracking": "enabled",
+      "note": "Manual entry only — no Source__c or Is_Verified__c fields needed",
+      "tracked_fields": [
+        {
+          "api_name": "Recognition_Name__c",
+          "rationale": "Track changes to recognition/award name"
+        },
+        {
+          "api_name": "Awarding_Agency__c",
+          "rationale": "Track awarding organization"
+        },
+        {
+          "api_name": "Date_Announced__c",
+          "rationale": "Track date corrections"
+        },
+        { "api_name": "Category__c", "rationale": "Track category assignments" }
+      ]
+    },
+    "AAR_Publication__c": {
+      "history_tracking": "enabled",
+      "tracked_fields": [
+        {
+          "api_name": "Publication_Title__c",
+          "rationale": "Track title edits"
+        },
+        {
+          "api_name": "Publication_Year__c",
+          "rationale": "Track year corrections"
+        },
+        { "api_name": "Journal__c", "rationale": "Track journal attribution" },
+        {
+          "api_name": "Source__c",
+          "rationale": "Track source attribution (Manual Entry vs ORCID)"
+        },
+        {
+          "api_name": "Is_Verified__c",
+          "rationale": "Track verification status"
+        }
+      ]
+    },
+    "AAR_Scholarly_Output__c": {
+      "history_tracking": "enabled",
+      "conditional": "Only if polymorphic design retained (Phase 2). Per BH-987 Mar 2026 MVP revision, type-specific fields deferred to V1.1 — confirm object exists in MVP scope.",
+      "tracked_fields": [
+        {
+          "api_name": "Output_Type__c",
+          "rationale": "Track record type assignments"
+        },
+        { "api_name": "Title__c", "rationale": "Track title edits" },
+        { "api_name": "Date__c", "rationale": "Track date corrections" },
+        { "api_name": "Description__c", "rationale": "Track content changes" }
+      ]
+    },
+    "Commercialization__c": {
+      "history_tracking": "enabled",
+      "conditional": "Per BH-1121, object is shell-only until Wellspring CSV arrives. Only Title__c exists in MVP shell — other tracked fields apply post-CSV.",
+      "tracked_fields": [
+        { "api_name": "Title__c", "rationale": "Track title edits" },
+        {
+          "api_name": "Type__c",
+          "rationale": "Track type changes (Patent, License, etc.)"
+        },
+        { "api_name": "Status__c", "rationale": "Track status progression" },
+        { "api_name": "Filing_Date__c", "rationale": "Track date corrections" },
+        { "api_name": "Grant_Date__c", "rationale": "Track award date changes" }
+      ]
+    }
+  },
+  "standard_audit_fields_automatic": {
+    "note": "Auto-tracked on ALL objects — do NOT count toward 60-field limit",
+    "fields": [
+      "CreatedById / CreatedDate",
+      "LastModifiedById / LastModifiedDate"
+    ]
+  },
+  "simplified_attestation_pattern": {
+    "principle": "Field history makes separate Completed_By__c / Completed_Date__c fields unnecessary",
+    "delegate_activity": "LastModifiedById shows delegate user in field history",
+    "pi_signoff": "Attested_By__c must equal PI's user account"
+  },
+  "report_type": {
+    "name": "AAR Records with Field History",
+    "type": "Custom Report Type",
+    "setup_path": "Setup → Reports & Dashboards → Report Types"
+  },
+  "sample_soql": "SELECT Id, Field, OldValue, NewValue, CreatedById, CreatedDate FROM AAR_Record__History WHERE ParentId = :aarRecordId ORDER BY CreatedDate DESC",
+  "definition_of_done": [
+    "Field history tracking enabled on all AAR objects",
+    "~14 fields configured on AAR_Record__c (revised from 20 — evaluator fields moved to AAR_Evaluation__c)",
+    "Field history configured on AAR_Evaluation__c (Rating__c, Status__c, Evaluation_Date__c)",
+    "History retention set to 7 years (Shield configuration)",
+    "Key fields configured on junction objects (Recognition, Publication, Commercialization)",
+    "Custom report type created: 'AAR Records with Field History'",
+    "Test validation: Create AAR, edit key fields, verify history captured",
+    "Verify 7-year retention setting active",
+    "Documentation updated with field history access instructions and Shield retention policy",
+    "DoD does NOT frame Shield as data recovery backstop — backup recovery is handled at org level independently (hourly backups)"
+  ],
+  "setup_path": "Setup → Object Manager → AAR_Record__c → Fields & Relationships → Set History Tracking",
+  "field_selection_criteria": [
+    "Critical audit fields (attestation, status, evaluators)",
+    "High-change-frequency fields (narratives, counts, comments)",
+    "Compliance-relevant fields (Account, Review_Year)",
+    "Verification fields (Source__c, Is_Verified__c on junctions where applicable)"
+  ],
+  "storage_estimates": {
+    "assumptions": "400 PIs × avg 5 changes per field × 7 years × ~1KB per history record",
+    "with_20_tracked_fields": "~280,000 history records → ~280MB",
+    "with_60_tracked_fields": "~840,000 history records → ~840MB",
+    "verdict": "Well within Shield capacity"
+  },
+  "effort_breakdown": [
+    { "task": "Enable field history on objects", "points": 0.5 },
+    { "task": "Configure 20 fields on AAR_Record__c", "points": 0.5 },
+    { "task": "Configure fields on junction objects", "points": 0.5 },
+    { "task": "Create custom report type and test", "points": 0.5 },
+    {
+      "task": "Shield retention configuration",
+      "points": 0,
+      "note": "included, no additional effort"
+    }
+  ],
+  "dependencies": [
+    "Epic BH-1116 (Core Data Model) — AAR objects must exist first",
+    "BH-987 — AAR_Record__c, AAR_Recognition__c definitions",
+    "BH-1121 — Commercialization__c definition (shell-only currently)",
+    "BH-1246 — AAR_Evaluation__c definition",
+    "Shield implementation approved and configured (platform dependency)"
+  ],
+  "decision_log": [
+    {
+      "date": "2026-03-09",
+      "decision": "Reclassified as admin config checklist task. Recommendation: fold into BH-987 rather than running as a standalone sprint story. Keep field-level spec as reference documentation."
+    },
+    {
+      "date": "2026-03-09",
+      "decision": "Remove evaluator fields from AAR_Record__c tracking list — they don't exist on that object per BH-1246. Configure history on AAR_Evaluation__c instead. AAR_Record__c field count: 20 → ~14."
+    },
+    {
+      "date": "2026-04-24",
+      "decision": "Clarified data protection strategy: Shield + hourly org backups (complementary, not redundant). Update DoD to not frame Shield as the recovery backstop."
+    }
+  ],
+  "open_actions": [
+    "Confirm with PM whether to fold this work into BH-987 or keep as separate story",
+    "Verify AAR_Evaluation__c field API names with BH-1246 owner before configuring history",
+    "Confirm AAR_Scholarly_Output__c is in MVP scope (per BH-987 MVP revision, type-specific fields deferred — does the object itself ship?)",
+    "Coordinate with Salesforce admin to verify Shield 7-year retention is configured at org level"
+  ]
+}

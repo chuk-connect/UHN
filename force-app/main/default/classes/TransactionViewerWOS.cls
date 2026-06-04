@@ -1,11 +1,16 @@
+/**
+ * Without-sharing service class for Transaction Viewer operations.
+ * Provides @AuraEnabled endpoints for the Transaction Viewer LWC.
+ */
+@SuppressWarnings(
+  'PMD.ApexCRUDViolation,PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.NcssCount,PMD.ExcessiveClassLength'
+)
 public without sharing class TransactionViewerWOS {
   static User contextUser = [
     SELECT ID, ContactId
     FROM User
     WHERE id = :UserInfo.getUserId()
   ];
-  public class OutdatedTransactionException extends Exception {
-  }
 
   private static final Integer CASE_DESCRIPTION_MAX_LENGTH = Case.Description.getDescribe()
     .getLength();
@@ -59,6 +64,10 @@ public without sharing class TransactionViewerWOS {
     set;
   }
 
+  /** Thrown when a transaction has an outdated transferable amount. */
+  public class OutdatedTransactionException extends Exception {
+  }
+
   /**
    * A single structured filter condition sent from the LWC.
    * All fields are validated server-side before use in a dynamic SOQL query.
@@ -76,9 +85,13 @@ public without sharing class TransactionViewerWOS {
     public String valueType;
   }
 
-  // Returns the set of Journal Entry IDs that have been tagged as already transferred
-  // via paper. Runs without sharing so the exclusion set is complete regardless of
-  // whether the current user has access to the parent Case on each Transfer Journal Entry.
+  /**
+   * Returns the set of Journal Entry IDs that have been tagged as already transferred
+   * via paper. Runs without sharing so the exclusion set is complete regardless of
+   * whether the current user has access to the parent Case on each Transfer Journal Entry.
+   *
+   * @return Set<Id> of journal entry IDs already transferred via paper
+   */
   public static Set<Id> getPaperTransferredJEIds() {
     Set<Id> excludedIds = new Set<Id>();
     for (UHN_Transfer_Journal_Entry__c tje : [
@@ -92,6 +105,11 @@ public without sharing class TransactionViewerWOS {
     return excludedIds;
   }
 
+  /**
+   * Retrieves Journal Entry records for display in the transaction viewer.
+   * @param journalEntryIDs set of JE IDs to retrieve
+   * @return list of Journal Entry records with display fields
+   */
   public static List<UHN_Journal_Entry__c> getTransactions(
     Set<ID> journalEntryIDs
   ) {
@@ -121,6 +139,11 @@ public without sharing class TransactionViewerWOS {
     return journalEntriesWOS;
   }
 
+  /**
+   * Retrieves Journal Entry records for the reconciliation display view (fewer fields than getTransactions).
+   * @param journalEntryIDs set of JE IDs to retrieve
+   * @return list of Journal Entry records for reconciliation display
+   */
   public static List<UHN_Journal_Entry__c> getTransactionsRD(
     Set<ID> journalEntryIDs
   ) {
@@ -156,6 +179,7 @@ public without sharing class TransactionViewerWOS {
    *
    * @param filterCriteria  JSON of List<List<FilterCriterion>>.  Pass '[[]]' for no filter.
    * @param searchPool      JSON-serialised Set<Id> of candidate Journal Entry IDs.
+   * @return list of matching SObject records
    */
   // whereClause is assembled entirely from allowlist-validated components — see
   // buildFilterWhereClause → buildFilterClause → validateFilterField.
@@ -194,6 +218,9 @@ public without sharing class TransactionViewerWOS {
    * Converts a structured criteria list into a SOQL WHERE clause fragment.
    * Outer list = AND groups; inner list = OR'd conditions within each group.
    * Returns an empty string when criteriaGroups is null or empty.
+   *
+   * @param criteriaGroups outer AND groups each containing OR'd criteria
+   * @return SOQL WHERE clause fragment, or empty string
    */
   @TestVisible
   private static String buildFilterWhereClause(
@@ -232,6 +259,9 @@ public without sharing class TransactionViewerWOS {
    *   'number'      → bare decimal literal (Decimal.valueOf validates format)
    *   'date'        → bare YYYY-MM-DD literal (regex validates format)
    *   'dateLiteral' → SOQL date keyword validated against ALLOWED_DATE_LITERALS
+   *
+   * @param criterion the filter condition to build
+   * @return single SOQL condition string
    */
   @TestVisible
   private static String buildFilterClause(FilterCriterion criterion) {
@@ -295,6 +325,7 @@ public without sharing class TransactionViewerWOS {
    * (checked dynamically via schema describe) or an allowlisted cross-object
    * relationship path.  Comparison is case-insensitive.
    *
+   * @param field field API name or allowlisted path to validate
    * @throws IllegalArgumentException if the field is not on the allowlist.
    */
   @TestVisible
@@ -309,7 +340,13 @@ public without sharing class TransactionViewerWOS {
     throw new IllegalArgumentException('Unsupported filter field: ' + field);
   }
 
-  // Used to return typeahead search results based on transaction name
+  /**
+   * Returns typeahead search results based on transaction name.
+   *
+   * @param textInput the search string entered by the user
+   * @param searchPool JSON-serialised Set<Id> of candidate Journal Entry IDs
+   * @return list of typeahead match maps
+   */
   @AuraEnabled(cacheable=true)
   public static List<Map<String, Object>> searchTransactions(
     String textInput,
@@ -354,7 +391,13 @@ public without sharing class TransactionViewerWOS {
     }
   }
 
-  // Used to return typeahaed search results for a GL Account based on the GL description
+  /**
+   * Returns typeahead search results for a GL Account based on the GL description.
+   *
+   * @param textInput the search string entered by the user
+   * @param searchPool JSON-serialised Set<Id> of candidate GL Account IDs
+   * @return list of GL account match maps
+   */
   @AuraEnabled(cacheable=true)
   public static List<Map<String, Object>> searchGLByAccount(
     String textInput,
@@ -394,7 +437,13 @@ public without sharing class TransactionViewerWOS {
     }
   }
 
-  // Used to return typeahaed search results for a GL Account based on the GL name. The GL name is a number.
+  /**
+   * Returns typeahead search results for a GL Account based on the GL name (a number).
+   *
+   * @param textInput the search string entered by the user
+   * @param searchPool JSON-serialised Set<Id> of candidate GL Account IDs
+   * @return list of GL account match maps
+   */
   @AuraEnabled(cacheable=true)
   public static List<Map<String, Object>> searchGLByID(
     String textInput,
@@ -436,19 +485,26 @@ public without sharing class TransactionViewerWOS {
   }
 
   /**
-   * @param fccBlackList - contains atleast one value since the from FCC is always black listed
+   * Searches for target FCCs by FCC number (name field).
+   *
+   * @param textInput the search string entered by the user
+   * @param fccExcludeList - list of FCC IDs to exclude from results; always contains at least the source FCC
+   * @return list of FCC match maps
    */
   @AuraEnabled(cacheable=true)
   public static List<Map<String, Object>> searchTargetFCCsByNumber(
     String textInput,
-    String fccBlackList
+    String fccExcludeList
   ) {
     try {
       List<Map<String, Object>> mapList = new List<Map<String, Object>>();
       String regEx = textInput + '%';
       List<UHN_FCC__c> fccRes;
 
-      Set<Id> fccIDs = (Set<Id>) JSON.deserialize(fccBlackList, Set<Id>.class);
+      Set<Id> fccIDs = (Set<Id>) JSON.deserialize(
+        fccExcludeList,
+        Set<Id>.class
+      );
       fccRes = [
         SELECT name, UHN_Name__c, id
         FROM UHN_FCC__c
@@ -496,19 +552,26 @@ public without sharing class TransactionViewerWOS {
   }
 
   /**
-   * @param fccBlackList - contains atleast one value since the from FCC is always black listed
+   * Searches for target FCCs by FCC description (UHN_Name__c field).
+   *
+   * @param textInput the search string entered by the user
+   * @param fccExcludeList - list of FCC IDs to exclude from results; always contains at least the source FCC
+   * @return list of FCC match maps
    */
   @AuraEnabled(cacheable=true)
   public static List<Map<String, Object>> searchTargetFCCsByDescription(
     String textInput,
-    String fccBlackList
+    String fccExcludeList
   ) {
     try {
       List<Map<String, Object>> mapList = new List<Map<String, Object>>();
       String regEx = '%' + textInput + '%';
       List<UHN_FCC__c> fccRes;
 
-      Set<Id> fccIDs = (Set<Id>) JSON.deserialize(fccBlackList, Set<Id>.class);
+      Set<Id> fccIDs = (Set<Id>) JSON.deserialize(
+        fccExcludeList,
+        Set<Id>.class
+      );
       fccRes = [
         SELECT name, UHN_Name__c, id
         FROM UHN_FCC__c
@@ -556,13 +619,15 @@ public without sharing class TransactionViewerWOS {
   }
 
   /**
-   * Create a valid approver
+   * Create a valid approver node for the given contact.
+   * Returns an empty node if the current user is the auto approver and an auto approver has already been determined.
    *
-   * @param contactobj - a contact who can approve an ET
-   * @param isAutoApproval - determines if node will be an auto approval
-   * @param validApprovers - list of valid approvers
-   * returns - the created approver. Returns an empty node if the current user is the auto approver and a auto approver has already been determined
+   * @param contactObj a contact who can approve an ET
+   * @param isAutoApproverDetermined determines if an auto approver has already been found
+   * @param validApprovers list of valid approvers to append to
+   * @return approver node map
    */
+  @SuppressWarnings('PMD.AvoidBooleanMethodParameters')
   public static Map<String, Object> createValidApproverNode(
     Contact contactObj,
     Boolean isAutoApproverDetermined,
@@ -609,18 +674,24 @@ public without sharing class TransactionViewerWOS {
   }
 
   /**
-   * A valid approver must have their UHN_User__c field populated
-   * Reuturns a map object containing
-   *    1. a valid approver node containing all valid approvers
-   *    2. the autoApprover node which is needed to easibly identify the auto approver when prefilling daata
+   * Returns the valid approvers and auto-approver for the given target FCC.
+   * A valid approver must have their UHN_User__c field populated.
+   * Returns a map containing:
+   *    1. validApprovers — list of all valid approver nodes
+   *    2. autoApprover — the node for the auto approver (for pre-filling the UI)
+   *
+   * @param toFccId the Salesforce ID of the target FCC
+   * @param transferAmount the transfer amount used to check delegate signing limits
+   * @return map with validApprovers and autoApprover keys
    */
+  @SuppressWarnings('PMD.MethodNamingConventions,PMD.AvoidDeeplyNestedIfStmts')
   @AuraEnabled(cacheable=true)
   public static Map<String, Object> getTargetFCC_Approvers(
-    String toFCC_ID,
+    String toFccId,
     Decimal transferAmount
   ) {
     try {
-      ID fccID = ID.valueOf(toFCC_ID);
+      ID fccId = ID.valueOf(toFccId);
       // Map<String, List<Map<String, Object>>>
       Map<String, Object> autoApprover = new Map<String, Object>();
       List<Map<String, Object>> validApprovers = new List<Map<String, Object>>();
@@ -629,7 +700,7 @@ public without sharing class TransactionViewerWOS {
       List<UHN_FCC__c> fccList = [
         SELECT UHN_Contact__c, UHN_Financial_Analyst_1__c
         FROM UHN_FCC__c
-        WHERE id = :fccID
+        WHERE id = :fccId
         LIMIT 1
       ];
       UHN_FCC__c fcc = fccList.get(0);
@@ -659,7 +730,7 @@ public without sharing class TransactionViewerWOS {
           UHN_Contact__r.Email
         FROM UHN_Delegate__c
         WHERE
-          UHN_FCC__c = :fccID
+          UHN_FCC__c = :fccId
           AND (UHN_Signing_Limit__c >= :transferAmount
           OR UHN_Has_Unlimited_Signing__c = TRUE)
           AND UHN_Active_User__c = TRUE
@@ -734,11 +805,15 @@ public without sharing class TransactionViewerWOS {
     }
   }
 
+  /**
+   * Returns picklist options for ET request rationale.
+   *
+   * @return list of label/value maps
+   */
   @AuraEnabled(cacheable=true)
   public static List<Map<String, Object>> caseRationalsET() {
     try {
       List<Map<String, Object>> rationalsMapList = new List<Map<String, Object>>();
-      Map<String, Object> rationalsMap = new Map<String, Object>();
       List<Schema.PicklistEntry> pe = Schema.sObjectType.Case.fields.UHN_ET_Request_Rationale__c.getPicklistValues();
       for (Integer i = 0; i < pe.size(); i++) {
         rationalsMapList.add(
@@ -751,14 +826,18 @@ public without sharing class TransactionViewerWOS {
     }
   }
 
-  /*
-   * Do not modify the orignal transaction. This is used for cloning purposes only. Changes to the transferable amount field are
-   * calculated by a rollup summary
+  /**
+   * Creates non-salary Expense Transfer cases from the provided ET node JSON.
+   * Do not modify the original transaction — this is used for cloning purposes only.
+   * Changes to the transferable amount field are calculated by a rollup summary.
+   *
+   * @param etNodesJSON JSON-serialised List<ET_Node> describing the expense transfers to create
+   * @return list of URL_Node for created cases
    */
+  @SuppressWarnings('PMD.AvoidDeeplyNestedIfStmts')
   @AuraEnabled(cacheable=false)
   public static List<URL_Node> createNonSalaryET(String etNodesJSON) {
     try {
-      List<Case> casesToCreate = new List<Case>();
       ID caseRecordType = SObjectType.Case.getRecordTypeInfosByDeveloperName()
         .get('Transfer_Request')
         .getRecordTypeId();
@@ -780,7 +859,6 @@ public without sharing class TransactionViewerWOS {
       validateApproverSigningAuthority(validationRequests);
 
       List<Case> casesToInsert = new List<Case>();
-      List<UHN_Journal_Entry__c> splitsToInsert = new List<UHN_Journal_Entry__c>();
       Map<String, Case> etCaseIdToCreatedCase = new Map<String, Case>();
       List<UHN_Transfer_Journal_Entry__c> transferJEsToInsert = new List<UHN_Transfer_Journal_Entry__c>();
 
@@ -813,7 +891,7 @@ public without sharing class TransactionViewerWOS {
       }
       insert casesToInsert;
 
-      List<URL_Node> caseURL_Nodes = new List<URL_Node>();
+      List<URL_Node> caseUrlNodes = new List<URL_Node>();
 
       String networkId = Network.getNetworkId();
       String caseBaseUrl;
@@ -825,7 +903,7 @@ public without sharing class TransactionViewerWOS {
       }
 
       for (Case item : casesToInsert) {
-        caseURL_Nodes.add(
+        caseUrlNodes.add(
           new URL_Node(caseBaseUrl + '/' + item.id, item.Subject)
         );
       }
@@ -836,7 +914,7 @@ public without sharing class TransactionViewerWOS {
           String uniqueId =
             DateTime.now().format('yyyy-MM-dd-HH-mm-ss-SSS') +
             UUID.randomUUID().toString();
-          UHN_Transfer_Journal_Entry__c transferJE_Credit = new UHN_Transfer_Journal_Entry__c(
+          UHN_Transfer_Journal_Entry__c transferJeCredit = new UHN_Transfer_Journal_Entry__c(
             UHN_Inverse__c = false, // Credit Transaction
             UHN_Requested_Amount__c = expenseNode.transferAmount * -1,
             UHN_Amount__c = expenseNode.transferAmount * -1,
@@ -844,7 +922,7 @@ public without sharing class TransactionViewerWOS {
             UHN_Transfer_Request__c = etCaseIdToCreatedCase.get(etNode.Id).id,
             UHN_Transfer_Transaction_Pair_ID__c = uniqueId
           );
-          UHN_Transfer_Journal_Entry__c transferJE_Debit = new UHN_Transfer_Journal_Entry__c(
+          UHN_Transfer_Journal_Entry__c transferJeDebit = new UHN_Transfer_Journal_Entry__c(
             UHN_Inverse__c = true, // Debit Transasction
             UHN_Requested_Amount__c = expenseNode.transferAmount,
             UHN_Amount__c = expenseNode.transferAmount,
@@ -852,8 +930,8 @@ public without sharing class TransactionViewerWOS {
             UHN_Transfer_Request__c = etCaseIdToCreatedCase.get(etNode.Id).id,
             UHN_Transfer_Transaction_Pair_ID__c = uniqueId
           );
-          transferJEsToInsert.add(transferJE_Credit);
-          transferJEsToInsert.add(transferJE_Debit);
+          transferJEsToInsert.add(transferJeCredit);
+          transferJEsToInsert.add(transferJeDebit);
           journalEntryIdSet.add(expenseNode.transactionID);
         }
       }
@@ -985,7 +1063,7 @@ public without sharing class TransactionViewerWOS {
           }
         }
       }
-      return caseURL_Nodes;
+      return caseUrlNodes;
     } catch (Exception e) {
       String errorMsg = e.getTypeName() + ': ' + e.getMessage();
       AuraHandledException ahe = new AuraHandledException(errorMsg);
@@ -994,12 +1072,18 @@ public without sharing class TransactionViewerWOS {
     }
   }
 
+  /** DTO for a case URL returned to the LWC. */
   public class URL_Node {
     @AuraEnabled
     public String url;
     @AuraEnabled
     public String content;
 
+    /**
+     * Constructs a URL_Node with the given URL and display content.
+     * @param url full URL of the case
+     * @param content subject of the case
+     */
     public URL_Node(String url, String content) {
       this.url = url;
       this.content = content;
@@ -1026,6 +1110,7 @@ public without sharing class TransactionViewerWOS {
    * @param requests List of ApproverValidationRequest objects to validate.
    * @throws AuraHandledException if any approver lacks sufficient signing authority.
    */
+  @SuppressWarnings('PMD.AvoidDeeplyNestedIfStmts')
   public static void validateApproverSigningAuthority(
     List<ApproverValidationRequest> requests
   ) {

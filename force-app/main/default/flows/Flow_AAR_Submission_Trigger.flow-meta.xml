@@ -114,7 +114,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.Contact__c</elementReference>
+                <elementReference>$Record.Scientist__c</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -157,7 +157,7 @@
             <targetReference>Send_PI_Confirmation</targetReference>
         </connector>
         <inputAssignments>
-            <field>Submission_Date__c</field>
+            <field>Submitted_Date__c</field>
             <value>
                 <elementReference>$Flow.CurrentDateTime</elementReference>
             </value>
@@ -174,7 +174,7 @@
   ISPICKVAL({!$Record.Status__c}, &quot;Submitted&quot;),
   NOT(ISPICKVAL({!$Record__Prior.Status__c}, &quot;Submitted&quot;))
 )</filterFormula>
-        <object>UHN_AAR__c</object>
+        <object>AAR_Submission__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
@@ -188,7 +188,7 @@
 Record: {!$Record.Name}
 PI: {!varContact.FirstName} {!varContact.LastName}
 Pillar: {!$Record.Krembil_Pillar__c}
-Review Year: {!$Record.Review_Year__c}
+Review Year: {!$Record.Reporting_Year__c}
 
 Please log in to Salesforce to action this approval.</text>
     </textTemplates>
@@ -197,7 +197,7 @@ Please log in to Salesforce to action this approval.</text>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Dear {!varContact.FirstName},
 
-Your Annual Activity Report ({!$Record.Name}) for {!$Record.Review_Year__c} has been successfully submitted.
+Your Annual Activity Report ({!$Record.Name}) for {!$Record.Reporting_Year__c} has been successfully submitted.
 
 Your designated Research Admin has been notified and will review your submission. You will be contacted if any revisions are required.
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Data_Origin__c</fullName>
+    <description
+  >Indicates which system created this record. Used by RecordType assignment automation: Manual → Manual_Entry; any other value → Proposed. Set by integration processes on inbound records; defaults to Manual for PI-created records.</description>
+    <label>Data Origin</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Manual</fullName>
+                <default>true</default>
+                <label>Manual</label>
+            </value>
+            <value>
+                <fullName>Wellspring</fullName>
+                <default>false</default>
+                <label>Wellspring</label>
+            </value>
+            <value>
+                <fullName>CAPCR</fullName>
+                <default>false</default>
+                <label>CAPCR</label>
+            </value>
+            <value>
+                <fullName>FCC</fullName>
+                <default>false</default>
+                <label>FCC</label>
+            </value>
+            <value>
+                <fullName>GAM</fullName>
+                <default>false</default>
+                <label>GAM</label>
+            </value>
+            <value>
+                <fullName>HR</fullName>
+                <default>false</default>
+                <label>HR</label>
+            </value>
+            <value>
+                <fullName>Integration</fullName>
+                <default>false</default>
+                <label>Integration</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

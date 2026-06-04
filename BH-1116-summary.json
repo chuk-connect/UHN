@@ -1,0 +1,88 @@
+{
+  "epic": {
+    "id": "BH-1116",
+    "title": "AAR Core Data Model & Security",
+    "status": "To Do",
+    "priority": "Medium",
+    "type": "Epic",
+    "project": "Business Hub",
+    "reporter": "Christopher King",
+    "assignee": "Chuck",
+    "labels": ["AAR"],
+    "created": "2025-12-21",
+    "updated": "2026-05-24",
+    "dependencies": "None (foundational epic)",
+    "estimated_duration": "2-3 sprints",
+    "story_points": 60
+  },
+  "overview": "Establishes the foundational data model and security architecture for the Annual Activity Review (AAR) module. Includes all custom objects, relationships, and record-level security configurations required to support the AAR workflow.",
+  "scope": [
+    "AAR custom object and related child objects (Submission, Reviewer)",
+    "Object relationships and data model integrity",
+    "Record-level security model aligned with Business Hub governance",
+    "Evaluator permission sets and sharing rules",
+    "Field-level security configuration"
+  ],
+  "success_criteria": [
+    "All AAR objects created with appropriate fields and relationships",
+    "Security model implemented and tested",
+    "PIs can only access their own AAR records",
+    "Evaluators can access assigned AARs with appropriate read/edit permissions",
+    "Institute leadership has visibility to their institute's AARs",
+    "Data model documented and validated"
+  ],
+  "phase_transition": {
+    "decision_date": "2025-12-31",
+    "from": "MVP Phase 1",
+    "to": "Phase 2",
+    "decision_authority": {
+      "role": "Product Owner",
+      "name": "Rob Chen",
+      "note": "Approval required to proceed to Phase 2"
+    },
+    "gates": {
+      "technical_readiness": [
+        "All MVP Phase 1 stories marked Done (0 remaining open issues)",
+        "UAT sign-off from Research Institute stakeholders",
+        "Production deployment completed successfully",
+        "Zero P1/P2 defects in production",
+        "Performance benchmarks met (page load <3s, query execution <2s)"
+      ],
+      "user_adoption": [
+        "Minimum 80% PI completion rate in pilot institute",
+        "<10% support ticket volume relative to user base",
+        "Evaluator workflow validated with minimum 5 completed reviews",
+        "Institute admin dashboard actively used by at least 1 institute"
+      ],
+      "data_quality": [
+        "Integration with Grants system validated (100% match on active PIs)",
+        "Pre-population accuracy >95% (measured via PI correction rate)",
+        "Zero data integrity issues in AAR submission workflow"
+      ],
+      "governance": [
+        "Privacy impact assessment completed",
+        "Data retention policy documented and approved",
+        "Security review signed off by Information Security",
+        "Change management plan executed (training materials delivered)"
+      ]
+    }
+  },
+  "phase_2_scope_if_approved": [
+    { "id": "BH-1015", "summary": "UHN-wide roll-up dashboard" },
+    { "summary": "Advanced analytics features" },
+    { "summary": "Multi-year trending capabilities" },
+    { "summary": "Extended automation workflows" }
+  ],
+  "known_child_stories": [
+    {
+      "id": "BH-987",
+      "summary": "Create AAR custom object with attestation support and deadline configuration",
+      "status": "Initial Review"
+    },
+    {
+      "id": "BH-1246",
+      "summary": "Define evaluator assessment data model (AAR_Evaluation__c)",
+      "status": "To Do"
+    }
+  ]
+}

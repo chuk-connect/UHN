@@ -114,7 +114,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.Contact__c</elementReference>
+                <elementReference>$Record.Scientist__c</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -159,7 +159,7 @@
   ISPICKVAL({!$Record.Status__c}, &quot;Returned for Revision&quot;),
   NOT(ISPICKVAL({!$Record__Prior.Status__c}, &quot;Returned for Revision&quot;))
 )</filterFormula>
-        <object>UHN_AAR__c</object>
+        <object>AAR_Submission__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
@@ -169,7 +169,7 @@
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Dear {!varContact.FirstName},
 
-Your Annual Activity Report ({!$Record.Name}) for {!$Record.Review_Year__c} has been returned for revision.
+Your Annual Activity Report ({!$Record.Name}) for {!$Record.Reporting_Year__c} has been returned for revision.
 
 Please log in to Salesforce to review the feedback on your record and resubmit once revisions are complete.
 
@@ -180,7 +180,7 @@ Thank you.</text>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Dear {!varContact.FirstName},
 
-Your Annual Activity Report ({!$Record.Name}) for {!$Record.Review_Year__c} has been returned for revision.
+Your Annual Activity Report ({!$Record.Name}) for {!$Record.Reporting_Year__c} has been returned for revision.
 
 Reviewer Notes:
 {!varLatestPost.Body}

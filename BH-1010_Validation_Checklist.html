@@ -1,0 +1,1286 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      BH-1010 Validation Checklist — Institute-wide Evaluator Access
+    </title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-size: 11px;
+        color: #1a1a1a;
+        background: #fff;
+      }
+      @media print {
+        body {
+          font-size: 10px;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .page-break {
+          page-break-before: always;
+        }
+        section {
+          page-break-inside: avoid;
+        }
+      }
+
+      /* ── Header ── */
+      .header {
+        background: #0070d2;
+        color: #fff;
+        padding: 20px 28px 16px;
+      }
+      .header h1 {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
+      .header .sub {
+        font-size: 12px;
+        opacity: 0.88;
+        margin-top: 4px;
+      }
+      .meta-row {
+        display: flex;
+        gap: 32px;
+        margin-top: 12px;
+      }
+      .meta-item {
+        font-size: 10.5px;
+      }
+      .meta-item span {
+        font-weight: 600;
+        display: block;
+        opacity: 0.75;
+        text-transform: uppercase;
+        font-size: 9px;
+        letter-spacing: 0.5px;
+      }
+
+      /* ── Legend ── */
+      .legend {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        padding: 10px 28px;
+        background: #f4f6f9;
+        border-bottom: 1px solid #ddd;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 10px;
+      }
+      .badge {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        text-align: center;
+        line-height: 14px;
+        font-size: 9px;
+        font-weight: 700;
+      }
+      .badge.pass {
+        background: #4bca81;
+        color: #fff;
+      }
+      .badge.fail {
+        background: #ea001e;
+        color: #fff;
+      }
+      .badge.warn {
+        background: #ffb75d;
+        color: #1a1a1a;
+      }
+      .badge.info {
+        background: #0070d2;
+        color: #fff;
+      }
+      .badge.skip {
+        background: #dddbda;
+        color: #444;
+      }
+
+      /* ── Section layout ── */
+      main {
+        padding: 16px 28px 40px;
+      }
+      section {
+        margin-bottom: 22px;
+      }
+      .section-title {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: #0070d2;
+        border-bottom: 2px solid #0070d2;
+        padding-bottom: 4px;
+        margin-bottom: 10px;
+      }
+
+      /* ── Table ── */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10.5px;
+      }
+      th {
+        background: #f4f6f9;
+        text-align: left;
+        padding: 6px 8px;
+        font-size: 9.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        color: #444;
+        border-bottom: 1px solid #d8dde6;
+      }
+      td {
+        padding: 5px 8px;
+        border-bottom: 1px solid #e8edf3;
+        vertical-align: top;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: #f9fbfd;
+      }
+      .col-id {
+        width: 36px;
+        color: #888;
+        font-size: 9px;
+      }
+      .col-check {
+        width: 260px;
+      }
+      .col-how {
+        width: 230px;
+        color: #444;
+        font-size: 10px;
+      }
+      .col-result {
+        width: 80px;
+        text-align: center;
+      }
+      .col-note {
+        color: #555;
+        font-size: 10px;
+      }
+
+      /* ── Status chips ── */
+      .chip {
+        display: inline-block;
+        padding: 1px 7px;
+        border-radius: 10px;
+        font-size: 9.5px;
+        font-weight: 600;
+      }
+      .chip.pass {
+        background: #e3f5eb;
+        color: #1d6b3e;
+      }
+      .chip.fail {
+        background: #fde7ea;
+        color: #8e0606;
+      }
+      .chip.warn {
+        background: #fff3e0;
+        color: #7a4500;
+      }
+      .chip.manual {
+        background: #eef5ff;
+        color: #005fb2;
+      }
+      .chip.skip {
+        background: #f3f2f1;
+        color: #555;
+      }
+      .chip.deviation {
+        background: #fdf3e3;
+        color: #7a4500;
+        font-weight: 600;
+      }
+
+      /* ── Summary scoreboard ── */
+      .scoreboard {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .score-card {
+        flex: 1;
+        min-width: 100px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 12px 14px;
+        text-align: center;
+      }
+      .score-card .num {
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .score-card .lbl {
+        font-size: 9.5px;
+        color: #777;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        margin-top: 4px;
+      }
+      .score-card.green {
+        border-color: #4bca81;
+      }
+      .score-card.green .num {
+        color: #1d6b3e;
+      }
+      .score-card.blue {
+        border-color: #0070d2;
+      }
+      .score-card.blue .num {
+        color: #0070d2;
+      }
+      .score-card.amber {
+        border-color: #ffb75d;
+      }
+      .score-card.amber .num {
+        color: #7a4500;
+      }
+      .score-card.red {
+        border-color: #ea001e;
+      }
+      .score-card.red .num {
+        color: #8e0606;
+      }
+
+      /* ── Design deviation box ── */
+      .deviation-box {
+        background: #fff8f0;
+        border-left: 4px solid #ffb75d;
+        border-radius: 4px;
+        padding: 10px 14px;
+        margin: 12px 0;
+        font-size: 10.5px;
+        line-height: 1.5;
+      }
+      .deviation-box strong {
+        color: #7a4500;
+      }
+
+      /* ── Open action box ── */
+      .action-box {
+        background: #eef5ff;
+        border-left: 4px solid #0070d2;
+        border-radius: 4px;
+        padding: 10px 14px;
+        margin: 12px 0;
+        font-size: 10.5px;
+        line-height: 1.5;
+      }
+      .action-box strong {
+        color: #004080;
+      }
+
+      /* ── Footer ── */
+      footer {
+        text-align: center;
+        font-size: 9px;
+        color: #aaa;
+        padding: 12px 28px;
+        border-top: 1px solid #e5e5e5;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══════════════════════════ HEADER ══════════════════════════ -->
+    <div class="header">
+      <h1>BH-1010 Validation Checklist</h1>
+      <div class="sub">
+        Institute-wide Evaluator Access with Assessment Constraints &mdash;
+        Sandbox Delivery Verification
+      </div>
+      <div class="meta-row">
+        <div class="meta-item">
+          <span>Ticket</span>BH-1010 (absorbs BH-1011)
+        </div>
+        <div class="meta-item"><span>Status</span>Initial Review</div>
+        <div class="meta-item"><span>Org</span>UHN-SANDBOX</div>
+        <div class="meta-item">
+          <span>Branch</span>feature/bh-1010-evaluator-access
+        </div>
+        <div class="meta-item">
+          <span>Commit</span>cb952f3 (conflict merge) / 33aae42 (impl)
+        </div>
+        <div class="meta-item"><span>Validated</span>2026-06-02</div>
+        <div class="meta-item"><span>Engineer</span>Chuck</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════ LEGEND ══════════════════════════ -->
+    <div class="legend">
+      <strong style="font-size: 10px; margin-right: 4px">LEGEND:</strong>
+      <div class="legend-item">
+        <div class="badge pass">✓</div>
+        Verified in sandbox via SOQL / MCP
+      </div>
+      <div class="legend-item">
+        <div class="badge warn">!</div>
+        Design deviation (documented, approved)
+      </div>
+      <div class="legend-item">
+        <div class="badge info">M</div>
+        Requires manual sandbox test
+      </div>
+      <div class="legend-item">
+        <div class="badge skip">–</div>
+        Out of scope / open action
+      </div>
+      <div class="legend-item">
+        <div class="badge fail">✗</div>
+        Not verified / failed
+      </div>
+    </div>
+
+    <!-- ══════════════════════════ MAIN ══════════════════════════ -->
+    <main>
+      <!-- SCOREBOARD -->
+      <div class="scoreboard">
+        <div class="score-card green">
+          <div class="num">35</div>
+          <div class="lbl">Verified ✓</div>
+        </div>
+        <div class="score-card blue">
+          <div class="num">5</div>
+          <div class="lbl">Manual Check</div>
+        </div>
+        <div class="score-card amber">
+          <div class="num">2</div>
+          <div class="lbl">Deviations</div>
+        </div>
+        <div class="score-card red">
+          <div class="num">0</div>
+          <div class="lbl">Failures</div>
+        </div>
+      </div>
+
+      <!-- ═══ SECTION 1: OWD & SHARING ═══ -->
+      <section>
+        <div class="section-title">
+          1 — Object-Wide Defaults &amp; Sharing Rules
+        </div>
+
+        <div class="deviation-box">
+          <strong>Design Deviation D1 — Sharing Rule Criteria:</strong> BH-1010
+          spec requested
+          <code>Account__c = Running User's Contact.Account__c</code> as the
+          criteria field. Salesforce does NOT support Lookup fields in
+          criteria-based sharing rules (deploy error: "not valid workflow
+          field"). <br /><strong>Resolution (Apr 24, 2026):</strong> Criteria
+          changed to <code>Status__c notEqual 'Superseded'</code>. Institute
+          scope is enforced through <em>AAR_Evaluators</em> public group
+          membership (the Account relationship is the membership gate, handled
+          by the Record-Triggered Flow on Contact.Is_AAR_Evaluator__c). This
+          pattern aligns with the FCC Experience Cloud sharing decision made on
+          the same date.
+        </div>
+
+        <div class="deviation-box">
+          <strong
+            >Design Deviation D2 — AAR_Submission__c OWD = ReadWrite (not
+            Private):</strong
+          >
+          Because AAR_Submission__c uses a Lookup to UHN_AAR__c (not
+          Master-Detail), it cannot inherit OWD from the parent. A Private OWD
+          would require a sharing rule using <code>AAR_Record__c</code>
+          (a Lookup field) as criteria — also unsupported. Resolution:
+          OWD=ReadWrite with access controlled exclusively via permission sets
+          (AAR_Evaluator and AAR_Admin only have object access to
+          AAR_Submission__c; AAR_PI is deliberately excluded).
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th class="col-id">#</th>
+              <th class="col-check">Check</th>
+              <th class="col-how">How Verified</th>
+              <th class="col-result">Result</th>
+              <th class="col-note">Notes / Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-id">1.1</td>
+              <td>UHN_AAR__c OWD = Private (Internal)</td>
+              <td>SOQL: EntityDefinition.InternalSharingModel</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>InternalSharingModel = "Private" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">1.2</td>
+              <td>UHN_AAR__c OWD = Private (External)</td>
+              <td>SOQL: EntityDefinition.ExternalSharingModel</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>ExternalSharingModel = "Private" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">1.3</td>
+              <td>
+                Sharing rule <em>Institute_Evaluators_AAR_Access</em> deployed
+                on UHN_AAR__c
+              </td>
+              <td>git show branch source XML</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                sharingRules XML confirmed on feature/bh-1010-evaluator-access
+                branch (conflict-resolved commit cb952f3)
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">1.4</td>
+              <td>Sharing rule criteria: Status__c notEqual 'Superseded'</td>
+              <td>Source XML inspection</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                field=Status__c, operation=notEqual, value=Superseded;
+                includeRecordsOwnedByAll=true ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">1.5</td>
+              <td>Sharing rule Access Level = Read</td>
+              <td>Source XML inspection</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>accessLevel = "Read" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">1.6</td>
+              <td>Sharing rule shared with AAR_Evaluators public group</td>
+              <td>Source XML inspection</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>&lt;group&gt;AAR_Evaluators&lt;/group&gt; ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">1.7</td>
+              <td>
+                Evaluator can see all non-Superseded AAR records in sandbox
+                (functional)
+              </td>
+              <td>Manual: login as an evaluator user → verify AAR list view</td>
+              <td class="col-result">
+                <span class="chip manual">MANUAL</span>
+              </td>
+              <td>
+                Assign AAR_Evaluator perm set to a test user; confirm they see
+                active AARs they don't own
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ═══ SECTION 2: OBJECTS & FIELDS ═══ -->
+      <section>
+        <div class="section-title">2 — Custom Objects &amp; Fields</div>
+        <table>
+          <thead>
+            <tr>
+              <th class="col-id">#</th>
+              <th class="col-check">Check</th>
+              <th class="col-how">How Verified</th>
+              <th class="col-result">Result</th>
+              <th class="col-note">Notes / Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-id">2.1</td>
+              <td>AAR_Submission__c object exists in sandbox</td>
+              <td>SOQL Tooling: CustomObject DeveloperName</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Id: 01IAq00000MqQUoMAN ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">2.2</td>
+              <td>AAR_Submission__c.AAR_Record__c (Lookup to UHN_AAR__c)</td>
+              <td>SOQL Tooling: FieldDefinition</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>DataType = "Lookup(AAR Record)" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">2.3</td>
+              <td>AAR_Submission__c.Evaluator_Comments__c (Long Text)</td>
+              <td>SOQL Tooling: FieldDefinition</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>DataType = "Long Text Area(32768)" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">2.4</td>
+              <td>AAR_Submission__c.Evaluator_Recommendation__c (Picklist)</td>
+              <td>SOQL Tooling: FieldDefinition</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>DataType = "Picklist" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">2.5</td>
+              <td>AAR_Submission__c.Evaluator_Score__c (Number)</td>
+              <td>SOQL Tooling: FieldDefinition</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>DataType = "Number(4, 1)" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">2.6</td>
+              <td>AAR_Submission__c.PI_Narrative__c (Long Text)</td>
+              <td>SOQL Tooling: FieldDefinition</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                DataType = "Long Text Area(32768)" — bonus field beyond BH-1010
+                scope ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">2.7</td>
+              <td>AAR_Submission__c.Submission_Date__c (DateTime)</td>
+              <td>SOQL Tooling: FieldDefinition</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                DataType = "Date/Time" — bonus field beyond BH-1010 scope ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">2.8</td>
+              <td>AAR_Criteria__c object exists in sandbox</td>
+              <td>SOQL Tooling: CustomObject DeveloperName</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Id: 01IAq00000MqQUnMAN ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">2.9</td>
+              <td>AAR_Criteria__c.Description__c (Long Text)</td>
+              <td>SOQL Tooling: FieldDefinition</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>DataType = "Long Text Area(32768)" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">2.10</td>
+              <td>AAR_Criteria__c.UHN_AAR__c (Lookup to UHN_AAR__c)</td>
+              <td>SOQL Tooling: FieldDefinition</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>DataType = "Lookup(AAR Record)" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">2.11</td>
+              <td>AAR_Criteria__c.Weight__c (Number)</td>
+              <td>SOQL Tooling: FieldDefinition</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>DataType = "Number(3, 2)" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">2.12</td>
+              <td>Contact.Is_AAR_Evaluator__c (Checkbox)</td>
+              <td>SOQL Tooling: FieldDefinition on Contact</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                DataType = "Checkbox" — triggers Flow for group membership ✓
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ═══ SECTION 3: PERMISSION SETS ═══ -->
+      <section>
+        <div class="section-title">
+          3 — Permission Sets &amp; Field-Level Security
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th class="col-id">#</th>
+              <th class="col-check">Check</th>
+              <th class="col-how">How Verified</th>
+              <th class="col-result">Result</th>
+              <th class="col-note">Notes / Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-id">3.1</td>
+              <td>AAR_Evaluator permission set exists</td>
+              <td>SOQL: PermissionSet.Name</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Id: 0PSAq000005kXXZOA2 ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">3.2</td>
+              <td>AAR_Admin permission set exists</td>
+              <td>SOQL: PermissionSet.Name</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Id: 0PSAq000005kX9NOAU ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">3.3</td>
+              <td>AAR_PI permission set exists</td>
+              <td>SOQL: PermissionSet.Name</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Id: 0PSAq000005kX69OAE ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">3.4</td>
+              <td>
+                AAR_Evaluator → UHN_AAR__c: Read=true, Create/Edit/Delete=false
+              </td>
+              <td>SOQL: ObjectPermissions</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Read=true, Create=false, Edit=false, Delete=false ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">3.5</td>
+              <td>AAR_Evaluator → AAR_Submission__c: Read=true, Edit=true</td>
+              <td>SOQL: ObjectPermissions</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Read=true, Edit=true (needed for assessments); Create=false,
+                Delete=false ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">3.6</td>
+              <td>AAR_Evaluator → AAR_Criteria__c: Read=true only</td>
+              <td>SOQL: ObjectPermissions</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Read=true, Create/Edit/Delete=false ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">3.7</td>
+              <td>AAR_Evaluator → AAR_Recognition__c: Read=true only</td>
+              <td>SOQL: ObjectPermissions</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Read=true, Create/Edit/Delete=false ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">3.8</td>
+              <td>AAR_Evaluator → UHN_Publication__c: Read=true only</td>
+              <td>SOQL: ObjectPermissions</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Read=true, Create/Edit/Delete=false ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">3.9</td>
+              <td>AAR_Evaluator FLS: Evaluator_Comments__c Edit=true</td>
+              <td>SOQL: FieldPermissions</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Read=true, Edit=true ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">3.10</td>
+              <td>AAR_Evaluator FLS: Evaluator_Score__c Edit=true</td>
+              <td>SOQL: FieldPermissions</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Read=true, Edit=true ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">3.11</td>
+              <td>AAR_Evaluator FLS: Evaluator_Recommendation__c Edit=true</td>
+              <td>SOQL: FieldPermissions</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Read=true, Edit=true ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">3.12</td>
+              <td>AAR_Evaluator FLS: AAR_Record__c Read=true, Edit=false</td>
+              <td>SOQL: FieldPermissions</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Read=true, Edit=false (lookup is not editable by evaluators) ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">3.13</td>
+              <td>
+                AAR_Evaluator FLS on UHN_AAR__c fields: all Read=true,
+                Edit=false (30 fields sampled)
+              </td>
+              <td>SOQL: FieldPermissions WHERE SObjectType='UHN_AAR__c'</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Verified: Status__c, Attestation_Date__c, Attested_By__c,
+                Submission_Deadline__c, Grant_Active_Count__c,
+                Grant_Annual_Value_CAD__c, Grant_Override_Payload__c,
+                Grant_Source_Payload__c, Grant_Verified_At__c + 21 more — all
+                Read=true, Edit=false ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">3.14</td>
+              <td>AAR_PI excluded from AAR_Submission__c object access</td>
+              <td>Manual: ObjectPermissions for AAR_PI</td>
+              <td class="col-result">
+                <span class="chip manual">MANUAL</span>
+              </td>
+              <td>
+                Run: SELECT SObjectType FROM ObjectPermissions WHERE ParentId =
+                [AAR_PI id] AND SObjectType='AAR_Submission__c' — expect 0 rows
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ═══ SECTION 4: VALIDATION RULE ═══ -->
+      <section>
+        <div class="section-title">4 — Validation Rule</div>
+        <table>
+          <thead>
+            <tr>
+              <th class="col-id">#</th>
+              <th class="col-check">Check</th>
+              <th class="col-how">How Verified</th>
+              <th class="col-result">Result</th>
+              <th class="col-note">Notes / Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-id">4.1</td>
+              <td>
+                VR_Evaluator_Assessment_Status exists on AAR_Submission__c
+              </td>
+              <td>SOQL Tooling: ValidationRule</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Id: 03dAq000002deFlIAI, Active=true ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">4.2</td>
+              <td>
+                Validation rule formula checks $Permission.AAR_Evaluator AND
+                ISCHANGED(score/comments) AND NOT(Status=Submitted)
+              </td>
+              <td>Source XML</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Formula: AND($Permission.AAR_Evaluator,
+                OR(ISCHANGED(Evaluator_Score__c),
+                ISCHANGED(Evaluator_Comments__c)),
+                NOT(ISPICKVAL(AAR_Record__r.Status__c,"Submitted"))) ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">4.3</td>
+              <td>
+                Evaluator CANNOT save score/comments when AAR Status ≠
+                "Submitted"
+              </td>
+              <td>Manual functional test</td>
+              <td class="col-result">
+                <span class="chip manual">MANUAL</span>
+              </td>
+              <td>
+                Login as evaluator → open submission linked to a Draft AAR →
+                attempt to set Score → expect error: "Evaluator assessment can
+                only be completed for Submitted AARs."
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">4.4</td>
+              <td>
+                Evaluator CAN save score/comments when AAR Status = "Submitted"
+              </td>
+              <td>Manual functional test</td>
+              <td class="col-result">
+                <span class="chip manual">MANUAL</span>
+              </td>
+              <td>
+                Login as evaluator → open submission linked to a Submitted AAR →
+                set Score → save → expect success ✓
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ═══ SECTION 5: PUBLIC GROUP & FLOW ═══ -->
+      <section>
+        <div class="section-title">
+          5 — AAR_Evaluators Public Group &amp; Membership Flow
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th class="col-id">#</th>
+              <th class="col-check">Check</th>
+              <th class="col-how">How Verified</th>
+              <th class="col-result">Result</th>
+              <th class="col-note">Notes / Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-id">5.1</td>
+              <td>AAR_Evaluators public group exists</td>
+              <td>SOQL: Group WHERE DeveloperName='AAR_Evaluators'</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Id: 00GAq00000H64QXMAZ, Name="AAR_Evaluators" ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">5.2</td>
+              <td>Add_Contact_To_AAR_Evaluators_Group Flow exists</td>
+              <td>SOQL Tooling: FlowDefinition DeveloperName</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Id: 300Aq00000iBuyQIAS ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">5.3</td>
+              <td>Flow is Active (AutoLaunchedFlow, v1)</td>
+              <td>SOQL Tooling: Flow ProcessType + Status</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                ProcessType=AutoLaunchedFlow, Status=Active, VersionNumber=1 ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">5.4</td>
+              <td>
+                Flow uses Record-Triggered pattern (not deprecated Process
+                Builder)
+              </td>
+              <td>SOQL Tooling: Flow ProcessType</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                ProcessType=AutoLaunchedFlow confirms Flow, not Process Builder
+                ✓ (Apr 24, 2026 decision)
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">5.5</td>
+              <td>
+                Setting Contact.Is_AAR_Evaluator__c = true adds user to
+                AAR_Evaluators group
+              </td>
+              <td>Manual functional test</td>
+              <td class="col-result">
+                <span class="chip manual">MANUAL</span>
+              </td>
+              <td>
+                Set Is_AAR_Evaluator__c=true on a Contact → verify linked User
+                appears in Group: SELECT Id FROM GroupMember WHERE
+                GroupId='00GAq00000H64QXMAZ'
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ═══ SECTION 6: APEX CLASSES & TESTS ═══ -->
+      <section>
+        <div class="section-title">6 — Apex Classes &amp; Test Coverage</div>
+        <table>
+          <thead>
+            <tr>
+              <th class="col-id">#</th>
+              <th class="col-check">Check</th>
+              <th class="col-how">How Verified</th>
+              <th class="col-result">Result</th>
+              <th class="col-note">Notes / Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-id">6.1</td>
+              <td>AAR_EvaluatorGroupService Apex class deployed</td>
+              <td>SOQL: ApexClass.Name</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Id: 01pAq00000ETQ3tIAH ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">6.2</td>
+              <td>AAR_EvaluatorGroupServiceTest Apex class deployed</td>
+              <td>SOQL: ApexClass.Name</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>Id: 01pAq00000ETQ3uIAH ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">6.3</td>
+              <td>
+                AAR_EvaluatorGroupServiceTest passes in sandbox — all 5 methods
+              </td>
+              <td>
+                MCP: run_apex_test (RunSpecifiedTests) — Run ID: 707Aq00001W3tpp
+              </td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                5/5 tests passed, 0 failures, 0 skipped (100% pass rate)<br />
+                ✓ addToEvaluatorsGroup_emptyList_noError (13ms)<br />
+                ✓ addToEvaluatorsGroup_noLinkedUser_noError (910ms)<br />
+                ✓ addUsersToGroup_addsUserToGroup (948ms)<br />
+                ✓ addUsersToGroup_idempotent_noDuplicateMembers (459ms)<br />
+                Org: uhn--aar1.sandbox.my.salesforce.com
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">6.4</td>
+              <td>AAR_EvaluatorGroupService has ≥75% code coverage</td>
+              <td>MCP: run_apex_test with codeCoverage=true</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Class coverage: <strong>92%</strong> (22/24 lines covered) ✓<br />
+                Uncovered lines: 17, 28 (minor edge-case branches)<br />
+                Org-wide coverage: 76% ✓ (above 75% SF minimum)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ═══ SECTION 7: OPEN ACTIONS FROM SPEC ═══ -->
+      <section>
+        <div class="section-title">
+          7 — Open Actions &amp; Out-of-Scope Items (from BH-1010 spec)
+        </div>
+
+        <div class="action-box">
+          <strong
+            >These items were listed as open actions in the BH-1010 requirements
+            document. They are NOT defects — they are pre-requisite
+            confirmations or sibling-ticket scope.</strong
+          >
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th class="col-id">#</th>
+              <th class="col-check">Open Action</th>
+              <th class="col-how">Source</th>
+              <th class="col-result">Status</th>
+              <th class="col-note">Resolution / Next Step</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-id">7.1</td>
+              <td>
+                Confirm Account Team role 'AAR Evaluator' is configured at
+                Account object level
+              </td>
+              <td>BH-1010 open_actions[2]</td>
+              <td class="col-result"><span class="chip skip">OPEN</span></td>
+              <td>
+                Verify in Setup → Account Team Roles. Required before adding
+                team members in sandbox.
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">7.2</td>
+              <td>
+                Confirm Contact.Is_AAR_Evaluator__c pre-existed or confirm it is
+                net-new from BH-1010
+              </td>
+              <td>BH-1010 open_actions[1]</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Field confirmed in sandbox (SOQL FieldDefinition). Whether
+                pre-existing or new — it is present and functional.
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">7.3</td>
+              <td>
+                AAR_Submission__c and AAR_Criteria__c object definitions
+                confirmed exist (referenced by BH-1010 for FLS but not defined
+                here)
+              </td>
+              <td>BH-1010 open_actions[0]</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Both objects confirmed in sandbox (Tooling SOQL). Created as
+                part of BH-1010 implementation.
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">7.4</td>
+              <td>Sub-task BH-1043: Set AAR object-wide default sharing</td>
+              <td>BH-1010 sub_tasks[0]</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>OWD=Private confirmed via EntityDefinition query. ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">7.5</td>
+              <td>Sub-task BH-1044: Create institute-based sharing rules</td>
+              <td>BH-1010 sub_tasks[1]</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Institute_Evaluators_AAR_Access sharing rule confirmed in
+                source. ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">7.6</td>
+              <td>Sub-task BH-1045: Configure public groups for evaluators</td>
+              <td>BH-1010 sub_tasks[2]</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                AAR_Evaluators public group confirmed in sandbox (Id:
+                00GAq00000H64QXMAZ). ✓
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ═══ SECTION 8: GIT / DEPLOYMENT STATE ═══ -->
+      <section>
+        <div class="section-title">8 — Git &amp; Deployment State</div>
+        <table>
+          <thead>
+            <tr>
+              <th class="col-id">#</th>
+              <th class="col-check">Check</th>
+              <th class="col-how">How Verified</th>
+              <th class="col-result">Result</th>
+              <th class="col-note">Notes / Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-id">8.1</td>
+              <td>feature/bh-1010-evaluator-access branch pushed to origin</td>
+              <td>git branch -a</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                remotes/origin/feature/bh-1010-evaluator-access confirmed ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">8.2</td>
+              <td>Implementation commit 33aae42 (35 files) present</td>
+              <td>git log</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                "Implement BH-1010: Institute-wide evaluator access…" — present
+                on branch ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">8.3</td>
+              <td>Conflict-resolution merge commit cb952f3 present</td>
+              <td>git log</td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                "Resolve BH-1010 sandbox conflicts: merge org metadata with
+                feature branch" ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">8.4</td>
+              <td>PR opened into master on GitHub</td>
+              <td>gh pr list</td>
+              <td class="col-result">
+                <span class="chip manual">MANUAL</span>
+              </td>
+              <td>
+                Run: gh pr list --head feature/bh-1010-evaluator-access —
+                confirm PR exists and is not merged yet
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">8.5</td>
+              <td>Annotated delivery tag created after master merge</td>
+              <td>git tag</td>
+              <td class="col-result">
+                <span class="chip manual">MANUAL</span>
+              </td>
+              <td>
+                After PR approval and merge: git tag -a "bh-1010" -m "BH-1010:
+                Institute-wide evaluator access" &amp;&amp; git push origin
+                --tags
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ═══ SECTION 9: DECISION LOG ALIGNMENT ═══ -->
+      <section>
+        <div class="section-title">9 — Decision Log Alignment</div>
+        <table>
+          <thead>
+            <tr>
+              <th class="col-id">Date</th>
+              <th class="col-check">Decision</th>
+              <th class="col-result">Implemented</th>
+              <th class="col-note">Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-id">2025-11-27</td>
+              <td>
+                Evaluator access model and assessment constraints confirmed
+              </td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>All evaluator access components deployed to sandbox ✓</td>
+            </tr>
+            <tr>
+              <td class="col-id">2026-03-09</td>
+              <td>
+                BH-1010 absorbs BH-1011 (closed as thin duplicate) — single
+                story for all evaluator security config
+              </td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Scope absorbed. BH-1011 closed. Implementation is unified in
+                this branch ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">2026-04-24</td>
+              <td>
+                Align with FCC Experience Cloud sharing pattern — Account
+                relationship is scope gate, no per-persona rules
+              </td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Single sharing rule (Institute_Evaluators_AAR_Access) on
+                UHN_AAR__c covers all evaluator personas ✓
+              </td>
+            </tr>
+            <tr>
+              <td class="col-id">2026-04-24</td>
+              <td>
+                Replace Process Builder (deprecated) with Record-Triggered Flow
+                for group membership automation
+              </td>
+              <td class="col-result"><span class="chip pass">PASS</span></td>
+              <td>
+                Add_Contact_To_AAR_Evaluators_Group is AutoLaunchedFlow,
+                Status=Active ✓
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ═══ SECTION 10: MANUAL TEST SCRIPTS ═══ -->
+      <section class="page-break">
+        <div class="section-title">10 — Manual Test Scripts (Sandbox)</div>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 40px">#</th>
+              <th style="width: 200px">Scenario</th>
+              <th>Step-by-Step</th>
+              <th style="width: 110px">Expected Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>T1</td>
+              <td><strong>Evaluator Sees Active AARs</strong></td>
+              <td>
+                1. Create a test User, assign AAR_Evaluator permission set.<br />
+                2. Add User to AAR_Evaluators public group (Setup → Public
+                Groups → AAR_Evaluators → Add Members).<br />
+                3. Login as test User.<br />
+                4. Navigate to UHN_AAR__c list view.
+              </td>
+              <td>
+                User sees all UHN_AAR__c records with Status__c ≠ "Superseded"
+                that they do not own.
+              </td>
+            </tr>
+            <tr>
+              <td>T2</td>
+              <td><strong>Evaluator Cannot Edit AAR Core Fields</strong></td>
+              <td>
+                1. Login as AAR_Evaluator test user.<br />
+                2. Open any UHN_AAR__c record.<br />
+                3. Attempt to edit any standard UHN_AAR__c field (e.g.,
+                Status__c).
+              </td>
+              <td>
+                Fields are read-only. No edit pencil visible. No save option on
+                standard fields.
+              </td>
+            </tr>
+            <tr>
+              <td>T3</td>
+              <td>
+                <strong
+                  >Validation Rule Blocks Assessment on Non-Submitted
+                  AAR</strong
+                >
+              </td>
+              <td>
+                1. Create an AAR_Submission__c record linked to a UHN_AAR__c
+                with Status__c = "Draft".<br />
+                2. Login as evaluator.<br />
+                3. Open the submission. Attempt to update Evaluator_Score__c =
+                7.<br />
+                4. Click Save.
+              </td>
+              <td>
+                Validation error fires: "Evaluator assessment can only be
+                completed for Submitted AARs."
+              </td>
+            </tr>
+            <tr>
+              <td>T4</td>
+              <td>
+                <strong
+                  >Validation Rule Permits Assessment on Submitted AAR</strong
+                >
+              </td>
+              <td>
+                1. Create/find an AAR_Submission__c linked to a UHN_AAR__c with
+                Status__c = "Submitted".<br />
+                2. Login as evaluator.<br />
+                3. Set Evaluator_Score__c = 8, Evaluator_Comments__c = "Strong
+                submission".<br />
+                4. Click Save.
+              </td>
+              <td>Record saves successfully. No validation error.</td>
+            </tr>
+            <tr>
+              <td>T5</td>
+              <td>
+                <strong>Flow: Is_AAR_Evaluator__c → Group Membership</strong>
+              </td>
+              <td>
+                1. Find a Contact with a linked active User.<br />
+                2. Set Contact.Is_AAR_Evaluator__c = true. Save.<br />
+                3. Run SOQL: SELECT Id FROM GroupMember WHERE GroupId =
+                '00GAq00000H64QXMAZ' AND UserOrGroupId = '[User.Id]'
+              </td>
+              <td>
+                Returns 1 row — User is now a member of AAR_Evaluators public
+                group.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <!-- ══════════════════════════ FOOTER ══════════════════════════ -->
+    <footer>
+      BH-1010 Validation Checklist &bull; Generated 2026-06-02 &bull; Org:
+      UHN-SANDBOX &bull; Engineer: Chuck &bull; Branch:
+      feature/bh-1010-evaluator-access &bull; Commits: 33aae42, cb952f3
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,170 @@
+{
+  "ticket": {
+    "key": "BH-1246",
+    "title": "Define evaluator assessment data model (AAR_Evaluation__c)",
+    "type": "Story",
+    "status": "Initial Review",
+    "priority": "High",
+    "project": "Business Hub",
+    "parent": "AAR Core Data Model & Security (BH-1116)",
+    "epic_link": "AAR Core Data Model & Security",
+    "reporter": "Christopher King",
+    "assignee": "Chuck",
+    "labels": ["AAR"],
+    "created": "2026-03-09",
+    "updated": "2026-06-02"
+  },
+  "user_story": {
+    "as_a": "System Administrator",
+    "i_want": "the evaluator assessment data model defined and created",
+    "so_that": "evaluator scores and structured comments have a proper backing object"
+  },
+  "why_this_story_exists": "Multiple evaluator stories (BH-1000–BH-1005) reference AAR_Submission__c or an implied evaluator record, but no story has ever defined this object. Without it, the entire BH-1118 epic has no data model to build against. This story closes that gap.",
+  "object_definition": {
+    "api_name": "AAR_Evaluation__c",
+    "name_format": "Auto-Number: EVAL-{0000}",
+    "fields": [
+      {
+        "api_name": "Name",
+        "type": "Auto-Number",
+        "format": "EVAL-{0000}",
+        "notes": "Standard"
+      },
+      {
+        "api_name": "AAR_Record__c",
+        "type": "Lookup(AAR_Record__c)",
+        "required": true,
+        "notes": "The AAR being evaluated"
+      },
+      {
+        "api_name": "Evaluator__c",
+        "type": "Lookup(User)",
+        "required": true,
+        "notes": "The assigned evaluator"
+      },
+      {
+        "api_name": "Rating__c",
+        "type": "Picklist",
+        "required_on_submit": true,
+        "values": [
+          "Exceptional Performance",
+          "Successful Performance",
+          "Does Not Meet Expectations"
+        ]
+      },
+      {
+        "api_name": "Strengths__c",
+        "type": "Long Text Area(32K)",
+        "notes": "Structured comment"
+      },
+      {
+        "api_name": "Concerns__c",
+        "type": "Long Text Area(32K)",
+        "notes": "Structured comment"
+      },
+      {
+        "api_name": "Recommendations__c",
+        "type": "Long Text Area(32K)",
+        "notes": "Structured comment"
+      },
+      {
+        "api_name": "Evaluation_Date__c",
+        "type": "DateTime",
+        "notes": "Set on submit"
+      },
+      {
+        "api_name": "Status__c",
+        "type": "Picklist",
+        "values": ["Draft", "Submitted"],
+        "notes": "Controls field locking"
+      }
+    ]
+  },
+  "validation_rules": [
+    {
+      "name": "VR_Rating_Required_On_Submit",
+      "formula": "AND(ISPICKVAL(Status__c, \"Submitted\"), ISBLANK(TEXT(Rating__c)))",
+      "error_message": "Rating is required before submitting evaluation."
+    },
+    {
+      "name": "VR_Comment_Required_On_Submit",
+      "formula": "AND(ISPICKVAL(Status__c, \"Submitted\"), ISBLANK(Strengths__c), ISBLANK(Concerns__c), ISBLANK(Recommendations__c))",
+      "error_message": "At least one comment field is required."
+    },
+    {
+      "name": "VR_Lock_After_Submit",
+      "logic": "If Status__c was already 'Submitted' (PRIORVALUE), block edits to Rating__c, Strengths__c, Concerns__c, Recommendations__c",
+      "implementation_hint": "Use ISCHANGED() against the locked fields combined with PRIORVALUE(Status__c) = 'Submitted'"
+    }
+  ],
+  "security": {
+    "owd": "Private",
+    "access_levels": [
+      {
+        "role": "Evaluator",
+        "access": "Create/Edit on own records when Status = Draft"
+      },
+      {
+        "role": "Institute Director",
+        "access": "Read all evaluations within their Institute"
+      },
+      { "role": "Admin", "access": "Modify All" }
+    ]
+  },
+  "field_history_tracking": {
+    "enabled_fields": ["Rating__c", "Status__c", "Evaluation_Date__c"],
+    "cross_ref": "Per BH-1126 Mar 2026 revision — evaluator history moved from AAR_Record__c to here"
+  },
+  "page_layout": {
+    "configuration": "Rating + comment fields prominently displayed"
+  },
+  "related_lists": [
+    { "parent_object": "AAR_Record__c", "section": "Evaluations" }
+  ],
+  "acceptance_criteria": [
+    "AAR_Evaluation__c custom object created with all fields above",
+    "Validation rules implemented (VR_Rating_Required_On_Submit, VR_Comment_Required_On_Submit, VR_Lock_After_Submit)",
+    "Page layout configured: Rating + comment fields prominently displayed",
+    "OWD set to Private",
+    "Evaluator permission set has Create/Edit on own records (Status = Draft)",
+    "Field history enabled for Rating__c, Status__c, Evaluation_Date__c",
+    "Related list added to AAR_Record__c page (Evaluations section)"
+  ],
+  "out_of_scope": [
+    { "item": "Per-category comments", "deferred_to": "V1.1" },
+    {
+      "item": "Internal vs. shared comment visibility",
+      "deferred_to": "V1.1 (REV-06 'May' priority)"
+    },
+    { "item": "Multi-reviewer workflow", "deferred_to": "V1.1" },
+    {
+      "item": "Employment outcome decisions",
+      "deferred_to": "Not in PRD scope"
+    }
+  ],
+  "dependencies": [
+    {
+      "key": "BH-987",
+      "description": "AAR_Record__c must exist first — this is a child object",
+      "direction": "upstream blocker"
+    }
+  ],
+  "unlocks": [
+    { "key": "BH-1000", "description": "evaluator queue" },
+    { "key": "BH-1001", "description": "evaluator view" },
+    {
+      "key": "BH-1002/1003",
+      "description": "merged story (rating + comments)"
+    },
+    { "key": "BH-1005", "description": "evaluator submission" }
+  ],
+  "cross_references": {
+    "BH-1010": "Evaluator FLS on Evaluator_Comments__c / Evaluator_Score__c / Evaluator_Recommendation__c referenced fields on AAR_Submission__c — those should be reconciled to use this object (AAR_Evaluation__c) and its actual fields (Strengths__c, Concerns__c, Recommendations__c, Rating__c)",
+    "BH-1126": "Field history tracking on Rating__c, Status__c, Evaluation_Date__c is shared scope — coordinate to avoid duplicate config"
+  },
+  "open_actions": [
+    "Reconcile field names with BH-1010 — that ticket references AAR_Submission__c.Evaluator_Comments__c / Evaluator_Score__c / Evaluator_Recommendation__c which do not match this object's field names. Decide whether BH-1010 should be updated to reference AAR_Evaluation__c.Rating__c / Strengths__c / Concerns__c / Recommendations__c.",
+    "Confirm Institute Director read-all-within-Institute access is achievable via the same Experience Cloud Account-scoped sharing rule used for AAR_Record__c (per BH-1010 Apr 2026 decision)",
+    "Decide whether VR_Lock_After_Submit is implemented as a validation rule (using ISCHANGED + PRIORVALUE) or via record-type/page-layout field-set permissions"
+  ]
+}

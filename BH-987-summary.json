@@ -1,0 +1,372 @@
+{
+  "ticket": {
+    "key": "BH-987",
+    "title": "Create AAR custom object with attestation support and deadline configuration",
+    "type": "Story",
+    "status": "Initial Review",
+    "priority": "Medium",
+    "project": "Business Hub",
+    "parent": "AAR Core Data Model & Security (BH-1116)",
+    "epic_link": "AAR Core Data Model & Security",
+    "reporter": "Christopher King",
+    "assignee": "Chuck",
+    "created": "2025-12-21",
+    "updated": "2026-05-28"
+  },
+  "user_story": {
+    "as_a": "System Administrator",
+    "i_want": "to create the AAR core data model with attestation, deadlines, and related scholarly outputs",
+    "so_that": "PIs can complete annual activity reviews with appropriate validation and tracking"
+  },
+  "sub_tasks": [
+    {
+      "key": "BH-1019",
+      "summary": "Create AAR__c custom object with API ...",
+      "status": "Initial Review",
+      "assignee": "Chuck"
+    },
+    {
+      "key": "BH-1020",
+      "summary": "Create Contact (Researcher) lookup relationship",
+      "status": "Initial Review",
+      "assignee": "Chuck"
+    },
+    {
+      "key": "BH-1021",
+      "summary": "Create Account (Institute) lookup relationship",
+      "status": "Initial Review",
+      "assignee": "Chuck"
+    },
+    {
+      "key": "BH-1022",
+      "summary": "Create AAR core fields (Year, Status, ...)",
+      "status": "Initial Review",
+      "assignee": "Chuck"
+    },
+    {
+      "key": "BH-1023",
+      "summary": "Create AAR pre-populated data fields",
+      "status": "Initial Review",
+      "assignee": "Chuck"
+    },
+    {
+      "key": "BH-1024",
+      "summary": "Configure AAR page layouts and list views",
+      "status": "Initial Review",
+      "assignee": "Chuck"
+    }
+  ],
+  "objects": {
+    "AAR_Record__c": {
+      "type": "Custom Object",
+      "name_format": "Auto-Number: AAR-{0000}",
+      "core_fields": [
+        {
+          "api_name": "Contact__c",
+          "type": "Lookup(Contact)",
+          "required": true,
+          "notes": "Lookup (not Master-Detail) to avoid cascade-delete risk"
+        },
+        {
+          "api_name": "Account__c",
+          "type": "Lookup(Account/Research Institute)",
+          "required": true,
+          "notes": "Lookup (not Master-Detail) to avoid cascade-delete risk"
+        },
+        { "api_name": "Review_Year__c", "type": "Number", "required": true },
+        {
+          "api_name": "Status__c",
+          "type": "Picklist",
+          "required": true,
+          "values": [
+            "Draft",
+            "In Progress",
+            "Submitted",
+            "Under Review",
+            "Complete"
+          ]
+        },
+        {
+          "api_name": "Submission_Deadline__c",
+          "type": "Formula(Date)",
+          "formula": "Account__r.Deadline_Date__c"
+        }
+      ],
+      "attestation_fields": [
+        { "api_name": "Attested_By__c", "type": "Lookup(User)" },
+        {
+          "api_name": "Attestation_Date__c",
+          "type": "DateTime",
+          "notes": "Captures exact submission timestamp for late submission reporting"
+        }
+      ],
+      "supervision_fields": [
+        { "api_name": "Postdoc_Count__c", "type": "Number" },
+        { "api_name": "Graduate_Student_Count__c", "type": "Number" },
+        { "api_name": "Research_Assistant_Count__c", "type": "Number" },
+        { "api_name": "Other_Trainee_Count__c", "type": "Number" },
+        {
+          "api_name": "Supervision_Narrative__c",
+          "type": "Long Text Area(32K)"
+        },
+        {
+          "api_name": "Suggested_Trainees__c",
+          "type": "Long Text Area",
+          "read_only": true,
+          "notes": "Populated via Flow at AAR creation from HRIS Contact.ReportsTo + Research 411 lab membership"
+        }
+      ],
+      "rollup_fields": [
+        {
+          "api_name": "Scholarly_Output_Count__c",
+          "type": "Rollup Summary",
+          "operation": "COUNT",
+          "source": "AAR_Scholarly_Output__c"
+        },
+        {
+          "api_name": "Presentation_Count__c",
+          "type": "Rollup Summary",
+          "operation": "COUNT",
+          "source": "AAR_Scholarly_Output__c",
+          "filter": "RecordType = 'Presentation'"
+        },
+        {
+          "api_name": "Media_Impact_Count__c",
+          "type": "Rollup Summary",
+          "operation": "COUNT",
+          "source": "AAR_Scholarly_Output__c",
+          "filter": "RecordType = 'Media & Impact'"
+        },
+        {
+          "api_name": "Invited_Talk_Count__c",
+          "type": "Rollup Summary",
+          "operation": "COUNT",
+          "source": "AAR_Scholarly_Output__c",
+          "filter": "RecordType = 'Invited Talk'"
+        },
+        {
+          "api_name": "Publication_Count__c",
+          "type": "Rollup Summary",
+          "operation": "COUNT",
+          "source": "AAR_Publication__c"
+        },
+        {
+          "api_name": "Recognition_Count__c",
+          "type": "Rollup Summary",
+          "operation": "COUNT",
+          "source": "AAR_Recognition__c"
+        }
+      ],
+      "standard_fields": [
+        { "api_name": "Name", "type": "Auto-Number", "format": "AAR-{0000}" },
+        {
+          "api_name": "OwnerId",
+          "type": "User",
+          "notes": "Defaults to Contact owner"
+        },
+        { "api_name": "CreatedDate", "type": "DateTime (audit)" },
+        { "api_name": "LastModifiedDate", "type": "DateTime (audit)" }
+      ],
+      "validation_rules": [
+        {
+          "name": "VR_Attestation_Required",
+          "formula": "AND(ISPICKVAL(Status__c, \"Submitted\"), ISBLANK(Attested_By__c))",
+          "error_message": "Attestation required before submission. Please complete attestation screen."
+        }
+      ]
+    },
+    "AAR_Recognition__c": {
+      "type": "Custom Object",
+      "purpose": "Track honours, prizes, and recognition awards received by the PI. Manual entry only — no source system for pre-population.",
+      "note": "Funding/grants are tracked separately via GAM Case object and FCCs. This object is for non-monetary recognition only.",
+      "renamed_from": "AAR_Award__c (renamed Jan 9, 2026)",
+      "fields": [
+        {
+          "api_name": "AAR_Record__c",
+          "type": "Master-Detail(AAR_Record__c)",
+          "required": true
+        },
+        {
+          "api_name": "Contact__c",
+          "type": "Lookup(Contact)",
+          "required": true
+        },
+        {
+          "api_name": "Recognition_Name__c",
+          "type": "Text(255)",
+          "required": true,
+          "example": "Order of Canada, Chicken Chicken Award"
+        },
+        {
+          "api_name": "Awarding_Agency__c",
+          "type": "Text(255)",
+          "example": "Royal Society of Canada, CIHR"
+        },
+        { "api_name": "Date_Announced__c", "type": "Date" },
+        {
+          "api_name": "Category__c",
+          "type": "Picklist",
+          "values": [
+            "Research Excellence",
+            "Teaching",
+            "Service",
+            "Lifetime Achievement",
+            "Early Career",
+            "Other"
+          ]
+        },
+        { "api_name": "Description__c", "type": "Long Text Area(32K)" },
+        { "api_name": "External_URL__c", "type": "URL" }
+      ]
+    },
+    "AAR_Scholarly_Output__c": {
+      "type": "Custom Object (Polymorphic via Record Types)",
+      "purpose": "Capture presentations, media impact, invited talks, and other scholarly outputs not covered by publications or recognition",
+      "record_types": [
+        "Presentation",
+        "Media & Impact",
+        "Invited Talk",
+        "Other"
+      ],
+      "mvp_revision_note": "Per Mar 2026 decision: MVP uses CORE FIELDS ONLY across all record types. Type-specific fields (Audience_Size__c, Estimated_Reach__c, Honorarium_Received__c, Event_Name__c, etc.) are DEFERRED to V1.1.",
+      "open_question": "Apr 24, 2026 note: Contact relationship currently specified as Master-Detail. Team should evaluate whether to switch to Lookup to mirror AAR_Record__c → Contact/Account decision (cascade-delete risk on Contact merge/delete). Confirm intent before building.",
+      "mvp_core_fields": [
+        { "api_name": "AAR_Record__c", "type": "Lookup", "required": true },
+        {
+          "api_name": "Contact__c",
+          "type": "Master-Detail",
+          "required": true,
+          "warning": "REVIEW per Apr 24 note — may switch to Lookup"
+        },
+        { "api_name": "Title__c", "type": "Text(255)", "required": true },
+        { "api_name": "Description__c", "type": "Long Text Area(32K)" },
+        { "api_name": "Date__c", "type": "Date", "required": true },
+        { "api_name": "External_URL__c", "type": "URL" },
+        {
+          "api_name": "Source__c",
+          "type": "Text",
+          "example": "Manual Entry, Suggested from [System]"
+        },
+        { "api_name": "Is_Verified__c", "type": "Checkbox" }
+      ],
+      "deferred_v1_1_fields": {
+        "Presentation": [
+          { "api_name": "Event_Name__c", "type": "Text(255)" },
+          { "api_name": "Event_Location__c", "type": "Text(255)" },
+          {
+            "api_name": "Presentation_Type__c",
+            "type": "Picklist",
+            "values": ["Oral", "Poster", "Panel", "Workshop"]
+          },
+          { "api_name": "Audience_Size__c", "type": "Number" }
+        ],
+        "Media_Impact": [
+          { "api_name": "Media_Outlet__c", "type": "Text(255)" },
+          {
+            "api_name": "Impact_Type__c",
+            "type": "Picklist",
+            "values": [
+              "News Coverage",
+              "Policy Brief",
+              "Public Lecture",
+              "Social Media",
+              "Clinical Practice Change",
+              "Other"
+            ]
+          },
+          { "api_name": "Estimated_Reach__c", "type": "Number" }
+        ],
+        "Invited_Talk": [
+          { "api_name": "Inviting_Organization__c", "type": "Text(255)" },
+          {
+            "api_name": "Talk_Type__c",
+            "type": "Picklist",
+            "values": [
+              "Keynote",
+              "Plenary",
+              "Distinguished Lecture",
+              "Seminar",
+              "Other"
+            ]
+          },
+          { "api_name": "Honorarium_Received__c", "type": "Checkbox" }
+        ],
+        "Other": []
+      }
+    }
+  },
+  "account_prerequisites": {
+    "object": "Account (Research Institute)",
+    "sprint": "Sprint 1",
+    "fields_to_add": [
+      {
+        "api_name": "Deadline_Date__c",
+        "type": "Date",
+        "default": "blank",
+        "notes": "Set annually by Institute admin"
+      }
+    ]
+  },
+  "late_submission_handling": {
+    "approach": "Reporting layer only — not application logic",
+    "details": [
+      "Late submissions identified in Power BI/Salesforce reports by comparing Attestation_Date__c > Submission_Deadline__c",
+      "Institute admins define acceptable late submission windows in reporting tools",
+      "No grace period fields or validation rules in Phase 1"
+    ]
+  },
+  "active_pi_eligibility_criteria": {
+    "reference": "PRE-01 (confirmed 2026-04-24)",
+    "rule": "A Contact qualifies as an Active Appointed PI if and only if all three conditions are true",
+    "criteria": [
+      { "field": "Is_PI__c", "value": true },
+      { "field": "PI_Status__c", "value": "Active" },
+      { "field": "Research_Appointment_Type__c", "value": "Appointed" }
+    ],
+    "notes": [
+      "FCC presence is NOT a filter criterion",
+      "Dev team must confirm exact API names in Setup before implementing BH-992 (batch job) — API names may include a namespace prefix"
+    ]
+  },
+  "technical_notes": [
+    "AAR_Record__c.Name uses Auto-Number format: AAR-{0000}",
+    "Child objects use Master-Detail for cascade delete and rollup summaries (under review for Scholarly Output → Contact)",
+    "Suggested_Trainees__c populated via Flow at AAR creation from HRIS Contact.ReportsTo + Research 411 lab membership",
+    "Status picklist order: Draft → In Progress → Submitted → Under Review → Complete",
+    "Attestation_Date__c captures exact submission timestamp for late submission reporting",
+    "AAR_Recognition__c is manual entry only — no pre-population or verification workflow needed"
+  ],
+  "decision_log": [
+    { "date": "2025-11-27 07:29", "decision": "Attestation fields confirmed" },
+    { "date": "2025-11-27 11:02", "decision": "Deadline fields confirmed" },
+    {
+      "date": "2025-12-23",
+      "decision": "Grace period removed (design simplification)"
+    },
+    {
+      "date": "2025-12-23",
+      "decision": "Scholarly Output object introduced (design refinement)"
+    },
+    {
+      "date": "2025-12-23",
+      "decision": "SVA (Suggest-Verify-Augment) pattern adopted"
+    },
+    {
+      "date": "2026-01-09",
+      "decision": "AAR_Award__c renamed to AAR_Recognition__c; redesigned for honours only (funding tracked via GAM/FCCs). Removed Fund__c, Award_Amount__c, Award_Role__c, Start_Date__c, End_Date__c, Is_Verified__c, Source__c. Added Recognition_Name__c, Awarding_Agency__c, Date_Announced__c, Category__c, External_URL__c."
+    },
+    {
+      "date": "2026-03-09",
+      "decision": "MVP revision — defer type-specific fields on AAR_Scholarly_Output__c to V1.1. MVP uses core fields only."
+    },
+    {
+      "date": "2026-04-24",
+      "decision": "Active PI eligibility criteria confirmed (Is_PI__c, PI_Status__c, Research_Appointment_Type__c). Flagged Scholarly Output → Contact MDR for review."
+    }
+  ],
+  "open_actions": [
+    "Confirm exact API names of Is_PI__c, PI_Status__c, Research_Appointment_Type__c in Setup (may have namespace prefix) — blocker for BH-992 batch job",
+    "Decide whether AAR_Scholarly_Output__c → Contact should be Master-Detail or Lookup (cascade-delete risk on Contact merge)",
+    "Implementer must remove type-specific fields from AAR_Scholarly_Output__c spec per Mar 2026 MVP revision"
+  ]
+}

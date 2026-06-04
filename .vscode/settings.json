@@ -6,5 +6,6 @@
     "**/.sfdx": true
   },
   "merge-conflict.autoNavigateNextConflict.enabled": true,
-  "salesforce.einsteinForDevelopers.enable": true
+  "salesforce.einsteinForDevelopers.enable": true,
+  "vibes.salesforce.defaultOrg": "UHN-SANDBOX"
 }

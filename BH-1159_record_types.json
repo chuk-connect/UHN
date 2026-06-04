@@ -1,0 +1,347 @@
+[
+  {
+    "id": "bh1159_story",
+    "category": "jira_story",
+    "jira_ref": "BH-1159",
+    "parent_epic": "BH-1116",
+    "title": "Implement Record Types for verification status on AAR child objects",
+    "status": "To Do",
+    "priority": "Medium",
+    "assignee": "Chuck",
+    "reporter": "Christopher King",
+    "labels": ["AAR"],
+    "created": "2026-01-09",
+    "updated": "2026-05-15",
+    "pattern": "Suggest-Verify-Augment with hybrid workspace approach",
+    "architectural_decision_record": "ADR-001-E (Jan 2026) — Record Types chosen over picklist fields for verification status",
+    "adr_rationale": [
+      "Different page layouts per status (Proposed = read-only, Verified = editable)",
+      "Native filtering and list view segmentation",
+      "Visual differentiation in related lists",
+      "Field-level security per record type"
+    ],
+    "sprint_sequencing": {
+      "note": "BH-1159 (Record Types) MUST complete before BH-1249 (Verification Flows). The Flows transition between Record Types that BH-1159 creates.",
+      "blocks": ["BH-1249"]
+    },
+    "dependencies": {
+      "upstream": [
+        {
+          "jira_ref": "BH-996",
+          "title": "AAR Workspace page",
+          "reason": "Uses Record Types for list view filtering and segmentation"
+        }
+      ],
+      "downstream": [
+        {
+          "jira_ref": "BH-1249",
+          "title": "Build verification mini-Flows for PI data confirmation on AAR child objects",
+          "parent_epic": "BH-1117",
+          "status": "To Do",
+          "reason": "Flows transition records between Record Types created in this story",
+          "resolution_note": "Replaced phantom dependency BH-1034 (which did not exist in backlog). BH-1249 confirmed as the correct story in March 2026 backlog review."
+        }
+      ],
+      "phantom_dependency_resolved": {
+        "original_ref": "BH-1034",
+        "status": "Never existed in AAR backlog",
+        "replaced_by": "BH-1249",
+        "resolved_by": "Christopher King",
+        "resolved_date": "2026-03-09"
+      }
+    },
+    "references": [
+      "ADR-001-E: Standard Record Pages vs Screen Flow decision",
+      "Flow_vs_RecordPage_Research.md"
+    ]
+  },
+
+  {
+    "id": "bh1159_record_type_standard_pattern",
+    "category": "record_type_design",
+    "jira_ref": "BH-1159",
+    "pattern_name": "Standard Verification Pattern",
+    "applies_to": [
+      "AAR_Recognition__c (partial — Manual Entry only)",
+      "AAR_Scholarly_Output__c",
+      "Service Activity objects",
+      "Other AAR child objects from integrations"
+    ],
+    "record_types": [
+      {
+        "developer_name": "Proposed",
+        "label": "Proposed",
+        "description": "System-suggested records created by integration processes. Source fields are read-only. PI must verify or reject.",
+        "page_layout_behavior": "Read-only source fields. 'Verify' action button available. No direct editing of source data.",
+        "assigned_on_create_when": "Record originates from an integration (Data_Origin__c indicates a source system)",
+        "transition": "Proposed → Verified via BH-1249 verification mini-Flow"
+      },
+      {
+        "developer_name": "Verified",
+        "label": "Verified",
+        "description": "PI-confirmed records. Integration source fields are locked. PI can augment with additional fields.",
+        "page_layout_behavior": "Fully editable. Source fields locked (cannot revert to pre-verification values).",
+        "assigned_on_create_when": "N/A — assigned via Flow transition from Proposed",
+        "transition": "Terminal state. Audit fields Verified_By__c and Verified_Date__c captured on transition."
+      },
+      {
+        "developer_name": "Manual_Entry",
+        "label": "Manual Entry",
+        "description": "PI-added records with no source system. No source fields present.",
+        "page_layout_behavior": "Fully editable. No source fields on layout.",
+        "assigned_on_create_when": "Record is PI-created (not from any integration)",
+        "design_note": "Consider merging Verified and Manual Entry record types if page layouts are identical. Decision deferred to implementation."
+      }
+    ],
+    "reject_soft_delete_path": {
+      "note": "Handled by BH-1249 (Flows), not by a separate Record Type",
+      "mechanism": "Excluded__c = true, Exclusion_Reason__c picklist set on the record",
+      "record_type_on_reject": "Remains Proposed; flagged via fields rather than a fourth Record Type"
+    }
+  },
+
+  {
+    "id": "bh1159_object_aar_recognition",
+    "category": "record_type_object_config",
+    "jira_ref": "BH-1159",
+    "object": "AAR_Recognition__c",
+    "label": "Honours & Awards",
+    "record_types_to_create": [
+      {
+        "developer_name": "Manual_Entry",
+        "label": "Manual Entry",
+        "is_default": true,
+        "notes": "Only record type on this object. No source system for honours and awards — Proposed type not needed."
+      }
+    ],
+    "proposed_record_type": "NOT REQUIRED — manual entry only",
+    "page_layout": "Fully editable. No source or verification fields."
+  },
+
+  {
+    "id": "bh1159_object_aar_scholarly_output",
+    "category": "record_type_object_config",
+    "jira_ref": "BH-1159",
+    "object": "AAR_Scholarly_Output__c",
+    "condition": "Only if polymorphic design retained (Phase 2 decision pending — ref BH-1126)",
+    "record_types_to_create": [
+      {
+        "developer_name": "Proposed",
+        "label": "Proposed",
+        "is_default": false,
+        "assigned_on_create_when": "Record created by integration"
+      },
+      {
+        "developer_name": "Verified",
+        "label": "Verified",
+        "is_default": false,
+        "assigned_via": "BH-1249 verification Flow"
+      },
+      {
+        "developer_name": "Manual_Entry",
+        "label": "Manual Entry",
+        "is_default": true,
+        "assigned_on_create_when": "PI-created record"
+      }
+    ]
+  },
+
+  {
+    "id": "bh1159_publications_special_case",
+    "category": "record_type_object_config",
+    "jira_ref": "BH-1159",
+    "pattern": "Publications Special Case",
+    "design_decision": "Verification status lives on the junction object UHN_Publication_Author__c, NOT on the publication record itself",
+    "rationale": [
+      "One PI verifying a publication must not affect another PI's verification status for the same publication",
+      "Each PI sees their own verification status for shared/multi-author publications",
+      "Correctly supports multi-author publication scenarios"
+    ],
+    "object": "UHN_Publication_Author__c",
+    "record_types_to_create": [
+      {
+        "developer_name": "Proposed",
+        "label": "Proposed",
+        "is_default": false,
+        "description": "Publication authorship suggested by integration (e.g. ORCID). PI has not yet confirmed.",
+        "page_layout_behavior": "Read-only source fields. 'Verify' action available."
+      },
+      {
+        "developer_name": "Verified",
+        "label": "Verified",
+        "is_default": false,
+        "description": "PI has confirmed authorship of this publication.",
+        "page_layout_behavior": "Fully editable augmentation fields. Source fields locked."
+      },
+      {
+        "developer_name": "Manual_Entry",
+        "label": "Manual Entry",
+        "is_default": true,
+        "description": "PI manually added this publication with no source system match.",
+        "page_layout_behavior": "Fully editable. No source fields."
+      }
+    ],
+    "flow_note": "BH-1249 verification Flow updates UHN_Publication_Author__c junction record, NOT the publication record itself"
+  },
+
+  {
+    "id": "bh1159_assignment_automation",
+    "category": "automation",
+    "jira_ref": "BH-1159",
+    "assignment_rules": [
+      {
+        "trigger": "Record created by integration",
+        "condition": "Data_Origin__c indicates a source system (not 'Manual')",
+        "assign_record_type": "Proposed",
+        "mechanism": "Flow or trigger automation on create — evaluate Data_Origin__c field"
+      },
+      {
+        "trigger": "Record created by PI",
+        "condition": "Data_Origin__c = 'Manual' or record created via PI-facing Experience Cloud action",
+        "assign_record_type": "Manual_Entry",
+        "mechanism": "Flow or trigger automation on create"
+      },
+      {
+        "trigger": "PI confirms record",
+        "condition": "PI activates 'Verify' action on a Proposed record",
+        "assign_record_type": "Verified",
+        "mechanism": "BH-1249 verification Screen Flow — launched via Record Reactor action button on Proposed layout",
+        "audit_fields_captured": ["Verified_By__c", "Verified_Date__c"]
+      },
+      {
+        "trigger": "PI rejects record",
+        "condition": "PI activates 'Reject' action on a Proposed record",
+        "assign_record_type": "Proposed (unchanged)",
+        "mechanism": "BH-1249 rejection path sets Excluded__c = true and Exclusion_Reason__c picklist value"
+      }
+    ],
+    "automation_suggestion": "Consider a before-insert Flow or trigger that reads Data_Origin__c and sets the Record Type accordingly, so assignment is consistent regardless of creation path (API, integration, or UI)"
+  },
+
+  {
+    "id": "bh1159_page_layout_spec",
+    "category": "page_layout",
+    "jira_ref": "BH-1159",
+    "layouts": [
+      {
+        "name": "Proposed Layout",
+        "applies_to_record_type": "Proposed",
+        "source_fields": "Read-only",
+        "action_buttons": ["Verify", "Reject / Exclude"],
+        "pi_editing": false,
+        "notes": "Action buttons launch BH-1249 Screen Flows via Record Reactor"
+      },
+      {
+        "name": "Verified Layout",
+        "applies_to_record_type": "Verified",
+        "source_fields": "Locked (visible but not editable)",
+        "action_buttons": [],
+        "pi_editing": true,
+        "notes": "PI can augment with additional fields. Source data from integration is preserved and locked."
+      },
+      {
+        "name": "Manual Entry Layout",
+        "applies_to_record_type": "Manual_Entry",
+        "source_fields": "Not present on layout",
+        "action_buttons": [],
+        "pi_editing": true,
+        "notes": "No source system fields. Fully free-form PI entry. Consider sharing this layout with Verified if field sets are identical."
+      }
+    ],
+    "design_flag": "Evaluate whether Verified and Manual Entry layouts are identical. If so, merge to reduce maintenance overhead."
+  },
+
+  {
+    "id": "bh1159_bh1249_scope",
+    "category": "downstream_story_context",
+    "jira_ref": "BH-1249",
+    "title": "Build verification mini-Flows for PI data confirmation on AAR child objects",
+    "parent_epic": "BH-1117",
+    "status": "To Do",
+    "dependency_on": "BH-1159 (must complete first)",
+    "scope": [
+      "Screen Flows launched via Record Reactor action buttons on Proposed page layouts",
+      "Proposed → Verified Record Type transition with audit field capture (Verified_By__c, Verified_Date__c)",
+      "Reject / soft-delete path: Excluded__c = true, Exclusion_Reason__c picklist",
+      "Publication special case: Flow updates UHN_Publication_Author__c junction record, not the publication record",
+      "Record Type assignment automation on create based on Data_Origin__c field (Proposed vs Manual Entry)"
+    ]
+  },
+
+  {
+    "id": "bh1159_acceptance_criteria",
+    "category": "acceptance_criteria",
+    "jira_ref": "BH-1159",
+    "criteria": [
+      {
+        "id": "ac_01",
+        "description": "Record Types created on AAR child objects (Recognition, Outputs, Service, etc.)",
+        "status": "pending"
+      },
+      {
+        "id": "ac_02",
+        "description": "Page layouts configured per Record Type (Proposed vs Verified/Manual)",
+        "status": "pending"
+      },
+      {
+        "id": "ac_03",
+        "description": "Proposed layout has read-only source fields",
+        "status": "pending"
+      },
+      {
+        "id": "ac_04",
+        "description": "Verified/Manual layout allows editing",
+        "status": "pending"
+      },
+      {
+        "id": "ac_05",
+        "description": "Junction object Record Types configured for publications (UHN_Publication_Author__c)",
+        "status": "pending"
+      },
+      {
+        "id": "ac_06",
+        "description": "Default Record Type assignment logic documented",
+        "status": "pending"
+      },
+      {
+        "id": "ac_07",
+        "description": "Verification mini-Flows (BH-1249) can change Record Type from Proposed → Verified",
+        "status": "pending",
+        "note": "BH-1249 delivers this — not in scope for BH-1159 itself, but must be validated end-to-end before epic closes"
+      }
+    ]
+  },
+
+  {
+    "id": "bh1159_open_flags",
+    "category": "open_flags",
+    "jira_ref": "BH-1159",
+    "flags": [
+      {
+        "flag": "Verified vs Manual Entry layout consolidation",
+        "detail": "If Verified and Manual Entry page layouts are identical, merge them to reduce maintenance. Decision deferred to implementation. Confirm before creating layouts.",
+        "blocker": false
+      },
+      {
+        "flag": "AAR_Scholarly_Output__c polymorphic design",
+        "detail": "Record Types on this object are conditional on the polymorphic design being retained (Phase 2). Do not create these Record Types until that decision is confirmed.",
+        "blocker": false
+      },
+      {
+        "flag": "Data_Origin__c field must exist",
+        "detail": "Assignment automation reads Data_Origin__c to determine initial Record Type. This field must be present on each child object before automation can be built. Confirm field is included in the data model stories (BH-1116).",
+        "blocker": true
+      },
+      {
+        "flag": "BH-1249 sprint sequencing",
+        "detail": "BH-1159 must be deployed and Record Types must exist before BH-1249 (Flows) can be built or tested. Enforce this order in sprint planning.",
+        "blocker": true
+      },
+      {
+        "flag": "Profile/Permission Set assignment for Record Types",
+        "detail": "Each Record Type must be assigned to the correct profiles or permission sets (PI, Evaluator, Admin). Not explicitly specified in BH-1159 — confirm with BH-1116 security model before closing.",
+        "blocker": false
+      }
+    ]
+  }
+]

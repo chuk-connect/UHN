@@ -1,0 +1,161 @@
+{
+  "ticket": {
+    "id": "BH-1246",
+    "title": "Define evaluator assessment data model (AAR_Evaluation__c)",
+    "status": "To Do",
+    "priority": "High",
+    "type": "Story",
+    "project": "Business Hub",
+    "epic": "AAR Core Data Model & Security (BH-1116)",
+    "parent": "AAR Core Data Model & Security",
+    "reporter": "Christopher King",
+    "assignee": "Chuck",
+    "labels": ["AAR"],
+    "created": "2026-03-09",
+    "updated": "2026-05-15"
+  },
+  "user_story": "As a System Administrator, I want the evaluator assessment data model defined and created so that evaluator scores and structured comments have a proper backing object.",
+  "object": {
+    "api_name": "AAR_Evaluation__c",
+    "fields": [
+      {
+        "api_name": "Name",
+        "type": "Auto-Number",
+        "format": "EVAL-{0000}",
+        "required": false,
+        "notes": "Standard auto-number field"
+      },
+      {
+        "api_name": "AAR_Record__c",
+        "type": "Lookup",
+        "related_object": "AAR_Record__c",
+        "required": true,
+        "notes": "The AAR being evaluated"
+      },
+      {
+        "api_name": "Evaluator__c",
+        "type": "Lookup",
+        "related_object": "User",
+        "required": true,
+        "notes": "The assigned evaluator"
+      },
+      {
+        "api_name": "Rating__c",
+        "type": "Picklist",
+        "required": "Required on submit",
+        "picklist_values": [
+          "Exceptional Performance",
+          "Successful Performance",
+          "Does Not Meet Expectations"
+        ],
+        "notes": null
+      },
+      {
+        "api_name": "Strengths__c",
+        "type": "Long Text Area",
+        "length": 32768,
+        "required": false,
+        "notes": "Structured comment"
+      },
+      {
+        "api_name": "Concerns__c",
+        "type": "Long Text Area",
+        "length": 32768,
+        "required": false,
+        "notes": "Structured comment"
+      },
+      {
+        "api_name": "Recommendations__c",
+        "type": "Long Text Area",
+        "length": 32768,
+        "required": false,
+        "notes": "Structured comment"
+      },
+      {
+        "api_name": "Evaluation_Date__c",
+        "type": "DateTime",
+        "required": false,
+        "notes": "Set on submit"
+      },
+      {
+        "api_name": "Status__c",
+        "type": "Picklist",
+        "picklist_values": ["Draft", "Submitted"],
+        "required": false,
+        "notes": "Controls field locking"
+      }
+    ]
+  },
+  "validation_rules": [
+    {
+      "api_name": "VR_Rating_Required_On_Submit",
+      "formula": "ISPICKVAL(Status__c, 'Submitted') AND ISBLANK(Rating__c)",
+      "error_message": "Rating is required before submitting evaluation."
+    },
+    {
+      "api_name": "VR_Comment_Required_On_Submit",
+      "formula": "ISPICKVAL(Status__c, 'Submitted') AND ISBLANK(Strengths__c) AND ISBLANK(Concerns__c) AND ISBLANK(Recommendations__c)",
+      "error_message": "At least one comment field is required."
+    },
+    {
+      "api_name": "VR_Lock_After_Submit",
+      "formula": "ISPICKVAL(Status__c, 'Submitted')",
+      "locked_fields": [
+        "Rating__c",
+        "Strengths__c",
+        "Concerns__c",
+        "Recommendations__c"
+      ],
+      "error_message": "Record is locked after submission."
+    }
+  ],
+  "security": {
+    "owd": "Private",
+    "sharing_rules": [
+      {
+        "role": "Evaluator",
+        "access": "Create/Edit own records where Status = Draft"
+      },
+      {
+        "role": "Institute Director",
+        "access": "Read all within their Institute"
+      },
+      {
+        "role": "Admin",
+        "access": "Modify All"
+      }
+    ]
+  },
+  "field_history_tracking": ["Rating__c", "Status__c", "Evaluation_Date__c"],
+  "acceptance_criteria": [
+    "AAR_Evaluation__c custom object created with all fields defined above",
+    "Validation rules implemented",
+    "Page layout configured with Rating and comment fields prominently displayed",
+    "OWD set to Private",
+    "Evaluator permission set has Create/Edit on own records where Status = Draft",
+    "Field history enabled for Rating__c, Status__c, Evaluation_Date__c",
+    "Related list added to AAR_Record__c page layout in Evaluations section"
+  ],
+  "out_of_scope": [
+    "Per-category comments (V1.1)",
+    "Internal vs. shared comment visibility (V1.1 - REV-06 May priority)",
+    "Multi-reviewer workflow (V1.1)",
+    "Employment outcome decisions (not in PRD scope)"
+  ],
+  "dependencies": [
+    {
+      "ticket": "BH-987",
+      "status": "Initial Review",
+      "reason": "AAR_Record__c must exist first — AAR_Evaluation__c is a child object"
+    }
+  ],
+  "unlocks": [
+    { "ticket": "BH-1000", "description": "Evaluator queue" },
+    { "ticket": "BH-1001", "description": "Evaluator view" },
+    {
+      "ticket": "BH-1002/1003",
+      "description": "Rating and comments (merged story)"
+    },
+    { "ticket": "BH-1005", "description": "Evaluator submission" }
+  ]
+}

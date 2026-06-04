@@ -1,0 +1,213 @@
+{
+  "document": {
+    "title": "Verification Card Architectural Recommendation: Read-Display + Action-Dispatch Pattern",
+    "type": "Architectural recommendation",
+    "status": "Proposed — pending PM/architect review",
+    "date": "2026-06-02",
+    "context": "Business Hub · UHN Research · AAR Module",
+    "responds_to": "Verification Framework strategy proposal (discussion draft, in response to PRD v1.1 / ADR-001)",
+    "summary": "The c-verification-card LWC should be a read-only display component with action-dispatch capability — NOT an inline editor. All data modifications must route through Salesforce-native write paths (Flows, modals, record pages) where validation rules, FLS, sharing, and audit logging are enforced by the platform."
+  },
+  "recommendation": {
+    "principle": "Verification ≠ Editing. The card displays verification state and dispatches state-transition actions. It never writes to records directly.",
+    "rationale": [
+      "The Verification Framework's entire value proposition is provenance — 'System says X' vs 'PI attested to X after review' are legally and institutionally different statements. Inline editing on the verification card collapses that boundary.",
+      "Research Strategy exports to CIHR, Tri-Council, and rankings need to answer 'was this value PI-attested or system-suggested?' — the answer stops being clean if the attestation surface is also the editing surface.",
+      "A PI clicking 'Verify' is a specific legal and institutional claim: 'I reviewed what the system suggested and I confirm it.' That is a state transition, not a data edit.",
+      "Salesforce-native security (OWD, FLS, sharing rules, validation rules) enforces write constraints automatically through standard DML. A custom LWC inline editor would need to re-implement or mirror those constraints — creating a maintenance liability and a security surface that doesn't need to exist."
+    ]
+  },
+  "card_responsibilities": {
+    "MUST_DO": [
+      {
+        "capability": "Display verification state",
+        "detail": "Show Proposed / Verified / Manual / Superseded status with visual differentiation (colour-coded badges or sidebar indicators per the framework mockup)",
+        "implementation": "Read Verification_Status__c (or Record Type, depending on adoption decision) via @wire getRecord"
+      },
+      {
+        "capability": "Resolve and display verifier identity",
+        "detail": "Show verifier's name, not raw User ID. Display Verified_By__c as a resolved name and Verified_At__c as a formatted timestamp.",
+        "implementation": "Use getRecord with Verified_By__r.Name or a lightweight Apex controller that returns the resolved name"
+      },
+      {
+        "capability": "Show source system and override indicators",
+        "detail": "Display Source_System__c origin. On Verified records with PI corrections, show a 'corrected' indicator. Hover/tooltip reveals source value vs PI-corrected value and correction timestamp.",
+        "implementation": "If Override_Payload__c JSON pattern is adopted: parse JSON client-side for display diff. If field-level overrides: compare source fields vs current values."
+      },
+      {
+        "capability": "Offer state-transition actions (Verify / Reject / Verify All)",
+        "detail": "Proposed records show a 'Verify' button. Rejected records use soft-delete (Excluded__c = true, Exclusion_Reason__c picklist). 'Verify All' bulk action satisfies SUB-06.",
+        "implementation": "Button dispatches to VerificationReconciliationService via Apex invocable or launches BH-1249 Screen Flow. Card does NOT write to the record — it invokes the service/Flow that does."
+      },
+      {
+        "capability": "React to record changes",
+        "detail": "When the underlying record changes through any channel (Flow, modal edit, admin action, batch sync), the card refreshes immediately to reflect the new state.",
+        "implementation": "Use @wire with refreshApex after Lightning Data Service update, or subscribe to a Lightning Message Service channel that the write path publishes to after commit."
+      }
+    ],
+    "MUST_NOT_DO": [
+      {
+        "prohibition": "Inline field editing",
+        "reason": "Bypasses validation rules (VR_Attestation_Required, VR_Lock_After_Submit, VR_Evaluator_Assessment_Status). Would require re-implementing business logic in JavaScript."
+      },
+      {
+        "prohibition": "Direct DML writes to verifiable records",
+        "reason": "Skips the VerificationReconciliationService's change-event logging, override-payload diffing, and hash-reconciliation logic. Writes must go through the service."
+      },
+      {
+        "prohibition": "Component-level security enforcement",
+        "reason": "FLS and sharing should be enforced by the platform on the write path, not duplicated in the component. The card is read-only, so it only needs to respect field visibility (which @wire handles natively via WITH SECURITY_ENFORCED or stripInaccessible)."
+      },
+      {
+        "prohibition": "Post-submission actions",
+        "reason": "After AAR Status = Submitted, the card should be fully inert — no Verify buttons, no edit paths, no action dispatches. Per BH-987 validation and BH-1010 PI permission set: PI records are read-only after submission."
+      }
+    ]
+  },
+  "permission_model": {
+    "PI": {
+      "card_mode": "Read-only display + Verify/Reject action buttons",
+      "verify_action": "Available on Proposed records when AAR Status = Draft or In Progress",
+      "edit_path": "Data corrections route through AAR Workspace edit modal (standard DML with full validation/FLS)",
+      "post_submission": "Card is fully inert — no actions available",
+      "security_enforcement": "BH-1010 PI permission set: Edit own AAR records (Status = Draft or In Progress), Read-only after Submitted"
+    },
+    "Evaluator": {
+      "card_mode": "Purely informational — zero actions",
+      "purpose": "Verification state helps evaluators understand data provenance (PI-entered vs system-suggested) when reviewing AARs",
+      "edit_path": "Evaluators interact with their own AAR_Evaluation__c record (BH-1246), not with the verification card",
+      "security_enforcement": "BH-1010 evaluator permission set: Read ALL AAR records within their Institute, Edit only AAR_Evaluation__c fields (Status = Draft). VR_Evaluator_Assessment_Status blocks assessment on non-Submitted AARs."
+    },
+    "Admin": {
+      "card_mode": "Read-only display (same as PI view)",
+      "edit_path": "Corrections and state resets go through standard record detail page or Setup with Modify All. Full audit trail via field history (BH-1126) and change events.",
+      "rationale": "No admin edit mode needed on the card — it reflects whatever the admin changed through standard channels"
+    },
+    "Institute_Director": {
+      "card_mode": "Read-only display — zero actions",
+      "purpose": "Visibility into verification state across all Institute AAR records",
+      "security_enforcement": "BH-1010 sharing rule: Read all AAR records within their Institute via Account-scoped Experience Cloud sharing rule"
+    }
+  },
+  "edit_routing": {
+    "principle": "All data modifications route through Salesforce-native write paths, never through the card",
+    "paths": [
+      {
+        "action": "Verify a Proposed record",
+        "route": "Card dispatches → VerificationReconciliationService (Apex) or BH-1249 Screen Flow",
+        "what_happens": "Record Type transitions Proposed → Verified (or Verification_Status__c updates). Verified_By__c / Verified_At__c captured. Change event written to Verification_Change_Event__c.",
+        "ticket_ref": "BH-1249, BH-1159"
+      },
+      {
+        "action": "Reject a Proposed record",
+        "route": "Card dispatches → BH-1249 Screen Flow",
+        "what_happens": "Excluded__c = true, Exclusion_Reason__c set via picklist. Change event logged.",
+        "ticket_ref": "BH-1249"
+      },
+      {
+        "action": "Correct data on a Verified record",
+        "route": "PI clicks through to AAR Workspace edit modal → standard record edit",
+        "what_happens": "If Override_Payload__c pattern adopted: service diffs correction against source, writes JSON override, logs change event, preserves source hash. If direct field edit: validation rules fire natively, field history captures old/new.",
+        "ticket_ref": "BH-987, BH-1126"
+      },
+      {
+        "action": "Verify All (bulk)",
+        "route": "Card dispatches bulk action → Apex invocable method",
+        "what_happens": "Batch Proposed → Verified transition. Each record gets Verified_By__c / Verified_At__c. Change events written per record.",
+        "prd_ref": "SUB-06"
+      },
+      {
+        "action": "Admin force-correction or state reset",
+        "route": "Standard record detail page with Modify All permission",
+        "what_happens": "Full audit trail via Shield field history (BH-1126). Change event written if Verification_Status__c changes.",
+        "ticket_ref": "BH-1126, BH-1010"
+      }
+    ]
+  },
+  "architectural_benefits": {
+    "security": [
+      "Zero component-level security logic — all write constraints enforced by Salesforce platform (OWD Private, sharing rules, FLS, validation rules)",
+      "No risk of a LWC bug granting unintended edit access — the card never writes",
+      "PI read-only after submission is enforced by the permission set, not by card-level conditional rendering that could be bypassed"
+    ],
+    "audit": [
+      "Clean provenance boundary: every write goes through a service or Flow that logs to Verification_Change_Event__c",
+      "No ambiguity between 'viewed' and 'changed' — the card is display-only, so any change in the audit log came from a deliberate write path",
+      "Shield field history (BH-1126) and change events provide two independent audit layers"
+    ],
+    "architecture": [
+      "Simpler LWC: no dirty-state tracking, no save-error handling, no optimistic UI rollback, no field-level edit permission checks",
+      "Single responsibility: the card displays state and dispatches actions; the service/Flow handles business logic and persistence",
+      "Testability: the card's behaviour is fully deterministic from the record state — no write-path edge cases to test in the component"
+    ],
+    "business": [
+      "Institutional trust: PIs cannot accidentally modify data through the verification surface — corrections are deliberate, tracked, and auditable",
+      "Export integrity: Research Strategy's CIHR/Tri-Council exports can distinguish 'PI-attested' from 'system-suggested' without ambiguity",
+      "Compliance: attestation provenance is never contaminated by inline edits that bypass the verification service"
+    ]
+  },
+  "implementation_guidance": {
+    "lwc_component_structure": {
+      "name": "c-verification-card",
+      "pattern": "Read-display + action-dispatch",
+      "data_access": "@wire getRecord for reactive display; refreshApex after action dispatch completes",
+      "action_dispatch": "Call @AuraEnabled Apex methods (or invoke Flows via lightning/flow) — never call DML from the component directly",
+      "user_resolution": "Resolve Verified_By__c to Verified_By__r.Name in the wire call or Apex controller",
+      "status_rendering": {
+        "Proposed": "Muted row, 'Verify' + 'Reject' action buttons visible",
+        "Verified": "Full row, 'corrected' badge if Override_Payload__c is non-null, hover shows source diff",
+        "Manual": "Full row, 'source: manual entry' badge, no action buttons (nothing to verify)",
+        "Superseded": "Struck-through or collapsed row, 'superseded by [Source_Record_Id__c]' link"
+      },
+      "conditional_inertness": "When parent AAR Status__c IN ('Submitted', 'Under Review', 'Complete'), hide ALL action buttons. Card becomes pure display."
+    },
+    "apex_service_interface": {
+      "class": "VerificationReconciliationService",
+      "methods_the_card_calls": [
+        {
+          "method": "verifyRecord(Id recordId, Id userId)",
+          "action": "Proposed → Verified transition. Sets Verified_By__c, Verified_At__c, transitions Record Type or Verification_Status__c, writes change event."
+        },
+        {
+          "method": "verifyAll(List<Id> recordIds, Id userId)",
+          "action": "Bulk Proposed → Verified. Same logic, bulkified. Satisfies SUB-06."
+        },
+        {
+          "method": "rejectRecord(Id recordId, String reason)",
+          "action": "Sets Excluded__c = true, Exclusion_Reason__c = reason. Writes change event."
+        }
+      ]
+    }
+  },
+  "affected_tickets": {
+    "verification_framework_proposal": {
+      "impact": "Constrains the c-verification-card spec: remove inline edit behaviours from 'Verified rows editable' specification. Verified rows should show the corrected indicator but route edits through the workspace modal, not inline.",
+      "specific_change": "Change 'Verified rows editable' to 'Verified rows display corrected values with override indicator; edits route through workspace modal'"
+    },
+    "BH-1159": {
+      "impact": "Reinforces the page layout design: Proposed layout = read-only source fields + Verify action (aligned). Verified layout should NOT expose inline edit via the card — edits go through record page or modal.",
+      "specific_change": "No change needed — BH-1159's Record Type page layout approach is compatible with read-only card"
+    },
+    "BH-1249": {
+      "impact": "Verification mini-Flows become the primary write path the card dispatches to. Card → Flow → service → record + change event. Flow handles audit field capture (Verified_By__c, Verified_Date__c).",
+      "specific_change": "No change needed — BH-1249's Screen Flow approach is the correct write path"
+    },
+    "BH-1010": {
+      "impact": "Evaluator permission model confirmed: evaluators see the card as purely informational. VR_Evaluator_Assessment_Status prevents assessment on non-Submitted AARs. No card-level enforcement needed.",
+      "specific_change": "No change needed"
+    },
+    "BH-1246": {
+      "impact": "Evaluator interaction is with AAR_Evaluation__c, not the verification card. Card shows verification state as context for the evaluator's assessment — no overlap.",
+      "specific_change": "No change needed"
+    },
+    "BH-987": {
+      "impact": "VR_Attestation_Required fires on the standard write path. Card never bypasses it because card never writes.",
+      "specific_change": "No change needed"
+    },
+    "BH-1126": {
+      "impact": "Field history tracking captures all changes made through the standard write paths. The card's read-only nature means every field-history entry corresponds to a deliberate edit — no noise from inline card saves.",
+      "specific_change": "No change needed"
+    }
+  },
+  "decision_required": "PM/architect to confirm: (1) c-verification-card is read-display + action-dispatch only, (2) all data edits route through workspace modal or record page, (3) verification actions dispatch to VerificationReconciliationService or BH-1249 Flows. If confirmed, update the Verification Framework proposal to remove 'Verified rows editable' from the c-verification-card spec."
+}

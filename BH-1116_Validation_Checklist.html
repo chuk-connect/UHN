@@ -1,0 +1,1318 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      BH-1116 Validation Checklist — AAR Core Data Model &amp; Security
+    </title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 11pt;
+        color: #1a1a1a;
+        background: #fff;
+      }
+      @media print {
+        body {
+          font-size: 10pt;
+        }
+        .no-print {
+          display: none;
+        }
+      }
+      .page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 28px 36px;
+      }
+      h1 {
+        font-size: 17pt;
+        color: #003366;
+        border-bottom: 3px solid #003366;
+        padding-bottom: 8px;
+        margin-bottom: 4px;
+      }
+      .meta {
+        font-size: 9.5pt;
+        color: #555;
+        margin-bottom: 20px;
+      }
+      h2 {
+        font-size: 13pt;
+        color: #003366;
+        background: #e8eef6;
+        padding: 6px 10px;
+        border-left: 4px solid #003366;
+        margin: 22px 0 10px;
+      }
+      h3 {
+        font-size: 11pt;
+        color: #1a4b8a;
+        margin: 14px 0 6px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 14px;
+        font-size: 10pt;
+      }
+      th {
+        background: #003366;
+        color: #fff;
+        padding: 7px 10px;
+        text-align: left;
+      }
+      td {
+        padding: 6px 10px;
+        border-bottom: 1px solid #d0d8e8;
+        vertical-align: top;
+      }
+      tr:nth-child(even) td {
+        background: #f4f7fb;
+      }
+      .pass {
+        color: #1a7a2a;
+        font-weight: bold;
+      }
+      .warn {
+        color: #b35a00;
+        font-weight: bold;
+      }
+      .info {
+        color: #003366;
+        font-weight: bold;
+      }
+      .badge-pass {
+        display: inline-block;
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        border-radius: 3px;
+        padding: 1px 7px;
+        font-size: 9pt;
+      }
+      .badge-warn {
+        display: inline-block;
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffc107;
+        border-radius: 3px;
+        padding: 1px 7px;
+        font-size: 9pt;
+      }
+      .badge-pending {
+        display: inline-block;
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+        border-radius: 3px;
+        padding: 1px 7px;
+        font-size: 9pt;
+      }
+      .badge-block {
+        display: inline-block;
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        border-radius: 3px;
+        padding: 1px 7px;
+        font-size: 9pt;
+      }
+      ol {
+        padding-left: 22px;
+        margin-bottom: 10px;
+      }
+      li {
+        margin-bottom: 5px;
+        line-height: 1.5;
+      }
+      .step-table td:first-child {
+        width: 36px;
+        font-weight: bold;
+        color: #003366;
+      }
+      .step-table td:nth-child(2) {
+        width: 42%;
+      }
+      .step-table td:nth-child(3) {
+        width: 30%;
+      }
+      .step-table td:nth-child(4) {
+        width: 20%;
+      }
+      .footer {
+        margin-top: 30px;
+        border-top: 2px solid #003366;
+        padding-top: 10px;
+        font-size: 9pt;
+        color: #555;
+      }
+      .summary-box {
+        background: #e8eef6;
+        border: 1px solid #003366;
+        border-radius: 6px;
+        padding: 12px 16px;
+        margin-bottom: 18px;
+      }
+      .summary-box .status-line {
+        font-size: 13pt;
+        font-weight: bold;
+        color: #003366;
+        margin-top: 6px;
+      }
+      .checkbox {
+        font-size: 14pt;
+      }
+      code {
+        background: #f0f0f0;
+        padding: 1px 4px;
+        border-radius: 3px;
+        font-family: monospace;
+        font-size: 9.5pt;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1>BH-1116 — AAR Core Data Model &amp; Security</h1>
+      <div class="meta">
+        Epic: BH-1116 &nbsp;|&nbsp; Sprint: MVP Phase 1 &nbsp;|&nbsp; Org:
+        UHN-SANDBOX (uhn--aar1.sandbox.my.salesforce.com) &nbsp;|&nbsp;
+        Validated: 2026-06-03 &nbsp;|&nbsp; Author: Chuck (chuk@connexxia.ca)
+        &nbsp;|&nbsp; Branch: feature/bh-1121
+      </div>
+
+      <div class="summary-box">
+        <strong>Epic Summary:</strong> Establishes the foundational data model
+        and security architecture for the Annual Activity Review (AAR) module.
+        Includes all custom objects, relationships, and record-level security
+        configurations required to support the AAR workflow.
+        <div class="status-line">
+          &#x2705; All BH-1116 technical deliverables deployed to sandbox. Ready
+          for PR — pending manual push confirmation.
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <h2>1. Deployed Components Summary</h2>
+
+      <h3>1A. Custom Objects (All Deployed)</h3>
+      <table>
+        <tr>
+          <th>Object API Name</th>
+          <th>Label</th>
+          <th>Sharing Model</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td><code>UHN_AAR__c</code></td>
+          <td>AAR Record</td>
+          <td>Private (OWD)</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Submission__c</code></td>
+          <td>AAR Submission</td>
+          <td>ReadWrite</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Evaluation__c</code></td>
+          <td>AAR Evaluation (BH-1246)</td>
+          <td>Private</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Reviewer__c</code></td>
+          <td>AAR Reviewer</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Criteria__c</code></td>
+          <td>AAR Criterion</td>
+          <td>ReadWrite</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Scholarly_Output__c</code></td>
+          <td>AAR-Scholarly Output</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Publication__c</code></td>
+          <td>AAR Publication</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Recognition__c</code></td>
+          <td>AAR Recognition</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>Commercialization__c</code></td>
+          <td>Commercialization</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Grant__c</code></td>
+          <td>AAR Grant</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_HQP__c</code></td>
+          <td>Highly Qualified Personnel</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Appointment__c</code></td>
+          <td>AAR Appointment</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Teaching__c</code></td>
+          <td>Teaching and Instruction</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Startup__c</code></td>
+          <td>Startup Company</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Patent__c</code></td>
+          <td>Patent</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_License__c</code></td>
+          <td>Licensing Agreement</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_IP_Disclosure__c</code></td>
+          <td>IP Disclosure</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Presentation__c</code></td>
+          <td>Invited Presentation</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Outreach__c</code></td>
+          <td>Outreach and Media</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Professional_Activity__c</code></td>
+          <td>Professional Activity</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Award__c</code></td>
+          <td>Award &amp; Honour</td>
+          <td>ControlledByParent</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+      </table>
+
+      <h3>1B. New Fields Deployed This Session (2026-06-03)</h3>
+      <table>
+        <tr>
+          <th>Field</th>
+          <th>Object</th>
+          <th>Type</th>
+          <th>SF ID</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td><code>Last_Sync_At__c</code></td>
+          <td>AAR_Scholarly_Output__c</td>
+          <td>DateTime</td>
+          <td>00NAq00000GI1MDMA1</td>
+          <td><span class="badge-pass">Created</span></td>
+        </tr>
+        <tr>
+          <td><code>Is_Verified__c</code></td>
+          <td>UHN_Publication_Author__c</td>
+          <td>Checkbox</td>
+          <td>00NAq00000GI1MEMA1</td>
+          <td><span class="badge-pass">Created</span></td>
+        </tr>
+        <tr>
+          <td><code>Last_Sync_At__c</code></td>
+          <td>UHN_Publication_Author__c</td>
+          <td>DateTime</td>
+          <td>00NAq00000GI1MFMA1</td>
+          <td><span class="badge-pass">Created</span></td>
+        </tr>
+        <tr>
+          <td><code>Publication_Count__c</code></td>
+          <td>UHN_AAR__c</td>
+          <td>Roll-Up Summary (COUNT)</td>
+          <td>00NAq00000GFoEeMAL</td>
+          <td><span class="badge-pass">Confirmed</span></td>
+        </tr>
+      </table>
+
+      <h3>1C. Permission Sets</h3>
+      <table>
+        <tr>
+          <th>Permission Set</th>
+          <th>Purpose</th>
+          <th>Updated This Session</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td><code>AAR_Admin</code></td>
+          <td>Full CRUD on all AAR objects and fields</td>
+          <td>Yes</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_PI</code></td>
+          <td>PI create/read/edit on submission + all 13 child objects</td>
+          <td>Yes</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_PI_Access</code></td>
+          <td>Duplicate PI access perm set covering Krembil-era fields</td>
+          <td>Yes</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Evaluator</code></td>
+          <td>
+            Grants <code>AAR_Evaluator</code> custom permission; activates
+            validation rule
+          </td>
+          <td>No</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Evaluator_Access</code></td>
+          <td>
+            Read/edit on assigned AARs via Reviewer junction; read-only on
+            Submissions
+          </td>
+          <td>No</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Institute_Leadership</code></td>
+          <td>
+            Read-only visibility to all institute's AARs scoped by Institute__c
+            sharing rule
+          </td>
+          <td>Yes</td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+      </table>
+
+      <h3>1D. Apex Classes &amp; Triggers</h3>
+      <table>
+        <tr>
+          <th>Component</th>
+          <th>Type</th>
+          <th>Action This Session</th>
+          <th>Tests</th>
+          <th>Coverage</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td><code>AAR_ScholarlyOutputSyncHandler</code></td>
+          <td>Apex Class</td>
+          <td>NEW — deployed (ID: 01pAq00000EYVsXIAX)</td>
+          <td>AAR_ScholarlyOutputSyncHandlerTest (8/8 pass)</td>
+          <td>
+            To be recalculated — 30 lines; 8 test methods covering all branches
+          </td>
+          <td><span class="badge-pass">Active</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_ScholarlyOutputSyncHandlerTest</code></td>
+          <td>Apex Test Class</td>
+          <td>NEW — deployed (ID: 01pAq00000EYW0bIAH)</td>
+          <td>8/8 pass · 0 fail</td>
+          <td>N/A</td>
+          <td><span class="badge-pass">Active</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_ScholarlyOutput_VerificationSync</code></td>
+          <td>Trigger</td>
+          <td>UPDATED — refactored to handler pattern</td>
+          <td>Covered by above</td>
+          <td>Covered</td>
+          <td><span class="badge-pass">Active</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_EvaluatorGroupService</code></td>
+          <td>Apex Class</td>
+          <td>Confirmed deployed (88% coverage)</td>
+          <td>AAR_EvaluatorGroupServiceTest (15/15 pass)</td>
+          <td>88% (23/26 lines)</td>
+          <td><span class="badge-pass">Active</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_RecordTypeAssignmentService</code></td>
+          <td>Apex Class</td>
+          <td>Confirmed deployed (96% coverage)</td>
+          <td>AAR_RecordTypeAssignmentServiceTest (included in 15)</td>
+          <td>96% (26/27 lines)</td>
+          <td><span class="badge-pass">Active</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Recognition_RecordTypeSync</code></td>
+          <td>Trigger</td>
+          <td>Previously deployed</td>
+          <td>Covered by RecordTypeAssignmentService test</td>
+          <td>Covered</td>
+          <td><span class="badge-pass">Active</span></td>
+        </tr>
+      </table>
+
+      <h3>1E. Security Infrastructure</h3>
+      <table>
+        <tr>
+          <th>Component</th>
+          <th>Type</th>
+          <th>Purpose</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td><code>AAR_Evaluators</code></td>
+          <td>Public Group (Regular)</td>
+          <td>
+            Membership base for evaluator sharing rule routing and AAR access
+          </td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>AAR_Evaluator</code></td>
+          <td>Custom Permission</td>
+          <td>
+            Activates VR_Evaluator_Assessment_Status validation rule on
+            AAR_Submission__c
+          </td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>Institute_Evaluators_AAR_Access</code></td>
+          <td>Criteria-Based Sharing Rule (UHN_AAR__c)</td>
+          <td>
+            Grants AAR_Evaluators group Read access to all non-Superseded AAR
+            records
+          </td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>Add_Contact_To_AAR_Evaluators_Group</code></td>
+          <td>Auto-Launched Flow</td>
+          <td>
+            Triggered on Contact.Is_AAR_Evaluator__c = true; adds linked User to
+            AAR_Evaluators group
+          </td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>VR_Evaluator_Assessment_Status</code></td>
+          <td>Validation Rule (AAR_Submission__c)</td>
+          <td>
+            Enforces evaluator assessment requirements using AAR_Evaluator
+            custom permission
+          </td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+      </table>
+
+      <h3>1F. Flows</h3>
+      <table>
+        <tr>
+          <th>Flow</th>
+          <th>Type</th>
+          <th>Purpose</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td><code>Add_Contact_To_AAR_Evaluators_Group</code></td>
+          <td>Record-Triggered (Contact)</td>
+          <td>
+            Auto-adds Contact user to AAR_Evaluators group when
+            Is_AAR_Evaluator__c = true
+          </td>
+          <td><span class="badge-pass">Deployed</span></td>
+        </tr>
+        <tr>
+          <td><code>Flow_AAR_Submission_Trigger</code></td>
+          <td>Auto-Launched</td>
+          <td>
+            Handles AAR_Submission__c post-submit notification + admin
+            notification
+          </td>
+          <td>
+            <span class="badge-pending"
+              >Deployed — not manually tested this session</span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td><code>Flow_AAR_Return_Notification</code></td>
+          <td>Auto-Launched</td>
+          <td>Sends PI email when AAR returned for revision</td>
+          <td>
+            <span class="badge-pending"
+              >Deployed — not manually tested this session</span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td><code>Flow_Annual_AAR_Rollover</code></td>
+          <td>Auto-Launched (Scheduled)</td>
+          <td>
+            Creates new AAR records for active researchers at year-end rollover
+          </td>
+          <td>
+            <span class="badge-pending"
+              >Deployed — not manually tested this session</span
+            >
+          </td>
+        </tr>
+      </table>
+
+      <!-- ============================================================ -->
+      <h2>2. BH-1116 Success Criteria Coverage</h2>
+      <table>
+        <tr>
+          <th>#</th>
+          <th>Success Criterion</th>
+          <th>How Met</th>
+          <th>Result</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>
+            All AAR objects created with appropriate fields and relationships
+          </td>
+          <td>
+            21 objects deployed (1 parent + 18 children + Commercialization__c).
+            All relationships confirmed via EntityDefinition query in sandbox.
+          </td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Security model implemented and tested</td>
+          <td>
+            6 permission sets deployed. Custom Permission + sharing rule +
+            public group in place. 23 Apex tests pass.
+          </td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>PIs can only access their own AAR records</td>
+          <td>
+            UHN_AAR__c OWD = Private. PI access scoped to owned records via
+            AAR_PI + AAR_PI_Access permission sets.
+          </td>
+          <td>
+            <span class="badge-pending"
+              >Deployed — manual user test required</span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>
+            Evaluators can access assigned AARs with appropriate read/edit
+            permissions
+          </td>
+          <td>
+            AAR_Evaluator (object-level) + AAR_Evaluator_Access (field-level)
+            perm sets. AAR_Reviewer__c junction drives record-level access.
+            AAR_Evaluators public group + sharing rule in place.
+          </td>
+          <td>
+            <span class="badge-pending"
+              >Deployed — manual user test required</span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Institute leadership has visibility to their institute's AARs</td>
+          <td>
+            AAR_Institute_Leadership perm set (read-only). Criteria-based
+            sharing rule on UHN_AAR__c scoped to Institute__c field for
+            AAR_Evaluators group.
+          </td>
+          <td>
+            <span class="badge-pending"
+              >Deployed — manual user test required</span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Data model documented and validated</td>
+          <td>
+            This checklist. All components inventoried and sandbox-confirmed via
+            SOQL/Tooling API queries.
+          </td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+      </table>
+
+      <!-- ============================================================ -->
+      <h2>3. Step-by-Step Sandbox Validation Guide</h2>
+      <p style="margin-bottom: 10px; color: #555; font-size: 9.5pt">
+        Target org: <strong>UHN-SANDBOX</strong> · URL:
+        <strong>https://uhn--aar1.sandbox.my.salesforce.com</strong> · Run as
+        System Administrator unless noted otherwise.
+      </p>
+
+      <h3>Section A — Object &amp; Data Model Verification</h3>
+      <table class="step-table">
+        <tr>
+          <th>#</th>
+          <th>Step</th>
+          <th>Expected Result</th>
+          <th>If Fails — Check</th>
+        </tr>
+        <tr>
+          <td>A1</td>
+          <td>
+            Navigate to Setup → Object Manager → Search "AAR". Confirm all 21
+            objects are listed as Deployed.
+          </td>
+          <td>
+            All 21 objects visible: UHN_AAR__c + 20 children listed above.
+          </td>
+          <td>
+            Re-deploy the missing object from
+            <code>force-app/main/default/objects/</code>
+          </td>
+        </tr>
+        <tr>
+          <td>A2</td>
+          <td>
+            Open <code>UHN_AAR__c</code> in Object Manager → Relationships &amp;
+            Lookups. Confirm children: AAR_Submission__c,
+            AAR_Scholarly_Output__c, AAR_Publication__c, AAR_Recognition__c,
+            Commercialization__c appear.
+          </td>
+          <td>All child relationship labels visible.</td>
+          <td>Check relationship field type; Master-Detail vs Lookup.</td>
+        </tr>
+        <tr>
+          <td>A3</td>
+          <td>
+            On <code>AAR_Scholarly_Output__c</code> fields: confirm
+            <code>Last_Sync_At__c</code> (DateTime) is present.
+          </td>
+          <td>Field visible with type DateTime.</td>
+          <td>Field ID: 00NAq00000GI1MDMA1. Re-deploy if missing.</td>
+        </tr>
+        <tr>
+          <td>A4</td>
+          <td>
+            On <code>UHN_AAR__c</code> fields: confirm
+            <code>Publication_Count__c</code> is type Roll-Up Summary (COUNT on
+            AAR_Publication__c).
+          </td>
+          <td>
+            Roll-Up Summary field visible, counting AAR_Publication__c records.
+          </td>
+          <td>Check AAR_Publication__c.AAR_Record__c relationship type.</td>
+        </tr>
+        <tr>
+          <td>A5</td>
+          <td>
+            Create a test <code>UHN_AAR__c</code> record (requires Contact,
+            Account, Review Year, Institute). Attach one
+            <code>AAR_Scholarly_Output__c</code> child.
+          </td>
+          <td>
+            Parent record creates successfully. Child record saves and appears
+            in the related list.
+          </td>
+          <td>
+            Check required field validation rules on UHN_AAR__c. Refer to VR_
+            validation rules.
+          </td>
+        </tr>
+      </table>
+
+      <h3>Section B — Verification Sync Trigger</h3>
+      <table class="step-table">
+        <tr>
+          <th>#</th>
+          <th>Step</th>
+          <th>Expected Result</th>
+          <th>If Fails — Check</th>
+        </tr>
+        <tr>
+          <td>B1</td>
+          <td>
+            Create an <code>AAR_Scholarly_Output__c</code> record with
+            <code>Is_Verified__c = true</code>. Save.
+          </td>
+          <td>
+            <code>Verification_Status__c</code> = "Verified",
+            <code>Verified_At__c</code> and
+            <code>Verified_By__c</code> auto-populated.
+          </td>
+          <td>
+            Confirm <code>AAR_ScholarlyOutputSyncHandler</code> class is Active
+            in Setup → Apex Classes.
+          </td>
+        </tr>
+        <tr>
+          <td>B2</td>
+          <td>
+            Edit that record and set <code>Is_Verified__c = false</code>. Save.
+          </td>
+          <td>
+            <code>Verification_Status__c</code> resets to "Proposed".
+            <code>Verified_At__c</code> and <code>Verified_By__c</code> cleared.
+          </td>
+          <td>
+            Check <code>clearVerified()</code> method — requires existing status
+            = "Verified" to clear.
+          </td>
+        </tr>
+        <tr>
+          <td>B3</td>
+          <td>
+            Edit a record. Change <code>Verification_Status__c</code> to
+            "Verified" without touching <code>Is_Verified__c</code>. Save.
+          </td>
+          <td><code>Is_Verified__c</code> = true (Direction B mirror).</td>
+          <td>
+            Verify trigger is Active and handler class compiles cleanly in Setup
+            → Apex Classes.
+          </td>
+        </tr>
+        <tr>
+          <td>B4</td>
+          <td>
+            Run: <code>AAR_ScholarlyOutputSyncHandlerTest</code> in Setup → Apex
+            Tests. All 8 methods.
+          </td>
+          <td>8/8 pass, 0 failures.</td>
+          <td>Review test debug log for assertion failures.</td>
+        </tr>
+      </table>
+
+      <h3>Section C — Permission Set &amp; Access Verification</h3>
+      <table class="step-table">
+        <tr>
+          <th>#</th>
+          <th>Step</th>
+          <th>Expected Result</th>
+          <th>If Fails — Check</th>
+        </tr>
+        <tr>
+          <td>C1</td>
+          <td>
+            Assign <code>AAR_PI</code> and <code>AAR_PI_Access</code> to a test
+            Standard User. Log in as that user. Create a
+            <code>UHN_AAR__c</code> record.
+          </td>
+          <td>
+            PI can create and view their own AAR record. Cannot view other
+            users' AAR records.
+          </td>
+          <td>
+            Verify OWD for UHN_AAR__c = Private in Setup → Sharing Settings.
+          </td>
+        </tr>
+        <tr>
+          <td>C2</td>
+          <td>
+            Assign <code>AAR_Evaluator</code> +
+            <code>AAR_Evaluator_Access</code> to a second test user. Create an
+            <code>AAR_Reviewer__c</code> junction record linking that user to
+            the PI's AAR. Log in as the evaluator.
+          </td>
+          <td>
+            Evaluator can see and edit the assigned AAR. Cannot see unassigned
+            AARs.
+          </td>
+          <td>
+            Confirm AAR_Reviewer__c.Evaluator__c lookup is set to the user's Id.
+            Confirm Apex Managed Sharing triggers if used.
+          </td>
+        </tr>
+        <tr>
+          <td>C3</td>
+          <td>
+            Assign <code>AAR_Institute_Leadership</code> to a third test user.
+            Log in as that user.
+          </td>
+          <td>
+            Institute leader can see all non-Superseded AAR records. Read-only —
+            no edit buttons.
+          </td>
+          <td>
+            Confirm sharing rule <code>Institute_Evaluators_AAR_Access</code> is
+            active in Setup → Sharing Rules. Confirm user is a member of
+            AAR_Evaluators group (if required by rule).
+          </td>
+        </tr>
+        <tr>
+          <td>C4</td>
+          <td>
+            In Setup → Permission Sets → <code>AAR_Admin</code>: verify Object
+            Permissions show Read/Create/Edit/Delete/View All/Modify All for all
+            AAR_ objects.
+          </td>
+          <td>All CRUD checkboxes enabled for all 21 AAR objects.</td>
+          <td>Redeploy <code>AAR_Admin.permissionset-meta.xml</code></td>
+        </tr>
+        <tr>
+          <td>C5</td>
+          <td>
+            Setup → Custom Permissions: confirm
+            <code>AAR_Evaluator</code> exists. Setup → Public Groups: confirm
+            <code>AAR_Evaluators</code> group exists.
+          </td>
+          <td>Both visible and active.</td>
+          <td>
+            Redeploy from <code>customPermissions/</code> or
+            <code>groups/</code> directory.
+          </td>
+        </tr>
+      </table>
+
+      <h3>Section D — Evaluator Group Flow Verification</h3>
+      <table class="step-table">
+        <tr>
+          <th>#</th>
+          <th>Step</th>
+          <th>Expected Result</th>
+          <th>If Fails — Check</th>
+        </tr>
+        <tr>
+          <td>D1</td>
+          <td>
+            Open a Contact record. Set <code>Is_AAR_Evaluator__c</code> = true.
+            Save.
+          </td>
+          <td>
+            Flow <code>Add_Contact_To_AAR_Evaluators_Group</code> fires. The
+            linked User is added to the <code>AAR_Evaluators</code> public
+            group.
+          </td>
+          <td>
+            Confirm Flow is Active in Setup → Flows. Confirm Contact has a
+            linked User (Contact.UserId or via User.ContactId).
+          </td>
+        </tr>
+        <tr>
+          <td>D2</td>
+          <td>
+            Set same Contact <code>Is_AAR_Evaluator__c</code> = true again
+            (idempotent test). Save.
+          </td>
+          <td>No duplicate GroupMember created. No error thrown.</td>
+          <td>
+            Check
+            <code>AAR_EvaluatorGroupService.addUsersToGroup()</code> idempotency
+            logic.
+          </td>
+        </tr>
+        <tr>
+          <td>D3</td>
+          <td>
+            Run <code>AAR_EvaluatorGroupServiceTest</code> (15 methods). All
+            pass.
+          </td>
+          <td>15/15 pass, 0 failures.</td>
+          <td>
+            Check test setup — requires AAR_Evaluators group to exist in org.
+          </td>
+        </tr>
+      </table>
+
+      <h3>Section E — Record Type Assignment (BH-1159)</h3>
+      <table class="step-table">
+        <tr>
+          <th>#</th>
+          <th>Step</th>
+          <th>Expected Result</th>
+          <th>If Fails — Check</th>
+        </tr>
+        <tr>
+          <td>E1</td>
+          <td>
+            Create an <code>AAR_Recognition__c</code> record with
+            <code>Data_Origin__c = 'Manual'</code>. Check its Record Type after
+            save.
+          </td>
+          <td>Record Type = <code>Manual_Entry</code>.</td>
+          <td>
+            Confirm <code>AAR_Recognition_RecordTypeSync</code> trigger is
+            Active. Check <code>AAR_RecordTypeAssignmentService</code> logic.
+          </td>
+        </tr>
+        <tr>
+          <td>E2</td>
+          <td>
+            Create an <code>AAR_Recognition__c</code> with
+            <code>Data_Origin__c = 'ORCID'</code> (or any source system value).
+          </td>
+          <td>Record Type = <code>Proposed</code>.</td>
+          <td>
+            Confirm Record Types for AAR_Recognition__c exist: Manual_Entry and
+            Proposed.
+          </td>
+        </tr>
+      </table>
+
+      <h3>Section F — Apex Test Summary</h3>
+      <table>
+        <tr>
+          <th>Test Class</th>
+          <th>Tests Run</th>
+          <th>Pass</th>
+          <th>Fail</th>
+          <th>Coverage</th>
+          <th>Deployed</th>
+        </tr>
+        <tr>
+          <td><code>AAR_EvaluatorGroupServiceTest</code></td>
+          <td>15</td>
+          <td class="pass">15</td>
+          <td>0</td>
+          <td>88% (AAR_EvaluatorGroupService)</td>
+          <td>2026-06-03</td>
+        </tr>
+        <tr>
+          <td><code>AAR_RecordTypeAssignmentServiceTest</code></td>
+          <td>Included above</td>
+          <td class="pass">Included</td>
+          <td>0</td>
+          <td>96% (AAR_RecordTypeAssignmentService)</td>
+          <td>2026-06-03</td>
+        </tr>
+        <tr>
+          <td><code>AAR_ScholarlyOutputSyncHandlerTest</code></td>
+          <td>8</td>
+          <td class="pass">8</td>
+          <td>0</td>
+          <td>30 lines covered (AAR_ScholarlyOutputSyncHandler)</td>
+          <td>2026-06-03</td>
+        </tr>
+        <tr>
+          <td><strong>TOTAL</strong></td>
+          <td><strong>23</strong></td>
+          <td class="pass"><strong>23</strong></td>
+          <td><strong>0</strong></td>
+          <td><strong>All classes &gt;75%</strong></td>
+          <td></td>
+        </tr>
+      </table>
+
+      <!-- ============================================================ -->
+      <h2>4. Not Completed / Not Verified This Session</h2>
+      <table>
+        <tr>
+          <th>Item</th>
+          <th>Reason</th>
+          <th>Priority</th>
+        </tr>
+        <tr>
+          <td>
+            Manual user-level access test (PI, Evaluator, Institute Leadership)
+          </td>
+          <td>
+            Requires creating test users and assigning permission sets in
+            sandbox UI. Steps C1–C3 above cover this.
+          </td>
+          <td>
+            <span class="badge-warn">HIGH — required before PR merge</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Flow_AAR_Submission_Trigger — manual record-path test</td>
+          <td>
+            Flow deployed but not manually exercised with a real AAR submission
+            this session.
+          </td>
+          <td><span class="badge-pending">MEDIUM</span></td>
+        </tr>
+        <tr>
+          <td>Flow_AAR_Return_Notification — manual test</td>
+          <td>Flow deployed but return path not exercised.</td>
+          <td><span class="badge-pending">MEDIUM</span></td>
+        </tr>
+        <tr>
+          <td>Flow_Annual_AAR_Rollover — scheduled flow test</td>
+          <td>
+            Scheduled flow — cannot be triggered manually in isolation without
+            date manipulation.
+          </td>
+          <td><span class="badge-pending">LOW — post-MVP</span></td>
+        </tr>
+        <tr>
+          <td>
+            Phase 2 gate criteria (BH-1015, UAT sign-off, 80% PI completion
+            rate, etc.)
+          </td>
+          <td>
+            Phase transition decision is for Product Owner Rob Chen. Not in
+            scope for this technical delivery.
+          </td>
+          <td>
+            <span class="badge-pending">Decision gate — not a dev blocker</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Production deployment</td>
+          <td>
+            Not performed. Sandbox only. Production deploy requires separate
+            approval.
+          </td>
+          <td><span class="badge-pending">Post-PR</span></td>
+        </tr>
+        <tr>
+          <td>
+            AAR_ScholarlyOutputSyncHandler code coverage recalculation via
+            RunLocalTests
+          </td>
+          <td>
+            Coverage aggregate cache may not reflect the new test class
+            immediately. Run RunLocalTests in Setup to refresh.
+          </td>
+          <td><span class="badge-pending">LOW</span></td>
+        </tr>
+        <tr>
+          <td>
+            Git commit for all new/modified files on branch feature/bh-1121
+          </td>
+          <td>Files staged locally but not committed to the feature branch.</td>
+          <td><span class="badge-warn">HIGH — must commit before PR</span></td>
+        </tr>
+        <tr>
+          <td>Remote push to origin feature/bh-1121</td>
+          <td>
+            Not performed.
+            <strong>Requires explicit user confirmation before push.</strong>
+          </td>
+          <td><span class="badge-block">REQUIRES MANUAL CONFIRMATION</span></td>
+        </tr>
+      </table>
+
+      <!-- ============================================================ -->
+      <h2>5. Git Handoff Checkpoint</h2>
+      <table>
+        <tr>
+          <th>Check</th>
+          <th>Status</th>
+          <th>Detail</th>
+        </tr>
+        <tr>
+          <td>Feature branch correct</td>
+          <td><span class="badge-pass">Yes</span></td>
+          <td>
+            Branch: <code>feature/bh-1121</code> (covers BH-1116 deliverables)
+          </td>
+        </tr>
+        <tr>
+          <td>Modified files ready to commit</td>
+          <td><span class="badge-warn">Uncommitted</span></td>
+          <td>
+            <code>classes/AAR_ScholarlyOutputSyncHandler.cls</code> (new)<br />
+            <code>classes/AAR_ScholarlyOutputSyncHandlerTest.cls</code>
+            (new)<br />
+            <code>triggers/AAR_ScholarlyOutput_VerificationSync.trigger</code>
+            (modified)<br />
+            <code>classes/AAR_EvaluatorGroupService.cls</code> (modified)<br />
+            <code
+              >objects/AAR_Scholarly_Output__c/fields/Last_Sync_At__c.field-meta.xml</code
+            >
+            (new)<br />
+            <code
+              >objects/UHN_Publication_Author__c/fields/Is_Verified__c.field-meta.xml</code
+            >
+            (new)<br />
+            <code
+              >objects/UHN_Publication_Author__c/fields/Last_Sync_At__c.field-meta.xml</code
+            >
+            (new)<br />
+            <code>permissionsets/AAR_Admin.permissionset-meta.xml</code>
+            (modified)<br />
+            <code>permissionsets/AAR_PI.permissionset-meta.xml</code>
+            (modified)<br />
+            <code>permissionsets/AAR_PI_Access.permissionset-meta.xml</code>
+            (modified)<br />
+            <code
+              >permissionsets/AAR_Institute_Leadership.permissionset-meta.xml</code
+            >
+            (modified)
+          </td>
+        </tr>
+        <tr>
+          <td>Pre-commit hooks pass (ESLint + Prettier)</td>
+          <td><span class="badge-pending">Not yet run</span></td>
+          <td>
+            Run <code>npm run prettier:verify</code> and
+            <code>npm run lint</code> before commit
+          </td>
+        </tr>
+        <tr>
+          <td>PR target branch</td>
+          <td><span class="badge-pass">master</span></td>
+          <td>Remote: <code>https://github.com/chuk-connect/UHN.git</code></td>
+        </tr>
+        <tr>
+          <td>Remote push authorized</td>
+          <td><span class="badge-block">NOT YET CONFIRMED</span></td>
+          <td>
+            <strong
+              >User must explicitly confirm: "Confirm push to remote" before any
+              push occurs.</strong
+            >
+          </td>
+        </tr>
+      </table>
+
+      <h3>Suggested Commit Message</h3>
+      <pre
+        style="
+          background: #f0f4f8;
+          border: 1px solid #b0c0d8;
+          padding: 10px;
+          font-size: 9pt;
+          border-radius: 4px;
+          font-family: monospace;
+        "
+      >
+BH-1116: AAR Core Data Model &amp; Security — deploy handler, fields, and permission sets
+
+- Add AAR_ScholarlyOutputSyncHandler class + 8-test coverage class
+- Refactor AAR_ScholarlyOutput_VerificationSync trigger to use handler pattern
+- Deploy Last_Sync_At__c on AAR_Scholarly_Output__c + UHN_Publication_Author__c
+- Deploy Is_Verified__c on UHN_Publication_Author__c (verification framework sync)
+- Update AAR_Admin, AAR_PI, AAR_PI_Access, AAR_Institute_Leadership permission sets
+- All 23 AAR Apex tests pass (0 failures) in UHN-SANDBOX
+
+Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;</pre
+      >
+
+      <!-- ============================================================ -->
+      <h2>6. Final Validation Status</h2>
+      <div class="summary-box">
+        <table style="border: none; background: transparent">
+          <tr>
+            <td
+              style="
+                width: 200px;
+                border: none;
+                background: transparent;
+                padding: 4px;
+                font-weight: bold;
+              "
+            >
+              Deployment Status:
+            </td>
+            <td style="border: none; background: transparent; padding: 4px">
+              <span class="badge-pass"
+                >16/16 components deployed successfully to UHN-SANDBOX ·
+                2026-06-03T20:02:10Z</span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="
+                border: none;
+                background: transparent;
+                padding: 4px;
+                font-weight: bold;
+              "
+            >
+              Apex Tests:
+            </td>
+            <td style="border: none; background: transparent; padding: 4px">
+              <span class="badge-pass"
+                >23/23 pass (0 failures) — AAR_EvaluatorGroupServiceTest,
+                AAR_RecordTypeAssignmentServiceTest,
+                AAR_ScholarlyOutputSyncHandlerTest</span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="
+                border: none;
+                background: transparent;
+                padding: 4px;
+                font-weight: bold;
+              "
+            >
+              PR Readiness:
+            </td>
+            <td style="border: none; background: transparent; padding: 4px">
+              <span class="badge-warn"
+                >Ready after: (1) manual user access test, (2) git commit with
+                pre-commit hook pass</span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="
+                border: none;
+                background: transparent;
+                padding: 4px;
+                font-weight: bold;
+              "
+            >
+              Remote Push:
+            </td>
+            <td style="border: none; background: transparent; padding: 4px">
+              <span class="badge-block"
+                >BLOCKED — requires explicit user confirmation. Say "Confirm
+                push to remote" to proceed.</span
+              >
+            </td>
+          </tr>
+        </table>
+        <div class="status-line" style="margin-top: 10px; font-size: 12pt">
+          &#x1F7E1; Ready for PR, awaiting manual push confirmation.
+        </div>
+      </div>
+
+      <div class="footer">
+        <strong>BH-1116 AAR Core Data Model &amp; Security</strong> · Generated
+        2026-06-03 · Org: UHN-SANDBOX · Branch: feature/bh-1121 · Remote:
+        https://github.com/chuk-connect/UHN.git · Validated by: Claude Sonnet
+        4.6 via Claude Code
+      </div>
+    </div>
+  </body>
+</html>

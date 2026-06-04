@@ -3,7 +3,7 @@
     <fullName>Awarding_Agency__c</fullName>
     <externalId>false</externalId>
     <label>Awarding Agency</label>
-    <length>50</length>
+    <length>255</length>
     <required>false</required>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

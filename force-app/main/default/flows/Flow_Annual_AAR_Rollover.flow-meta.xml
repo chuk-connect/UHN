@@ -28,8 +28,9 @@
     <environments>Default</environments>
     <formulas>
         <name>frmCurrentYear</name>
-        <dataType>String</dataType>
-        <expression>TEXT(YEAR(TODAY()))</expression>
+        <dataType>Number</dataType>
+        <expression>YEAR(TODAY())</expression>
+        <scale>0</scale>
     </formulas>
     <formulas>
         <name>frmIsJan1</name>
@@ -82,7 +83,7 @@
             <targetReference>Loop_Contacts</targetReference>
         </connector>
         <inputAssignments>
-            <field>Contact__c</field>
+            <field>Scientist__c</field>
             <value>
                 <elementReference>Loop_Contacts.Id</elementReference>
             </value>
@@ -94,7 +95,7 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Review_Year__c</field>
+            <field>Reporting_Year__c</field>
             <value>
                 <elementReference>frmCurrentYear</elementReference>
             </value>
@@ -111,7 +112,7 @@
                 <elementReference>frmReportingEnd</elementReference>
             </value>
         </inputAssignments>
-        <object>UHN_AAR__c</object>
+        <object>AAR_Submission__c</object>
     </recordCreates>
     <recordLookups>
         <name>Get_Active_Researchers</name>

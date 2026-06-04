@@ -1,0 +1,1804 @@
+{
+  "meta": {
+    "project": "Annual Activity Report (AAR)",
+    "org": "Krembil Research Institute — UHN Business Hub",
+    "description": "Complete Salesforce data model for implementing the Krembil AAR on the UHN Business Hub. Includes all custom objects, fields, relationships, validation rules, automation logic, and a 10-step implementation guide.",
+    "version": "1.0",
+    "generated": "2024",
+    "total_objects": 15,
+    "total_custom_fields": 174,
+    "hub_object": "AAR_Submission__c",
+    "relationship_model": "Hub-and-spoke: 1 master object with 13 Master-Detail children and 1 Lookup to Contact"
+  },
+
+  "objects": [
+    {
+      "api_name": "AAR_Submission__c",
+      "label": "AAR Submission",
+      "category": "core",
+      "description": "Master record for a scientist's complete annual report. All 13 child objects relate here via Master-Detail. One record per scientist per reporting year.",
+      "salesforce_settings": {
+        "enable_activities": true,
+        "enable_chatter": true,
+        "enable_reports": true,
+        "enable_search": true,
+        "enable_history_tracking": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "Private"
+      },
+      "parent_object": null,
+      "child_objects": [
+        "AAR_Appointment__c",
+        "AAR_Grant__c",
+        "AAR_Publication__c",
+        "AAR_HQP__c",
+        "AAR_Teaching__c",
+        "AAR_Award__c",
+        "AAR_Presentation__c",
+        "AAR_IP_Disclosure__c",
+        "AAR_Patent__c",
+        "AAR_License__c",
+        "AAR_Startup__c",
+        "AAR_Outreach__c",
+        "AAR_Professional_Activity__c"
+      ],
+      "fields": [
+        {
+          "label": "Name",
+          "api_name": "Name",
+          "type": "Auto Number",
+          "required": true,
+          "description": "System-generated: e.g. AAR-2024-00042."
+        },
+        {
+          "label": "Scientist",
+          "api_name": "Scientist__c",
+          "type": "Lookup",
+          "lookup_target": "Contact",
+          "required": true,
+          "description": "Lookup to Contact. Drives record ownership and sharing rules."
+        },
+        {
+          "label": "Reporting Year",
+          "api_name": "Reporting_Year__c",
+          "type": "Number",
+          "length": 4,
+          "required": true,
+          "description": "Four-digit year, e.g. 2024."
+        },
+        {
+          "label": "Reporting Start Date",
+          "api_name": "Reporting_Start_Date__c",
+          "type": "Date",
+          "required": true,
+          "description": "Auto-set to Jan 1 of the reporting year."
+        },
+        {
+          "label": "Reporting End Date",
+          "api_name": "Reporting_End_Date__c",
+          "type": "Date",
+          "required": true,
+          "description": "Auto-set to Dec 31 of the reporting year."
+        },
+        {
+          "label": "Status",
+          "api_name": "Status__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Draft",
+            "Submitted",
+            "Under Review",
+            "Approved",
+            "Returned for Revision"
+          ],
+          "description": "Workflow state of the AAR."
+        },
+        {
+          "label": "Submission Date/Time",
+          "api_name": "Submitted_Date__c",
+          "type": "DateTime",
+          "required": false,
+          "description": "Timestamp when scientist clicks Submit. Set via Flow automation."
+        },
+        {
+          "label": "Krembil Pillar",
+          "api_name": "Krembil_Pillar__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Brain & Spinal Cord",
+            "Arthritis",
+            "Vision",
+            "Neurosciences"
+          ],
+          "description": "Which Krembil research pillar the scientist belongs to."
+        },
+        {
+          "label": "Krembil Sub-Grouping",
+          "api_name": "Krembil_Sub_Grouping__c",
+          "type": "Picklist",
+          "required": false,
+          "description": "Sub-category within the Pillar."
+        },
+        {
+          "label": "Research Career Stage",
+          "api_name": "Research_Career_Stage__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": ["Early Career", "Mid Career", "Senior Career"],
+          "description": "Contextualises output expectations."
+        },
+        {
+          "label": "Research Keywords",
+          "api_name": "Research_Keywords__c",
+          "type": "MultiSelectPicklist",
+          "required": false,
+          "description": "Up to 5 keywords describing research focus. Drives cross-institute dashboards."
+        },
+        {
+          "label": "Protected Time for Research (%)",
+          "api_name": "Protected_Time_Research__c",
+          "type": "Percent",
+          "required": false,
+          "description": "% of FTE protected for research."
+        },
+        {
+          "label": "Hours Completing AAR",
+          "api_name": "Hours_Completing_AAR__c",
+          "type": "Number",
+          "required": false,
+          "description": "Tracks form burden year-over-year for process improvement."
+        },
+        {
+          "label": "Lay Summary of Research",
+          "api_name": "Lay_Summary__c",
+          "type": "LongTextArea",
+          "required": false,
+          "description": "Plain-language research description used for public communications."
+        },
+        {
+          "label": "Clinical Duties",
+          "api_name": "Clinical_Duties__c",
+          "type": "LongTextArea",
+          "required": false,
+          "description": "Description of clinical role and time commitment. Context for workload."
+        },
+        {
+          "label": "Circumstances Affecting Productivity",
+          "api_name": "Circumstances_Productivity__c",
+          "type": "LongTextArea",
+          "required": false,
+          "description": "CRITICAL FIELD. Informs how evaluators weight output data. Place prominently on layout."
+        },
+        {
+          "label": "Leave Start Date",
+          "api_name": "Leave_Start_Date__c",
+          "type": "Date",
+          "required": false,
+          "description": "Start of any formal leave (parental, medical, etc.) in the year."
+        },
+        {
+          "label": "Leave End Date",
+          "api_name": "Leave_End_Date__c",
+          "type": "Date",
+          "required": false,
+          "description": "End of leave. Pair with start date for duration calculation."
+        },
+        {
+          "label": "Mandatory Training Complete",
+          "api_name": "Mandatory_Training_Complete__c",
+          "type": "Checkbox",
+          "required": true,
+          "description": "MyLearning compliance acknowledgement. Must be checked to submit."
+        },
+        {
+          "label": "Patient Engagement Survey Complete",
+          "api_name": "Patient_Engagement_Survey__c",
+          "type": "Checkbox",
+          "required": true,
+          "description": "PIPER survey completion acknowledgement."
+        },
+        {
+          "label": "CMaRS Disclosure Updated",
+          "api_name": "CMaRS_Updated__c",
+          "type": "Checkbox",
+          "required": true,
+          "description": "Relationship disclosure and UHN policy compliance declaration."
+        },
+        {
+          "label": "Grants in Good Standing",
+          "api_name": "Grants_Good_Standing__c",
+          "type": "Checkbox",
+          "required": true,
+          "description": "Affirms no grant account deficits."
+        },
+        {
+          "label": "Form Confirmed Accurate",
+          "api_name": "Form_Confirmed_Accurate__c",
+          "type": "Checkbox",
+          "required": true,
+          "description": "Final declaration before submission."
+        },
+        {
+          "label": "Feedback on Form",
+          "api_name": "Form_Feedback__c",
+          "type": "LongTextArea",
+          "required": false,
+          "description": "Scientist comments on the AAR form itself. Feeds annual form review process."
+        },
+        {
+          "label": "Total Peer Publications",
+          "api_name": "Total_Peer_Publications__c",
+          "type": "RollUpSummary",
+          "rollup_type": "COUNT",
+          "child_object": "AAR_Publication__c",
+          "rollup_filter": "Publication_Type__c = 'Peer-Reviewed'",
+          "required": false
+        },
+        {
+          "label": "Total Active Grants",
+          "api_name": "Total_Active_Grants__c",
+          "type": "RollUpSummary",
+          "rollup_type": "COUNT",
+          "child_object": "AAR_Grant__c",
+          "rollup_filter": "Grant_Status__c = 'Funded - Active'",
+          "required": false
+        },
+        {
+          "label": "Total HQP",
+          "api_name": "Total_HQP__c",
+          "type": "RollUpSummary",
+          "rollup_type": "COUNT",
+          "child_object": "AAR_HQP__c",
+          "rollup_filter": null,
+          "required": false
+        }
+      ]
+    },
+    {
+      "api_name": "Contact",
+      "label": "Scientist (Contact)",
+      "category": "profile",
+      "description": "Extends the standard Salesforce Contact with custom research fields. One Contact owns many AAR Submissions across reporting years.",
+      "salesforce_settings": {
+        "object_type": "Standard",
+        "note": "Add custom fields to existing Contact object."
+      },
+      "parent_object": null,
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "First Name",
+          "api_name": "FirstName",
+          "type": "Text",
+          "required": true,
+          "description": "Standard Salesforce field."
+        },
+        {
+          "label": "Last Name",
+          "api_name": "LastName",
+          "type": "Text",
+          "required": true,
+          "description": "Standard Salesforce field."
+        },
+        {
+          "label": "Email",
+          "api_name": "Email",
+          "type": "Email",
+          "required": true,
+          "description": "Standard field. Primary login and notification address."
+        },
+        {
+          "label": "ORCID",
+          "api_name": "ORCID__c",
+          "type": "Text",
+          "length": 19,
+          "required": false,
+          "description": "16-digit ORCID (0000-0000-0000-0000). Enables ORCID API auto-populate for publications."
+        },
+        {
+          "label": "UHN PI Profile URL",
+          "api_name": "UHN_PI_Profile_URL__c",
+          "type": "URL",
+          "required": false,
+          "description": "Link to scientist's public UHN research profile page."
+        },
+        {
+          "label": "Primary Research Institute",
+          "api_name": "Primary_Research_Institute__c",
+          "type": "Picklist",
+          "required": false,
+          "description": "e.g. Krembil Research Institute."
+        },
+        {
+          "label": "UHN Research Appointment",
+          "api_name": "UHN_Research_Appointment__c",
+          "type": "Picklist",
+          "required": false,
+          "description": "Scientist, Senior Scientist, Principal Investigator, etc."
+        },
+        {
+          "label": "Clinical Appointment",
+          "api_name": "Clinical_Appointment__c",
+          "type": "Text",
+          "required": false,
+          "description": "Free-text clinical title."
+        },
+        {
+          "label": "Is Active Researcher",
+          "api_name": "Is_Active_Researcher__c",
+          "type": "Checkbox",
+          "required": false,
+          "description": "Filter flag for active vs. emeritus/inactive scientists. Used in annual rollover Flow."
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_Appointment__c",
+      "label": "AAR Appointment",
+      "category": "profile",
+      "description": "Captures UHN and University appointments held in the reporting period. Multiple rows per AAR Submission.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true,
+          "description": "Parent record. Deleting the submission cascades to this record."
+        },
+        {
+          "label": "Appointment Category",
+          "api_name": "Appointment_Category__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": ["UHN", "University"]
+        },
+        {
+          "label": "Institution",
+          "api_name": "Institution__c",
+          "type": "Text",
+          "required": true,
+          "description": "e.g. University of Toronto."
+        },
+        {
+          "label": "Faculty",
+          "api_name": "Faculty__c",
+          "type": "Text",
+          "required": false,
+          "description": "e.g. Faculty of Medicine."
+        },
+        {
+          "label": "Department",
+          "api_name": "Department__c",
+          "type": "Text",
+          "required": false,
+          "description": "e.g. Department of Surgery."
+        },
+        {
+          "label": "Appointment Title",
+          "api_name": "Appointment_Title__c",
+          "type": "Text",
+          "required": false,
+          "description": "e.g. Associate Professor."
+        },
+        {
+          "label": "Appointment Type",
+          "api_name": "Appointment_Type__c",
+          "type": "Picklist",
+          "required": false,
+          "picklist_values": [
+            "Primary",
+            "Cross-Appointment",
+            "Status-Only",
+            "Adjunct",
+            "Honorary"
+          ]
+        },
+        {
+          "label": "Is Graduate Appointment",
+          "api_name": "Is_Graduate_Appointment__c",
+          "type": "Checkbox",
+          "required": false,
+          "description": "Whether this allows graduate student supervision."
+        },
+        {
+          "label": "Start Date",
+          "api_name": "Start_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "End Date",
+          "api_name": "End_Date__c",
+          "type": "Date",
+          "required": false,
+          "description": "Leave blank if ongoing."
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_Grant__c",
+      "label": "AAR Grant / Funding",
+      "category": "research",
+      "description": "Tracks all funding — submitted, awarded, declined, and active grants. Each row = one grant application or award.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "enable_chatter": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Grant Status",
+          "api_name": "Grant_Status__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Submitted",
+            "Awarded - Declined",
+            "Funded - Not Yet Active",
+            "Funded - Active"
+          ]
+        },
+        {
+          "label": "Funding Type",
+          "api_name": "Funding_Type__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Operating Grant",
+            "Infrastructure Grant",
+            "Salary Award",
+            "Contract",
+            "Sponsored Research Agreement",
+            "Other"
+          ]
+        },
+        {
+          "label": "Is Peer-Reviewed",
+          "api_name": "Is_Peer_Reviewed__c",
+          "type": "Checkbox",
+          "required": false
+        },
+        {
+          "label": "Managed by UHN",
+          "api_name": "Managed_By_UHN__c",
+          "type": "Checkbox",
+          "required": false
+        },
+        {
+          "label": "Funding Source",
+          "api_name": "Funding_Source__c",
+          "type": "Text",
+          "required": true,
+          "description": "Sponsoring agency (e.g. CIHR, NSERC, NIH)."
+        },
+        {
+          "label": "Scientist Role",
+          "api_name": "Scientist_Role__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Principal Investigator (PI)",
+            "Co-PI",
+            "Co-Investigator",
+            "Collaborator"
+          ]
+        },
+        {
+          "label": "Grant Title",
+          "api_name": "Grant_Title__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Principal Investigators",
+          "api_name": "Principal_Investigators__c",
+          "type": "LongTextArea",
+          "required": false
+        },
+        {
+          "label": "Co-Investigators",
+          "api_name": "Co_Investigators__c",
+          "type": "LongTextArea",
+          "required": false
+        },
+        {
+          "label": "Start Date",
+          "api_name": "Grant_Start_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "End Date",
+          "api_name": "Grant_End_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Total Award Amount",
+          "api_name": "Total_Award_Amount__c",
+          "type": "Currency",
+          "currency": "CAD",
+          "required": false
+        },
+        {
+          "label": "Amount Received This Year",
+          "api_name": "Amount_Received_Year__c",
+          "type": "Currency",
+          "currency": "CAD",
+          "required": false
+        },
+        {
+          "label": "Additional Comments",
+          "api_name": "Additional_Comments__c",
+          "type": "LongTextArea",
+          "required": false
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_Publication__c",
+      "label": "AAR Publication",
+      "category": "research",
+      "description": "Stores peer-reviewed, non-peer-reviewed, and in-progress publications. WOS field restricted to staff via FLS.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Publication Type",
+          "api_name": "Publication_Type__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Peer-Reviewed",
+            "Non-Peer-Reviewed",
+            "In Progress - Submitted",
+            "In Progress - Under Revision"
+          ]
+        },
+        {
+          "label": "Article Type",
+          "api_name": "Article_Type__c",
+          "type": "Picklist",
+          "required": false,
+          "picklist_values": [
+            "Original Research",
+            "Review",
+            "Systematic Review",
+            "Meta-Analysis",
+            "Case Report",
+            "Letter",
+            "Editorial",
+            "Book Chapter",
+            "Other"
+          ]
+        },
+        {
+          "label": "Article Title",
+          "api_name": "Article_Title__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Author List",
+          "api_name": "Author_List__c",
+          "type": "LongTextArea",
+          "required": false
+        },
+        {
+          "label": "Authorship Role",
+          "api_name": "Authorship_Role__c",
+          "type": "Picklist",
+          "required": false,
+          "picklist_values": [
+            "First Author",
+            "Co-Author",
+            "Last / Senior Author",
+            "Corresponding Author"
+          ]
+        },
+        {
+          "label": "Is Corresponding Author",
+          "api_name": "Is_Corresponding_Author__c",
+          "type": "Checkbox",
+          "required": false
+        },
+        {
+          "label": "Source / Journal",
+          "api_name": "Source_Journal__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "ePub Date",
+          "api_name": "Epub_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "DOI",
+          "api_name": "DOI__c",
+          "type": "URL",
+          "required": false
+        },
+        {
+          "label": "PMID",
+          "api_name": "PMID__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "WOS (Office Use Only)",
+          "api_name": "WOS__c",
+          "type": "Text",
+          "required": false,
+          "fls_restriction": "Research Admin and Leadership profiles only",
+          "description": "Web of Science ID. Restrict via field-level security."
+        },
+        {
+          "label": "Additional Comments",
+          "api_name": "Additional_Comments__c",
+          "type": "LongTextArea",
+          "required": false
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_HQP__c",
+      "label": "Highly Qualified Personnel",
+      "category": "people",
+      "description": "Tracks every trainee and staff member supervised. Feeds HQP pipeline metrics for funder reporting (CIHR, NSERC).",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Trainee Last Name",
+          "api_name": "Trainee_Last_Name__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Trainee First Name",
+          "api_name": "Trainee_First_Name__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "Position / Title",
+          "api_name": "Position_Title__c",
+          "type": "Text",
+          "required": true,
+          "description": "e.g. PhD Student, Postdoctoral Fellow, Research Coordinator."
+        },
+        {
+          "label": "Employment Type",
+          "api_name": "Employment_Type__c",
+          "type": "Picklist",
+          "required": false,
+          "picklist_values": [
+            "Full-Time",
+            "Part-Time",
+            "Volunteer",
+            "Casual",
+            "Contract"
+          ]
+        },
+        {
+          "label": "Start Date",
+          "api_name": "Start_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "End Date",
+          "api_name": "End_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Supervisor Role",
+          "api_name": "Supervisor_Role__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Primary Supervisor",
+            "Co-Supervisor",
+            "Thesis Committee Member",
+            "Mentor"
+          ]
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_Teaching__c",
+      "label": "Teaching & Instruction",
+      "category": "people",
+      "description": "Records all formal teaching — courses, workshops, grand rounds — delivered in the reporting year.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Instruction Format",
+          "api_name": "Instruction_Format__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Course",
+            "Workshop",
+            "Seminar",
+            "Grand Rounds",
+            "Tutorial",
+            "Online Module",
+            "Other"
+          ]
+        },
+        {
+          "label": "Course Code",
+          "api_name": "Course_Code__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "Course Title",
+          "api_name": "Course_Title__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Hosting Institution",
+          "api_name": "Hosting_Institution__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "Course Start Date",
+          "api_name": "Course_Start_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Course End Date",
+          "api_name": "Course_End_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Course Audience",
+          "api_name": "Course_Audience__c",
+          "type": "Picklist",
+          "required": false,
+          "picklist_values": [
+            "Undergraduate",
+            "Graduate",
+            "Postgraduate",
+            "Professional",
+            "Mixed / Other"
+          ]
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_Award__c",
+      "label": "Award & Honour",
+      "category": "research",
+      "description": "Records prizes, fellowships, named lectureships, and recognition received in the reporting year.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Award Name",
+          "api_name": "Award_Name__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Awarding Agency",
+          "api_name": "Awarding_Agency__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Announcement Date",
+          "api_name": "Announcement_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Award Category",
+          "api_name": "Award_Category__c",
+          "type": "Picklist",
+          "required": false,
+          "picklist_values": [
+            "Research Excellence",
+            "Teaching",
+            "Mentorship",
+            "Career Achievement",
+            "Fellowship",
+            "Named Lectureship",
+            "Patient Impact",
+            "Other"
+          ]
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_Presentation__c",
+      "label": "Invited Presentation",
+      "category": "engagement",
+      "description": "Keynote and plenary presentations only. Regular conference presentations go in AAR_Outreach__c.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Presentation Type",
+          "api_name": "Presentation_Type__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Keynote",
+            "Plenary",
+            "Named Lecture",
+            "Invited Talk"
+          ]
+        },
+        {
+          "label": "Presentation Title",
+          "api_name": "Presentation_Title__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Event Name",
+          "api_name": "Event_Name__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "Event Date",
+          "api_name": "Event_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Location",
+          "api_name": "Location__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "Organizing Body",
+          "api_name": "Organizing_Body__c",
+          "type": "Text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_IP_Disclosure__c",
+      "label": "IP Disclosure",
+      "category": "innovation",
+      "description": "Technology disclosures filed with the TDC (Technology Development & Commercialization) office. Pre-patent step.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Disclosure Date",
+          "api_name": "Disclosure_Date__c",
+          "type": "Date",
+          "required": true
+        },
+        {
+          "label": "Invention Title",
+          "api_name": "Invention_Title__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Inventors",
+          "api_name": "Inventors__c",
+          "type": "LongTextArea",
+          "required": false
+        },
+        {
+          "label": "Disclosure Status (TDC)",
+          "api_name": "Disclosure_Status_TDC__c",
+          "type": "Picklist",
+          "required": false,
+          "picklist_values": [
+            "Under Review",
+            "Accepted",
+            "Declined",
+            "Patent Filed"
+          ]
+        },
+        {
+          "label": "TDC Code",
+          "api_name": "TDC_Code__c",
+          "type": "Text",
+          "required": false,
+          "fls_restriction": "Research Admin profiles only"
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_Patent__c",
+      "label": "Patent",
+      "category": "innovation",
+      "description": "Tracks all patent filings — provisional, utility, PCT, and issued patents.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Filing Date",
+          "api_name": "Filing_Date__c",
+          "type": "Date",
+          "required": true
+        },
+        {
+          "label": "Patent Title",
+          "api_name": "Patent_Title__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Inventors",
+          "api_name": "Inventors__c",
+          "type": "LongTextArea",
+          "required": false
+        },
+        {
+          "label": "Patent Type",
+          "api_name": "Patent_Type__c",
+          "type": "Picklist",
+          "required": false,
+          "picklist_values": [
+            "Provisional",
+            "Utility",
+            "PCT (International)",
+            "Design",
+            "Continuation",
+            "Divisional"
+          ]
+        },
+        {
+          "label": "Application Number",
+          "api_name": "Application_Number__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "Issue Date",
+          "api_name": "Issue_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Jurisdiction",
+          "api_name": "Jurisdiction__c",
+          "type": "Text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_License__c",
+      "label": "Licensing Agreement",
+      "category": "innovation",
+      "description": "Records technology licensing agreements between UHN and third parties for research outputs.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "License Type",
+          "api_name": "License_Type__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Exclusive",
+            "Non-Exclusive",
+            "Co-Exclusive",
+            "Option Agreement"
+          ]
+        },
+        {
+          "label": "Licensing Party",
+          "api_name": "Licensing_Party__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Effective Date",
+          "api_name": "Effective_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Expiration Date",
+          "api_name": "Expiration_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "TDC Code",
+          "api_name": "TDC_Code__c",
+          "type": "Text",
+          "required": false,
+          "fls_restriction": "Research Admin profiles only"
+        },
+        {
+          "label": "Brief Description",
+          "api_name": "Description__c",
+          "type": "LongTextArea",
+          "required": false
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_Startup__c",
+      "label": "Startup Company",
+      "category": "innovation",
+      "description": "Records spin-offs or startups founded based on UHN research. Sponsored Research Agreements belong in AAR_Grant__c.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Company Name",
+          "api_name": "Company_Name__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Brief Description",
+          "api_name": "Description__c",
+          "type": "LongTextArea",
+          "required": true
+        },
+        {
+          "label": "TDC Code",
+          "api_name": "TDC_Code__c",
+          "type": "Text",
+          "required": false,
+          "fls_restriction": "Research Admin profiles only"
+        },
+        {
+          "label": "Founded Date",
+          "api_name": "Founded_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Scientist Role",
+          "api_name": "Scientist_Role__c",
+          "type": "Picklist",
+          "required": false,
+          "picklist_values": [
+            "Founder",
+            "Co-Founder",
+            "Scientific Advisor",
+            "Board Member"
+          ]
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_Outreach__c",
+      "label": "Outreach & Media",
+      "category": "engagement",
+      "description": "Public outreach events, media appearances, conference attendance, and meeting abstracts. One record per distinct activity.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Outreach Type",
+          "api_name": "Outreach_Type__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Public Outreach",
+            "Conference Attendance",
+            "Meeting Abstract",
+            "Media Engagement"
+          ]
+        },
+        {
+          "label": "Activity / Event Name",
+          "api_name": "Activity_Name__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Event Date",
+          "api_name": "Event_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Location",
+          "api_name": "Location__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "Number of Attendees",
+          "api_name": "Attendee_Count__c",
+          "type": "Number",
+          "required": false
+        },
+        {
+          "label": "Media Outlet",
+          "api_name": "Media_Outlet__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "Webpage URL",
+          "api_name": "Webpage_URL__c",
+          "type": "URL",
+          "required": false
+        },
+        {
+          "label": "Brief Description",
+          "api_name": "Description__c",
+          "type": "LongTextArea",
+          "required": false
+        }
+      ]
+    },
+    {
+      "api_name": "AAR_Professional_Activity__c",
+      "label": "Professional Activity",
+      "category": "engagement",
+      "description": "Service contributions — committee work, grant reviewing, professional societies, UHN service, and consulting.",
+      "salesforce_settings": {
+        "enable_reports": true,
+        "enable_search": true,
+        "deployment_status": "Deployed",
+        "sharing_model": "ControlledByParent"
+      },
+      "parent_object": "AAR_Submission__c",
+      "relationship_type": "Master-Detail",
+      "child_objects": [],
+      "fields": [
+        {
+          "label": "AAR Submission",
+          "api_name": "AAR_Submission__c",
+          "type": "MasterDetail",
+          "required": true
+        },
+        {
+          "label": "Activity Type",
+          "api_name": "Activity_Type__c",
+          "type": "Picklist",
+          "required": true,
+          "picklist_values": [
+            "Committee / Board Membership",
+            "Grant Reviewing",
+            "Journal Reviewing",
+            "Professional Society",
+            "Conference Organization",
+            "UHN / Institute Contribution",
+            "Consulting",
+            "Other Academic Activity"
+          ]
+        },
+        {
+          "label": "Organization / Company",
+          "api_name": "Organization__c",
+          "type": "Text",
+          "required": true
+        },
+        {
+          "label": "Role / Title",
+          "api_name": "Role__c",
+          "type": "Text",
+          "required": false
+        },
+        {
+          "label": "Start Date",
+          "api_name": "Start_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "End Date",
+          "api_name": "End_Date__c",
+          "type": "Date",
+          "required": false
+        },
+        {
+          "label": "Time Invested (hrs)",
+          "api_name": "Time_Invested_Hours__c",
+          "type": "Number",
+          "required": false
+        },
+        {
+          "label": "Brief Description",
+          "api_name": "Description__c",
+          "type": "LongTextArea",
+          "required": false
+        }
+      ]
+    }
+  ],
+
+  "security_model": {
+    "owd": [
+      { "object": "AAR_Submission__c", "setting": "Private" },
+      {
+        "object": "All 13 Master-Detail child objects",
+        "setting": "Controlled by Parent"
+      }
+    ],
+    "profiles": [
+      {
+        "name": "AAR Scientist",
+        "access": "Read/Write own records only. Create on all child objects.",
+        "hidden_fields": [
+          "WOS__c on AAR_Publication__c",
+          "TDC_Code__c on AAR_IP_Disclosure__c",
+          "TDC_Code__c on AAR_Patent__c",
+          "TDC_Code__c on AAR_License__c",
+          "TDC_Code__c on AAR_Startup__c"
+        ]
+      },
+      {
+        "name": "AAR Research Admin",
+        "access": "Read/Write all records in assigned Pillar. Edit WOS and TDC fields."
+      },
+      {
+        "name": "AAR Institute Leadership",
+        "access": "Read/Write all records across all Pillars."
+      }
+    ],
+    "sharing_rules": [
+      {
+        "type": "Criteria-based",
+        "object": "AAR_Submission__c",
+        "criteria": "Krembil_Pillar__c matches Research Admin's assigned pillar",
+        "grant_access_to": "AAR Research Admin profile",
+        "access_level": "Read/Write"
+      }
+    ],
+    "field_level_security": [
+      {
+        "field": "AAR_Publication__c.WOS__c",
+        "visible_to": ["AAR Research Admin", "AAR Institute Leadership"],
+        "hidden_from": ["AAR Scientist"]
+      },
+      {
+        "field": "AAR_IP_Disclosure__c.TDC_Code__c",
+        "visible_to": ["AAR Research Admin", "AAR Institute Leadership"],
+        "hidden_from": ["AAR Scientist"]
+      },
+      {
+        "field": "AAR_Patent__c.TDC_Code__c",
+        "visible_to": ["AAR Research Admin", "AAR Institute Leadership"],
+        "hidden_from": ["AAR Scientist"]
+      },
+      {
+        "field": "AAR_License__c.TDC_Code__c",
+        "visible_to": ["AAR Research Admin", "AAR Institute Leadership"],
+        "hidden_from": ["AAR Scientist"]
+      },
+      {
+        "field": "AAR_Startup__c.TDC_Code__c",
+        "visible_to": ["AAR Research Admin", "AAR Institute Leadership"],
+        "hidden_from": ["AAR Scientist"]
+      }
+    ]
+  },
+
+  "validation_rules": [
+    {
+      "object": "AAR_Submission__c",
+      "rule_name": "Block_Submit_No_MyLearning",
+      "formula": "ISPICKVAL(Status__c,'Submitted') && NOT(Mandatory_Training_Complete__c)",
+      "error_message": "MyLearning training must be completed before you can submit your AAR.",
+      "error_field": "Mandatory_Training_Complete__c"
+    },
+    {
+      "object": "AAR_Submission__c",
+      "rule_name": "Block_Submit_No_CMaRS",
+      "formula": "ISPICKVAL(Status__c,'Submitted') && NOT(CMaRS_Updated__c)",
+      "error_message": "Your CMaRS relationship disclosure must be updated before submission.",
+      "error_field": "CMaRS_Updated__c"
+    },
+    {
+      "object": "AAR_Submission__c",
+      "rule_name": "Block_Submit_Grants_Not_Standing",
+      "formula": "ISPICKVAL(Status__c,'Submitted') && NOT(Grants_Good_Standing__c)",
+      "error_message": "All grant accounts must be in good standing before submission.",
+      "error_field": "Grants_Good_Standing__c"
+    },
+    {
+      "object": "AAR_Submission__c",
+      "rule_name": "Block_Submit_Not_Confirmed",
+      "formula": "ISPICKVAL(Status__c,'Submitted') && NOT(Form_Confirmed_Accurate__c)",
+      "error_message": "Please confirm the form is accurate before submitting.",
+      "error_field": "Form_Confirmed_Accurate__c"
+    },
+    {
+      "object": "AAR_Submission__c",
+      "rule_name": "Prevent_Duplicate_Year",
+      "type": "Duplicate Rule",
+      "description": "Block creation where same Scientist__c + Reporting_Year__c already exists."
+    },
+    {
+      "object": "AAR_Grant__c",
+      "rule_name": "Grant_Amount_Exceeded",
+      "formula": "Total_Award_Amount__c < Amount_Received_Year__c",
+      "error_message": "Amount received this year cannot exceed the total award amount.",
+      "error_field": "Amount_Received_Year__c"
+    },
+    {
+      "object": "AAR_Publication__c",
+      "rule_name": "Peer_Review_Needs_Epub_Date",
+      "formula": "ISPICKVAL(Publication_Type__c,'Peer-Reviewed') && ISBLANK(Epub_Date__c)",
+      "error_message": "ePub Date is required for peer-reviewed publications.",
+      "error_field": "Epub_Date__c"
+    }
+  ],
+
+  "automation": [
+    {
+      "name": "Flow_AAR_Submission_Trigger",
+      "type": "Record-Triggered Flow",
+      "object": "AAR_Submission__c",
+      "trigger": "Status changes to Submitted",
+      "actions": [
+        "Set Submitted_Date__c = NOW()",
+        "Send confirmation email to Scientist with record link",
+        "Send notification email to Research Admin for their Pillar"
+      ]
+    },
+    {
+      "name": "Flow_AAR_Return_Notification",
+      "type": "Record-Triggered Flow",
+      "object": "AAR_Submission__c",
+      "trigger": "Status changes to Returned for Revision",
+      "actions": [
+        "Email scientist with reviewer notes from most recent Chatter post on the record"
+      ]
+    },
+    {
+      "name": "Approval_Process_AAR_Submission",
+      "type": "Approval Process",
+      "object": "AAR_Submission__c",
+      "steps": [
+        {
+          "step": 1,
+          "approver": "AAR Research Admin (assigned Pillar)",
+          "on_reject": "Set Status = Returned for Revision"
+        },
+        {
+          "step": 2,
+          "approver": "Institute Director",
+          "on_approve": "Set Status = Approved",
+          "on_reject": "Set Status = Returned for Revision"
+        }
+      ]
+    },
+    {
+      "name": "Flow_Annual_AAR_Rollover",
+      "type": "Scheduled Flow",
+      "schedule": "January 1st annually",
+      "actions": [
+        "Query all Contacts where Is_Active_Researcher__c = true",
+        "For each Contact, create new AAR_Submission__c with Status = Draft",
+        "Auto-populate Reporting_Year__c with current year",
+        "Set Reporting_Start_Date__c = Jan 1, Reporting_End_Date__c = Dec 31"
+      ]
+    }
+  ],
+
+  "reports_and_dashboards": {
+    "custom_report_types": [
+      {
+        "name": "AAR Submissions with Publications",
+        "primary": "AAR_Submission__c",
+        "related": "AAR_Publication__c"
+      },
+      {
+        "name": "AAR Submissions with Grants",
+        "primary": "AAR_Submission__c",
+        "related": "AAR_Grant__c"
+      },
+      {
+        "name": "AAR Submissions with HQP",
+        "primary": "AAR_Submission__c",
+        "related": "AAR_HQP__c"
+      }
+    ],
+    "key_reports": [
+      {
+        "name": "Submission Status by Pillar",
+        "description": "Completion rate and overdue submissions across the institute."
+      },
+      {
+        "name": "Peer-Reviewed Publications by Career Stage",
+        "description": "Filter current year, group by Research_Career_Stage__c."
+      },
+      {
+        "name": "Active Funding by Source",
+        "description": "Filter Grant_Status__c = Funded-Active, group by Funding_Source__c."
+      },
+      {
+        "name": "HQP Pipeline by Position",
+        "description": "Count trainees grouped by Position_Title__c for CIHR/NSERC reporting."
+      }
+    ],
+    "dashboards": [
+      {
+        "name": "Institute Research Overview",
+        "audience": "Institute Leadership",
+        "components": [
+          "Submission rate by Pillar",
+          "Total active funding",
+          "Publications by career stage",
+          "HQP pipeline"
+        ]
+      },
+      {
+        "name": "My AAR Progress",
+        "audience": "Scientist (self-service)",
+        "description": "Pin to Lightning Home Page. Shows own submission status and child record counts."
+      }
+    ]
+  },
+
+  "page_layout_guide": {
+    "object": "AAR_Submission__c",
+    "sections": [
+      {
+        "order": 1,
+        "name": "Identity",
+        "fields": [
+          "Scientist__c",
+          "Reporting_Year__c",
+          "Status__c",
+          "Krembil_Pillar__c",
+          "Krembil_Sub_Grouping__c",
+          "Research_Career_Stage__c"
+        ]
+      },
+      {
+        "order": 2,
+        "name": "Research Profile",
+        "fields": [
+          "Research_Keywords__c",
+          "Lay_Summary__c",
+          "Protected_Time_Research__c",
+          "Hours_Completing_AAR__c"
+        ]
+      },
+      {
+        "order": 3,
+        "name": "Context — PROMINENT PLACEMENT",
+        "fields": [
+          "Clinical_Duties__c",
+          "Circumstances_Productivity__c",
+          "Leave_Start_Date__c",
+          "Leave_End_Date__c"
+        ],
+        "note": "Add help text banner. This section is the most important context for evaluators."
+      },
+      {
+        "order": 4,
+        "name": "Compliance Declarations",
+        "fields": [
+          "Mandatory_Training_Complete__c",
+          "Patient_Engagement_Survey__c",
+          "CMaRS_Updated__c",
+          "Grants_Good_Standing__c",
+          "Form_Confirmed_Accurate__c",
+          "Form_Feedback__c"
+        ],
+        "note": "Place near Submit action button."
+      }
+    ],
+    "related_lists_order": [
+      "AAR_Appointment__c",
+      "AAR_Grant__c",
+      "AAR_Publication__c",
+      "AAR_Award__c",
+      "AAR_HQP__c",
+      "AAR_Teaching__c",
+      "AAR_Presentation__c",
+      "AAR_IP_Disclosure__c",
+      "AAR_Patent__c",
+      "AAR_License__c",
+      "AAR_Startup__c",
+      "AAR_Outreach__c",
+      "AAR_Professional_Activity__c"
+    ]
+  },
+
+  "integration_opportunities": [
+    {
+      "system": "ORCID Public API",
+      "field": "Contact.ORCID__c",
+      "benefit": "Auto-populate AAR_Publication__c records. Largest potential reduction in scientist data entry burden.",
+      "priority": "High"
+    },
+    {
+      "system": "UHN MyLearning",
+      "field": "AAR_Submission__c.Mandatory_Training_Complete__c",
+      "benefit": "Auto-confirm training completion instead of relying on self-declaration.",
+      "priority": "Medium"
+    },
+    {
+      "system": "CMaRS",
+      "field": "AAR_Submission__c.CMaRS_Updated__c",
+      "benefit": "Auto-sync disclosure status to remove checkbox self-reporting.",
+      "priority": "Medium"
+    },
+    {
+      "system": "CIHR ResearchNet / NSERC Online",
+      "field": "AAR_Grant__c (multiple fields)",
+      "benefit": "Pre-populate grant records from funding portal APIs.",
+      "priority": "Low"
+    }
+  ],
+
+  "implementation_steps": [
+    {
+      "step": 1,
+      "title": "Org Preparation",
+      "effort_hours": "2-4",
+      "tasks": [
+        "Provision sandbox (Full or Partial Copy)",
+        "Enable Chatter on AAR_Submission__c",
+        "Enable Activities on AAR_Submission__c",
+        "Enable Notes on all objects",
+        "Create named System Admin build user",
+        "Install Salesforce Inspector metadata tool"
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Create Custom Objects",
+      "effort_hours": "3-5",
+      "tasks": [
+        "Create all 13 custom objects with Reports, Search enabled",
+        "Set Deployment Status = Deployed on each object immediately"
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Build Relationships",
+      "effort_hours": "1-2",
+      "tasks": [
+        "Add Lookup Scientist__c (to Contact) on AAR_Submission__c",
+        "Add Master-Detail AAR_Submission__c as FIRST field on each of the 13 child objects"
+      ]
+    },
+    {
+      "step": 4,
+      "title": "Add Custom Fields",
+      "effort_hours": "8-12",
+      "tasks": [
+        "Add all fields per Objects section above",
+        "Add Roll-Up Summary fields on AAR_Submission__c",
+        "Use Salesforce CLI / Workbench for bulk field creation"
+      ]
+    },
+    {
+      "step": 5,
+      "title": "Configure Security Model",
+      "effort_hours": "4-6",
+      "tasks": [
+        "Set OWDs",
+        "Create 3 profiles",
+        "Create criteria-based Sharing Rule",
+        "Apply Field-Level Security on WOS and TDC fields",
+        "Test as Scientist user"
+      ]
+    },
+    {
+      "step": 6,
+      "title": "Design Page Layouts",
+      "effort_hours": "4-6",
+      "tasks": [
+        "Build 4-section layout per page_layout_guide above",
+        "Add Related Lists in specified order",
+        "Add inline help text on all scientist-visible fields",
+        "Build Lightning App Page for scientists"
+      ]
+    },
+    {
+      "step": 7,
+      "title": "Add Validation Rules",
+      "effort_hours": "2-3",
+      "tasks": [
+        "Implement all 7 validation rules from validation_rules section above"
+      ]
+    },
+    {
+      "step": 8,
+      "title": "Build Process Automation",
+      "effort_hours": "6-10",
+      "tasks": [
+        "Build Flow_AAR_Submission_Trigger",
+        "Build Flow_AAR_Return_Notification",
+        "Configure Approval_Process_AAR_Submission (2-step)",
+        "Build Flow_Annual_AAR_Rollover (scheduled Jan 1)"
+      ]
+    },
+    {
+      "step": 9,
+      "title": "Reports & Dashboards",
+      "effort_hours": "4-6",
+      "tasks": [
+        "Create 3 custom report types",
+        "Build 4 key reports",
+        "Build Institute Research Overview dashboard",
+        "Build My AAR Progress scientist dashboard",
+        "Pin scientist dashboard to Lightning Home Page"
+      ]
+    },
+    {
+      "step": 10,
+      "title": "Test & Go Live",
+      "effort_hours": "3-5",
+      "tasks": [
+        "UAT with 2-3 real scientist users",
+        "Verify record visibility, child record creation, submission blocking, email notifications",
+        "Verify FLS: WOS and TDC fields hidden from scientists",
+        "Deploy from sandbox to production via Change Set or Salesforce CLI",
+        "Scientist training session (1 hour)",
+        "Go-live communication to all scientists"
+      ]
+    }
+  ]
+}

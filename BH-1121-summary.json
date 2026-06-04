@@ -1,0 +1,192 @@
+{
+  "ticket": {
+    "key": "BH-1121",
+    "title": "Create Commercialization__c Custom Object",
+    "type": "Story",
+    "status": "Initial Review",
+    "priority": "Medium",
+    "project": "Business Hub",
+    "parent": "AAR Core Data Model & Security (BH-1116)",
+    "epic_link": "AAR Core Data Model & Security",
+    "reporter": "Christopher King",
+    "assignee": "Chuck",
+    "labels": ["AAR", "V1.1"],
+    "story_points": 5,
+    "sprint": "Phase 1A (Week 1)",
+    "created": "2025-12-22",
+    "updated": "2026-05-28"
+  },
+  "current_scope": {
+    "directive": "OBJECT SHELL ONLY — do not finalize full field schema yet",
+    "rationale": "Wellspring CSV schema is still pending from Research Strategy. Sample CSVs expected soon but not yet received.",
+    "source": "Sprint kick-off decision 2026-04-24",
+    "build_now": [
+      {
+        "api_name": "Wellspring_ID__c",
+        "type": "Text(80)",
+        "external_id": true,
+        "unique": true,
+        "required": true,
+        "purpose": "External ID for CSV upsert operations"
+      },
+      {
+        "api_name": "Contact__c",
+        "type": "Lookup(Contact)",
+        "required": true,
+        "label": "PI/Inventor"
+      },
+      {
+        "api_name": "AAR_Record__c",
+        "type": "Lookup(AAR_Record__c)",
+        "required": false
+      },
+      { "api_name": "Title__c", "type": "Text(255)", "required": true }
+    ],
+    "build_later": "All other fields (dates, status picklist, type picklist, technology category, etc.) deferred until sample CSV arrives and is reviewed",
+    "blocked_status": "NOT blocked — proceed with shell now. Field schema finalized in follow-up task.",
+    "related_hold": "BH-1009 (CSV integration) remains on hold until CSV arrives"
+  },
+  "object_definition": {
+    "api_name": "Commercialization__c",
+    "purpose": "Store patents, licenses, IP disclosures, and other commercialization activities from Wellspring system",
+    "name_format": "Auto-Number: COMM-{0000}"
+  },
+  "full_field_spec_for_reference": {
+    "note": "ORIGINAL ACCEPTANCE CRITERIA — most fields deferred per Apr 24 decision. Retain for follow-up implementation after CSV review.",
+    "fields": [
+      {
+        "api_name": "Contact__c",
+        "type": "Lookup(Contact)",
+        "required": true,
+        "label": "PI/Inventor",
+        "status": "BUILD NOW"
+      },
+      {
+        "api_name": "AAR_Record__c",
+        "type": "Lookup(AAR_Record__c)",
+        "required": false,
+        "status": "BUILD NOW"
+      },
+      {
+        "api_name": "Type__c",
+        "type": "Picklist",
+        "required": true,
+        "status": "DEFERRED",
+        "values": [
+          "Patent",
+          "License",
+          "IP Disclosure",
+          "Trademark",
+          "Copyright",
+          "Spin-Off Company",
+          "Material Transfer",
+          "Other"
+        ]
+      },
+      {
+        "api_name": "Status__c",
+        "type": "Picklist",
+        "required": true,
+        "status": "DEFERRED",
+        "values": [
+          "Disclosed",
+          "Filed",
+          "Under Review",
+          "Granted",
+          "Executed",
+          "Active",
+          "Expired",
+          "Abandoned",
+          "Pending"
+        ]
+      },
+      {
+        "api_name": "Disclosure_Date__c",
+        "type": "Date",
+        "status": "DEFERRED"
+      },
+      { "api_name": "Filing_Date__c", "type": "Date", "status": "DEFERRED" },
+      { "api_name": "Grant_Date__c", "type": "Date", "status": "DEFERRED" },
+      { "api_name": "Execution_Date__c", "type": "Date", "status": "DEFERRED" },
+      {
+        "api_name": "Expiration_Date__c",
+        "type": "Date",
+        "status": "DEFERRED"
+      },
+      {
+        "api_name": "Title__c",
+        "type": "Text(255)",
+        "required": true,
+        "status": "BUILD NOW"
+      },
+      {
+        "api_name": "Description__c",
+        "type": "Long Text Area(32768)",
+        "status": "DEFERRED"
+      },
+      {
+        "api_name": "Patent_Number__c",
+        "type": "Text(80)",
+        "status": "DEFERRED"
+      },
+      {
+        "api_name": "License_Number__c",
+        "type": "Text(80)",
+        "status": "DEFERRED"
+      },
+      {
+        "api_name": "Technology_Category__c",
+        "type": "Picklist",
+        "status": "DEFERRED",
+        "values": [
+          "Medical Device",
+          "Software",
+          "Therapeutics",
+          "Diagnostics",
+          "Research Tool",
+          "Other"
+        ]
+      },
+      {
+        "api_name": "Wellspring_ID__c",
+        "type": "Text(80)",
+        "external_id": true,
+        "unique": true,
+        "required": true,
+        "status": "BUILD NOW"
+      },
+      {
+        "api_name": "Last_Sync_Date__c",
+        "type": "DateTime",
+        "status": "DEFERRED"
+      }
+    ]
+  },
+  "page_layout": {
+    "status": "Apply minimal layout for shell; full sections deferred",
+    "planned_sections": ["Identification", "Dates", "Details", "Integration"]
+  },
+  "security_and_app_config": [
+    "Field-level security set for Experience Cloud profiles",
+    "Object permissions granted to internal users",
+    "Tab created and added to Research app"
+  ],
+  "technical_notes": [
+    "Wellspring_ID__c is External ID for CSV upsert operations",
+    "Originally-required fields (full spec): Contact__c, Type__c, Status__c, Title__c, Wellspring_ID__c",
+    "Currently-required fields (shell only): Contact__c, Title__c, Wellspring_ID__c",
+    "CSV integration will be set up in BH-1142 (also referenced as BH-1009 in the Apr 24 comment — verify which is correct)"
+  ],
+  "decision_log": [
+    {
+      "date": "2026-04-24",
+      "decision": "Shell-only build. Defer full field schema until Wellspring sample CSV arrives from Research Strategy. Story is NOT blocked — proceed with structural fields (Wellspring_ID__c External ID, Contact__c, AAR_Record__c, Title__c) now."
+    }
+  ],
+  "open_actions": [
+    "Reconcile BH-1142 vs BH-1009 references for CSV integration ticket — Technical Notes cites BH-1142, Apr 24 comment cites BH-1009",
+    "Await Wellspring sample CSV from Research Strategy before finalizing deferred fields",
+    "Create follow-up task for full field schema build-out once CSV is reviewed",
+    "Confirm whether tab/app config and Experience Cloud FLS apply to the shell or wait for full field set"
+  ]
+}

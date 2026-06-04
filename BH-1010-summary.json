@@ -1,0 +1,158 @@
+{
+  "ticket": {
+    "key": "BH-1010",
+    "title": "Implement Institute-wide evaluator access with assessment constraints",
+    "type": "Story",
+    "status": "Initial Review",
+    "priority": "Medium",
+    "project": "Business Hub",
+    "parent": "AAR Core Data Model & Security (BH-1116)",
+    "epic_link": "AAR Core Data Model & Security",
+    "reporter": "Christopher King",
+    "assignee": "Chuck",
+    "created": "2025-12-21",
+    "updated": "2026-05-28"
+  },
+  "user_story": {
+    "as_a": "Research Institute Director",
+    "i_want": "evaluators to access all Institute AAR records with appropriate constraints",
+    "so_that": "evaluators have workflow flexibility while maintaining data integrity"
+  },
+  "sub_tasks": [
+    {
+      "key": "BH-1043",
+      "summary": "Set AAR object-wide default sharing to ...",
+      "status": "Initial Review",
+      "assignee": "Chuck"
+    },
+    {
+      "key": "BH-1044",
+      "summary": "Create institute-based sharing rules ...",
+      "status": "Initial Review",
+      "assignee": "Chuck"
+    },
+    {
+      "key": "BH-1045",
+      "summary": "Configure public groups for evaluator ...",
+      "status": "Initial Review",
+      "assignee": "Chuck"
+    }
+  ],
+  "scope_notes": [
+    "BH-1010 absorbs the scope of BH-1011 (closed as thin duplicate, Mar 2026). This is the SINGLE story covering all evaluator security configuration: OWD, sharing rules, public groups, FLS, and permission sets.",
+    "Engineers should NOT look to BH-1011 for any additional scope."
+  ],
+  "object_wide_defaults": {
+    "AAR_Record__c": "Private"
+  },
+  "permission_sets": [
+    {
+      "name": "PI",
+      "access": [
+        {
+          "object": "AAR_Record__c",
+          "type": "Edit own",
+          "condition": "Status = Draft OR In Progress"
+        },
+        {
+          "object": "AAR_Record__c",
+          "type": "Read-only on own",
+          "condition": "Status = Submitted, Under Review, or Complete"
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "access": [{ "object": "AAR objects", "type": "Modify All" }]
+    },
+    {
+      "name": "AAR_Evaluator",
+      "access": [
+        {
+          "object": "All AAR records within their Institute",
+          "type": "Read",
+          "notes": "Scope gated by Account relationship — see sharing rule"
+        }
+      ]
+    }
+  ],
+  "sharing_rules": [
+    {
+      "name": "Institute_Evaluators_AAR_Access",
+      "type": "Criteria-based",
+      "criteria": "AAR_Record__c.Account__c = Running User's Contact.Account__c",
+      "access_level": "Read Only",
+      "share_with": "Public Group 'AAR_Evaluators'",
+      "status_filter": "NONE — evaluators see Draft, In Progress, Submitted, all statuses",
+      "alignment_note": "Per Apr 24, 2026 decision: use the same Experience Cloud sharing pattern as FCC access. The Account lookup is the single scope gate — one rule covers directors, business managers, AND evaluators assigned to that Institute. No separate criteria-based rule per persona is needed."
+    }
+  ],
+  "evaluator_field_level_security": {
+    "read_access": [
+      "All AAR_Record__c fields (including attestation data)",
+      "Related AAR_Recognition__c records (honours/awards)",
+      "Related Publication__c records",
+      "AAR_Criteria__c evaluation criteria"
+    ],
+    "edit_access": [
+      "AAR_Submission__c.Evaluator_Comments__c",
+      "AAR_Submission__c.Evaluator_Score__c",
+      "AAR_Submission__c.Evaluator_Recommendation__c"
+    ]
+  },
+  "validation_rules": [
+    {
+      "name": "VR_Evaluator_Assessment_Status",
+      "object": "AAR_Submission__c",
+      "formula": "AND($Permission.AAR_Evaluator, OR(ISCHANGED(Evaluator_Score__c), ISCHANGED(Evaluator_Comments__c)), NOT(ISPICKVAL(AAR_Record__r.Status__c, \"Submitted\")))",
+      "error_message": "Evaluator assessment can only be completed for Submitted AARs.",
+      "purpose": "Evaluators can VIEW incomplete AARs but cannot ASSESS until Status = Submitted"
+    }
+  ],
+  "public_group": {
+    "name": "AAR_Evaluators",
+    "type": "Public Group",
+    "membership_source": "Account Team (Account.Team_Role = 'AAR Evaluator')",
+    "automated_membership": {
+      "trigger": "Contact.Is_AAR_Evaluator__c = true",
+      "mechanism": "Record-Triggered Flow",
+      "action": "Add Contact's User to AAR_Evaluators public group via Apex invocable or Flow action",
+      "deprecation_note": "Per Apr 24, 2026 decision: do NOT use Process Builder (deprecated). Use Record-Triggered Flow instead."
+    }
+  },
+  "security_notes": [
+    "Evaluators can VIEW incomplete AARs but cannot ASSESS until Status = Submitted",
+    "Read-only access prevents accidental data modification",
+    "Audit trail captures all evaluator record access"
+  ],
+  "decision_log": [
+    {
+      "date": "2025-11-27 05:22-05:48",
+      "decision": "Meeting authority: evaluator access model and assessment constraints confirmed"
+    },
+    {
+      "date": "2026-03-09",
+      "decision": "BH-1010 absorbs BH-1011 (closed as thin duplicate). BH-1010 is the single story for all evaluator security config."
+    },
+    {
+      "date": "2026-04-24",
+      "decision": "Align with FCC Experience Cloud sharing pattern — Account relationship is the single scope gate for directors, business managers, and evaluators. No per-persona criteria-based rules."
+    },
+    {
+      "date": "2026-04-24",
+      "decision": "Replace Process Builder (deprecated) with Record-Triggered Flow for AAR_Evaluators public group membership automation."
+    }
+  ],
+  "referenced_objects": [
+    "AAR_Record__c (parent — see BH-987)",
+    "AAR_Recognition__c (child — see BH-987)",
+    "AAR_Submission__c (evaluator scoring object — not defined in this ticket)",
+    "AAR_Criteria__c (evaluation criteria object — not defined in this ticket)",
+    "Publication__c"
+  ],
+  "open_actions": [
+    "Confirm AAR_Submission__c and AAR_Criteria__c object definitions exist (or are scoped under sibling tickets) — both are referenced for FLS but not defined in BH-987 or here",
+    "Confirm whether Contact.Is_AAR_Evaluator__c field already exists or needs to be created",
+    "Confirm the Account Team role 'AAR Evaluator' is configured at the Account object level"
+  ]
+}

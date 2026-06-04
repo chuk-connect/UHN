@@ -1,0 +1,307 @@
+{
+  "document": {
+    "title": "The Verification Framework",
+    "subtitle": "A reusable pattern for human-curated data across Business Hub, proposed as infrastructure beneath the AAR module",
+    "type": "Strategy proposal / Discussion draft",
+    "status": "NOT YET ADOPTED — proposal in response to PRD v1.1 and ADR-001",
+    "context": "Business Hub · UHN Research",
+    "important_caveat": "This is a DESIGN PROPOSAL, not an implementation ticket. It argues for reframing verification as platform infrastructure and would materially change the build approach in several existing tickets (notably BH-1159, BH-1249, and the per-object Record Type pattern). Do NOT treat as build spec unless/until adopted."
+  },
+  "problem_statement": {
+    "thesis": "Verification is treated as an AAR feature. It should be treated as Business Hub infrastructure.",
+    "arguments": [
+      {
+        "name": "Pattern keeps being reinvented",
+        "detail": "Every module that ingests authoritative data and asks humans to curate it hits the same problem: AAR, ethics, COI, grant budget review, faculty appointments. AAR v1 solves it bespoke — the next module solves it bespoke again."
+      },
+      {
+        "name": "Research integrity is load-bearing",
+        "detail": "'System says X' and 'PI attested to X after review' are legally and institutionally different statements. Research Strategy exports to CIHR, Tri-Council, and rankings need provenance — not just values."
+      },
+      {
+        "name": "Trust breaks silently across cycles",
+        "detail": "If a PI corrects an author attribution in 2026 and Wellspring re-syncs it back in 2027, the credibility of the entire suggest-verify offer collapses. The most influential users notice first."
+      }
+    ]
+  },
+  "core_idea": {
+    "summary": "Three states, one rule, one shared service",
+    "states": [
+      { "name": "PROPOSED", "description": "System-suggested from source" },
+      { "name": "VERIFIED", "description": "PI-confirmed, override-durable" },
+      { "name": "MANUAL", "description": "PI-added, no source record" },
+      {
+        "name": "SUPERSEDED",
+        "description": "Manual record displaced by a later-appearing source record (transition state)"
+      }
+    ],
+    "reconciliation_rule": "When a source system updates a record the PI has already verified, the source wins ONLY if the PI has not yet attested. After verification, overrides are durable — the source cannot silently overwrite human judgment. Changes upstream are surfaced as events, never applied in place.",
+    "shared_service": {
+      "name": "VerificationReconciliationService",
+      "type": "Apex service class",
+      "principle": "Every verifiable object's trigger calls this service. Not per-object logic."
+    }
+  },
+  "shared_data_model": {
+    "description": "Applied consistently to every verifiable object via custom metadata",
+    "fields": [
+      {
+        "api_name": "Verification_Status__c",
+        "type": "Picklist",
+        "values": ["Proposed", "Verified", "Manual", "Superseded"],
+        "purpose": "Current verification state"
+      },
+      {
+        "api_name": "Source_System__c",
+        "type": "Picklist",
+        "values": ["FCC", "GAM", "Wellspring", "HR", "CAPCR", "Manual"],
+        "purpose": "Which authoritative system the record came from"
+      },
+      {
+        "api_name": "Source_Record_Id__c",
+        "type": "Text",
+        "external_id": true,
+        "indexed": true,
+        "purpose": "Link back to source system record"
+      },
+      {
+        "api_name": "Source_Hash__c",
+        "type": "Text",
+        "purpose": "Hash of source fields at last sync — detects upstream drift"
+      },
+      {
+        "api_name": "Override_Payload__c",
+        "type": "Long Text Area",
+        "format": "JSON",
+        "purpose": "Field-level PI corrections, read via merge-at-display"
+      },
+      {
+        "api_name": "Verified_By__c",
+        "type": "Lookup(User)",
+        "purpose": "Attestation provenance — who verified"
+      },
+      {
+        "api_name": "Verified_At__c",
+        "type": "DateTime",
+        "purpose": "Attestation provenance — when verified"
+      },
+      {
+        "api_name": "Last_Sync_At__c",
+        "type": "DateTime",
+        "purpose": "When source was last read"
+      }
+    ],
+    "key_design_decision": {
+      "topic": "Override_Payload__c as JSON",
+      "rationale": "Rather than duplicating every source field into an 'AAR version,' overrides live as a JSON document (e.g. {\"title\": \"Corrected\", \"role\": \"Senior Author\"}). Read-time merge: display = source_value ?? override_value.",
+      "benefits": [
+        "Narrow schema",
+        "Trivially diffable",
+        "New overrideable fields require zero schema migration"
+      ]
+    }
+  },
+  "sync_reconciliation_cases": [
+    {
+      "case": 1,
+      "trigger": "Hash matches stored hash",
+      "action": "No-op (no change upstream)"
+    },
+    {
+      "case": 2,
+      "trigger": "Hash differs, Verification_Status__c = Proposed",
+      "action": "Silently update the proposed record. Refresh hash. PI has not yet engaged — safe to overwrite."
+    },
+    {
+      "case": 3,
+      "trigger": "Hash differs, Verification_Status__c = Verified",
+      "action": "DO NOT OVERWRITE. Write a Verification_Change_Event. Optionally notify the PI. The verified record stays as-is."
+    },
+    {
+      "case": 4,
+      "trigger": "Verification_Status__c = Manual, matching source record appears",
+      "action": "Mark the manual record Superseded. Create a new Proposed record. Let the PI decide whether to merge."
+    },
+    {
+      "case": 5,
+      "trigger": "Any state transition",
+      "action": "Log to Verification_Change_Event__c. Every state change is auditable."
+    }
+  ],
+  "change_event_log": {
+    "object_api_name": "Verification_Change_Event__c",
+    "pattern": "Append-only provenance log",
+    "feeds": "Bulk export Research Strategy already wants (EXP-03)",
+    "transitions_captured": [
+      "Proposed → Verified (PI attestation)",
+      "Verified → Verified + override (PI corrected a field)",
+      "Source changed under Verified (upstream drift, surfaced not applied)",
+      "Manual created (no source record exists)",
+      "Manual → Superseded (source record later appeared)"
+    ],
+    "unlocks": [
+      {
+        "capability": "Bulk export with change flags",
+        "detail": "Read directly from the event log — no runtime diffing"
+      },
+      {
+        "capability": "Dashboards in year two",
+        "detail": "Override rates by institute. Source-system disagreement rates. Time-to-verify."
+      },
+      {
+        "capability": "Answerable audit questions",
+        "detail": "'Was this value PI-attested or system-suggested?' — one click, one query"
+      },
+      {
+        "capability": "Cycle-over-cycle trust signal",
+        "detail": "Override durability across AAR cycles becomes observable, not just promised"
+      }
+    ]
+  },
+  "lwc_component": {
+    "name": "c-verification-card",
+    "type": "Lightning Web Component",
+    "scope": "One reusable component. Drop onto any record page. Works in Experience Cloud.",
+    "inputs": [
+      { "name": "recordId", "purpose": "the parent AAR" },
+      { "name": "childObjectApiName", "example": "UHN_Publication_Author__c" },
+      {
+        "name": "fieldSetName",
+        "purpose": "which fields to show and make editable"
+      }
+    ],
+    "built_in_behaviours": [
+      "Proposed rows muted with a Verify button",
+      "Verified rows editable, 'corrected' indicator on overrides",
+      "Manual rows badged 'source: manual entry'",
+      "Verify All bulk action — satisfies SUB-06 as a component, not a screen flow",
+      "Hover on override shows source value + timestamp"
+    ]
+  },
+  "architecture_layers": {
+    "summary": "Three horizontal layers. AAR is the first tenant. The next module drops in at the top without touching anything below.",
+    "layers": [
+      {
+        "level": 1,
+        "name": "Presentation",
+        "components": [
+          "AAR Workspace record page → <c-verification-card>",
+          "Publications page → <c-verification-card> reading UHN_Publication_Author__c",
+          "Grants page → <c-verification-card> reading UHN_FCC__c"
+        ]
+      },
+      {
+        "level": 2,
+        "name": "Service",
+        "components": [
+          "VerificationReconciliationService (Apex) — encodes the reconciliation rule, writes change events on transitions, enforces override durability"
+        ]
+      },
+      {
+        "level": 3,
+        "name": "Audit log",
+        "components": [
+          "Verification_Change_Event__c — append-only, feeds EXP-03 bulk export and trust metrics"
+        ]
+      },
+      {
+        "level": 4,
+        "name": "Source systems (read-only authoritative)",
+        "components": ["FCC", "GAM", "Wellspring", "HR", "CAPCR"],
+        "principle": "Authoritative. Never mutated by AAR overrides."
+      }
+    ]
+  },
+  "strategic_case_beyond_aar": [
+    {
+      "theme": "Reusable across Business Hub",
+      "detail": "AAR, ethics review, conflict-of-interest disclosure, grant budget review, faculty appointments, safety reporting. Each module after AAR is cheaper."
+    },
+    {
+      "theme": "A defensible answer to 'how do we know this is trustworthy?'",
+      "detail": "Research Strategy, TRBS, and eventually external auditors will ask. The event log is the answer: every value in Business Hub has a provenance chain."
+    },
+    {
+      "theme": "An analytics layer you can't build retroactively",
+      "detail": "Override rates, source-system disagreement rates, time-to-verify, engagement trends. High-value signals for institute leadership — but only if the event object exists from day one."
+    }
+  ],
+  "recommended_next_steps": {
+    "total_effort": "~2 weeks of additional design and abstraction work before Q1 build",
+    "tasks": [
+      {
+        "order": 1,
+        "title": "Formalize the pattern above AAR",
+        "action": "Write a one-page internal design note: 'Business Hub Verification Framework.' Get Robert Chen's signoff. Elevates the pattern above AAR and sets precedent for every module after it."
+      },
+      {
+        "order": 2,
+        "title": "Build the service and component as platform code",
+        "action": "c-verification-card and VerificationReconciliationService ship as standalone deliverables with their own test coverage, separate from the AAR feature branch. Treat them as infrastructure, not AAR code."
+      },
+      {
+        "order": 3,
+        "title": "Prototype against publications first",
+        "action": "Publications are the hardest case — multi-author, junction-based verification on UHN_Publication_Author__c. If the pattern works there, it works for grants, awards, supervision, and everything that comes after."
+      }
+    ]
+  },
+  "closing_argument": "Build verification once. Ship it as platform. Let AAR be its first tenant. Cost: two weeks of design and abstraction. Return: every future Business Hub module gets verification UX and auditability for the cost of a page layout change.",
+  "relationship_to_existing_tickets": {
+    "BH-1159": {
+      "ticket_approach": "Record Types per object (Proposed / Verified / Manual Entry) with different page layouts per type. Per-object configuration.",
+      "proposal_approach": "Single Verification_Status__c picklist field on all verifiable objects, driven by a shared Apex service. One LWC handles UI across objects.",
+      "conflict": "Different architectures. Picking the proposal would make BH-1159's Record Types redundant (state would live on a picklist field, not a Record Type)."
+    },
+    "BH-1249": {
+      "ticket_approach": "Per-object Screen Flows (mini-Flows) that transition Record Types Proposed → Verified",
+      "proposal_approach": "Shared LWC + Apex service. No per-object Flows.",
+      "conflict": "Picking the proposal would replace BH-1249's Flow work with a single LWC + service."
+    },
+    "BH-987 (AAR_Recognition__c)": {
+      "ticket_approach": "Manual entry only — no source system, no verification fields",
+      "proposal_approach": "Still supports Manual as a state; the framework adds nothing to manual-only objects, so no conflict — Recognition simply lives at Manual without sync reconciliation.",
+      "conflict": "None. Compatible."
+    },
+    "BH-1126": {
+      "ticket_approach": "Tracks Source__c, Is_Verified__c on AAR_Publication__c. Field-history audit for verification state.",
+      "proposal_approach": "Audit lives in Verification_Change_Event__c, not field history. The proposed Verified_By__c / Verified_At__c fields cover the same provenance the ticket tries to capture via field history.",
+      "conflict": "Partial overlap. Picking the proposal would let BH-1126 drop some field-history tracking in favour of the event log."
+    },
+    "publications_special_case": {
+      "alignment": "Both BH-1159 and this proposal agree verification state lives on the junction UHN_Publication_Author__c, not on the publication record. Multi-author handling matches."
+    }
+  },
+  "referenced_external_identifiers": {
+    "note": "These are PRD/ADR/feature identifiers, NOT Jira keys",
+    "items": [
+      {
+        "id": "PRD v1.1",
+        "description": "Product Requirements Document the proposal responds to"
+      },
+      {
+        "id": "ADR-001",
+        "description": "Architecture Decision Record this proposal extends"
+      },
+      {
+        "id": "EXP-03",
+        "description": "Bulk export requirement Research Strategy already wants — would be fed by Verification_Change_Event__c"
+      },
+      {
+        "id": "SUB-06",
+        "description": "Verify All bulk action requirement — satisfied by the LWC, not a Screen Flow"
+      },
+      {
+        "id": "REV-06",
+        "description": "Internal vs. shared comment visibility — V1.1 'May' priority (referenced in BH-1246 out-of-scope)"
+      }
+    ]
+  },
+  "open_actions": [
+    "Decide adoption: does this proposal supersede BH-1159's Record Type approach? PM/architect decision required before Q1 build.",
+    "Get Robert Chen's signoff on the one-page design note (Step 1 of recommended next steps)",
+    "If adopted, refactor BH-1159, BH-1249, and parts of BH-1126 to reference Verification_Status__c picklist + shared service rather than Record Types + per-object Flows + field-history audit",
+    "Confirm Verification_Change_Event__c is created at platform level, not under any single module's epic",
+    "Validate the JSON Override_Payload__c approach against Salesforce JSON parsing perf and reporting limitations (custom fields on the event object may be required for high-cardinality dashboards)"
+  ]
+}

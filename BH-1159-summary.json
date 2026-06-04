@@ -1,0 +1,145 @@
+{
+  "ticket": {
+    "key": "BH-1159",
+    "title": "Implement Record Types for verification status on AAR child objects",
+    "type": "Story",
+    "status": "Initial Review",
+    "priority": "Medium",
+    "project": "Business Hub",
+    "parent": "AAR Core Data Model & Security (BH-1116)",
+    "epic_link": "AAR Core Data Model & Security",
+    "reporter": "Christopher King",
+    "assignee": "Chuck",
+    "labels": ["AAR"],
+    "created": "2026-01-09",
+    "updated": "2026-05-29"
+  },
+  "overview": "Implement Record Types to differentiate verification status on AAR child objects, supporting the Suggest-Verify-Augment (SVA) pattern with the hybrid workspace approach.",
+  "business_context": {
+    "decision_reference": "ADR-001-E (Jan 2026)",
+    "why_record_types_over_picklists": [
+      "Different page layouts per status (Proposed = read-only, Verified = editable)",
+      "Native filtering and list view segmentation",
+      "Visual differentiation in related lists",
+      "Field-level security per record type"
+    ]
+  },
+  "record_type_pattern": {
+    "standard_pattern": {
+      "applies_to": [
+        "AAR_Scholarly_Output__c",
+        "Service Activities",
+        "Other SVA-pattern child objects"
+      ],
+      "record_types": [
+        {
+          "name": "Proposed",
+          "description": "System-suggested records from integrations",
+          "page_layout_behavior": "Read-only source fields, 'Verify' action available"
+        },
+        {
+          "name": "Verified",
+          "description": "PI-confirmed records",
+          "page_layout_behavior": "Fully editable, source fields locked"
+        },
+        {
+          "name": "Manual Entry",
+          "description": "PI-added records (no source system)",
+          "page_layout_behavior": "Fully editable, no source fields"
+        }
+      ],
+      "consolidation_note": "Consider combining Verified + Manual Entry record types if page layouts end up identical"
+    },
+    "manual_entry_only": {
+      "objects": ["AAR_Recognition__c"],
+      "rationale": "No source system for honours/awards — no Proposed record type needed"
+    },
+    "publications_special_case": {
+      "object": "UHN_Publication_Author__c (junction)",
+      "rationale": "Verification status lives on the junction, NOT on the publication record itself",
+      "reasons": [
+        "One PI verifying doesn't affect another PI's view of the same publication",
+        "Each PI sees their own verification status for shared publications",
+        "Supports multi-author publications correctly"
+      ]
+    }
+  },
+  "object_assignments": {
+    "AAR_Scholarly_Output__c": {
+      "record_types": ["Proposed", "Verified", "Manual Entry"],
+      "notes": "Standard SVA pattern"
+    },
+    "AAR_Recognition__c": {
+      "record_types": ["Manual Entry"],
+      "notes": "Manual entry only — no Proposed needed"
+    },
+    "UHN_Publication_Author__c": {
+      "record_types": ["Proposed", "Verified", "Manual Entry"],
+      "notes": "Record Types live on the junction object, not on the publication record"
+    },
+    "Service Activities (object TBD)": {
+      "record_types": ["Proposed", "Verified", "Manual Entry"],
+      "notes": "Confirm exact object API name"
+    }
+  },
+  "acceptance_criteria": [
+    "Record Types created on AAR child objects (Recognition, Outputs, Service, etc.)",
+    "Page layouts configured per Record Type (Proposed vs Verified/Manual)",
+    "Proposed layout has read-only source fields",
+    "Verified/Manual layout allows editing",
+    "Junction object Record Types for publications (UHN_Publication_Author__c)",
+    "Default Record Type assignment logic documented",
+    "Verification mini-Flows can change Record Type (Proposed → Verified) — actual Flows built in BH-1249"
+  ],
+  "technical_notes": [
+    "Record Type assignment on create: Proposed (if from integration), Manual Entry (if PI-created)",
+    "Verification Flow changes Record Type from Proposed → Verified (built in BH-1249)",
+    "Consider automation to set Record Type based on Data_Origin__c field",
+    "AAR_Recognition__c uses Manual Entry only (no source system for honours/awards)"
+  ],
+  "dependencies": [
+    {
+      "key": "BH-996",
+      "description": "AAR Workspace page (uses Record Types for filtering)",
+      "direction": "downstream consumer"
+    },
+    {
+      "key": "BH-1249",
+      "description": "Build verification mini-Flows for PI data confirmation on AAR child objects (replaces phantom BH-1034 reference)",
+      "epic": "BH-1117 (PI Experience & Submission)",
+      "direction": "downstream — depends on BH-1159 completing first",
+      "scope": [
+        "Screen Flows launched via Record Reactor action buttons on Proposed layouts",
+        "Proposed → Verified Record Type transition with audit field capture (Verified_By__c, Verified_Date__c)",
+        "Reject/soft-delete path (Excluded__c = true, Exclusion_Reason__c picklist)",
+        "Publication special case: Flow updates UHN_Publication_Author__c junction, not the publication record",
+        "Record Type assignment automation on create (Data_Origin__c → Proposed vs Manual Entry)"
+      ]
+    }
+  ],
+  "dependency_order": "BH-1159 (Record Types) MUST complete before BH-1249 (Flows) — the Flows transition between Record Types that BH-1159 creates. Sprint sequencing must reflect this.",
+  "references": [
+    "ADR-001-E: Standard Record Pages vs Screen Flow decision",
+    "Flow_vs_RecordPage_Research.md"
+  ],
+  "decision_log": [
+    {
+      "date": "2026-01-09",
+      "decision": "Story created per ADR-001-E — Record Types chosen over picklist fields for verification status."
+    },
+    {
+      "date": "2026-03-09",
+      "decision": "Phantom dependency flagged: BH-1034 does not exist in the AAR backlog."
+    },
+    {
+      "date": "2026-03-09",
+      "decision": "Dependency resolved — verification mini-Flows story is BH-1249 under epic BH-1117. BH-1159 must complete before BH-1249."
+    }
+  ],
+  "open_actions": [
+    "Confirm exact object API name for 'Service Activities' before creating Record Types",
+    "Document default Record Type assignment logic (likely based on Data_Origin__c field — confirm field exists on each target object)",
+    "Decide whether to consolidate Verified + Manual Entry record types if their page layouts end up identical",
+    "Confirm Verified_By__c and Verified_Date__c audit fields exist (or are created) on objects targeted by BH-1249 Flows"
+  ]
+}

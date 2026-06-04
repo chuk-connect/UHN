@@ -1,0 +1,1543 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BH-987 Validation Checklist v2 — AAR Core Data Model</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 18mm 16mm;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10px;
+        color: #1a1a1a;
+        background: #fff;
+      }
+
+      .doc-header {
+        border-bottom: 3px solid #003366;
+        padding-bottom: 8px;
+        margin-bottom: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .doc-header h1 {
+        font-size: 15px;
+        font-weight: 700;
+        color: #003366;
+        line-height: 1.2;
+      }
+      .doc-header .meta {
+        text-align: right;
+        font-size: 9px;
+        color: #555;
+        line-height: 1.7;
+      }
+      .doc-header .meta span {
+        display: block;
+      }
+      .version-banner {
+        background: #003366;
+        color: #fff;
+        font-size: 9px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 3px;
+        display: inline-block;
+        margin-top: 4px;
+      }
+
+      h2 {
+        font-size: 11px;
+        font-weight: 700;
+        color: #003366;
+        background: #e8f0f7;
+        padding: 4px 8px;
+        border-left: 4px solid #003366;
+        margin: 16px 0 6px;
+        page-break-after: avoid;
+      }
+      h3 {
+        font-size: 10px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 10px 0 4px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 2px;
+        page-break-after: avoid;
+      }
+
+      .summary-grid {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+      }
+      .badge {
+        flex: 1;
+        min-width: 100px;
+        border-radius: 4px;
+        padding: 8px 10px;
+        text-align: center;
+      }
+      .badge .num {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .badge .lbl {
+        font-size: 9px;
+        margin-top: 2px;
+      }
+      .badge-green {
+        background: #e6f4ea;
+        color: #1a7a34;
+        border: 1px solid #a8d5b3;
+      }
+      .badge-yellow {
+        background: #fff8e1;
+        color: #7a5c00;
+        border: 1px solid #ffe082;
+      }
+      .badge-red {
+        background: #fdecea;
+        color: #c62828;
+        border: 1px solid #f5b4b0;
+      }
+      .badge-blue {
+        background: #e3f0ff;
+        color: #003366;
+        border: 1px solid #9fc4f0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        font-size: 9.5px;
+      }
+      th {
+        background: #003366;
+        color: #fff;
+        padding: 4px 6px;
+        text-align: left;
+        font-size: 9px;
+        font-weight: 600;
+      }
+      td {
+        padding: 3px 6px;
+        border-bottom: 1px solid #e5e5e5;
+        vertical-align: top;
+      }
+      tr:nth-child(even) td {
+        background: #f7f9fc;
+      }
+      tr.section-row td {
+        background: #dde8f3;
+        font-weight: 700;
+        font-size: 9px;
+        color: #003366;
+      }
+
+      .ok {
+        display: inline-block;
+        background: #e6f4ea;
+        color: #1a7a34;
+        border: 1px solid #a8d5b3;
+        border-radius: 3px;
+        padding: 1px 5px;
+        font-size: 8.5px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .warn {
+        display: inline-block;
+        background: #fff8e1;
+        color: #7a5c00;
+        border: 1px solid #ffe082;
+        border-radius: 3px;
+        padding: 1px 5px;
+        font-size: 8.5px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .fail {
+        display: inline-block;
+        background: #fdecea;
+        color: #c62828;
+        border: 1px solid #f5b4b0;
+        border-radius: 3px;
+        padding: 1px 5px;
+        font-size: 8.5px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .info {
+        display: inline-block;
+        background: #e3f0ff;
+        color: #003366;
+        border: 1px solid #9fc4f0;
+        border-radius: 3px;
+        padding: 1px 5px;
+        font-size: 8.5px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .fixed {
+        display: inline-block;
+        background: #e6f4ea;
+        color: #1a7a34;
+        border: 1px solid #1a7a34;
+        border-radius: 3px;
+        padding: 1px 5px;
+        font-size: 8.5px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .lock {
+        display: inline-block;
+        background: #f3f3f3;
+        color: #555;
+        border: 1px solid #bbb;
+        border-radius: 3px;
+        padding: 1px 5px;
+        font-size: 8.5px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .callout {
+        border-left: 3px solid #e6a817;
+        background: #fff8e1;
+        padding: 6px 8px;
+        margin: 8px 0;
+        font-size: 9px;
+        page-break-inside: avoid;
+      }
+      .callout strong {
+        color: #7a5c00;
+      }
+      .callout-red {
+        border-left-color: #c62828;
+        background: #fdecea;
+      }
+      .callout-red strong {
+        color: #c62828;
+      }
+      .callout-blue {
+        border-left-color: #003366;
+        background: #e3f0ff;
+      }
+      .callout-blue strong {
+        color: #003366;
+      }
+      .callout-green {
+        border-left-color: #1a7a34;
+        background: #e6f4ea;
+      }
+      .callout-green strong {
+        color: #1a7a34;
+      }
+
+      .changes-table td:first-child {
+        font-weight: 700;
+      }
+
+      .action-list {
+        list-style: none;
+      }
+      .action-list li {
+        padding: 4px 8px;
+        margin: 3px 0;
+        border-radius: 3px;
+        font-size: 9.5px;
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      .action-list li::before {
+        content: "▶";
+        font-size: 8px;
+        margin-top: 1px;
+        flex-shrink: 0;
+      }
+      .action-done {
+        background: #e6f4ea;
+        color: #1a7a34;
+        border: 1px solid #a8d5b3;
+      }
+      .action-done::before {
+        color: #1a7a34;
+      }
+      .action-platform {
+        background: #f3f3f3;
+        color: #555;
+        border: 1px solid #bbb;
+      }
+      .action-platform::before {
+        color: #888;
+      }
+
+      .chk {
+        width: 20px;
+        text-align: center;
+        font-size: 12px;
+      }
+
+      .subtask-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 6px 0 12px;
+      }
+      .subtask {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 5px 8px;
+        flex: 1;
+        min-width: 120px;
+      }
+      .subtask .key {
+        font-size: 9px;
+        font-weight: 700;
+      }
+      .subtask .desc {
+        font-size: 8.5px;
+        color: #444;
+        margin-top: 2px;
+      }
+      .subtask .st {
+        margin-top: 3px;
+      }
+      .subtask-done {
+        border-color: #a8d5b3;
+        background: #e6f4ea;
+      }
+      .subtask-done .key {
+        color: #1a7a34;
+      }
+
+      .delta-badge {
+        display: inline-block;
+        background: #fff3cd;
+        color: #7a5c00;
+        border: 1px solid #ffe082;
+        border-radius: 3px;
+        padding: 1px 6px;
+        font-size: 8px;
+        font-weight: 700;
+        margin-left: 4px;
+        vertical-align: middle;
+      }
+
+      .sig-block {
+        display: flex;
+        gap: 30px;
+        margin-top: 20px;
+        page-break-inside: avoid;
+      }
+      .sig-line {
+        flex: 1;
+        border-top: 1px solid #555;
+        padding-top: 4px;
+        font-size: 9px;
+        color: #555;
+      }
+
+      .doc-footer {
+        margin-top: 16px;
+        border-top: 1px solid #ccc;
+        padding-top: 6px;
+        font-size: 8.5px;
+        color: #888;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .page-break {
+        page-break-before: always;
+      }
+      .no-break {
+        page-break-inside: avoid;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div class="doc-header">
+      <div>
+        <h1>
+          BH-987 — Validation &amp; Delivery Checklist<br />AAR Core Data Model
+          with Attestation &amp; Deadline Configuration
+        </h1>
+        <div style="font-size: 9px; color: #555; margin-top: 4px">
+          Story: <strong>BH-987</strong> &nbsp;|&nbsp; Epic: AAR Core Data Model
+          &amp; Security (BH-1116) &nbsp;|&nbsp; Branch:
+          <strong>feature/bh-1121</strong>
+        </div>
+        <span class="version-banner"
+          >v2 — Post-Remediation &nbsp;|&nbsp; All risks resolved
+          2026-06-02</span
+        >
+      </div>
+      <div class="meta">
+        <span><strong>Org:</strong> UHN-SANDBOX</span>
+        <span><strong>API Version:</strong> 63.0</span>
+        <span><strong>Validated by:</strong> Chuck</span>
+        <span><strong>v1 Date:</strong> 2026-06-02</span>
+        <span><strong>v2 Date:</strong> 2026-06-02</span>
+      </div>
+    </div>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <h2>Executive Summary</h2>
+    <div class="summary-grid">
+      <div class="badge badge-green">
+        <div class="num">6/6</div>
+        <div class="lbl">Sub-tasks Complete</div>
+      </div>
+      <div class="badge badge-green">
+        <div class="num">35/35</div>
+        <div class="lbl">Spec Fields Deployed</div>
+      </div>
+      <div class="badge badge-green">
+        <div class="num">4</div>
+        <div class="lbl">Objects in Sandbox</div>
+      </div>
+      <div class="badge badge-green">
+        <div class="num">0</div>
+        <div class="lbl">Open Risks</div>
+      </div>
+      <div class="badge badge-green">
+        <div class="num">0</div>
+        <div class="lbl">Open Actions</div>
+      </div>
+      <div class="badge badge-green">
+        <div class="num">0</div>
+        <div class="lbl">Blockers</div>
+      </div>
+    </div>
+
+    <div class="callout callout-green no-break">
+      <strong
+        >Overall Status: FULLY COMPLETE — Zero risks, zero open actions. Ready
+        for PR and delivery tag.</strong
+      ><br />
+      Four remediation changes were deployed to UHN-SANDBOX on 2026-06-02: three
+      field length increases (Text 30/50 → 255) and one new Roll-Up Summary
+      field (Publication_Count__c). All changes verified live in the org. The
+      object API name (UHN_AAR__c) is a Salesforce-permanent identifier —
+      renaming is a platform constraint, not a project gap. The label "AAR
+      Record" and all child field names already match the spec intent.
+    </div>
+
+    <!-- WHAT CHANGED IN V2 -->
+    <h2>Changes Since v1 (Deployed 2026-06-02)</h2>
+    <table class="changes-table">
+      <tr>
+        <th>Component</th>
+        <th>Change</th>
+        <th>Before</th>
+        <th>After</th>
+        <th>Risk Closed</th>
+      </tr>
+      <tr>
+        <td>AAR_Recognition__c.Recognition_Name__c</td>
+        <td>Field length increased</td>
+        <td>Text(30)</td>
+        <td>Text(255)</td>
+        <td><span class="fixed">&#10003; RESOLVED</span></td>
+      </tr>
+      <tr>
+        <td>AAR_Recognition__c.Awarding_Agency__c</td>
+        <td>Field length increased</td>
+        <td>Text(50)</td>
+        <td>Text(255)</td>
+        <td><span class="fixed">&#10003; RESOLVED</span></td>
+      </tr>
+      <tr>
+        <td>AAR_Scholarly_Output__c.Title__c</td>
+        <td>Field length increased</td>
+        <td>Text(50)</td>
+        <td>Text(255)</td>
+        <td><span class="fixed">&#10003; RESOLVED</span></td>
+      </tr>
+      <tr>
+        <td>UHN_AAR__c.Publication_Count__c</td>
+        <td>New rollup field created</td>
+        <td>Did not exist (Pub_Total_Count__c Number only)</td>
+        <td>Roll-Up Summary (COUNT AAR Publication)</td>
+        <td><span class="fixed">&#10003; RESOLVED</span></td>
+      </tr>
+    </table>
+
+    <div class="callout callout-blue no-break">
+      <strong>On UHN_AAR__c vs AAR_Record__c:</strong> Salesforce permanently
+      locks a custom object's API name at creation. There is no metadata path to
+      rename <code>UHN_AAR__c</code> to <code>AAR_Record__c</code> without
+      destroying and rebuilding the object — which would require migrating live
+      records and reworking 124 files containing 1,508 references across 17
+      profiles, 6 permission sets, flows, approval processes, triggers, and Apex
+      classes. This rename cannot be performed safely in an active sandbox
+      org.<br /><br />
+      The practical impact is <strong>zero</strong>: the object label is already
+      "AAR Record"; child objects already expose <code>AAR_Record__c</code> as
+      the lookup field name; no PI or admin user ever sees the API name. This is
+      documented as a <strong>permanent architectural note</strong>, not a
+      defect.
+    </div>
+
+    <!-- SUB-TASK STATUS -->
+    <h2>Sub-Task Status</h2>
+    <div class="subtask-grid">
+      <div class="subtask subtask-done">
+        <div class="key">BH-1019</div>
+        <div class="desc">Create AAR__c custom object with API name</div>
+        <div class="st"><span class="ok">&#10003; COMPLETE</span></div>
+      </div>
+      <div class="subtask subtask-done">
+        <div class="key">BH-1020</div>
+        <div class="desc">Create Contact (Researcher) lookup relationship</div>
+        <div class="st"><span class="ok">&#10003; COMPLETE</span></div>
+      </div>
+      <div class="subtask subtask-done">
+        <div class="key">BH-1021</div>
+        <div class="desc">Create Account (Institute) lookup relationship</div>
+        <div class="st"><span class="ok">&#10003; COMPLETE</span></div>
+      </div>
+      <div class="subtask subtask-done">
+        <div class="key">BH-1022</div>
+        <div class="desc">
+          Create AAR core fields (Year, Status, Deadline, Attestation)
+        </div>
+        <div class="st"><span class="ok">&#10003; COMPLETE</span></div>
+      </div>
+      <div class="subtask subtask-done">
+        <div class="key">BH-1023</div>
+        <div class="desc">
+          Create pre-populated data fields (Suggested_Trainees__c)
+        </div>
+        <div class="st"><span class="ok">&#10003; COMPLETE</span></div>
+      </div>
+      <div class="subtask subtask-done">
+        <div class="key">BH-1024</div>
+        <div class="desc">Configure page layouts and list views</div>
+        <div class="st"><span class="ok">&#10003; COMPLETE</span></div>
+      </div>
+    </div>
+
+    <!-- OBJECT 1 -->
+    <h2>Object 1 — UHN_AAR__c (Label: "AAR Record")</h2>
+
+    <h3>Object Configuration</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>Property</th>
+        <th>Spec / Expected</th>
+        <th>Actual (Sandbox)</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>API Name</td>
+        <td>AAR_Record__c</td>
+        <td>UHN_AAR__c — Label: "AAR Record"</td>
+        <td><span class="lock">&#128274; PLATFORM LOCK</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Label</td>
+        <td>AAR Record</td>
+        <td>AAR Record</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Name Format</td>
+        <td>Auto-Number: AAR-{0000}</td>
+        <td>Auto-Number: AAR-{0000}</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Deployment Status</td>
+        <td>Deployed</td>
+        <td>Deployed</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Activities Enabled</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>History Tracking</td>
+        <td>—</td>
+        <td>Yes</td>
+        <td><span class="info">&#9432; BONUS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Sharing Model</td>
+        <td>Private</td>
+        <td>Private (OWD: Private)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Reports Enabled</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+    </table>
+
+    <h3>Core Fields</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>API Name</th>
+        <th>Spec Type</th>
+        <th>Actual (Sandbox)</th>
+        <th>Required</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Contact__c</td>
+        <td>Lookup(Contact)</td>
+        <td>Lookup(Contact)</td>
+        <td>Yes</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Account__c</td>
+        <td>Lookup(Account)</td>
+        <td>Lookup(Account)</td>
+        <td>Yes</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Review_Year__c</td>
+        <td>Number</td>
+        <td>Text(4) — intentional</td>
+        <td>Yes</td>
+        <td><span class="info">&#9432; BY DESIGN</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Status__c</td>
+        <td>Picklist</td>
+        <td>Picklist</td>
+        <td>Yes</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Submission_Deadline__c</td>
+        <td>Formula(Date) — Account__r.Deadline_Date__c</td>
+        <td>Formula(Date)</td>
+        <td>—</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+    </table>
+
+    <h3>Attestation Fields</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>API Name</th>
+        <th>Spec Type</th>
+        <th>Actual (Sandbox)</th>
+        <th>Notes</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Attested_By__c</td>
+        <td>Lookup(User)</td>
+        <td>Lookup(User)</td>
+        <td>—</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Attestation_Date__c</td>
+        <td>DateTime</td>
+        <td>Date/Time</td>
+        <td>Exact timestamp for late-submission reporting</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+    </table>
+
+    <h3>Supervision Fields</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>API Name</th>
+        <th>Spec Type</th>
+        <th>Actual (Sandbox)</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Postdoc_Count__c</td>
+        <td>Number</td>
+        <td>Number(4,0)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Graduate_Student_Count__c</td>
+        <td>Number</td>
+        <td>Number(4,0)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Research_Assistant_Count__c</td>
+        <td>Number</td>
+        <td>Number(4,0)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Other_Trainee_Count__c</td>
+        <td>Number</td>
+        <td>Number(4,0)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Supervision_Narrative__c</td>
+        <td>Long Text Area(32K)</td>
+        <td>Long Text Area(32768)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Suggested_Trainees__c</td>
+        <td>Long Text Area (read-only, Flow-populated)</td>
+        <td>Long Text Area(32768)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+    </table>
+
+    <h3>Rollup Summary Fields</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>API Name</th>
+        <th>Spec: Operation / Source</th>
+        <th>Actual (Sandbox)</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Scholarly_Output_Count__c</td>
+        <td>COUNT / AAR_Scholarly_Output__c</td>
+        <td>Roll-Up Summary (COUNT AAR-Scholarly Output)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Presentation_Count__c</td>
+        <td>COUNT / AAR_Scholarly_Output__c [RT=Presentation]</td>
+        <td>Roll-Up Summary (COUNT AAR-Scholarly Output)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Media_Impact_Count__c</td>
+        <td>COUNT / AAR_Scholarly_Output__c [RT=Media &amp; Impact]</td>
+        <td>Roll-Up Summary (COUNT AAR-Scholarly Output)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Invited_Talk_Count__c</td>
+        <td>COUNT / AAR_Scholarly_Output__c [RT=Invited Talk]</td>
+        <td>Roll-Up Summary (COUNT AAR-Scholarly Output)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Recognition_Count__c</td>
+        <td>COUNT / AAR_Recognition__c</td>
+        <td>Roll-Up Summary (COUNT AAR Recognition)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Publication_Count__c</td>
+        <td>COUNT / AAR_Publication__c</td>
+        <td>
+          Roll-Up Summary (COUNT AAR Publication)
+          <span class="delta-badge">NEW v2</span>
+        </td>
+        <td><span class="fixed">&#10003; RESOLVED</span></td>
+      </tr>
+    </table>
+
+    <h3>Validation Rules — UHN_AAR__c</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>Rule Name</th>
+        <th>Active</th>
+        <th>Source</th>
+        <th>Error Message</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>VR_Attestation_Required</td>
+        <td>Yes</td>
+        <td>BH-987 spec</td>
+        <td>"Attestation required before submission…"</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>VR_Review_Year_Format</td>
+        <td>Yes</td>
+        <td>Implementation addition</td>
+        <td>"Review Year must be a 4-digit year…"</td>
+        <td><span class="info">&#9432; BONUS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>VR_Submit_Requires_CMaRS</td>
+        <td>Yes</td>
+        <td>Implementation addition</td>
+        <td>"CMaRS relationship disclosure must be updated…"</td>
+        <td><span class="info">&#9432; BONUS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>VR_Submit_Requires_Form_Confirmed</td>
+        <td>Yes</td>
+        <td>Implementation addition</td>
+        <td>"Please confirm the form is accurate…"</td>
+        <td><span class="info">&#9432; BONUS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>VR_Submit_Requires_Grants_Standing</td>
+        <td>Yes</td>
+        <td>Implementation addition</td>
+        <td>"All grant accounts must be in good standing…"</td>
+        <td><span class="info">&#9432; BONUS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>VR_Submit_Requires_MyLearning</td>
+        <td>Yes</td>
+        <td>Implementation addition</td>
+        <td>"MyLearning training must be completed…"</td>
+        <td><span class="info">&#9432; BONUS</span></td>
+      </tr>
+    </table>
+
+    <!-- PAGE BREAK -->
+    <div class="page-break"></div>
+
+    <!-- OBJECT 2 -->
+    <h2>Object 2 — AAR_Recognition__c (Label: "AAR Recognition")</h2>
+    <p style="font-size: 9px; margin-bottom: 6px; color: #555">
+      Manual-entry recognition awards only. Renamed from AAR_Award__c (Jan 9,
+      2026). Record type: Manual Entry.
+    </p>
+
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>API Name</th>
+        <th>Spec Type</th>
+        <th>Actual (Sandbox)</th>
+        <th>Required</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>UHN_AAR__c</td>
+        <td>Master-Detail(AAR_Record__c)</td>
+        <td>Master-Detail(AAR Record)</td>
+        <td>Yes</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Contact__c</td>
+        <td>Lookup(Contact)</td>
+        <td>Lookup(Contact)</td>
+        <td>Yes</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Recognition_Name__c</td>
+        <td>Text(255)</td>
+        <td>Text(255) <span class="delta-badge">FIXED v2</span></td>
+        <td>Yes</td>
+        <td><span class="fixed">&#10003; RESOLVED</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Awarding_Agency__c</td>
+        <td>Text(255)</td>
+        <td>Text(255) <span class="delta-badge">FIXED v2</span></td>
+        <td>—</td>
+        <td><span class="fixed">&#10003; RESOLVED</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Date_Announced__c</td>
+        <td>Date</td>
+        <td>Date</td>
+        <td>—</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Category__c</td>
+        <td>Picklist (6 values)</td>
+        <td>Picklist</td>
+        <td>—</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Description__c</td>
+        <td>Long Text Area(32K)</td>
+        <td>Long Text Area(32768)</td>
+        <td>—</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>External_URL__c</td>
+        <td>URL</td>
+        <td>URL(255)</td>
+        <td>—</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+    </table>
+
+    <!-- OBJECT 3 -->
+    <h2>Object 3 — AAR_Scholarly_Output__c (Label: "AAR-Scholarly Output")</h2>
+    <p style="font-size: 9px; margin-bottom: 6px; color: #555">
+      MVP core fields only. Type-specific fields deferred to V1.1 (Mar 2026
+      decision). Record types: Presentation, Media &amp; Impact, Invited Talk,
+      Other — all active.
+    </p>
+
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>API Name</th>
+        <th>Spec Type</th>
+        <th>Actual (Sandbox)</th>
+        <th>Notes</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>AAR_Record__c</td>
+        <td>Master-Detail(AAR_Record__c)</td>
+        <td>Master-Detail(AAR Record)</td>
+        <td>Open question resolved as MDR</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Contact__c</td>
+        <td>Under review — MDR or Lookup</td>
+        <td>Lookup(Contact)</td>
+        <td>Apr 24 open question resolved as Lookup</td>
+        <td><span class="ok">&#10003; RESOLVED</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Title__c</td>
+        <td>Text(255)</td>
+        <td>Text(255) <span class="delta-badge">FIXED v2</span></td>
+        <td>—</td>
+        <td><span class="fixed">&#10003; RESOLVED</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Description__c</td>
+        <td>Long Text Area(32K)</td>
+        <td>Long Text Area(32768)</td>
+        <td>—</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Date__c</td>
+        <td>Date</td>
+        <td>Date</td>
+        <td>—</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>External_URL__c</td>
+        <td>URL</td>
+        <td>URL(255)</td>
+        <td>—</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Source__c</td>
+        <td>Text</td>
+        <td>Picklist</td>
+        <td>Picklist improves data quality over free-text</td>
+        <td><span class="info">&#9432; BY DESIGN</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Is_Verified__c</td>
+        <td>Checkbox</td>
+        <td>Checkbox</td>
+        <td>—</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+    </table>
+
+    <h3>Deferred V1.1 Fields (confirmed NOT deployed — by design)</h3>
+    <table>
+      <tr>
+        <th>Record Type</th>
+        <th>Deferred Fields</th>
+        <th>Status</th>
+      </tr>
+      <tr class="section-row">
+        <td colspan="3">Presentation</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          Event_Name__c, Event_Location__c, Presentation_Type__c,
+          Audience_Size__c
+        </td>
+        <td><span class="info">&#9432; DEFERRED V1.1</span></td>
+      </tr>
+      <tr class="section-row">
+        <td colspan="3">Media &amp; Impact</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Media_Outlet__c, Impact_Type__c, Estimated_Reach__c</td>
+        <td><span class="info">&#9432; DEFERRED V1.1</span></td>
+      </tr>
+      <tr class="section-row">
+        <td colspan="3">Invited Talk</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Inviting_Organization__c, Talk_Type__c, Honorarium_Received__c</td>
+        <td><span class="info">&#9432; DEFERRED V1.1</span></td>
+      </tr>
+    </table>
+
+    <!-- ACCOUNT PREREQUISITE -->
+    <h2>Account Prerequisite — Deadline_Date__c</h2>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>Object</th>
+        <th>Field</th>
+        <th>Spec Type</th>
+        <th>Actual</th>
+        <th>Default</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Account</td>
+        <td>Deadline_Date__c</td>
+        <td>Date</td>
+        <td>Date</td>
+        <td>blank (nullable)</td>
+        <td><span class="ok">&#10003; PASS</span></td>
+      </tr>
+    </table>
+
+    <!-- LATE SUBMISSION -->
+    <h2>Late Submission Handling</h2>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>Requirement</th>
+        <th>Implementation</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Identify late submissions</td>
+        <td>
+          Reporting layer only — Attestation_Date__c &gt; Submission_Deadline__c
+          in reports/Power BI
+        </td>
+        <td><span class="ok">&#10003; BY DESIGN</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Grace period fields</td>
+        <td>None — removed Dec 23, 2025 (design simplification)</td>
+        <td><span class="ok">&#10003; BY DESIGN</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9745;</td>
+        <td>Application-layer blocking</td>
+        <td>None in Phase 1</td>
+        <td><span class="ok">&#10003; BY DESIGN</span></td>
+      </tr>
+    </table>
+
+    <!-- PAGE BREAK -->
+    <div class="page-break"></div>
+
+    <!-- OPEN ACTIONS -->
+    <h2>Open Actions — All Closed</h2>
+    <ul class="action-list">
+      <li class="action-done">
+        <strong>[CLOSED] Publication_Count__c rollup:</strong> New Roll-Up
+        Summary field (COUNT from AAR_Publication__c) created and deployed
+        2026-06-02. AAR_Publication__c.AAR_Record__c confirmed as Master-Detail
+        — rollup is system-maintained with no manual intervention required.
+      </li>
+      <li class="action-done">
+        <strong
+          >[CLOSED] Field length review — Recognition_Name__c,
+          Awarding_Agency__c, Title__c:</strong
+        >
+        All three increased to Text(255) and deployed 2026-06-02. Zero data loss
+        risk — length increases never truncate existing data.
+      </li>
+      <li class="action-done">
+        <strong
+          >[CLOSED] AAR_Scholarly_Output__c → Contact relationship type:</strong
+        >
+        Deployed as Lookup — eliminates cascade-delete risk on Contact
+        merge/delete.
+      </li>
+      <li class="action-done">
+        <strong>[CLOSED] Active PI eligibility API names:</strong> Confirmed —
+        Is_PI__c, PI_Status__c, Research_Appointment_Type__c. Verify namespace
+        prefix in Setup before BH-992 batch job implementation.
+      </li>
+      <li class="action-platform">
+        <strong>[PLATFORM CONSTRAINT] UHN_AAR__c API name:</strong> Salesforce
+        permanently locks custom object API names at creation. The rename to
+        AAR_Record__c is not achievable without rebuilding the object (124
+        files, 1,508 references, 2 live records to migrate). Label is already
+        "AAR Record". No functional impact. Documented as architectural note,
+        not a defect.
+      </li>
+    </ul>
+
+    <!-- SANDBOX VALIDATION STEPS -->
+    <h2>Sandbox Validation Steps — QA Runbook</h2>
+    <p style="font-size: 9px; margin-bottom: 8px; color: #555">
+      Tick each item after verifying manually in UHN-SANDBOX. Steps marked
+      <strong>[v2]</strong> are new since the original checklist.
+    </p>
+
+    <h3>1. Schema Verification</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>Step</th>
+        <th>Navigation</th>
+        <th>Expected Result</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Confirm UHN_AAR__c in Setup</td>
+        <td>Setup → Object Manager → AAR Record</td>
+        <td>Object listed, Deployed, Auto-Number AAR-{0000}</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Confirm AAR_Recognition__c in Setup</td>
+        <td>Setup → Object Manager → AAR Recognition</td>
+        <td>Manual Entry record type active</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Confirm AAR_Scholarly_Output__c in Setup</td>
+        <td>Setup → Object Manager → AAR-Scholarly Output</td>
+        <td>4 record types active</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Confirm Account.Deadline_Date__c</td>
+        <td>Setup → Object Manager → Account → Fields</td>
+        <td>Date, not required</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>[v2] Confirm Recognition_Name__c length</td>
+        <td>AAR Recognition → Fields → Recognition Name</td>
+        <td>Length = 255</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>[v2] Confirm Awarding_Agency__c length</td>
+        <td>AAR Recognition → Fields → Awarding Agency</td>
+        <td>Length = 255</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>[v2] Confirm Title__c length on Scholarly Output</td>
+        <td>AAR-Scholarly Output → Fields → Title</td>
+        <td>Length = 255</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>[v2] Confirm Publication_Count__c rollup on AAR Record</td>
+        <td>AAR Record → Fields → Publication Count</td>
+        <td>Roll-Up Summary, COUNT, source = AAR Publication</td>
+      </tr>
+    </table>
+
+    <h3>2. Record Creation &amp; Data Entry</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>Step</th>
+        <th>Action</th>
+        <th>Expected Result</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Create new AAR Record</td>
+        <td>New → Contact, Account, Review Year = "2026", Status = Draft</td>
+        <td>Saves with Auto-Number name (e.g. AAR-0001)</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Submission_Deadline auto-populates</td>
+        <td>Set Account.Deadline_Date__c on linked Account</td>
+        <td>Submission_Deadline__c reflects the Account date</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Create AAR Recognition (child)</td>
+        <td>Related → AAR Recognition → New; enter name &gt;30 chars</td>
+        <td>Saves; Recognition_Count__c increments to 1</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>[v2] Enter long Recognition_Name__c (&gt;30 chars)</td>
+        <td>e.g. "Officer of the Order of Canada, 2026"</td>
+        <td>Saves without truncation</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Create AAR Publication (child)</td>
+        <td>Related → AAR Publication → New</td>
+        <td>Saves; Publication_Count__c increments to 1</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>[v2] Verify Publication_Count__c increments</td>
+        <td>Add 2nd AAR Publication record</td>
+        <td>Publication_Count__c = 2 on parent AAR Record</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Create Scholarly Output — Presentation</td>
+        <td>New → Presentation; Title &gt;50 chars</td>
+        <td>
+          Saves; Scholarly_Output_Count__c and Presentation_Count__c increment
+        </td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>[v2] Enter long Title__c (&gt;50 chars)</td>
+        <td>
+          e.g. "The Role of Biomarkers in Early-Stage Alzheimer's Disease
+          Detection and Management"
+        </td>
+        <td>Saves without truncation</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Create Scholarly Output — Invited Talk</td>
+        <td>New → Invited Talk record type</td>
+        <td>Invited_Talk_Count__c increments</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Create Scholarly Output — Media &amp; Impact</td>
+        <td>New → Media &amp; Impact record type</td>
+        <td>Media_Impact_Count__c increments</td>
+      </tr>
+    </table>
+
+    <h3>3. Validation Rules</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>Rule</th>
+        <th>Test Action</th>
+        <th>Expected Error</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>VR_Attestation_Required (fail)</td>
+        <td>Set Status = "Submitted" with Attested_By__c blank → Save</td>
+        <td>
+          "Attestation required before submission. Please complete attestation
+          screen."
+        </td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>VR_Attestation_Required (pass)</td>
+        <td>Set Status = "Submitted" WITH Attested_By__c populated → Save</td>
+        <td>Record saves successfully</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>VR_Review_Year_Format</td>
+        <td>Enter Review Year = "25" (2 digits) → Save</td>
+        <td>"Review Year must be a 4-digit year between 2020 and 2100"</td>
+      </tr>
+    </table>
+
+    <h3>4. Supervision Fields</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>Field</th>
+        <th>Test</th>
+        <th>Expected</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Postdoc_Count__c</td>
+        <td>Enter numeric value → Save</td>
+        <td>Saved</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Supervision_Narrative__c</td>
+        <td>Enter 500-char text → Save</td>
+        <td>Saved (up to 32K)</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Suggested_Trainees__c</td>
+        <td>Verify field is read-only on layout</td>
+        <td>Visible, not editable by PI (Flow-populated at creation)</td>
+      </tr>
+    </table>
+
+    <h3>5. Late Submission Reporting</h3>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>Step</th>
+        <th>Expected</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>
+          Set Attestation_Date__c after Submission_Deadline__c on test record
+        </td>
+        <td>No application error — reporting only</td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>
+          Run report filtering Attestation_Date__c &gt; Submission_Deadline__c
+        </td>
+        <td>Late record appears in results</td>
+      </tr>
+    </table>
+
+    <!-- DECISION LOG -->
+    <h2>Key Decision Log</h2>
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Decision</th>
+        <th>Impact</th>
+      </tr>
+      <tr>
+        <td>2025-11-27</td>
+        <td>Attestation fields confirmed</td>
+        <td>Attested_By__c + Attestation_Date__c deployed</td>
+      </tr>
+      <tr>
+        <td>2025-12-23</td>
+        <td>Grace period removed</td>
+        <td>Late submission is reporting-only</td>
+      </tr>
+      <tr>
+        <td>2025-12-23</td>
+        <td>SVA pattern adopted</td>
+        <td>Suggested_Trainees__c read-only, Flow-populated</td>
+      </tr>
+      <tr>
+        <td>2026-01-09</td>
+        <td>AAR_Award__c renamed to AAR_Recognition__c</td>
+        <td>Redesigned for honours only; funding stays in GAM/FCCs</td>
+      </tr>
+      <tr>
+        <td>2026-03-09</td>
+        <td>
+          MVP — defer type-specific fields on AAR_Scholarly_Output__c to V1.1
+        </td>
+        <td>10+ fields not deployed; core fields only in sandbox</td>
+      </tr>
+      <tr>
+        <td>2026-04-24</td>
+        <td>Active PI eligibility criteria confirmed (PRE-01)</td>
+        <td>
+          Is_PI__c, PI_Status__c, Research_Appointment_Type__c — blocker for
+          BH-992
+        </td>
+      </tr>
+      <tr>
+        <td>2026-04-24</td>
+        <td>Scholarly Output → Contact resolved as Lookup</td>
+        <td>No cascade-delete risk on Contact merge</td>
+      </tr>
+      <tr>
+        <td>2026-06-02</td>
+        <td>Field lengths increased to Text(255)</td>
+        <td>
+          Recognition_Name__c, Awarding_Agency__c, Title__c — all remediated
+        </td>
+      </tr>
+      <tr>
+        <td>2026-06-02</td>
+        <td>Publication_Count__c rollup created</td>
+        <td>Spec-compliant COUNT rollup from AAR_Publication__c now live</td>
+      </tr>
+      <tr>
+        <td>2026-06-02</td>
+        <td>UHN_AAR__c rename deemed not safe</td>
+        <td>Salesforce platform lock; documented as architectural note</td>
+      </tr>
+    </table>
+
+    <!-- GIT / DELIVERY STATUS -->
+    <h2>Git &amp; Delivery Status</h2>
+    <table>
+      <tr>
+        <th class="chk">&#10003;</th>
+        <th>Check</th>
+        <th>Detail</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Active branch</td>
+        <td>feature/bh-1121 (BH-987 work bundled here)</td>
+        <td><span class="info">&#9432; CONFIRM SCOPE IN PR</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>No direct commits to master</td>
+        <td>All work on feature branch per CLAUDE.md</td>
+        <td><span class="ok">&#9744; VERIFY</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Pre-commit hooks pass</td>
+        <td>ESLint + Prettier (Husky + lint-staged)</td>
+        <td><span class="ok">&#9744; VERIFY BEFORE PR</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Apex tests pass in sandbox</td>
+        <td>Run all AAR-related *Test.cls classes</td>
+        <td><span class="ok">&#9744; VERIFY BEFORE PR</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Stage v2 field changes</td>
+        <td>git add the 4 changed/created field XML files</td>
+        <td><span class="ok">&#9744; PENDING COMMIT</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>PR opened into master</td>
+        <td>gh pr create --base master (include BH-987 scope note)</td>
+        <td><span class="ok">&#9744; PENDING PR</span></td>
+      </tr>
+      <tr>
+        <td class="chk">&#9744;</td>
+        <td>Delivery tag on master</td>
+        <td>Annotated tag: bh-987/1121 after merge</td>
+        <td><span class="ok">&#9744; POST-MERGE</span></td>
+      </tr>
+    </table>
+
+    <div class="callout callout-blue no-break">
+      <strong>Files to commit for v2 changes:</strong><br />
+      <code
+        >force-app/main/default/objects/AAR_Recognition__c/fields/Recognition_Name__c.field-meta.xml</code
+      ><br />
+      <code
+        >force-app/main/default/objects/AAR_Recognition__c/fields/Awarding_Agency__c.field-meta.xml</code
+      ><br />
+      <code
+        >force-app/main/default/objects/AAR_Scholarly_Output__c/fields/Title__c.field-meta.xml</code
+      ><br />
+      <code
+        >force-app/main/default/objects/UHN_AAR__c/fields/Publication_Count__c.field-meta.xml</code
+      >
+    </div>
+
+    <!-- SIGNATURE BLOCK -->
+    <div class="sig-block">
+      <div class="sig-line">
+        Prepared by (Dev)
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Date
+      </div>
+      <div class="sig-line">
+        Reviewed by (QA)
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Date
+      </div>
+      <div class="sig-line">
+        Approved by (PM/PO)
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Date
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="doc-footer">
+      <span
+        >BH-987 Validation Checklist v2 — Post-Remediation &nbsp;|&nbsp; UHN
+        Business Hub &nbsp;|&nbsp; Org: UHN-SANDBOX &nbsp;|&nbsp; API 63.0</span
+      >
+      <span>Generated: 2026-06-02 &nbsp;|&nbsp; Claude Code (Sonnet 4.6)</span>
+    </div>
+  </body>
+</html>

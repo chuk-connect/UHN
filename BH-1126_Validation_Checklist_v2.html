@@ -1,0 +1,1424 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BH-1126 Validation Checklist — AAR Field History Tracking</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+      @page {
+        size: A4;
+        margin: 18mm 16mm 18mm 16mm;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
+        font-size: 11px;
+        color: #1a1a2e;
+        background: #fff;
+        line-height: 1.5;
+      }
+
+      /* ── Header ── */
+      .doc-header {
+        background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+        color: #fff;
+        padding: 22px 28px 18px;
+        border-radius: 6px 6px 0 0;
+        margin-bottom: 0;
+        page-break-inside: avoid;
+      }
+      .doc-header h1 {
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+      }
+      .doc-header .sub {
+        font-size: 11px;
+        opacity: 0.78;
+        margin-top: 3px;
+      }
+      .meta-row {
+        display: flex;
+        gap: 28px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+      .meta-item {
+        font-size: 10px;
+        opacity: 0.85;
+      }
+      .meta-item strong {
+        font-weight: 600;
+        display: block;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        opacity: 0.6;
+        margin-bottom: 1px;
+      }
+
+      /* ── Banners ── */
+      .banner {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 4px;
+        margin: 10px 0;
+        font-size: 10.5px;
+        line-height: 1.5;
+        page-break-inside: avoid;
+      }
+      .banner-resolve {
+        background: #e8f5e9;
+        border-left: 3px solid #43a047;
+        color: #1b5e20;
+      }
+      .banner-note {
+        background: #e3f2fd;
+        border-left: 3px solid #1976d2;
+        color: #0d3c61;
+      }
+      .banner-warn {
+        background: #fff8e1;
+        border-left: 3px solid #f9a825;
+        color: #5a3e00;
+      }
+      .banner-icon {
+        font-size: 14px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      /* ── Section ── */
+      .section {
+        margin-top: 16px;
+        page-break-inside: avoid;
+      }
+      .section-title {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: #0f3460;
+        border-bottom: 2px solid #0f3460;
+        padding-bottom: 4px;
+        margin-bottom: 10px;
+      }
+
+      /* ── Summary scorecard ── */
+      .scorecard {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin: 10px 0 14px;
+      }
+      .score-cell {
+        text-align: center;
+        padding: 12px 8px;
+        border-radius: 5px;
+        border: 1px solid #e0e0e0;
+      }
+      .score-cell .score-num {
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .score-cell .score-label {
+        font-size: 9px;
+        color: #666;
+        margin-top: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      .score-green {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border-color: #a5d6a7;
+      }
+      .score-amber {
+        background: #fff8e1;
+        color: #e65100;
+        border-color: #ffe082;
+      }
+      .score-blue {
+        background: #e3f2fd;
+        color: #1565c0;
+        border-color: #90caf9;
+      }
+      .score-purple {
+        background: #f3e5f5;
+        color: #6a1b9a;
+        border-color: #ce93d8;
+      }
+
+      /* ── Object card ── */
+      .obj-card {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        overflow: hidden;
+        page-break-inside: avoid;
+      }
+      .obj-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background: #f5f7fa;
+        border-bottom: 1px solid #ddd;
+      }
+      .obj-header .obj-name {
+        font-weight: 700;
+        font-size: 11.5px;
+        color: #0f3460;
+        font-family: "Courier New", monospace;
+      }
+      .obj-header .obj-label {
+        font-size: 10px;
+        color: #555;
+        margin-left: 8px;
+      }
+      .obj-header-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .badge {
+        font-size: 9px;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+      .badge-green {
+        background: #e8f5e9;
+        color: #1b5e20;
+        border: 1px solid #a5d6a7;
+      }
+      .badge-amber {
+        background: #fff8e1;
+        color: #e65100;
+        border: 1px solid #ffe082;
+      }
+      .badge-blue {
+        background: #e3f2fd;
+        color: #0d47a1;
+        border: 1px solid #90caf9;
+      }
+      .badge-grey {
+        background: #f5f5f5;
+        color: #555;
+        border: 1px solid #ccc;
+      }
+
+      .obj-body {
+        padding: 8px 12px;
+      }
+
+      /* ── Field table ── */
+      table.field-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px;
+      }
+      table.field-table thead tr {
+        background: #f0f4f8;
+      }
+      table.field-table th {
+        padding: 5px 8px;
+        text-align: left;
+        font-weight: 600;
+        color: #333;
+        font-size: 9.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        border-bottom: 1px solid #ddd;
+      }
+      table.field-table td {
+        padding: 5px 8px;
+        border-bottom: 1px solid #f0f0f0;
+        vertical-align: top;
+      }
+      table.field-table tr:last-child td {
+        border-bottom: none;
+      }
+      .field-api {
+        font-family: "Courier New", monospace;
+        color: #0f3460;
+      }
+      .tick-yes {
+        color: #2e7d32;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .tick-no {
+        color: #c62828;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .tick-info {
+        color: #1565c0;
+        font-size: 13px;
+      }
+      .rationale {
+        color: #555;
+        font-size: 9.5px;
+      }
+
+      /* ── Naming resolution box ── */
+      .resolution-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 6px;
+        font-size: 10px;
+      }
+      .resolution-table th {
+        background: #e8eaf6;
+        padding: 5px 10px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 9.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        border: 1px solid #c5cae9;
+      }
+      .resolution-table td {
+        padding: 5px 10px;
+        border: 1px solid #e0e0e0;
+        vertical-align: top;
+      }
+      .resolution-table tr:nth-child(even) td {
+        background: #fafafa;
+      }
+      .mono {
+        font-family: "Courier New", monospace;
+      }
+
+      /* ── Risk register ── */
+      .risk-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 6px;
+        font-size: 10px;
+      }
+      .risk-table th {
+        background: #fce4ec;
+        padding: 5px 10px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 9.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        border: 1px solid #f48fb1;
+      }
+      .risk-table td {
+        padding: 5px 10px;
+        border: 1px solid #f0f0f0;
+        vertical-align: top;
+      }
+      .risk-table tr:nth-child(even) td {
+        background: #fafafa;
+      }
+      .risk-none {
+        background: #e8f5e9 !important;
+        color: #1b5e20;
+        font-weight: 600;
+      }
+      .risk-low {
+        background: #fffde7 !important;
+        color: #f57f17;
+        font-weight: 600;
+      }
+      .risk-medium {
+        background: #fff3e0 !important;
+        color: #e65100;
+        font-weight: 600;
+      }
+
+      /* ── DoD table ── */
+      .dod-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px;
+      }
+      .dod-table th {
+        background: #e8f5e9;
+        padding: 5px 10px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 9.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        border: 1px solid #a5d6a7;
+      }
+      .dod-table td {
+        padding: 5px 10px;
+        border: 1px solid #f0f0f0;
+        vertical-align: top;
+      }
+      .dod-table tr:nth-child(even) td {
+        background: #f9fbe7;
+      }
+
+      /* ── Open actions ── */
+      .open-action {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 4px;
+        margin-bottom: 6px;
+        background: #fff8e1;
+        border-left: 3px solid #fbc02d;
+        font-size: 10px;
+        page-break-inside: avoid;
+      }
+      .open-action .oa-icon {
+        flex-shrink: 0;
+        font-size: 12px;
+      }
+      .open-action .oa-owner {
+        font-weight: 600;
+        color: #e65100;
+        margin-right: 6px;
+      }
+
+      /* ── Footer ── */
+      .doc-footer {
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+        font-size: 9px;
+        color: #888;
+        display: flex;
+        justify-content: space-between;
+        page-break-inside: avoid;
+      }
+
+      /* ── Print ── */
+      @media print {
+        .section {
+          page-break-inside: avoid;
+        }
+        .obj-card {
+          page-break-inside: avoid;
+        }
+        body {
+          font-size: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══════════════════════════════════════════════ HEADER -->
+    <div class="doc-header">
+      <h1>BH-1126 — AAR Field History Tracking Configuration</h1>
+      <div class="sub">
+        Validation &amp; Deployment Checklist · Revision 2 (Post-Deploy)
+      </div>
+      <div class="meta-row">
+        <div class="meta-item"><strong>Ticket</strong>BH-1126</div>
+        <div class="meta-item">
+          <strong>Epic</strong>AAR Core Data Model &amp; Security (BH-1116)
+        </div>
+        <div class="meta-item"><strong>Target Org</strong>UHN-SANDBOX</div>
+        <div class="meta-item"><strong>Deployed By</strong>Chuk Okechukwu</div>
+        <div class="meta-item"><strong>Validation Date</strong>2026-06-02</div>
+        <div class="meta-item"><strong>SF API Version</strong>63.0</div>
+        <div class="meta-item">
+          <strong>Shield Enabled</strong>Yes — 7-yr retention
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ NAMING RESOLUTION NOTICE -->
+    <div class="banner banner-resolve">
+      <span class="banner-icon">✅</span>
+      <div>
+        <strong>Naming Discrepancy Resolved (Zero Breaking Change).</strong>
+        The BH-1126 spec references <code>AAR_Record__c</code> as the main AAR
+        record object. The actual sandbox object is
+        <code>UHN_AAR__c</code> (Label: "AAR Record"). Renaming would break all
+        existing layouts, Apex classes, triggers, LWCs, and list views — so the
+        spec mapping is resolved at the <em>concept level</em>: all BH-1126
+        field history requirements are applied to <code>UHN_AAR__c</code>. This
+        is documented as a planned API-name migration per BH-987 (not in current
+        scope).
+        <strong>No functionality was broken.</strong>
+      </div>
+    </div>
+
+    <div class="banner banner-note">
+      <span class="banner-icon">ℹ️</span>
+      <div>
+        <strong
+          >Data Protection Framing (per Apr 24, 2026 sprint decision):</strong
+        >
+        Shield = audit + field history + 7-year retention. Hourly org backups =
+        point-in-time recovery. These are <em>complementary</em> mechanisms —
+        Shield is NOT the data recovery backstop.
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ SCORECARD -->
+    <div class="section">
+      <div class="section-title">Executive Summary</div>
+      <div class="scorecard">
+        <div class="score-cell score-green">
+          <div class="score-num">6 / 6</div>
+          <div class="score-label">Objects with History Enabled</div>
+        </div>
+        <div class="score-cell score-green">
+          <div class="score-num">27</div>
+          <div class="score-label">Fields Tracked Across All Objects</div>
+        </div>
+        <div class="score-cell score-green">
+          <div class="score-num">0</div>
+          <div class="score-label">Deploy Failures</div>
+        </div>
+        <div class="score-cell score-amber">
+          <div class="score-num">4</div>
+          <div class="score-label">Admin / PM Actions Remaining</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ NAMING RESOLUTION TABLE -->
+    <div class="section">
+      <div class="section-title">Naming Discrepancy Resolution Log</div>
+      <table class="resolution-table">
+        <thead>
+          <tr>
+            <th>Spec Name (BH-1126)</th>
+            <th>Actual Org API Name</th>
+            <th>Label in Org</th>
+            <th>Resolution</th>
+            <th>Risk</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="mono">AAR_Record__c</span></td>
+            <td><span class="mono">UHN_AAR__c</span></td>
+            <td>AAR Record</td>
+            <td>
+              Field history applied to <span class="mono">UHN_AAR__c</span>. API
+              rename deferred to BH-987.
+            </td>
+            <td><span class="badge badge-green">None</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="mono">Evaluator_1_*</span> /
+              <span class="mono">Evaluator_2_*</span> on AAR_Record__c
+            </td>
+            <td><em>Fields removed from scope</em></td>
+            <td>—</td>
+            <td>
+              Per Mar 2026 conflict resolution: evaluator state lives on
+              <span class="mono">AAR_Evaluation__c</span>. History configured
+              there instead.
+            </td>
+            <td><span class="badge badge-green">None</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="mono">Output_Type__c</span> on
+              AAR_Scholarly_Output__c
+            </td>
+            <td><em>Field does not exist yet</em></td>
+            <td>—</td>
+            <td>
+              Field not in current org schema (deferred to V1.1 per BH-987 MVP
+              revision). Will be tracked when field is added.
+            </td>
+            <td><span class="badge badge-amber">Deferred</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ OBJECT CARDS -->
+    <div class="section">
+      <div class="section-title">Object-Level Field History Configuration</div>
+
+      <!-- UHN_AAR__c -->
+      <div class="obj-card">
+        <div class="obj-header">
+          <div>
+            <span class="obj-name">UHN_AAR__c</span>
+            <span class="obj-label"
+              >(spec: AAR_Record__c — Label: "AAR Record")</span
+            >
+          </div>
+          <div class="obj-header-right">
+            <span class="badge badge-green">enableHistory ✓</span>
+            <span class="badge badge-blue">14 fields tracked</span>
+            <span class="badge badge-green">Deployed</span>
+          </div>
+        </div>
+        <div class="obj-body">
+          <table class="field-table">
+            <thead>
+              <tr>
+                <th>Field API Name</th>
+                <th>Category</th>
+                <th>Rationale</th>
+                <th>Tracked (Org)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="field-api">Status__c</td>
+                <td>Core Workflow</td>
+                <td class="rationale">Track workflow progression</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">OwnerId (Owner)</td>
+                <td>Core Workflow</td>
+                <td class="rationale">
+                  Track ownership changes / PI reassignment
+                </td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Attested_By__c</td>
+                <td>Core Workflow</td>
+                <td class="rationale">Track who signed off</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Attestation_Date__c</td>
+                <td>Core Workflow</td>
+                <td class="rationale">Track when signed off</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Top_Constraints__c</td>
+                <td>Content</td>
+                <td class="rationale">PI priorities and blockers</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Supervision_Narrative__c</td>
+                <td>Content</td>
+                <td class="rationale">Content edits by PI/delegate</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Service_Narrative__c</td>
+                <td>Content</td>
+                <td class="rationale">Content edits by PI/delegate</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Presentations__c</td>
+                <td>Content</td>
+                <td class="rationale">Scholarly output additions</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Media_Impact__c</td>
+                <td>Content</td>
+                <td class="rationale">Scholarly output additions</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Invited_Talks__c</td>
+                <td>Content</td>
+                <td class="rationale">Scholarly output additions</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Postdoc_Count__c</td>
+                <td>Content</td>
+                <td class="rationale">Supervision metrics</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Graduate_Student_Count__c</td>
+                <td>Content</td>
+                <td class="rationale">Supervision metrics</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Account__c</td>
+                <td>Metadata</td>
+                <td class="rationale">Track institute reassignments</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Review_Year__c</td>
+                <td>Metadata</td>
+                <td class="rationale">Track year corrections</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AAR_Evaluation__c -->
+      <div class="obj-card">
+        <div class="obj-header">
+          <div>
+            <span class="obj-name">AAR_Evaluation__c</span>
+            <span class="obj-label"
+              >Label: "AAR Evaluation" — added per Mar 2026 evaluator conflict
+              resolution</span
+            >
+          </div>
+          <div class="obj-header-right">
+            <span class="badge badge-green">enableHistory ✓</span>
+            <span class="badge badge-blue">3 fields tracked</span>
+            <span class="badge badge-green">Deployed</span>
+          </div>
+        </div>
+        <div class="obj-body">
+          <table class="field-table">
+            <thead>
+              <tr>
+                <th>Field API Name</th>
+                <th>Rationale</th>
+                <th>Tracked (Org)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="field-api">Rating__c</td>
+                <td class="rationale">Evaluator rating changes</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Status__c</td>
+                <td class="rationale">Evaluation state progression</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Evaluation_Date__c</td>
+                <td class="rationale">Date corrections by admin</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AAR_Recognition__c -->
+      <div class="obj-card">
+        <div class="obj-header">
+          <div>
+            <span class="obj-name">AAR_Recognition__c</span>
+            <span class="obj-label"
+              >Label: "AAR Recognition" — manual entry only</span
+            >
+          </div>
+          <div class="obj-header-right">
+            <span class="badge badge-green">enableHistory ✓</span>
+            <span class="badge badge-blue">4 fields tracked</span>
+            <span class="badge badge-green">Deployed</span>
+          </div>
+        </div>
+        <div class="obj-body">
+          <table class="field-table">
+            <thead>
+              <tr>
+                <th>Field API Name</th>
+                <th>Rationale</th>
+                <th>Tracked (Org)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="field-api">Recognition_Name__c</td>
+                <td class="rationale">
+                  Track changes to recognition/award name
+                </td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Awarding_Agency__c</td>
+                <td class="rationale">Track awarding organization</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Date_Announced__c</td>
+                <td class="rationale">Track date corrections</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Category__c</td>
+                <td class="rationale">Track category assignments</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AAR_Publication__c -->
+      <div class="obj-card">
+        <div class="obj-header">
+          <div>
+            <span class="obj-name">AAR_Publication__c</span>
+            <span class="obj-label">Label: "AAR Publication"</span>
+          </div>
+          <div class="obj-header-right">
+            <span class="badge badge-green">enableHistory ✓</span>
+            <span class="badge badge-blue">5 fields tracked</span>
+            <span class="badge badge-green">Deployed</span>
+          </div>
+        </div>
+        <div class="obj-body">
+          <table class="field-table">
+            <thead>
+              <tr>
+                <th>Field API Name</th>
+                <th>Rationale</th>
+                <th>Tracked (Org)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="field-api">Publication_Title__c</td>
+                <td class="rationale">Track title edits</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Publication_Year__c</td>
+                <td class="rationale">Track year corrections</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Journal__c</td>
+                <td class="rationale">Track journal attribution</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Source__c</td>
+                <td class="rationale">
+                  Track source attribution (Manual Entry vs ORCID)
+                </td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Is_Verified__c</td>
+                <td class="rationale">Track verification status</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AAR_Scholarly_Output__c -->
+      <div class="obj-card">
+        <div class="obj-header">
+          <div>
+            <span class="obj-name">AAR_Scholarly_Output__c</span>
+            <span class="obj-label"
+              >Label: "AAR-Scholarly Output" — MVP scope confirmed (object
+              exists in org)</span
+            >
+          </div>
+          <div class="obj-header-right">
+            <span class="badge badge-green">enableHistory ✓</span>
+            <span class="badge badge-blue">3 fields tracked</span>
+            <span class="badge badge-green">Deployed 2026-06-02</span>
+          </div>
+        </div>
+        <div class="obj-body">
+          <div class="banner banner-note" style="margin-bottom: 8px">
+            <span class="banner-icon">ℹ️</span>
+            <div>
+              <code>Output_Type__c</code> is not yet in the org schema (deferred
+              to V1.1 per BH-987 MVP revision). Will be added to history
+              tracking when the field is deployed.
+            </div>
+          </div>
+          <table class="field-table">
+            <thead>
+              <tr>
+                <th>Field API Name</th>
+                <th>Rationale</th>
+                <th>Tracked (Org)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="field-api">Title__c</td>
+                <td class="rationale">Track title edits</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Date__c</td>
+                <td class="rationale">Track date corrections</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Description__c</td>
+                <td class="rationale">Track content changes</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Output_Type__c</td>
+                <td class="rationale">Track record type assignments</td>
+                <td>
+                  <span class="tick-info"
+                    >— Deferred (field not yet deployed)</span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Commercialization__c -->
+      <div class="obj-card">
+        <div class="obj-header">
+          <div>
+            <span class="obj-name">Commercialization__c</span>
+            <span class="obj-label"
+              >Label: "Commercialization" — shell-only until Wellspring CSV;
+              Title__c only in MVP</span
+            >
+          </div>
+          <div class="obj-header-right">
+            <span class="badge badge-green">enableHistory ✓</span>
+            <span class="badge badge-blue">5 fields tracked</span>
+            <span class="badge badge-green">Deployed</span>
+          </div>
+        </div>
+        <div class="obj-body">
+          <div class="banner banner-warn" style="margin-bottom: 8px">
+            <span class="banner-icon">⚠️</span>
+            <div>
+              Shell-only object per BH-1121. Only <code>Title__c</code> is
+              relevant in the current MVP shell. <code>Type__c</code>,
+              <code>Status__c</code>, <code>Filing_Date__c</code>,
+              <code>Grant_Date__c</code> are pre-configured and will activate
+              when Wellspring CSV fields arrive.
+            </div>
+          </div>
+          <table class="field-table">
+            <thead>
+              <tr>
+                <th>Field API Name</th>
+                <th>Rationale</th>
+                <th>Tracked (Org)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="field-api">Title__c</td>
+                <td class="rationale">Track title edits (MVP active)</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Type__c</td>
+                <td class="rationale">
+                  Track type changes (Patent, License, etc.) — post-CSV
+                </td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Status__c</td>
+                <td class="rationale">Track status progression — post-CSV</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Filing_Date__c</td>
+                <td class="rationale">Track date corrections — post-CSV</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+              <tr>
+                <td class="field-api">Grant_Date__c</td>
+                <td class="rationale">Track award date changes — post-CSV</td>
+                <td><span class="tick-yes">✓</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ DEPLOYMENT LOG -->
+    <div class="section">
+      <div class="section-title">Deployment Log — 2026-06-02</div>
+      <table class="resolution-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Deploy ID</th>
+            <th>Components</th>
+            <th>Changed</th>
+            <th>Status</th>
+            <th>Timestamp (UTC)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><span class="mono">0AfAq00000hhAhiKAE</span></td>
+            <td>
+              AAR_Scholarly_Output__c.Title__c · Date__c · Description__c ·
+              AAR_Records_with_Field_History (ReportType)
+            </td>
+            <td>1 field (Title__c); 3 already in sync</td>
+            <td><span class="badge badge-green">Succeeded</span></td>
+            <td>11:58:19 → 11:59:01</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><span class="mono">0AfAq00000hhBkDKAU</span></td>
+            <td>UHN_AAR__c.Account__c</td>
+            <td>1 field</td>
+            <td><span class="badge badge-green">Succeeded</span></td>
+            <td>12:00:10 → 12:00:52</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ LIVE ORG VERIFICATION -->
+    <div class="section">
+      <div class="section-title">
+        Live Org Verification — SOQL Query Results
+      </div>
+      <table class="resolution-table">
+        <thead>
+          <tr>
+            <th>Object</th>
+            <th>IsFieldHistoryTracked (EntityDefinition)</th>
+            <th>Fields Confirmed Tracked (FieldDefinition)</th>
+            <th>History Object in Org</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="mono">UHN_AAR__c</span></td>
+            <td><span class="tick-yes">true</span></td>
+            <td>
+              14 — Account__c, Attestation_Date__c, Attested_By__c,
+              Graduate_Student_Count__c, Invited_Talks__c, Media_Impact__c,
+              OwnerId, Postdoc_Count__c, Presentations__c, Review_Year__c,
+              Service_Narrative__c, Status__c, Supervision_Narrative__c,
+              Top_Constraints__c
+            </td>
+            <td>
+              <span class="mono">UHN_AAR__History</span> — exists (2+ records)
+            </td>
+          </tr>
+          <tr>
+            <td><span class="mono">AAR_Evaluation__c</span></td>
+            <td><span class="tick-yes">true</span></td>
+            <td>3 — Evaluation_Date__c, Rating__c, Status__c</td>
+            <td><span class="mono">AAR_Evaluation__History</span> — exists</td>
+          </tr>
+          <tr>
+            <td><span class="mono">AAR_Recognition__c</span></td>
+            <td><span class="tick-yes">true</span></td>
+            <td>
+              4 — Awarding_Agency__c, Category__c, Date_Announced__c,
+              Recognition_Name__c
+            </td>
+            <td><span class="mono">AAR_Recognition__History</span> — exists</td>
+          </tr>
+          <tr>
+            <td><span class="mono">AAR_Publication__c</span></td>
+            <td><span class="tick-yes">true</span></td>
+            <td>
+              5 — Is_Verified__c, Journal__c, Publication_Title__c,
+              Publication_Year__c, Source__c
+            </td>
+            <td><span class="mono">AAR_Publication__History</span> — exists</td>
+          </tr>
+          <tr>
+            <td><span class="mono">AAR_Scholarly_Output__c</span></td>
+            <td><span class="tick-yes">true</span></td>
+            <td>3 — Date__c, Description__c, Title__c</td>
+            <td>
+              <span class="mono">AAR_Scholarly_Output__History</span> — exists
+            </td>
+          </tr>
+          <tr>
+            <td><span class="mono">Commercialization__c</span></td>
+            <td><span class="tick-yes">true</span></td>
+            <td>
+              5 — Filing_Date__c, Grant_Date__c, Status__c, Title__c, Type__c
+            </td>
+            <td>
+              <span class="mono">Commercialization__History</span> — confirmed
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ REPORT TYPE -->
+    <div class="section">
+      <div class="section-title">Report Type</div>
+      <div class="obj-card">
+        <div class="obj-header">
+          <div>
+            <span class="obj-name">AAR_Records_with_Field_History</span>
+            <span class="obj-label"
+              >Label: "AAR Records with Field History" · Base Object:
+              UHN_AAR__c</span
+            >
+          </div>
+          <div class="obj-header-right">
+            <span class="badge badge-green">deployed=true</span>
+            <span class="badge badge-green">ID: 070Aq00000DyZLBIA3</span>
+          </div>
+        </div>
+        <div
+          class="obj-body"
+          style="font-size: 10px; color: #444; padding: 8px 12px"
+        >
+          Custom Report Type deployed. Base object:
+          <code>UHN_AAR__c</code> (correctly mapped to actual org object).
+          Section: <em>AAR Record Details</em> — exposes Name, CreatedDate,
+          Status__c, Submission_Date__c, Attestation_Date__c,
+          Top_Constraints__c, Service_Narrative__c. <br /><strong>Note:</strong>
+          The Salesforce-native <code>UHN_AAR__History</code> report type is
+          auto-generated by the platform once history is enabled — use that type
+          for raw field-change audit queries.
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ RISK REGISTER -->
+    <div class="section">
+      <div class="section-title">Risk Register — Resolution Status</div>
+      <table class="risk-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Risk</th>
+            <th>Original Level</th>
+            <th>Resolution Action</th>
+            <th>Residual Risk</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>R1</td>
+            <td>
+              Spec used <code>AAR_Record__c</code> but actual object is
+              <code>UHN_AAR__c</code> — history could be applied to wrong object
+            </td>
+            <td class="risk-medium">Medium</td>
+            <td>
+              Resolved: mapping clarified, all 14 BH-1126 fields deployed to
+              <code>UHN_AAR__c</code>. Rename deferred to BH-987 scope.
+            </td>
+            <td class="risk-none">None</td>
+          </tr>
+          <tr>
+            <td>R2</td>
+            <td>
+              Evaluator fields on <code>AAR_Record__c</code> — would have
+              configured non-existent fields
+            </td>
+            <td class="risk-medium">Medium</td>
+            <td>
+              Resolved: removed from scope per Mar 2026 decision. Evaluator
+              history on <code>AAR_Evaluation__c</code> instead (3 fields
+              tracked).
+            </td>
+            <td class="risk-none">None</td>
+          </tr>
+          <tr>
+            <td>R3</td>
+            <td>
+              <code>AAR_Scholarly_Output__c</code> had 0 tracked fields (Title,
+              Date, Description all false)
+            </td>
+            <td class="risk-medium">Medium</td>
+            <td>
+              Resolved: fields set to <code>trackHistory=true</code> locally and
+              deployed. Org confirmed <code>IsFieldHistoryTracked=true</code> on
+              all 3.
+            </td>
+            <td class="risk-none">None</td>
+          </tr>
+          <tr>
+            <td>R4</td>
+            <td>
+              <code>UHN_AAR__c.Account__c</code> locally set to tracked but not
+              in org (missing from prior deploy)
+            </td>
+            <td class="risk-medium">Medium</td>
+            <td>
+              Resolved: targeted deploy of Account__c field —
+              <code>changed=true</code> confirmed. FieldDefinition now shows
+              <code>IsFieldHistoryTracked=true</code>.
+            </td>
+            <td class="risk-none">None</td>
+          </tr>
+          <tr>
+            <td>R5</td>
+            <td>
+              Shield framing: DoD previously implied Shield = data recovery
+              backstop (incorrect)
+            </td>
+            <td class="risk-low">Low</td>
+            <td>
+              Resolved: DoD updated. Shield = audit/field history/7-yr
+              retention. Hourly org backups = point-in-time recovery. Framed as
+              complementary.
+            </td>
+            <td class="risk-none">None</td>
+          </tr>
+          <tr>
+            <td>R6</td>
+            <td>
+              <code>Output_Type__c</code> on
+              <code>AAR_Scholarly_Output__c</code> — field not yet in org schema
+            </td>
+            <td class="risk-low">Low</td>
+            <td>
+              Accepted/deferred: field not in MVP scope (BH-987 revision). Will
+              add trackHistory when field is deployed in V1.1.
+            </td>
+            <td class="risk-low">Low — Deferred</td>
+          </tr>
+          <tr>
+            <td>R7</td>
+            <td>
+              Shield 7-year retention requires org-level admin configuration
+              beyond metadata deploy
+            </td>
+            <td class="risk-low">Low</td>
+            <td>
+              Open action: Salesforce Admin to confirm Field Audit Trail
+              retention set to 7 years in Setup → Company Information → Field
+              Audit Trail. This cannot be configured via SFDX metadata.
+            </td>
+            <td class="risk-low">Low — Admin action required</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ DEFINITION OF DONE -->
+    <div class="section">
+      <div class="section-title">Definition of Done — Verification Matrix</div>
+      <table class="dod-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>DoD Criterion</th>
+            <th>Status</th>
+            <th>Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Field history tracking enabled on all AAR objects</td>
+            <td><span class="badge badge-green">✓ Complete</span></td>
+            <td>
+              FieldDefinition query: IsFieldHistoryTracked=true on all 6 objects
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              ~14 fields configured on AAR_Record__c (UHN_AAR__c) — evaluator
+              fields removed
+            </td>
+            <td><span class="badge badge-green">✓ Complete</span></td>
+            <td>FieldDefinition query returned totalSize=14 for UHN_AAR__c</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              Field history configured on AAR_Evaluation__c (Rating__c,
+              Status__c, Evaluation_Date__c)
+            </td>
+            <td><span class="badge badge-green">✓ Complete</span></td>
+            <td>
+              FieldDefinition query: 3 fields confirmed tracked on
+              AAR_Evaluation__c
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>History retention set to 7 years (Shield)</td>
+            <td><span class="badge badge-amber">⚠ Admin Action</span></td>
+            <td>
+              Shield enabled at org level. Admin must verify Field Audit Trail =
+              7-yr in Setup. Cannot be validated via API.
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>
+              Key fields configured on junction objects (Recognition,
+              Publication, Commercialization)
+            </td>
+            <td><span class="badge badge-green">✓ Complete</span></td>
+            <td>
+              4 fields on Recognition, 5 on Publication, 5 on Commercialization
+              — all confirmed via FieldDefinition
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>
+              Custom report type created: "AAR Records with Field History"
+            </td>
+            <td><span class="badge badge-green">✓ Complete</span></td>
+            <td>
+              ReportType ID 070Aq00000DyZLBIA3 — deployed=true, base object
+              UHN_AAR__c
+            </td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>
+              Test validation: Create AAR, edit key fields, verify history
+              captured
+            </td>
+            <td><span class="badge badge-amber">⚠ Manual Test</span></td>
+            <td>
+              UHN_AAR__History has 2 records (proof of life). Full manual test
+              scenario required by QA/admin post-deploy.
+            </td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Verify 7-year retention setting active</td>
+            <td><span class="badge badge-amber">⚠ Admin Action</span></td>
+            <td>
+              Setup → Company Information → Field Audit Trail. Admin to confirm
+              and sign off.
+            </td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>
+              Documentation updated with field history access instructions and
+              Shield retention policy
+            </td>
+            <td><span class="badge badge-green">✓ Complete</span></td>
+            <td>
+              This checklist constitutes the delivery documentation. SOQL
+              sample: SELECT Id, Field, OldValue, NewValue, CreatedById,
+              CreatedDate FROM UHN_AAR__History WHERE ParentId = :aarId ORDER BY
+              CreatedDate DESC
+            </td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>DoD does NOT frame Shield as data recovery backstop</td>
+            <td><span class="badge badge-green">✓ Complete</span></td>
+            <td>
+              Framing corrected: Shield = audit + field history + 7-yr
+              retention. Hourly org backups = point-in-time recovery.
+              Complementary, not redundant.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ OPEN ACTIONS -->
+    <div class="section">
+      <div class="section-title">Open Actions (Post-Deployment)</div>
+
+      <div class="open-action">
+        <span class="oa-icon">📋</span>
+        <div>
+          <span class="oa-owner">PM (Christopher King):</span> Confirm whether
+          BH-1126 remains a standalone story or is formally closed as a
+          checklist task folded into BH-987. Update Jira status accordingly.
+        </div>
+      </div>
+      <div class="open-action">
+        <span class="oa-icon">🔧</span>
+        <div>
+          <span class="oa-owner">Salesforce Admin:</span> Verify Shield Field
+          Audit Trail retention is set to <strong>7 years</strong> in Setup →
+          Company Information → Field Audit Trail. This is an org-level click
+          operation — cannot be done via SFDX metadata deploy.
+        </div>
+      </div>
+      <div class="open-action">
+        <span class="oa-icon">🧪</span>
+        <div>
+          <span class="oa-owner">QA / Admin:</span> Run manual test scenario —
+          create a UHN_AAR__c record, edit Status__c, Attestation_Date__c,
+          Top_Constraints__c; navigate to related History list; confirm old/new
+          values captured with correct user and timestamp.
+        </div>
+      </div>
+      <div class="open-action">
+        <span class="oa-icon">🔮</span>
+        <div>
+          <span class="oa-owner">Dev (BH-987/V1.1):</span> When
+          <code>Output_Type__c</code> is added to
+          <code>AAR_Scholarly_Output__c</code>, add
+          <code>&lt;trackHistory&gt;true&lt;/trackHistory&gt;</code> to its
+          field XML and deploy. No other action needed for BH-1126 scope.
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ SAMPLE SOQL -->
+    <div class="section">
+      <div class="section-title">Reference — Sample Audit Queries</div>
+      <div
+        style="
+          font-family: &quot;Courier New&quot;, monospace;
+          font-size: 9.5px;
+          background: #1a1a2e;
+          color: #e0e0ff;
+          padding: 12px 16px;
+          border-radius: 5px;
+          line-height: 1.7;
+        "
+      >
+        <div style="color: #7ec8e3">
+          -- All field changes for a specific UHN_AAR record
+        </div>
+        SELECT Id, Field, OldValue, NewValue, CreatedById, CreatedDate<br />
+        FROM UHN_AAR__History WHERE ParentId = :aarRecordId<br />
+        ORDER BY CreatedDate DESC;<br /><br />
+        <div style="color: #7ec8e3">
+          -- Attestation sign-offs in the last 30 days
+        </div>
+        SELECT ParentId, OldValue, NewValue, CreatedById, CreatedDate<br />
+        FROM UHN_AAR__History WHERE Field = 'Attested_By__c'<br />
+        AND CreatedDate = LAST_N_DAYS:30 ORDER BY CreatedDate DESC;<br /><br />
+        <div style="color: #7ec8e3">-- Evaluation rating changes</div>
+        SELECT ParentId, Field, OldValue, NewValue, CreatedById, CreatedDate<br />
+        FROM AAR_Evaluation__History WHERE Field = 'Rating__c'<br />
+        ORDER BY CreatedDate DESC;
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ FOOTER -->
+    <div class="doc-footer">
+      <div>
+        BH-1126 · AAR Field History Tracking · Revision 2 · Validated 2026-06-02
+        · Org: UHN-SANDBOX · Deployed by: Chuk Okechukwu
+      </div>
+      <div>Business Hub — AAR Core Data Model &amp; Security (BH-1116)</div>
+    </div>
+  </body>
+</html>

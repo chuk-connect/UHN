@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BH-1246 Validation Checklist — AAR_Evaluation__c</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 20mm 18mm 20mm 18mm;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-size: 11px;
+        color: #1a1a2e;
+        background: #fff;
+        line-height: 1.5;
+      }
+
+      /* ── Cover ── */
+      .cover {
+        page-break-after: always;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 260mm;
+        padding: 40px;
+        border-left: 8px solid #005fb8;
+      }
+      .cover-badge {
+        display: inline-block;
+        background: #005fb8;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        padding: 4px 10px;
+        border-radius: 3px;
+        margin-bottom: 18px;
+        text-transform: uppercase;
+      }
+      .cover h1 {
+        font-size: 26px;
+        font-weight: 800;
+        color: #005fb8;
+        margin-bottom: 8px;
+        line-height: 1.2;
+      }
+      .cover h2 {
+        font-size: 14px;
+        font-weight: 400;
+        color: #444;
+        margin-bottom: 28px;
+      }
+      .cover-meta {
+        border-top: 1px solid #e0e0e0;
+        padding-top: 16px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 24px;
+      }
+      .cover-meta dt {
+        font-weight: 700;
+        font-size: 9px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+      }
+      .cover-meta dd {
+        font-size: 11px;
+        color: #333;
+        margin-bottom: 6px;
+      }
+      .cover-warn {
+        margin-top: 24px;
+        padding: 10px 14px;
+        background: #fff4cd;
+        border-left: 4px solid #f0a500;
+        border-radius: 3px;
+        font-size: 10px;
+        color: #7a5700;
+      }
+
+      /* ── Section headers ── */
+      h2.section {
+        font-size: 13px;
+        font-weight: 800;
+        color: #005fb8;
+        padding: 7px 12px;
+        background: #eaf2ff;
+        border-left: 5px solid #005fb8;
+        margin: 18px 0 10px 0;
+        border-radius: 2px;
+        page-break-after: avoid;
+      }
+      h3.sub {
+        font-size: 11px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 12px 0 5px 0;
+        page-break-after: avoid;
+      }
+
+      /* ── Delivery summary table ── */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        font-size: 10px;
+      }
+      th {
+        background: #005fb8;
+        color: #fff;
+        text-align: left;
+        padding: 6px 8px;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+      }
+      td {
+        padding: 5px 8px;
+        border-bottom: 1px solid #e8ecf0;
+        vertical-align: top;
+      }
+      tr:nth-child(even) td {
+        background: #f7f9fc;
+      }
+      .tag {
+        display: inline-block;
+        padding: 1px 6px;
+        border-radius: 10px;
+        font-size: 9px;
+        font-weight: 700;
+      }
+      .tag-green {
+        background: #d4edda;
+        color: #155724;
+      }
+      .tag-blue {
+        background: #cce5ff;
+        color: #004085;
+      }
+      .tag-amber {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .tag-red {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      /* ── Checklist ── */
+      .checklist {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .checklist li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 6px 8px;
+        border-bottom: 1px solid #f0f0f0;
+        page-break-inside: avoid;
+      }
+      .checklist li:last-child {
+        border-bottom: none;
+      }
+      .checklist li:hover {
+        background: #f7f9fc;
+      }
+      .cb {
+        flex-shrink: 0;
+        width: 14px;
+        height: 14px;
+        border: 1.5px solid #aaa;
+        border-radius: 2px;
+        margin-top: 1px;
+      }
+      .step-num {
+        flex-shrink: 0;
+        width: 20px;
+        font-weight: 700;
+        font-size: 10px;
+        color: #005fb8;
+        text-align: right;
+        margin-top: 1px;
+      }
+      .step-body {
+        flex: 1;
+      }
+      .step-body strong {
+        font-weight: 700;
+        display: block;
+        margin-bottom: 2px;
+      }
+      .step-body .expect {
+        color: #155724;
+        font-size: 9.5px;
+      }
+      .step-body .ifnot {
+        color: #721c24;
+        font-size: 9.5px;
+      }
+      .step-body .note {
+        color: #7a5700;
+        font-size: 9px;
+        font-style: italic;
+      }
+      .checklist.cat-2 {
+        margin-left: 0;
+      }
+
+      /* ── Category labels ── */
+      .cat-label {
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        color: #fff;
+        padding: 2px 7px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-bottom: 6px;
+      }
+      .cat-obj {
+        background: #005fb8;
+      }
+      .cat-field {
+        background: #17a2b8;
+      }
+      .cat-vr {
+        background: #6f42c1;
+      }
+      .cat-layout {
+        background: #fd7e14;
+      }
+      .cat-perm {
+        background: #28a745;
+      }
+      .cat-fls {
+        background: #20c997;
+      }
+      .cat-reg {
+        background: #dc3545;
+      }
+      .cat-git {
+        background: #6c757d;
+      }
+
+      /* ── Deviation box ── */
+      .deviation {
+        background: #fff8e1;
+        border: 1px solid #ffc107;
+        border-radius: 4px;
+        padding: 8px 12px;
+        margin: 6px 0;
+        font-size: 10px;
+      }
+      .deviation strong {
+        color: #7a5700;
+      }
+
+      /* ── Git checkpoint ── */
+      .git-box {
+        border: 2px solid #005fb8;
+        border-radius: 4px;
+        padding: 12px 16px;
+        margin-top: 8px;
+      }
+      .git-box h4 {
+        font-size: 11px;
+        color: #005fb8;
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+      .git-box p,
+      .git-box li {
+        font-size: 10px;
+        margin-bottom: 4px;
+      }
+      .git-box ul {
+        padding-left: 16px;
+      }
+      .warn-push {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 3px;
+        padding: 8px 12px;
+        margin-top: 8px;
+        font-size: 10px;
+        font-weight: 700;
+        color: #721c24;
+        text-align: center;
+      }
+
+      /* ── Footer ── */
+      .footer {
+        font-size: 9px;
+        color: #aaa;
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 8px;
+        border-top: 1px solid #e0e0e0;
+      }
+
+      /* ── Print ── */
+      @media print {
+        .cover {
+          min-height: auto;
+          padding: 30px;
+        }
+        h2.section,
+        h3.sub {
+          page-break-after: avoid;
+        }
+        .checklist li {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ═══════════════════════ COVER ═══════════════════════ -->
+    <div class="cover">
+      <div class="cover-badge">BH-1246 · Delivery Validation</div>
+      <h1>AAR_Evaluation__c<br />Evaluator Assessment Data Model</h1>
+      <h2>Sandbox Validation &amp; Acceptance Checklist</h2>
+      <dl class="cover-meta">
+        <dt>Ticket</dt>
+        <dd>BH-1246</dd>
+        <dt>Epic</dt>
+        <dd>AAR Core Data Model &amp; Security (BH-1116)</dd>
+        <dt>Target Org</dt>
+        <dd>UHN-SANDBOX (Local target-org)</dd>
+        <dt>Branch</dt>
+        <dd>feature/bh-1121</dd>
+        <dt>Commits</dt>
+        <dd>0ee0d75 · 5b01d8b</dd>
+        <dt>Prepared by</dt>
+        <dd>Chuck / Claude Sonnet 4.6</dd>
+        <dt>Date</dt>
+        <dd>2026-06-01</dd>
+        <dt>Status</dt>
+        <dd><span class="tag tag-amber">Pending Sandbox Validation</span></dd>
+      </dl>
+      <div class="cover-warn">
+        ⚠ <strong>Remote push not completed.</strong> Manual confirmation
+        required before pushing to
+        <code>https://github.com/chuk-connect/UHN.git</code>. All metadata is
+        deployed to UHN-SANDBOX and committed locally only.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════ SECTION 1 — DELIVERY SUMMARY ═══════════════════════ -->
+    <h2 class="section">1 · Delivery Summary</h2>
+    <p style="font-size: 10px; margin-bottom: 8px">
+      All items below were deployed to <strong>UHN-SANDBOX</strong> in two
+      deploy operations on 2026-06-01. No Apex tests were run (no Apex logic in
+      this ticket).
+    </p>
+
+    <h3 class="sub">Object &amp; Fields</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Artifact</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AAR_Evaluation__c</td>
+          <td>Custom Object</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+          <td>
+            sharingModel=Private, enableHistory=true, Auto-Number EVAL-{0000}
+          </td>
+        </tr>
+        <tr>
+          <td>AAR_Record__c</td>
+          <td>Lookup Field</td>
+          <td><span class="tag tag-amber">Deployed (deviation)</span></td>
+          <td>
+            Points to UHN_AAR__c; retarget to AAR_Record__c object when BH-987
+            ships
+          </td>
+        </tr>
+        <tr>
+          <td>Evaluator__c</td>
+          <td>Lookup Field → User</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+          <td>deleteConstraint=SetNull</td>
+        </tr>
+        <tr>
+          <td>Rating__c</td>
+          <td>Picklist</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+          <td>3 values · trackHistory=true</td>
+        </tr>
+        <tr>
+          <td>Status__c</td>
+          <td>Picklist</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+          <td>Draft (default) / Submitted · trackHistory=true</td>
+        </tr>
+        <tr>
+          <td>Evaluation_Date__c</td>
+          <td>DateTime</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+          <td>trackHistory=true · Set on submit</td>
+        </tr>
+        <tr>
+          <td>Strengths__c</td>
+          <td>LongTextArea 32768</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+          <td>Structured comment</td>
+        </tr>
+        <tr>
+          <td>Concerns__c</td>
+          <td>LongTextArea 32768</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+          <td>Structured comment</td>
+        </tr>
+        <tr>
+          <td>Recommendations__c</td>
+          <td>LongTextArea 32768</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+          <td>Structured comment</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">Validation Rules</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Rule</th>
+          <th>Formula</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>VR_Rating_Required_On_Submit</td>
+          <td>
+            AND(ISPICKVAL(Status__c,'Submitted'), ISPICKVAL(Rating__c,''))
+          </td>
+          <td><span class="tag tag-green">Active</span></td>
+        </tr>
+        <tr>
+          <td>VR_Comment_Required_On_Submit</td>
+          <td>
+            AND(ISPICKVAL(Status__c,'Submitted'), ISBLANK(Strengths__c),
+            ISBLANK(Concerns__c), ISBLANK(Recommendations__c))
+          </td>
+          <td><span class="tag tag-green">Active</span></td>
+        </tr>
+        <tr>
+          <td>VR_Lock_After_Submit</td>
+          <td>ISPICKVAL(PRIORVALUE(Status__c),'Submitted')</td>
+          <td>
+            <span class="tag tag-amber"
+              >Active (V1 simplification — full record lock)</span
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">Page Layout &amp; Related List</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Artifact</th>
+          <th>Type</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AAR_Evaluation__c-AAR Evaluation Layout</td>
+          <td>Page Layout</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+        </tr>
+        <tr>
+          <td>Evaluations related list → UHN_AAR__c-AAR_Recordc Layout</td>
+          <td>Related List</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">Security &amp; Access</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Artifact</th>
+          <th>Access</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AAR_Evaluator perm set</td>
+          <td>Create / Edit / Read (no ViewAll)</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+        </tr>
+        <tr>
+          <td>AAR_Evaluator_Access perm set</td>
+          <td>Create / Edit / Read (no ViewAll)</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+        </tr>
+        <tr>
+          <td>AAR_Admin perm set</td>
+          <td>Modify All / ViewAll</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+        </tr>
+        <tr>
+          <td>AAR_Institute_Leadership perm set</td>
+          <td>Read / ViewAll</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+        </tr>
+        <tr>
+          <td>Admin profile FLS</td>
+          <td>All fields editable=true, readable=true</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+        </tr>
+        <tr>
+          <td>Account Holder User profile FLS</td>
+          <td>All fields editable=false, readable=true</td>
+          <td><span class="tag tag-green">Deployed</span></td>
+        </tr>
+        <tr>
+          <td>OWD</td>
+          <td>Private</td>
+          <td><span class="tag tag-green">Object-level</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">Known Deviations</h3>
+    <div class="deviation">
+      <strong>DEV-01:</strong> AAR_Record__c lookup targets UHN_AAR__c (not a
+      AAR_Record__c object). Reason: BH-987 not yet delivered. Action: retarget
+      field when BH-987 ships.
+    </div>
+    <div class="deviation">
+      <strong>DEV-02:</strong> VR_Lock_After_Submit locks the full record after
+      submission (not just the four specified fields). Reason: Salesforce
+      ISPICKVAL requires a text literal as second arg; PRIORVALUE on a picklist
+      cannot be compared field-to-field without enumerating all values. Accepted
+      for V1. Revisit in V1.1.
+    </div>
+    <div class="deviation">
+      <strong>DEV-03:</strong> Institute Director visibility granted via
+      AAR_Institute_Leadership perm set ViewAll instead of criteria-based
+      sharing rule. Reason: criteria-based sharing rules cannot reference Lookup
+      fields. Institute-scoped filtering not enforced at record level in V1.
+    </div>
+
+    <!-- ═══════════════════════ SECTION 2 — VALIDATION CHECKLIST ═══════════════════════ -->
+    <h2 class="section">2 · Sandbox Validation Checklist</h2>
+    <p style="font-size: 10px; margin-bottom: 10px">
+      Complete each step in <strong>UHN-SANDBOX</strong>. Check the box when the
+      expected result is confirmed. Login as
+      <strong>System Administrator</strong> unless otherwise specified.
+    </p>
+
+    <!-- ── OBJECT ── -->
+    <span class="cat-label cat-obj">Object Verification</span>
+    <ul class="checklist">
+      <li>
+        <span class="cb"></span><span class="step-num">1</span>
+        <div class="step-body">
+          <strong
+            >Confirm AAR_Evaluation__c object exists in Object Manager</strong
+          >
+          Setup → Object Manager → search "AAR Evaluation"
+          <div class="expect">
+            ✓ Object appears with label "AAR Evaluation", plural "AAR
+            Evaluations"
+          </div>
+          <div class="ifnot">✗ Check Setup → Deployment Status for errors</div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">2</span>
+        <div class="step-body">
+          <strong>Confirm OWD is Private</strong>
+          Setup → Sharing Settings → AAR Evaluation row
+          <div class="expect">
+            ✓ Default Internal Access = Private, External = Private
+          </div>
+          <div class="ifnot">✗ Re-deploy AAR_Evaluation__c.object-meta.xml</div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">3</span>
+        <div class="step-body">
+          <strong>Confirm Field History Tracking is enabled</strong>
+          Object Manager → AAR Evaluation → Fields &amp; Relationships → Field
+          History Tracking
+          <div class="expect">
+            ✓ Rating, Status, Evaluation Date all listed as tracked
+          </div>
+          <div class="ifnot">
+            ✗ Enable manually or re-deploy object file with enableHistory=true
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">4</span>
+        <div class="step-body">
+          <strong>Create one test record to confirm auto-number Name</strong>
+          New AAR Evaluation → save with minimal data → check Name field
+          <div class="expect">
+            ✓ Name auto-assigned as EVAL-0001 (or next sequence)
+          </div>
+          <div class="ifnot">✗ Check nameField displayFormat in object XML</div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- ── FIELDS ── -->
+    <span class="cat-label cat-field">Field Verification</span>
+    <ul class="checklist">
+      <li>
+        <span class="cb"></span><span class="step-num">5</span>
+        <div class="step-body">
+          <strong>Confirm all 8 custom fields present</strong>
+          Object Manager → AAR Evaluation → Fields &amp; Relationships
+          <div class="expect">
+            ✓ AAR_Record__c, Concerns__c, Evaluation_Date__c, Evaluator__c,
+            Rating__c, Recommendations__c, Status__c, Strengths__c — all present
+          </div>
+          <div class="ifnot">✗ Re-deploy fields directory</div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">6</span>
+        <div class="step-body">
+          <strong>Confirm Rating picklist has exactly 3 values</strong>
+          Object Manager → AAR Evaluation → Fields → Rating → click label
+          <div class="expect">
+            ✓ Exceptional Performance, Successful Performance, Does Not Meet
+            Expectations
+          </div>
+          <div class="ifnot">✗ Check Rating__c.field-meta.xml valueSet</div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">7</span>
+        <div class="step-body">
+          <strong>Confirm Status picklist default is Draft</strong>
+          Object Manager → AAR Evaluation → Fields → Status → click label
+          <div class="expect">
+            ✓ Draft (default) and Submitted present; Draft is default
+          </div>
+          <div class="ifnot">
+            ✗ Check Status__c.field-meta.xml valueSet default attribute
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">8</span>
+        <div class="step-body">
+          <strong>Confirm AAR_Record__c lookup targets UHN_AAR__c</strong>
+          Object Manager → AAR Evaluation → Fields → AAR Record → click label
+          <div class="expect">
+            ✓ Related To = UHN_AAR__c; Relationship Name = AAR_Evaluations
+          </div>
+          <div class="note">
+            Note: This is a V1 deviation. Will retarget to AAR_Record__c when
+            BH-987 ships.
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- ── VALIDATION RULES ── -->
+    <span class="cat-label cat-vr">Validation Rule Verification</span>
+    <ul class="checklist">
+      <li>
+        <span class="cb"></span><span class="step-num">9</span>
+        <div class="step-body">
+          <strong>Confirm all 3 validation rules are Active</strong>
+          Object Manager → AAR Evaluation → Validation Rules
+          <div class="expect">
+            ✓ VR_Rating_Required_On_Submit — Active;
+            VR_Comment_Required_On_Submit — Active; VR_Lock_After_Submit —
+            Active
+          </div>
+          <div class="ifnot">✗ Click each rule and toggle Active if needed</div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">10</span>
+        <div class="step-body">
+          <strong>Test VR_Rating_Required_On_Submit</strong>
+          Create a new eval → Status = Submitted, Rating = blank, fill Strengths
+          with any text → Save
+          <div class="expect">
+            ✓ Error appears on Rating field: "Rating is required before
+            submitting evaluation."
+          </div>
+          <div class="ifnot">
+            ✗ Check VR formula: AND(ISPICKVAL(Status__c,'Submitted'),
+            ISPICKVAL(Rating__c,''))
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">11</span>
+        <div class="step-body">
+          <strong>Test VR_Comment_Required_On_Submit</strong>
+          New eval → Status = Submitted, Rating = Exceptional Performance, all
+          comment fields blank → Save
+          <div class="expect">
+            ✓ Error: "At least one comment field (Strengths, Concerns, or
+            Recommendations) is required before submitting."
+          </div>
+          <div class="ifnot">
+            ✗ Check VR formula for ISBLANK calls on three text fields
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">12</span>
+        <div class="step-body">
+          <strong>Test successful submission (both VRs pass)</strong>
+          New eval → Status = Submitted, Rating = Successful Performance,
+          Strengths = "Test" → Save
+          <div class="expect">
+            ✓ Record saves successfully; Name assigned EVAL-000X; Evaluation
+            Date can be set manually
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">13</span>
+        <div class="step-body">
+          <strong>Test VR_Lock_After_Submit</strong>
+          Open the submitted record from Step 12 → Edit any field → Save
+          <div class="expect">
+            ✓ Error: "Record is locked after submission. Rating and comment
+            fields cannot be modified."
+          </div>
+          <div class="ifnot">
+            ✗ Verify record Status is Submitted before editing
+          </div>
+          <div class="note">
+            Note: Full record lock (not field-specific) — V1 design decision
+            (DEV-02)
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">14</span>
+        <div class="step-body">
+          <strong>Confirm field history logged</strong>
+          Open submitted record → Related → AAR Evaluation History
+          <div class="expect">
+            ✓ History entries visible for Rating, Status, and Evaluation_Date
+            changes made during testing
+          </div>
+          <div class="ifnot">
+            ✗ Confirm enableHistory=true on object; confirm trackHistory=true on
+            each field
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- ── LAYOUT ── -->
+    <span class="cat-label cat-layout"
+      >Page Layout &amp; Related List Verification</span
+    >
+    <ul class="checklist">
+      <li>
+        <span class="cb"></span><span class="step-num">15</span>
+        <div class="step-body">
+          <strong>Confirm AAR Evaluation layout sections</strong>
+          Open any AAR Evaluation record → inspect layout
+          <div class="expect">
+            ✓ Sections visible: Evaluation Information (Name, AAR Record,
+            Evaluator, Status, Evaluation Date) · Assessment (Rating,
+            prominently displayed) · Comments (Strengths, Concerns,
+            Recommendations full-width) · System Information
+          </div>
+          <div class="ifnot">
+            ✗ Check layout file and profile assignment in Setup → Object Manager
+            → AAR Evaluation → Page Layouts
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">16</span>
+        <div class="step-body">
+          <strong
+            >Confirm Evaluations related list appears on UHN_AAR__c
+            record</strong
+          >
+          Open any UHN_AAR__c record → scroll to related lists
+          <div class="expect">
+            ✓ "AAR Evaluations" related list visible with columns: Name,
+            Evaluator, Rating, Status, Evaluation Date
+          </div>
+          <div class="ifnot">
+            ✗ Confirm layout UHN_AAR__c-AAR_Recordc Layout was deployed; check
+            which layout is assigned to the profile in use
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">17</span>
+        <div class="step-body">
+          <strong
+            >Create a child evaluation from the UHN_AAR__c related list</strong
+          >
+          From a UHN_AAR__c record → Evaluations related list → New
+          <div class="expect">
+            ✓ New AAR Evaluation form opens with AAR Record pre-populated to
+            parent UHN_AAR__c record
+          </div>
+          <div class="ifnot">
+            ✗ Check relationship definition on AAR_Record__c field
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- ── PERMISSIONS ── -->
+    <span class="cat-label cat-perm"
+      >Permission Set &amp; Access Verification</span
+    >
+    <ul class="checklist">
+      <li>
+        <span class="cb"></span><span class="step-num">18</span>
+        <div class="step-body">
+          <strong
+            >Test AAR_Evaluator perm set — own-record visibility (OWD
+            enforcement)</strong
+          >
+          Create a test user with only AAR_Evaluator perm set assigned → log in
+          → create one AAR Evaluation → log out<br />
+          Create a second test user with AAR_Evaluator → log in → navigate to
+          AAR Evaluations list
+          <div class="expect">
+            ✓ Second evaluator sees 0 records (OWD=Private; records owned by
+            first evaluator)
+          </div>
+          <div class="ifnot">
+            ✗ Re-check OWD setting or perm set object permissions
+            (viewAllRecords must be false)
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">19</span>
+        <div class="step-body">
+          <strong
+            >Test AAR_Evaluator perm set — can create and edit own Draft
+            records</strong
+          >
+          As evaluator test user → create a new AAR Evaluation in Draft status →
+          edit Rating → save
+          <div class="expect">
+            ✓ Create and edit succeed; fields Rating, Strengths, Concerns,
+            Recommendations, Status editable
+          </div>
+          <div class="ifnot">
+            ✗ Check objectPermissions allowCreate=true, allowEdit=true in
+            AAR_Evaluator
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">20</span>
+        <div class="step-body">
+          <strong
+            >Test AAR_Evaluator_Access perm set — same access as
+            AAR_Evaluator</strong
+          >
+          Assign AAR_Evaluator_Access to a separate test user (without
+          AAR_Evaluator) → create and edit AAR Evaluation
+          <div class="expect">
+            ✓ Create and edit succeed; same field accessibility as AAR_Evaluator
+            test above
+          </div>
+          <div class="ifnot">
+            ✗ Check AAR_Evaluator_Access objectPermissions allowCreate=true,
+            allowEdit=true
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">21</span>
+        <div class="step-body">
+          <strong
+            >Test AAR_Institute_Leadership perm set — read-all access</strong
+          >
+          Assign AAR_Institute_Leadership to a test user → log in → navigate to
+          AAR Evaluations list
+          <div class="expect">
+            ✓ Can see ALL evaluation records regardless of owner
+            (viewAllRecords=true); no New/Edit/Delete buttons
+          </div>
+          <div class="ifnot">
+            ✗ Verify objectPermissions: allowRead=true, viewAllRecords=true,
+            allowEdit=false
+          </div>
+          <div class="note">
+            Note: Institute-scoped filter not enforced (DEV-03). All evaluations
+            visible to all Institute Leaders.
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">22</span>
+        <div class="step-body">
+          <strong>Test AAR_Admin perm set — modify all access</strong>
+          As a user with AAR_Admin perm set → open a Submitted evaluation →
+          attempt to edit
+          <div class="expect">
+            ✓ Edit succeeds (modifyAllRecords bypasses record-level sharing, but
+            VR_Lock_After_Submit still fires for non-System-Admin users)
+          </div>
+          <div class="note">
+            Note: VR_Lock_After_Submit applies to all users including AAR_Admin
+            perm set holders. Only the Bypass Validation Rules system admin
+            override or a custom permission bypass can circumvent it.
+          </div>
+          <div class="ifnot">
+            ✗ If admin must edit submitted records, consider adding a custom
+            permission bypass to VR_Lock_After_Submit in a follow-up story
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- ── FLS ── -->
+    <span class="cat-label cat-fls">Field-Level Security Verification</span>
+    <ul class="checklist">
+      <li>
+        <span class="cb"></span><span class="step-num">23</span>
+        <div class="step-body">
+          <strong
+            >Confirm Admin profile FLS — all fields visible and editable</strong
+          >
+          Setup → Profiles → Admin → Field-Level Security → AAR Evaluation
+          <div class="expect">
+            ✓ All 8 fields: Visible = checked, Read-Only = unchecked (editable)
+          </div>
+          <div class="ifnot">✗ Re-deploy Admin.profile-meta.xml</div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">24</span>
+        <div class="step-body">
+          <strong
+            >Confirm Account Holder User profile FLS — all fields visible,
+            read-only</strong
+          >
+          Setup → Profiles → Account Holder User → Field-Level Security → AAR
+          Evaluation
+          <div class="expect">
+            ✓ All 8 fields: Visible = checked, Read-Only = checked
+            (editable=false)
+          </div>
+          <div class="ifnot">
+            ✗ Re-deploy Account Holder User.profile-meta.xml
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- ── REGRESSION ── -->
+    <span class="cat-label cat-reg">Regression &amp; Impact Check</span>
+    <ul class="checklist">
+      <li>
+        <span class="cb"></span><span class="step-num">25</span>
+        <div class="step-body">
+          <strong>Confirm UHN_AAR__c records load without errors</strong>
+          Open several existing UHN_AAR__c records
+          <div class="expect">
+            ✓ Records load normally; existing data unchanged; Evaluations
+            related list shows 0 records (expected — no data yet)
+          </div>
+          <div class="ifnot">
+            ✗ Check layout deployment; check if new related list causes any
+            rendering errors
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">26</span>
+        <div class="step-body">
+          <strong
+            >Confirm existing AAR_Evaluator perm set users still have correct
+            access to AAR_Submission__c</strong
+          >
+          As an existing evaluator user → verify AAR_Submission__c access
+          (Evaluator_Comments, Score, Recommendation fields)
+          <div class="expect">
+            ✓ Existing AAR_Submission__c evaluator field access unchanged
+          </div>
+          <div class="ifnot">
+            ✗ Diff the perm set against prior version; check for unintended
+            removals
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">27</span>
+        <div class="step-body">
+          <strong
+            >Confirm AAR_Institute_Leadership perm set users still access
+            Commercialization__c and AAR_Submission__c</strong
+          >
+          As an Institute Leadership test user → verify existing read access on
+          those objects
+          <div class="expect">
+            ✓ Commercialization__c and AAR_Submission__c records still readable
+          </div>
+          <div class="ifnot">
+            ✗ Check objectPermissions in deployed perm set file
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="cb"></span><span class="step-num">28</span>
+        <div class="step-body">
+          <strong
+            >Confirm AAR_Evaluator_Access perm set users still access
+            AAR_Reviewer__c and UHN_AAR__c</strong
+          >
+          As an evaluator with AAR_Evaluator_Access → verify AAR_Reviewer__c and
+          UHN_AAR__c access
+          <div class="expect">
+            ✓ AAR_Reviewer__c still editable; UHN_AAR__c still readable with
+            Status editable
+          </div>
+          <div class="ifnot">
+            ✗ Re-check AAR_Evaluator_Access.permissionset — confirm existing
+            objectPermissions intact after new additions
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- ═══════════════════════ SECTION 3 — GIT HANDOFF ═══════════════════════ -->
+    <h2 class="section">3 · Git Handoff Checkpoint</h2>
+    <div class="git-box">
+      <h4>Branch &amp; Commit State</h4>
+      <table style="margin-bottom: 8px">
+        <thead>
+          <tr>
+            <th>Commit</th>
+            <th>Description</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0ee0d75</td>
+            <td>
+              BH-1246: Define evaluator assessment data model
+              (AAR_Evaluation__c)
+            </td>
+            <td><span class="tag tag-green">Local ✓</span></td>
+          </tr>
+          <tr>
+            <td>5b01d8b</td>
+            <td>
+              BH-1246: Add Evaluations related list, FLS profiles, and
+              AAR_Evaluator_Access
+            </td>
+            <td><span class="tag tag-green">Local ✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <h4>Pre-PR Checklist</h4>
+      <ul>
+        <li>☐ All validation steps (1–28 above) confirmed in UHN-SANDBOX</li>
+        <li>☐ No regressions in existing AAR functionality</li>
+        <li>
+          ☐ Deviations DEV-01, DEV-02, DEV-03 documented and accepted by
+          stakeholder
+        </li>
+        <li>☐ PR description includes deviation notes</li>
+      </ul>
+      <h4 style="margin-top: 10px">PR Command (after validation)</h4>
+      <pre
+        style="
+          background: #f7f9fc;
+          padding: 8px;
+          font-size: 9px;
+          border-radius: 3px;
+          border: 1px solid #e0e0e0;
+        "
+      >
+gh pr create --base master --head feature/bh-1121 \
+  --title "BH-1246: Define evaluator assessment data model (AAR_Evaluation__c)" \
+  --body "## Summary
+- Create AAR_Evaluation__c object (OWD=Private, Field History, Auto-Number)
+- 8 custom fields including Rating picklist, Status picklist, 3 Long Text comment fields
+- 3 validation rules: require Rating on submit, require at least 1 comment on submit, lock after submission
+- Page layout with Assessment and Comments sections; Evaluations related list on UHN_AAR__c
+- Permission sets: AAR_Evaluator (Create/Edit), AAR_Evaluator_Access (Create/Edit), AAR_Admin (Modify All), AAR_Institute_Leadership (Read/ViewAll)
+- FLS for Admin and Account Holder User profiles
+
+## Known Deviations
+- AAR_Record__c field targets UHN_AAR__c (pending BH-987)
+- VR_Lock_After_Submit locks full record (not field-specific) due to Salesforce formula constraints
+- Institute Director visibility via perm set ViewAll (criteria-based sharing rule cannot use Lookup fields)
+
+## Test Plan
+- [ ] Object and field verification in UHN-SANDBOX
+- [ ] Validation rule testing with live records
+- [ ] Permission set testing with test users
+- [ ] Regression check on UHN_AAR__c and existing evaluator access"</pre
+      >
+    </div>
+    <div class="warn-push">
+      ⛔ REMOTE PUSH NOT COMPLETED — Manual confirmation required before
+      executing:<br />
+      <code>git push -u origin feature/bh-1121</code><br />
+      Remote: https://github.com/chuk-connect/UHN.git
+    </div>
+
+    <!-- ═══════════════════════ SECTION 4 — OUT OF SCOPE ═══════════════════════ -->
+    <h2 class="section">4 · Out of Scope (V1.1)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Per-category comments</td>
+          <td>Explicitly deferred to V1.1 per ticket spec</td>
+        </tr>
+        <tr>
+          <td>Internal vs. shared comment visibility</td>
+          <td>V1.1 — REV-06 May priority</td>
+        </tr>
+        <tr>
+          <td>Multi-reviewer workflow</td>
+          <td>V1.1</td>
+        </tr>
+        <tr>
+          <td>Employment outcome decisions</td>
+          <td>Not in PRD scope</td>
+        </tr>
+        <tr>
+          <td>AAR_Record__c field retargeting</td>
+          <td>Pending BH-987 (AAR_Record__c object creation)</td>
+        </tr>
+        <tr>
+          <td>
+            VR_Lock_After_Submit field-specific bypass via custom permission
+          </td>
+          <td>Optional V1.1 hardening</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer">
+      BH-1246 · AAR_Evaluation__c · Generated 2026-06-01 · UHN-SANDBOX · branch:
+      feature/bh-1121<br />
+      To save as PDF: open this file in Chrome or Edge → Ctrl+P → Save as PDF →
+      A4, All pages
+    </div>
+  </body>
+</html>

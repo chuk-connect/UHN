@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      BH-1159 Validation Checklist v3 — Record Types for AAR Child Objects
+    </title>
+    <style>
+      @media print {
+        body {
+          margin: 0;
+        }
+        .no-print {
+          display: none;
+        }
+        table {
+          page-break-inside: auto;
+        }
+        tr {
+          page-break-inside: avoid;
+        }
+        h2 {
+          page-break-before: auto;
+        }
+      }
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        color: #1a1a1a;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      h1 {
+        font-size: 18px;
+        color: #0b3a6b;
+        border-bottom: 3px solid #0b3a6b;
+        padding-bottom: 6px;
+      }
+      h2 {
+        font-size: 13px;
+        color: #0b3a6b;
+        margin-top: 22px;
+        border-left: 4px solid #1d6fbe;
+        padding-left: 8px;
+      }
+      h3 {
+        font-size: 11px;
+        color: #444;
+        margin: 10px 0 4px;
+      }
+      .meta {
+        display: flex;
+        gap: 32px;
+        margin: 10px 0 18px;
+        font-size: 11px;
+      }
+      .meta span {
+        background: #f0f4f9;
+        border: 1px solid #c8d8ea;
+        border-radius: 4px;
+        padding: 3px 8px;
+      }
+      .meta .badge-pass {
+        background: #e6f4ea;
+        border-color: #34a853;
+        color: #1e7e34;
+      }
+      .meta .badge-warn {
+        background: #fff8e1;
+        border-color: #f9a825;
+        color: #7a5900;
+      }
+      .meta .badge-block {
+        background: #fce8e6;
+        border-color: #ea4335;
+        color: #c5221f;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 16px;
+      }
+      th {
+        background: #0b3a6b;
+        color: white;
+        text-align: left;
+        padding: 6px 8px;
+        font-size: 10px;
+      }
+      td {
+        padding: 5px 8px;
+        border: 1px solid #d0d8e4;
+        vertical-align: top;
+      }
+      tr:nth-child(even) {
+        background: #f7f9fc;
+      }
+      .pass {
+        background: #e6f4ea;
+        color: #1e7e34;
+        font-weight: bold;
+        text-align: center;
+      }
+      .fail {
+        background: #fce8e6;
+        color: #c5221f;
+        font-weight: bold;
+        text-align: center;
+      }
+      .skip {
+        background: #fff8e1;
+        color: #7a5900;
+        font-weight: bold;
+        text-align: center;
+      }
+      .na {
+        background: #f0f0f0;
+        color: #666;
+        font-weight: bold;
+        text-align: center;
+      }
+      .note {
+        font-size: 10px;
+        color: #555;
+        font-style: italic;
+      }
+      .risk-none {
+        background: #e6f4ea;
+        color: #1e7e34;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+      .risk-low {
+        background: #e8f5e9;
+        color: #2e7d32;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+      .risk-medium {
+        background: #fff8e1;
+        color: #7a5900;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+      .risk-high {
+        background: #fce8e6;
+        color: #c5221f;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+      .section-summary {
+        background: #e8f0fe;
+        border: 1px solid #aac4f5;
+        border-radius: 4px;
+        padding: 6px 10px;
+        margin-bottom: 12px;
+        font-size: 10px;
+      }
+      .footer {
+        margin-top: 28px;
+        padding-top: 10px;
+        border-top: 2px solid #ccc;
+        font-size: 10px;
+        color: #666;
+      }
+      .toc {
+        background: #f5f8ff;
+        border: 1px solid #c8d8ea;
+        border-radius: 4px;
+        padding: 10px 16px;
+        margin-bottom: 20px;
+      }
+      .toc ul {
+        margin: 4px 0;
+        padding-left: 20px;
+      }
+      .toc li {
+        margin: 2px 0;
+      }
+      .toc a {
+        color: #0b3a6b;
+        text-decoration: none;
+      }
+      code {
+        font-family: monospace;
+        font-size: 10px;
+        background: #f0f4f9;
+        padding: 1px 4px;
+        border-radius: 2px;
+      }
+      .acresult {
+        font-weight: bold;
+      }
+      .highlight {
+        background: #fff3cd;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>BH-1159 — Validation Checklist v3</h1>
+    <p>
+      <strong>Story:</strong> Implement Record Types for verification status on
+      AAR child objects<br />
+      <strong>Epic:</strong> BH-1116 AAR Core Data Model &amp; Security<br />
+      <strong>Pattern:</strong> Suggest-Verify-Augment (SVA) · ADR-001-E
+    </p>
+
+    <div class="meta">
+      <span><strong>Org:</strong> UHN-SANDBOX</span>
+      <span><strong>Branch:</strong> feature/bh-1121</span>
+      <span><strong>Commit:</strong> e820706</span>
+      <span><strong>Validated:</strong> 2026-06-02</span>
+      <span class="badge-pass"
+        ><strong>Tests:</strong> 9/9 PASS · 96% coverage</span
+      >
+      <span class="badge-warn"
+        ><strong>Scholarly Output RTs:</strong> BLOCKED (BH-1126)</span
+      >
+    </div>
+
+    <div class="toc">
+      <strong>Contents</strong>
+      <ul>
+        <li><a href="#s1">1. Acceptance Criteria</a></li>
+        <li><a href="#s2">2. Schema — Data_Origin__c Fields</a></li>
+        <li><a href="#s3">3. Record Types deployed to sandbox</a></li>
+        <li><a href="#s4">4. Page Layouts per Record Type</a></li>
+        <li><a href="#s5">5. Apex — Assignment Automation &amp; Tests</a></li>
+        <li><a href="#s6">6. Triggers</a></li>
+        <li><a href="#s7">7. FLS — Profiles &amp; Permission Sets</a></li>
+        <li><a href="#s8">8. Risk Register (resolved)</a></li>
+        <li><a href="#s9">9. Sandbox Spot-check Steps</a></li>
+        <li><a href="#s10">10. Git &amp; Deployment Checkpoint</a></li>
+        <li><a href="#s11">11. Open / Deferred Items</a></li>
+        <li><a href="#s12">12. Downstream Dependency Gate (BH-1249)</a></li>
+      </ul>
+    </div>
+
+    <!-- ─── 1. ACCEPTANCE CRITERIA ─── -->
+    <h2 id="s1">1. Acceptance Criteria</h2>
+    <div class="section-summary">
+      All 6 in-scope ACs pass. AC-07 (Flows) is out-of-scope for BH-1159 and
+      owned by BH-1249.
+    </div>
+    <table>
+      <tr>
+        <th style="width: 6%">AC</th>
+        <th style="width: 54%">Criterion</th>
+        <th style="width: 12%">Status</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>AC-01</td>
+        <td>
+          Record Types created on AAR child objects (Recognition, Outputs, etc.)
+        </td>
+        <td class="pass">PASS</td>
+        <td>
+          AAR_Recognition__c: Manual_Entry · UHN_Publication_Author__c:
+          Proposed, Verified, Manual_Entry · AAR_Scholarly_Output__c: BLOCKED
+          pending BH-1126
+        </td>
+      </tr>
+      <tr>
+        <td>AC-02</td>
+        <td>
+          Page layouts configured per Record Type (Proposed vs Verified/Manual)
+        </td>
+        <td class="pass">PASS</td>
+        <td>
+          4 layouts deployed: Recognition Manual Entry; PubAuthor Proposed /
+          Verified / Manual Entry
+        </td>
+      </tr>
+      <tr>
+        <td>AC-03</td>
+        <td>Proposed layout has read-only source fields</td>
+        <td class="pass">PASS</td>
+        <td>
+          UHN_Publication_Author__c-Proposed Layout: Title__c, Role__c,
+          UHN_Author_Name__c, UHN_Author_Entity__c, ENID/INV flags,
+          Verification_Status__c, External_Id__c all <code>Readonly</code>
+        </td>
+      </tr>
+      <tr>
+        <td>AC-04</td>
+        <td>Verified/Manual layout allows editing</td>
+        <td class="pass">PASS</td>
+        <td>
+          Verified layout: source fields locked (Readonly), PI augmentation
+          fields editable · Manual Entry layout: all fields editable, no source
+          fields section
+        </td>
+      </tr>
+      <tr>
+        <td>AC-05</td>
+        <td>
+          Junction object Record Types for publications
+          (UHN_Publication_Author__c)
+        </td>
+        <td class="pass">PASS</td>
+        <td>
+          Verification status lives on the junction, not UHN_Publication__c —
+          one PI verifying does not affect another PI's view
+        </td>
+      </tr>
+      <tr>
+        <td>AC-06</td>
+        <td>Default Record Type assignment logic documented &amp; automated</td>
+        <td class="pass">PASS</td>
+        <td>
+          AAR_RecordTypeAssignmentService implements before-insert rule:
+          Data_Origin__c = Manual/blank → Manual_Entry; any other value →
+          Proposed. Triggers on both objects.
+        </td>
+      </tr>
+      <tr>
+        <td>AC-07</td>
+        <td>
+          Verification mini-Flows can change Record Type (Proposed → Verified)
+        </td>
+        <td class="skip">OUT OF SCOPE</td>
+        <td>
+          Owned by BH-1249. BH-1159 creates the record types; BH-1249 builds the
+          Flows that transition between them.
+        </td>
+      </tr>
+    </table>
+
+    <!-- ─── 2. DATA_ORIGIN FIELDS ─── -->
+    <h2 id="s2">2. Schema — Data_Origin__c Fields</h2>
+    <div class="section-summary">
+      All three Data_Origin__c fields confirmed present in sandbox via
+      FieldDefinition query (DataType=Picklist, IsNillable=true on all three).
+    </div>
+    <table>
+      <tr>
+        <th style="width: 32%">Object</th>
+        <th style="width: 16%">Field</th>
+        <th style="width: 12%">Type</th>
+        <th style="width: 12%">Sandbox</th>
+        <th>Picklist Values</th>
+      </tr>
+      <tr>
+        <td><code>AAR_Recognition__c</code></td>
+        <td><code>Data_Origin__c</code></td>
+        <td>Picklist</td>
+        <td class="pass">DEPLOYED</td>
+        <td>Manual (default), Integration</td>
+      </tr>
+      <tr>
+        <td><code>AAR_Scholarly_Output__c</code></td>
+        <td><code>Data_Origin__c</code></td>
+        <td>Picklist</td>
+        <td class="pass">DEPLOYED</td>
+        <td>Manual (default), Wellspring, CAPCR, FCC, GAM, HR, Integration</td>
+      </tr>
+      <tr>
+        <td><code>UHN_Publication_Author__c</code></td>
+        <td><code>Data_Origin__c</code></td>
+        <td>Picklist</td>
+        <td class="pass">DEPLOYED</td>
+        <td>Manual (default), ORCID, Wellspring, Integration</td>
+      </tr>
+    </table>
+
+    <!-- ─── 3. RECORD TYPES ─── -->
+    <h2 id="s3">3. Record Types — Sandbox Verification</h2>
+    <div class="section-summary">
+      Queried via SOQL: SELECT SObjectType, DeveloperName, Name, IsActive FROM
+      RecordType WHERE SObjectType IN
+      ('AAR_Recognition__c','UHN_Publication_Author__c','AAR_Scholarly_Output__c').
+      Results confirmed all expected RTs present and active.
+    </div>
+    <table>
+      <tr>
+        <th style="width: 32%">Object</th>
+        <th style="width: 22%">Developer Name</th>
+        <th style="width: 18%">Label</th>
+        <th style="width: 12%">Active</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td><code>AAR_Recognition__c</code></td>
+        <td>Manual_Entry</td>
+        <td>Manual Entry</td>
+        <td class="pass">YES</td>
+        <td>
+          Only RT — no source system for recognitions. ID: 012Aq0000050X5xIAE
+        </td>
+      </tr>
+      <tr>
+        <td><code>UHN_Publication_Author__c</code></td>
+        <td>Manual_Entry</td>
+        <td>Manual Entry</td>
+        <td class="pass">YES</td>
+        <td>Default for PI-created junction records. ID: 012Aq0000050X5yIAE</td>
+      </tr>
+      <tr>
+        <td><code>UHN_Publication_Author__c</code></td>
+        <td>Proposed</td>
+        <td>Proposed</td>
+        <td class="pass">YES</td>
+        <td>Assigned when Data_Origin__c ≠ Manual. ID: 012Aq0000050X5zIAE</td>
+      </tr>
+      <tr>
+        <td><code>UHN_Publication_Author__c</code></td>
+        <td>Verified</td>
+        <td>Verified</td>
+        <td class="pass">YES</td>
+        <td>
+          Assigned by BH-1249 verification Flow. Terminal state. ID:
+          012Aq0000050X60IAE
+        </td>
+      </tr>
+      <tr>
+        <td><code>AAR_Scholarly_Output__c</code></td>
+        <td>Proposed / Verified / Manual_Entry</td>
+        <td>—</td>
+        <td class="skip">BLOCKED</td>
+        <td>
+          Pending BH-1126 Phase 2 polymorphic design decision. Existing RTs
+          (Invited_Talk, Media_Impact, Other, Presentation) untouched.
+        </td>
+      </tr>
+    </table>
+
+    <!-- ─── 4. PAGE LAYOUTS ─── -->
+    <h2 id="s4">4. Page Layouts per Record Type</h2>
+    <table>
+      <tr>
+        <th style="width: 44%">Layout File</th>
+        <th style="width: 22%">Record Type</th>
+        <th style="width: 12%">Status</th>
+        <th>Key Behaviour</th>
+      </tr>
+      <tr>
+        <td><code>AAR_Recognition__c-Manual Entry Layout</code></td>
+        <td>Manual_Entry</td>
+        <td class="pass">DEPLOYED</td>
+        <td>
+          All fields editable. Data_Origin__c shown Readonly (audit). No source
+          system fields.
+        </td>
+      </tr>
+      <tr>
+        <td><code>UHN_Publication_Author__c-Proposed Layout</code></td>
+        <td>Proposed</td>
+        <td class="pass">DEPLOYED</td>
+        <td>
+          Source fields (Title, Role, Author flags, External_Id,
+          Verification_Status, Data_Origin) all <code>Readonly</code>.
+          "Verify/Reject" action buttons to be added by BH-1249.
+        </td>
+      </tr>
+      <tr>
+        <td><code>UHN_Publication_Author__c-Verified Layout</code></td>
+        <td>Verified</td>
+        <td class="pass">DEPLOYED</td>
+        <td>
+          Source fields locked (Readonly). PI augmentation fields (Author flags)
+          editable. Verified_By, Verified_At, Data_Origin shown Readonly in
+          Audit section. External_Id locked.
+        </td>
+      </tr>
+      <tr>
+        <td><code>UHN_Publication_Author__c-Manual Entry Layout</code></td>
+        <td>Manual_Entry</td>
+        <td class="pass">DEPLOYED</td>
+        <td>
+          All user-editable fields shown with Edit behavior. No source system
+          section. Free-form PI entry.
+        </td>
+      </tr>
+    </table>
+
+    <!-- ─── 5. APEX AUTOMATION ─── -->
+    <h2 id="s5">5. Apex — Assignment Automation &amp; Test Results</h2>
+    <div class="section-summary">
+      Test run 707Aq00001W5Jpw · 2026-06-02 · 9/9 PASS · 96% coverage on
+      AAR_RecordTypeAssignmentService · Org-wide coverage 75%
+    </div>
+    <table>
+      <tr>
+        <th style="width: 48%">Test Method</th>
+        <th style="width: 12%">Result</th>
+        <th>Validates</th>
+      </tr>
+      <tr>
+        <td><code>recognitionAssignsManualEntry</code></td>
+        <td class="pass">PASS</td>
+        <td>
+          AAR_Recognition__c always gets Manual_Entry (no Proposed on this
+          object)
+        </td>
+      </tr>
+      <tr>
+        <td><code>pubAuthorManualOriginGetsManualEntry</code></td>
+        <td class="pass">PASS</td>
+        <td>Data_Origin__c = 'Manual' → Manual_Entry RT</td>
+      </tr>
+      <tr>
+        <td><code>pubAuthorBlankOriginGetsManualEntry</code></td>
+        <td class="pass">PASS</td>
+        <td>Blank Data_Origin__c → Manual_Entry RT (safe default)</td>
+      </tr>
+      <tr>
+        <td><code>pubAuthorIntegrationOriginGetsProposed</code></td>
+        <td class="pass">PASS</td>
+        <td>Data_Origin__c = 'ORCID' → Proposed RT</td>
+      </tr>
+      <tr>
+        <td><code>alreadySetRecordTypeIdIsNotOverridden</code></td>
+        <td class="pass">PASS</td>
+        <td>Pre-set RecordTypeId is never clobbered by service</td>
+      </tr>
+      <tr>
+        <td><code>emptyListIsNoOp</code></td>
+        <td class="pass">PASS</td>
+        <td>Empty list exits safely without querying</td>
+      </tr>
+      <tr>
+        <td><code>nullListIsNoOp</code></td>
+        <td class="pass">PASS</td>
+        <td>Null list exits safely without querying</td>
+      </tr>
+      <tr>
+        <td><code>fallsBackToManualEntryWhenTargetRtMissing</code></td>
+        <td class="pass">PASS</td>
+        <td>Graceful fallback when Proposed RT doesn't exist on object</td>
+      </tr>
+      <tr>
+        <td><code>cacheAvoidsDuplicateQueries</code></td>
+        <td class="pass">PASS</td>
+        <td>RT ID cache populated once; 10-record bulk uses 1 query</td>
+      </tr>
+    </table>
+    <h3>Coverage Detail</h3>
+    <table>
+      <tr>
+        <th>Class</th>
+        <th>Lines Covered</th>
+        <th>Lines Uncovered</th>
+        <th>Coverage</th>
+      </tr>
+      <tr>
+        <td><code>AAR_RecordTypeAssignmentService</code></td>
+        <td>26</td>
+        <td>1 (line 32 — continue branch)</td>
+        <td class="pass" style="text-align: center">96%</td>
+      </tr>
+    </table>
+
+    <!-- ─── 6. TRIGGERS ─── -->
+    <h2 id="s6">6. Triggers</h2>
+    <table>
+      <tr>
+        <th>Trigger Name</th>
+        <th>Object</th>
+        <th>Event</th>
+        <th>Sandbox Status</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td><code>AAR_Recognition_RecordTypeSync</code></td>
+        <td>AAR_Recognition__c</td>
+        <td>before insert</td>
+        <td class="pass">Active (01qAq0000086s7aIAA)</td>
+        <td>
+          Delegates to <code>AAR_RecordTypeAssignmentService.assign()</code> —
+          always assigns Manual_Entry
+        </td>
+      </tr>
+      <tr>
+        <td><code>UHN_PublicationAuthor_RecordTypeSync</code></td>
+        <td>UHN_Publication_Author__c</td>
+        <td>before insert</td>
+        <td class="pass">Active (01qAq0000086s7bIAA)</td>
+        <td>
+          Delegates to service — assigns Proposed or Manual_Entry based on
+          Data_Origin__c
+        </td>
+      </tr>
+    </table>
+
+    <!-- ─── 7. FLS ─── -->
+    <h2 id="s7">7. FLS — Profiles &amp; Permission Sets</h2>
+    <table>
+      <tr>
+        <th style="width: 32%">Principal</th>
+        <th style="width: 22%">Type</th>
+        <th>Coverage</th>
+        <th style="width: 12%">Status</th>
+      </tr>
+      <tr>
+        <td>Admin</td>
+        <td>Profile</td>
+        <td>
+          Data_Origin__c editable on all 3 objects; recordTypeVisibilities +
+          layoutAssignments for all 4 new RTs
+        </td>
+        <td class="pass">DEPLOYED</td>
+      </tr>
+      <tr>
+        <td>Account Holder User</td>
+        <td>Profile</td>
+        <td>
+          Data_Origin__c readable on all 3 objects; recordTypeVisibilities +
+          layoutAssignments for all 4 new RTs
+        </td>
+        <td class="pass">DEPLOYED</td>
+      </tr>
+      <tr>
+        <td>AAR_Admin</td>
+        <td>Permission Set</td>
+        <td>
+          fieldPermissions for Recognition fields: Awarding_Agency__c,
+          Category__c, Data_Origin__c, Date_Announced__c, Description__c,
+          External_URL__c (editable=true); recordTypeVisibilities for 4 new RTs.
+          Recognition_Name__c and UHN_AAR__c excluded (required/Master-Detail —
+          platform constraint).
+        </td>
+        <td class="pass">DEPLOYED</td>
+      </tr>
+      <tr>
+        <td>AAR_PI</td>
+        <td>Permission Set</td>
+        <td>recordTypeVisibilities for 4 new RTs</td>
+        <td class="pass">DEPLOYED</td>
+      </tr>
+    </table>
+    <p class="note">
+      Note: <code>&lt;default&gt;</code> is NOT valid inside
+      <code>&lt;recordTypeVisibilities&gt;</code> in a permission set — only
+      profiles support that element. Permission set entries contain only
+      <code>&lt;recordType&gt;</code> and <code>&lt;visible&gt;</code>.
+    </p>
+
+    <!-- ─── 8. RISK REGISTER ─── -->
+    <h2 id="s8">8. Risk Register — All Resolved</h2>
+    <table>
+      <tr>
+        <th style="width: 36%">Risk</th>
+        <th style="width: 14%">Original Level</th>
+        <th style="width: 14%">Resolved Level</th>
+        <th>Resolution</th>
+      </tr>
+      <tr>
+        <td>
+          <strong
+            >Integration-created PubAuthor records getting Manual_Entry RT
+            instead of Proposed</strong
+          ><br /><span class="note"
+            >UHN_Publication_Author_SourceSyncHandler omitted Data_Origin__c
+            from projection</span
+          >
+        </td>
+        <td><span class="risk-high">HIGH (functional)</span></td>
+        <td><span class="risk-none">NONE</span></td>
+        <td>
+          Added <code>'Data_Origin__c' =&gt; 'Wellspring'</code> to
+          SourceSyncHandler projection. Deployed and verified. Trigger now
+          correctly assigns Proposed RT for Wellspring-sourced records.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong
+            >AAR_Admin perm set — Data_Origin__c invisible to non-Admin-profile
+            users</strong
+          ><br /><span class="note"
+            >viewAllFields=false on AAR_Recognition__c objectPermissions</span
+          >
+        </td>
+        <td><span class="risk-medium">MEDIUM</span></td>
+        <td><span class="risk-none">NONE</span></td>
+        <td>
+          Added explicit fieldPermissions for Data_Origin__c and all
+          non-required Recognition fields to AAR_Admin perm set.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong
+            >AAR_Admin and AAR_PI missing recordTypeVisibilities for new
+            RTs</strong
+          >
+        </td>
+        <td><span class="risk-medium">MEDIUM</span></td>
+        <td><span class="risk-none">NONE</span></td>
+        <td>
+          Added recordTypeVisibilities for Manual_Entry (Recognition),
+          Manual_Entry/Proposed/Verified (PubAuthor) to both perm sets. Deployed
+          successfully.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong
+            >BH-1159 files uncommitted — sandbox only, not in source
+            control</strong
+          >
+        </td>
+        <td><span class="risk-medium">MEDIUM</span></td>
+        <td><span class="risk-none">NONE</span></td>
+        <td>All 18 BH-1159 files committed at e820706 on feature/bh-1121.</td>
+      </tr>
+      <tr>
+        <td>
+          <strong>AAR_Scholarly_Output__c record types not created</strong
+          ><br /><span class="note"
+            >Spec says conditional on Phase 2 polymorphic design</span
+          >
+        </td>
+        <td><span class="risk-low">LOW (by design)</span></td>
+        <td><span class="risk-low">LOW (blocked)</span></td>
+        <td>
+          Intentionally deferred pending BH-1126 Phase 2 decision. Existing RTs
+          (Invited_Talk, Media_Impact, Other, Presentation) left untouched. Do
+          NOT create Proposed/Verified/Manual_Entry on this object until BH-1126
+          resolves.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong
+            >Verified vs Manual Entry layout consolidation decision</strong
+          >
+        </td>
+        <td><span class="risk-low">LOW</span></td>
+        <td><span class="risk-low">LOW (deferred)</span></td>
+        <td>
+          Layouts differ slightly (Verified has audit section with
+          Verified_By/Verified_At). Merging would require removing that section.
+          Deferred to post-BH-1249 review when real PI usage clarifies the need.
+        </td>
+      </tr>
+    </table>
+
+    <!-- ─── 9. SANDBOX SPOT-CHECK ─── -->
+    <h2 id="s9">9. Sandbox Spot-check Steps</h2>
+    <p>
+      Perform these manual checks in UHN-SANDBOX after deployment to confirm
+      end-to-end UI behaviour:
+    </p>
+    <table>
+      <tr>
+        <th style="width: 5%">#</th>
+        <th style="width: 42%">Step</th>
+        <th style="width: 18%">Expected</th>
+        <th style="width: 16%">Performed</th>
+        <th>Result</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>
+          Navigate to any UHN_AAR__c record → Related → Recognitions → New. Do
+          NOT change record type selector.
+        </td>
+        <td>Record type selector shows "Manual Entry" as default</td>
+        <td class="na">MANUAL</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>
+          Create an AAR_Recognition__c record with Data_Origin__c =
+          "Integration" (e.g. via Developer Console Execute Anonymous). Check
+          RecordTypeId.
+        </td>
+        <td>
+          RecordTypeId = Manual_Entry (fallback — Recognition has no Proposed
+          RT)
+        </td>
+        <td class="na">MANUAL</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>
+          Create a UHN_Publication_Author__c record via Execute Anonymous with
+          <code>Data_Origin__c = 'ORCID'</code>. Inspect RecordType.
+        </td>
+        <td>RecordType.DeveloperName = 'Proposed'</td>
+        <td class="na">MANUAL</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>
+          Create a UHN_Publication_Author__c record with
+          <code>Data_Origin__c = 'Manual'</code>. Inspect RecordType.
+        </td>
+        <td>RecordType.DeveloperName = 'Manual_Entry'</td>
+        <td class="na">MANUAL</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>
+          Open a Proposed PubAuthor record in the UI. Verify source fields are
+          read-only.
+        </td>
+        <td>
+          Title, Role, Author flags, Verification_Status, External_Id all greyed
+          out
+        </td>
+        <td class="na">MANUAL</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>
+          Check that a user with ONLY the AAR_Admin perm set (not Admin profile)
+          can see Data_Origin__c on AAR_Recognition__c records.
+        </td>
+        <td>Field visible and editable</td>
+        <td class="na">MANUAL</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>
+          Confirm AAR_Scholarly_Output__c record type selector shows Invited
+          Talk, Media &amp; Impact, Other, Presentation — NOT
+          Proposed/Verified/Manual Entry.
+        </td>
+        <td>No SVA record types on Scholarly Output</td>
+        <td class="na">MANUAL</td>
+        <td></td>
+      </tr>
+    </table>
+
+    <!-- ─── 10. GIT CHECKPOINT ─── -->
+    <h2 id="s10">10. Git &amp; Deployment Checkpoint</h2>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th style="width: 14%">Status</th>
+        <th>Detail</th>
+      </tr>
+      <tr>
+        <td>All BH-1159 files staged and committed</td>
+        <td class="pass">DONE</td>
+        <td>
+          Commit e820706 on branch feature/bh-1121 · 18 files changed · 694
+          insertions
+        </td>
+      </tr>
+      <tr>
+        <td>Pre-commit hooks passed (Prettier)</td>
+        <td class="pass">DONE</td>
+        <td>
+          lint-staged ran Prettier on all 18 staged files — no formatting
+          violations
+        </td>
+      </tr>
+      <tr>
+        <td>Apex tests ran in sandbox</td>
+        <td class="pass">DONE</td>
+        <td>
+          AAR_RecordTypeAssignmentServiceTest: 9/9 PASS · 96% coverage · run ID
+          707Aq00001W5Jpw
+        </td>
+      </tr>
+      <tr>
+        <td>Deployed to sandbox (UHN-SANDBOX)</td>
+        <td class="pass">DONE</td>
+        <td>
+          SourceSyncHandler fix, AAR_Admin perm set, AAR_PI perm set all
+          deployed successfully 2026-06-02
+        </td>
+      </tr>
+      <tr>
+        <td>PR into master opened</td>
+        <td class="skip">PENDING</td>
+        <td>
+          Create PR when feature/bh-1121 branch is ready for full review
+          (includes BH-1121 + BH-1159 work)
+        </td>
+      </tr>
+      <tr>
+        <td>Annotated delivery tag on master</td>
+        <td class="skip">PENDING</td>
+        <td>Tag after merge: <code>git tag -a "bh-1159" -m "..."</code></td>
+      </tr>
+    </table>
+
+    <!-- ─── 11. OPEN / DEFERRED ─── -->
+    <h2 id="s11">11. Open / Deferred Items</h2>
+    <table>
+      <tr>
+        <th style="width: 36%">Item</th>
+        <th style="width: 16%">Owner / Blocker</th>
+        <th>Action Required</th>
+      </tr>
+      <tr>
+        <td>
+          AAR_Scholarly_Output__c — Proposed, Verified, Manual_Entry record
+          types
+        </td>
+        <td>BH-1126 (Phase 2 decision)</td>
+        <td>
+          Do not create until polymorphic design is confirmed. Revisit after
+          BH-1126 closes.
+        </td>
+      </tr>
+      <tr>
+        <td>Verified vs Manual Entry layout consolidation on PubAuthor</td>
+        <td>Post-BH-1249</td>
+        <td>
+          Review after real PI usage: if layouts are identical in practice,
+          merge to reduce maintenance.
+        </td>
+      </tr>
+      <tr>
+        <td>Service Activity object API name</td>
+        <td>BH-spec open</td>
+        <td>
+          Confirm exact object API name before creating SVA record types on that
+          object.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Verify_By__c and Verified_Date__c audit fields on BH-1249 Flow targets
+        </td>
+        <td>BH-1249 pre-work</td>
+        <td>
+          Confirm these fields exist on target objects before building the
+          verification Flows.
+        </td>
+      </tr>
+    </table>
+
+    <!-- ─── 12. DOWNSTREAM GATE ─── -->
+    <h2 id="s12">12. Downstream Dependency Gate (BH-1249)</h2>
+    <div class="section-summary">
+      BH-1249 (Verification Flows) MUST NOT start until BH-1159 is deployed and
+      all acceptance criteria above are confirmed. The record types created here
+      are what the Flows will transition between.
+    </div>
+    <table>
+      <tr>
+        <th>Gate Check</th>
+        <th style="width: 14%">Status</th>
+      </tr>
+      <tr>
+        <td>AAR_Recognition__c.Manual_Entry record type active in sandbox</td>
+        <td class="pass">PASS</td>
+      </tr>
+      <tr>
+        <td>
+          UHN_Publication_Author__c.Proposed record type active in sandbox
+        </td>
+        <td class="pass">PASS</td>
+      </tr>
+      <tr>
+        <td>
+          UHN_Publication_Author__c.Verified record type active in sandbox
+        </td>
+        <td class="pass">PASS</td>
+      </tr>
+      <tr>
+        <td>
+          UHN_Publication_Author__c.Manual_Entry record type active in sandbox
+        </td>
+        <td class="pass">PASS</td>
+      </tr>
+      <tr>
+        <td>
+          Before-insert trigger assigns Proposed to integration-sourced
+          PubAuthor records
+        </td>
+        <td class="pass">PASS (tested)</td>
+      </tr>
+      <tr>
+        <td>
+          Proposed layout has read-only source fields (action buttons
+          placeholder)
+        </td>
+        <td class="pass">PASS</td>
+      </tr>
+      <tr>
+        <td>
+          BH-1249 Flow can reference these record types in Record Update
+          elements
+        </td>
+        <td class="pass">UNBLOCKED</td>
+      </tr>
+    </table>
+    <p class="note">
+      <strong>BH-1249 Scope reminder:</strong> Screen Flows launched via Record
+      Reactor action buttons on Proposed layouts · Proposed → Verified RT
+      transition with Verified_By__c / Verified_Date__c audit capture · Reject
+      path: Excluded__c = true + Exclusion_Reason__c · Publication special case:
+      Flow updates UHN_Publication_Author__c junction, not UHN_Publication__c ·
+      Automation on create based on Data_Origin__c (already handled by BH-1159
+      triggers).
+    </p>
+
+    <div class="footer">
+      <strong>Generated:</strong> 2026-06-02 ·
+      <strong>Branch:</strong> feature/bh-1121 ·
+      <strong>Commit:</strong> e820706 · <strong>Org:</strong> UHN-SANDBOX
+      (00DAq00000EZXvWMAX) · <strong>Validated by:</strong> Claude Sonnet 4.6 +
+      Chuck<br />
+      Print this document as PDF via browser: File → Print → Save as PDF for the
+      handoff record.
+    </div>
+  </body>
+</html>

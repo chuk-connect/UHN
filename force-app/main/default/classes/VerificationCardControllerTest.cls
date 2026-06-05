@@ -137,6 +137,119 @@ private class VerificationCardControllerTest {
   }
 
   /**
+   * getParentStatus — happy path. Queries a field from a Contact record so
+   * the test avoids UHN_AAR__c's required lookups while still exercising the
+   * dynamic SOQL, USER_MODE enforcement, and return-value path of the method.
+   */
+  @IsTest
+  static void getParentStatus_returnsStatus() {
+    Contact c = new Contact(LastName = 'PSTestContact');
+    insert c;
+
+    Test.startTest();
+    String result = VerificationCardController.getParentStatus(
+      c.Id,
+      'LastName'
+    );
+    Test.stopTest();
+
+    System.assertEquals(
+      'PSTestContact',
+      result,
+      'Should return the Contact LastName via dynamic field query'
+    );
+  }
+
+  /**
+   * getParentStatus with null inputs — returns null, does not throw.
+   */
+  @IsTest
+  static void getParentStatus_nullInputsReturnNull() {
+    System.assertEquals(
+      null,
+      VerificationCardController.getParentStatus(null, 'Status__c'),
+      'null recordId should return null'
+    );
+    System.assertEquals(
+      null,
+      VerificationCardController.getParentStatus(getTestContactId(), ''),
+      'blank field name should return null'
+    );
+  }
+
+  /**
+   * confirmManualRecord — happy path. Creates a Manual record, confirms it,
+   * asserts it transitions to Verified and a Manual Confirmed event is written.
+   */
+  @IsTest
+  static void confirmManualRecord_transitionsToVerified() {
+    UHN_Publication_Author__c rec = new UHN_Publication_Author__c(
+      External_Id__c = 'CARDCTRL-CONFIRM-001',
+      Verification_Status__c = 'Manual',
+      UHN_Contact__c = getTestContactId()
+    );
+    insert rec;
+
+    Test.startTest();
+    VerificationCardController.confirmManualRecord(rec.Id);
+    Test.stopTest();
+
+    UHN_Publication_Author__c after = [
+      SELECT Verification_Status__c, Verified_By__c
+      FROM UHN_Publication_Author__c
+      WHERE Id = :rec.Id
+    ];
+    System.assertEquals(
+      'Verified',
+      after.Verification_Status__c,
+      'Should be Verified'
+    );
+    System.assertNotEquals(
+      null,
+      after.Verified_By__c,
+      'Verified_By__c should be stamped'
+    );
+
+    List<Verification_Change_Event__c> events = [
+      SELECT Event_Type__c, Before_Payload__c, After_Payload__c
+      FROM Verification_Change_Event__c
+      WHERE External_Id__c = 'CARDCTRL-CONFIRM-001'
+      LIMIT 1
+    ];
+    System.assertEquals(
+      1,
+      events.size(),
+      'Expected one Manual Confirmed event'
+    );
+    System.assertEquals('Manual Confirmed', events[0].Event_Type__c);
+    System.assert(
+      events[0].Before_Payload__c.contains('Manual'),
+      'Before payload should record Manual status'
+    );
+  }
+
+  /**
+   * confirmManualRecord on a non-Manual record raises VerificationException.
+   */
+  @IsTest
+  static void confirmManualRecord_rejectsNonManual() {
+    UHN_Publication_Author__c rec = new UHN_Publication_Author__c(
+      External_Id__c = 'CARDCTRL-CONFIRM-002',
+      Verification_Status__c = 'Proposed',
+      UHN_Contact__c = getTestContactId()
+    );
+    insert rec;
+
+    Boolean threw = false;
+    try {
+      VerificationCardController.confirmManualRecord(rec.Id);
+    } catch (VerificationException e) {
+      threw = true;
+    }
+    System.assert(threw, 'Proposed record should raise VerificationException');
+  }
+
+  /**
    * rejectRecord — happy path. Creates a Proposed record, rejects it with a
    * reason, asserts a Verification_Change_Event__c of type 'Rejected' was written.
    * Excluded__c is not asserted here because the field is optional (framework

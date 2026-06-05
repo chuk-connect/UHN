@@ -51,6 +51,7 @@ public with sharing class VerificationReconciliationService {
   public static final String EVENT_MANUAL_CREATED = 'Manual Created';
   public static final String EVENT_MANUAL_SUPERSEDED = 'Manual Superseded';
   public static final String EVENT_REJECTED = 'Rejected';
+  public static final String EVENT_MANUAL_CONFIRMED = 'Manual Confirmed';
 
   /**
    * Input DTO for an incoming source-system payload.
@@ -388,6 +389,11 @@ public with sharing class VerificationReconciliationService {
         continue; // idempotent
       }
 
+      // Capture before-state so the audit log can reconstruct what changed.
+      String beforePayload = JSON.serialize(
+        new Map<String, Object>{ 'Verification_Status__c' => status }
+      );
+
       rec.put('Verification_Status__c', STATUS_VERIFIED);
       rec.put('Verified_At__c', System.now());
       rec.put('Verified_By__c', UserInfo.getUserId());
@@ -405,7 +411,7 @@ public with sharing class VerificationReconciliationService {
           rid,
           (String) rec.get('External_Id__c'),
           EVENT_VERIFIED,
-          null,
+          beforePayload,
           null
         )
       );
@@ -573,6 +579,14 @@ public with sharing class VerificationReconciliationService {
       rec.put('Exclusion_Reason__c', reason);
     }
 
+    // Capture the state before exclusion so the audit trail is complete.
+    String beforePayload = JSON.serialize(
+      new Map<String, Object>{
+        'Verification_Status__c' => rec.get('Verification_Status__c'),
+        'Override_Payload__c' => rec.get('Override_Payload__c')
+      }
+    );
+
     update rec;
 
     String afterPayload = String.isNotBlank(reason)
@@ -582,8 +596,56 @@ public with sharing class VerificationReconciliationService {
       recordId,
       (String) rec.get('External_Id__c'),
       EVENT_REJECTED,
-      null,
+      beforePayload,
       afterPayload
+    );
+  }
+
+  /**
+   * Confirms a PI-entered Manual record as accurate, transitioning it to Verified
+   * and writing a Manual Confirmed change event. Used for records with no source
+   * counterpart that the PI attests are correct as entered.
+   *
+   * @param recordId the Manual record to confirm
+   */
+  public static void confirmManualRecord(Id recordId) {
+    if (recordId == null) {
+      throw new VerificationException('recordId is required');
+    }
+    Map<Id, SObject> byId = queryByIds(new List<Id>{ recordId });
+    SObject rec = byId.get(recordId);
+    if (rec == null) {
+      throw new VerificationException(
+        'Record not found or not accessible: ' + recordId
+      );
+    }
+    String currentStatus = (String) rec.get('Verification_Status__c');
+    if (!STATUS_MANUAL.equals(currentStatus)) {
+      throw new VerificationException(
+        'confirmManualRecord only applies to Manual records. Current status: ' +
+        currentStatus
+      );
+    }
+    rec.put('Verification_Status__c', STATUS_VERIFIED);
+    rec.put('Verified_At__c', System.now());
+    rec.put('Verified_By__c', UserInfo.getUserId());
+    Map<String, Schema.SObjectField> fieldMap = rec.getSObjectType()
+      .getDescribe()
+      .fields.getMap();
+    if (fieldMap.containsKey('is_verified__c')) {
+      rec.put('Is_Verified__c', true);
+    }
+    update rec;
+    insert buildEvent(
+      recordId,
+      (String) rec.get('External_Id__c'),
+      EVENT_MANUAL_CONFIRMED,
+      JSON.serialize(
+        new Map<String, Object>{ 'Verification_Status__c' => STATUS_MANUAL }
+      ),
+      JSON.serialize(
+        new Map<String, Object>{ 'Verification_Status__c' => STATUS_VERIFIED }
+      )
     );
   }
 

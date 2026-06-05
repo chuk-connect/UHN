@@ -51,6 +51,11 @@
                 <default>false</default>
                 <label>Rejected</label>
             </value>
+            <value>
+                <fullName>Manual Confirmed</fullName>
+                <default>false</default>
+                <label>Manual Confirmed</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

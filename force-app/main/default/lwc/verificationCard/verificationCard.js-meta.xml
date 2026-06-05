@@ -40,6 +40,12 @@
         label="Parent Record Status"
         description="Bind to the parent record Status__c field in App Builder. When Submitted, Under Review, or Complete the card becomes read-only (all action buttons are hidden)."
       />
+            <property
+        name="parentStatusFieldApiName"
+        type="String"
+        label="Parent Status Field API Name"
+        description="API name of the status field on the parent object (e.g. Status__c). When set, the card self-queries parent status as a reliable fallback — even when parentStatus binding is not configured."
+      />
         </targetConfig>
         <targetConfig targets="lightningCommunity__Default">
             <property
@@ -64,6 +70,12 @@
         type="String"
         label="Parent Record Status"
         description="Bind to the parent record Status__c field. When Submitted, Under Review, or Complete the card becomes read-only."
+      />
+            <property
+        name="parentStatusFieldApiName"
+        type="String"
+        label="Parent Status Field API Name"
+        description="API name of the status field on the parent object (e.g. Status__c). Fallback for when parentStatus binding is not configured."
       />
         </targetConfig>
     </targetConfigs>

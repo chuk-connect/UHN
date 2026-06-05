@@ -33,7 +33,6 @@
 
 /* ── Row list ──────────────────────────────────────────────────────────── */
 
-/* Strip SLDS divider box-shadow so row cards own their own elevation. */
 .verification-list {
   padding: var(--slds-g-spacing-2, 0.5rem) var(--slds-g-spacing-3, 0.75rem);
 }
@@ -48,35 +47,80 @@
   margin-bottom: 0;
 }
 
+/* No left-border colour bar — status is surfaced via the chip in the topbar. */
 .verification-row {
-  border-left: var(--slds-g-sizing-border-4, 4px) solid transparent;
+  border: 1px solid var(--slds-g-color-neutral-base-80, #e0e0e0);
   border-radius: var(--vc-row-border-radius, 0.5rem);
   padding: var(--slds-g-spacing-3, 0.75rem) var(--slds-g-spacing-4, 1rem);
   background-color: var(--slds-g-color-neutral-base-100, #fff);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
   transition:
     box-shadow 150ms ease,
     transform 150ms ease;
 }
 
 .verification-row_proposed {
-  border-left-color: var(--slds-g-color-warning-base-50, #fe9339);
-  background-color: var(--slds-g-color-warning-base-98, #fffbf5);
+  background-color: #fffcf6;
+  border-color: #fce4b2;
 }
 
 .verification-row_verified {
-  border-left-color: var(--slds-g-color-success-base-50, #2e844a);
-  background-color: var(--slds-g-color-success-base-98, #f6fbf6);
+  background-color: #f8fbf8;
+  border-color: #c5e3c5;
 }
 
 .verification-row_manual {
-  border-left-color: var(--slds-g-color-neutral-base-50, #c9c9c9);
-  background-color: var(--slds-g-color-neutral-base-97, #f7f7f7);
+  background-color: #f9f9fb;
+  border-color: #e3e3eb;
 }
 
 .verification-row:hover {
-  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.09);
   transform: translateY(-1px);
+}
+
+/* ── Status chip (topbar) ────────────────────────────────────────────────── */
+
+.vc-row-topbar {
+  margin-bottom: var(--slds-g-spacing-2, 0.5rem);
+}
+
+.vc-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 1rem;
+  padding: 0.2rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+.vc-status-chip_proposed {
+  background-color: #fff3e0;
+  color: #b85c00;
+}
+
+.vc-status-chip_verified {
+  background-color: #e8f5e9;
+  color: #1a6630;
+}
+
+.vc-status-chip_manual {
+  background-color: #f0f0f4;
+  color: #3e3e50;
+}
+
+.vc-status-chip_default {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.vc-chip-icon {
+  --slds-c-icon-color-foreground-default: currentColor;
+  flex-shrink: 0;
 }
 
 /* ── Column overflow guards ─────────────────────────────────────────────── */

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Intermediate_Parent_Field__c</fullName>
+    <description
+  >Optional one-hop traversal field. When the card is placed on a grandparent record page (e.g. AAR), set this to the lookup field on that object that resolves the actual parent (e.g. UHN_Contact__c on UHN_AAR__c). The controller will query this field first, then use the resolved Id as the child lookup parent. Leave blank when the card is placed directly on the parent object.</description>
+    <label>Intermediate Parent Field</label>
+    <length>100</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

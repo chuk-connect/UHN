@@ -3,11 +3,8 @@ import VerificationCard from "c/verificationCard";
 import { subscribe, unsubscribe } from "lightning/empApi";
 import verify from "@salesforce/apex/VerificationCardController.verify";
 import rejectRecord from "@salesforce/apex/VerificationCardController.rejectRecord";
+import confirmManualRecord from "@salesforce/apex/VerificationCardController.confirmManualRecord";
 import getCardData from "@salesforce/apex/VerificationCardController.getCardData";
-
-// The LWC jest-transformer rewrites apex imports as:
-//   import fn from '@salesforce/apex/...'  →  fn = require("...").default
-// Mocks must expose { default: ... } so the binding resolves correctly.
 
 jest.mock(
   "@salesforce/apex/VerificationCardController.getCardData",
@@ -25,6 +22,16 @@ jest.mock(
 jest.mock(
   "@salesforce/apex/VerificationCardController.rejectRecord",
   () => ({ default: jest.fn().mockResolvedValue(undefined) }),
+  { virtual: true }
+);
+jest.mock(
+  "@salesforce/apex/VerificationCardController.confirmManualRecord",
+  () => ({ default: jest.fn().mockResolvedValue(undefined) }),
+  { virtual: true }
+);
+jest.mock(
+  "@salesforce/apex/VerificationCardController.getParentStatus",
+  () => ({ default: jest.fn().mockResolvedValue(null) }),
   { virtual: true }
 );
 jest.mock(
@@ -95,8 +102,8 @@ function makeRow(overrides = {}) {
   };
 }
 
-function makeCardData(rows = [makeRow()]) {
-  return { fields: FIELDS, rows };
+function makeCardData(rows = [makeRow()], unreviewedCount = 0) {
+  return { fields: FIELDS, rows, unreviewedCount };
 }
 
 // ── helpers ─────────────────────────────────────────────────────────────────
@@ -558,5 +565,101 @@ describe("field value rendering", () => {
     );
     const texts = values.map((v) => v.textContent.trim());
     expect(texts).toContain("No");
+  });
+});
+
+// ── unreviewed legacy banner ──────────────────────────────────────────────────
+
+describe("unreviewed legacy records banner", () => {
+  it("shows banner when unreviewedCount > 0", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow()], 154));
+    await flushPromises();
+    const banner = el.shadowRoot.querySelector('[role="status"]');
+    expect(banner).not.toBeNull();
+    expect(banner.textContent).toContain("154");
+  });
+
+  it("does not show banner when unreviewedCount is 0", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow()], 0));
+    await flushPromises();
+    expect(el.shadowRoot.querySelector('[role="status"]')).toBeNull();
+  });
+
+  it("shows empty state when rows = 0 AND unreviewedCount = 0", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([], 0));
+    await flushPromises();
+    expect(el.shadowRoot.textContent).toContain("No records to verify");
+  });
+
+  it("does NOT show empty state when rows = 0 but unreviewedCount > 0", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([], 5));
+    await flushPromises();
+    expect(el.shadowRoot.textContent).not.toContain("No records to verify");
+  });
+});
+
+// ── confirm manual action ─────────────────────────────────────────────────────
+
+describe("confirm manual action", () => {
+  it("Manual row has a Confirm button when not inert", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow({ status: "Manual" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Confirm")).toBeTruthy();
+  });
+
+  it("Proposed row has no Confirm button", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow({ status: "Proposed" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Confirm")).toBeFalsy();
+  });
+
+  it("Confirm button calls confirmManualRecord and refreshes", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow({ status: "Manual" })]));
+    await flushPromises();
+    const btn = findButton(el.shadowRoot, "Confirm");
+    btn.click();
+    await flushPromises();
+    expect(confirmManualRecord).toHaveBeenCalledWith({ recordId: "a001" });
+  });
+
+  it("hides Confirm button when inert", async () => {
+    const el = createEl({ parentStatus: "Submitted" });
+    getCardData.emit(makeCardData([makeRow({ status: "Manual" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Confirm")).toBeFalsy();
+  });
+});
+
+// ── no-source-data warning ────────────────────────────────────────────────────
+
+describe("no source data warning", () => {
+  it("shows warning on Proposed row with empty sourceValues", async () => {
+    const el = createEl();
+    getCardData.emit(
+      makeCardData([makeRow({ status: "Proposed", sourceValues: {} })])
+    );
+    await flushPromises();
+    expect(el.shadowRoot.querySelector(".vc-no-source-warning")).not.toBeNull();
+  });
+
+  it("does NOT show warning on Proposed row that has source data", async () => {
+    const el = createEl();
+    getCardData.emit(
+      makeCardData([
+        makeRow({
+          status: "Proposed",
+          sourceValues: { Title__c: "From Source" }
+        })
+      ])
+    );
+    await flushPromises();
+    expect(el.shadowRoot.querySelector(".vc-no-source-warning")).toBeNull();
   });
 });

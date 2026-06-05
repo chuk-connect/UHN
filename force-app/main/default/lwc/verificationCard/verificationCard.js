@@ -3,8 +3,10 @@ import { refreshApex } from "@salesforce/apex";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { subscribe, unsubscribe, onError } from "lightning/empApi";
 import getCardData from "@salesforce/apex/VerificationCardController.getCardData";
+import getParentStatus from "@salesforce/apex/VerificationCardController.getParentStatus";
 import verify from "@salesforce/apex/VerificationCardController.verify";
 import rejectRecord from "@salesforce/apex/VerificationCardController.rejectRecord";
+import confirmManualRecord from "@salesforce/apex/VerificationCardController.confirmManualRecord";
 
 /**
  * c-verification-card
@@ -12,29 +14,41 @@ import rejectRecord from "@salesforce/apex/VerificationCardController.rejectReco
  * Read-display + action-dispatch component (per ADR AAR-REC-verification-card-readonly).
  * The card displays verification state and dispatches state-transition actions.
  * It never writes to records directly — all mutations route through
- * VerificationReconciliationService (via the controller) or BH-1249 Screen Flows.
+ * VerificationReconciliationService (via the controller).
  *
- * Configurable @api properties:
- *   recordId            — parent record id, auto-injected by Lightning on record pages
+ * Reusable on any object record page. Configure via Verification_Binding__mdt.
+ *
+ * @api properties:
+ *   recordId            — auto-injected by Lightning on record pages
  *   childObjectApiName  — e.g. UHN_Publication_Author__c
- *   fieldSetName        — field set on the child object that defines what to render
+ *   fieldSetName        — field set on the child object
  *   cardTitle           — display label (default "Verification")
- *   parentStatus        — parent AAR Status__c; bind in App Builder to enforce
- *                         post-submission inertness (hides all action buttons)
+ *   parentStatus        — parent Status__c from App Builder binding (primary inertness signal)
+ *   parentStatusFieldApiName — API name of status field on parent, used as fallback
+ *                              when App Builder binding is not configured
  */
 export default class VerificationCard extends LightningElement {
   @api recordId;
   @api childObjectApiName;
   @api fieldSetName;
   @api cardTitle = "Verification";
-  @api parentStatus; // bind to parent record Status__c from App Builder
+
+  // Primary inertness signal — bind to parent record Status__c in App Builder.
+  @api parentStatus;
+
+  // Fallback inertness signal — when set, the card queries parent status via Apex
+  // on connect. This ensures inertness works even without App Builder binding.
+  @api parentStatusFieldApiName;
 
   @track _wiredData;
   @track rows = [];
   @track error;
   @track isLoading = true;
 
-  // Reject confirmation state — state-transition UX, distinct from inline field editing.
+  // Fallback-resolved parent status (set imperatively on connect)
+  @track _resolvedStatus = null;
+
+  // Reject confirmation state
   @track showRejectModal = false;
   @track _rejectingRecordId = null;
   @track _rejectReason = "";
@@ -62,19 +76,29 @@ export default class VerificationCard extends LightningElement {
 
   connectedCallback() {
     this._subscribeCdc();
+    this._initParentStatus();
   }
 
   disconnectedCallback() {
     this._unsubscribeCdc();
   }
 
-  // Subscribe to the CDC channel for the configured child object so the card
-  // refreshes automatically when any related record is added or modified —
-  // without a full page reload. Degrades silently if Change Data Capture
-  // is not enabled for the object in this org.
+  // Fallback: imperatively query parent status when parentStatusFieldApiName is set.
+  // This closes the gap where the App Builder binding was never configured.
+  async _initParentStatus() {
+    if (!this.parentStatusFieldApiName || !this.recordId) return;
+    try {
+      this._resolvedStatus = await getParentStatus({
+        parentRecordId: this.recordId,
+        statusFieldApiName: this.parentStatusFieldApiName
+      });
+    } catch {
+      // Degrade silently — App Builder binding remains authoritative
+    }
+  }
+
   _subscribeCdc() {
     if (!this.childObjectApiName) return;
-    // Channel pattern: UHN_Publication_Author__c → /data/UHN_Publication_Author__ChangeEvent
     const channel =
       "/data/" + this.childObjectApiName.replace("__c", "__ChangeEvent");
     subscribe(channel, -1, () => {
@@ -83,8 +107,8 @@ export default class VerificationCard extends LightningElement {
       .then((sub) => {
         this._cdcSubscription = sub;
       })
-      .catch(() => {}); // CDC not enabled for this object — no auto-refresh
-    onError(() => {}); // suppress empApi error noise
+      .catch(() => {});
+    onError(() => {});
   }
 
   _unsubscribeCdc() {
@@ -96,18 +120,17 @@ export default class VerificationCard extends LightningElement {
 
   // --- post-submission inertness ---
 
-  // When the parent AAR moves past Draft/In Progress, the card becomes fully
-  // inert — no action buttons are rendered. Per BH-987, BH-1010, and the
-  // read-only AR: PI records are read-only after submission.
+  // Checks App Builder binding first (reactive, immediate), then the
+  // Apex-resolved fallback (set once on connect). Either is sufficient.
   get _isInert() {
+    const status = this.parentStatus || this._resolvedStatus;
     return (
-      this.parentStatus === "Submitted" ||
-      this.parentStatus === "Under Review" ||
-      this.parentStatus === "Complete"
+      status === "Submitted" ||
+      status === "Under Review" ||
+      status === "Complete"
     );
   }
 
-  // Template-accessible aliases (LWC templates cannot inline-negate with !)
   get isInert() {
     return this._isInert;
   }
@@ -115,14 +138,24 @@ export default class VerificationCard extends LightningElement {
     return !this._isInert;
   }
 
+  // --- unreviewed count (legacy records without status) ---
+
+  get unreviewedCount() {
+    return this._wiredData?.data?.unreviewedCount || 0;
+  }
+  get hasUnreviewed() {
+    return this.unreviewedCount > 0;
+  }
+  get unreviewedMessage() {
+    const n = this.unreviewedCount;
+    return (
+      `${n} legacy record${n === 1 ? "" : "s"} exist without verification status — ` +
+      "they predate the source sync and will appear once the sync handler runs."
+    );
+  }
+
   // --- shaping ---
 
-  /**
-   * Take the controller's CardData and produce per-row UI shape.
-   * Note we don't merge anything here — `displayValues` already arrives merged.
-   * We're only computing presentation flags (CSS classes, badge variants,
-   * which actions to render, etc.).
-   */
   _shapeRows(cardData) {
     const fields = cardData.fields || [];
     const rows = cardData.rows || [];
@@ -130,6 +163,8 @@ export default class VerificationCard extends LightningElement {
 
     return rows.map((r) => {
       const overridden = new Set(r.overriddenFieldNames || []);
+      const hasSourceData =
+        r.sourceValues && Object.keys(r.sourceValues).length > 0;
       const displayFields = fields.map((f) => {
         const sourceVal = r.sourceValues
           ? r.sourceValues[f.apiName]
@@ -154,13 +189,23 @@ export default class VerificationCard extends LightningElement {
         };
       });
 
+      const statusLower = (r.status || "default").toLowerCase();
       return {
         recordId: r.recordId,
         status: r.status,
         badgeVariant: this._badgeVariant(r.status),
-        cssClass: `slds-item vc-list-item verification-row verification-row_${(r.status || "").toLowerCase()}`,
+        cssClass: `slds-item vc-list-item verification-row verification-row_${statusLower}`,
+        statusChipClass: `vc-status-chip vc-status-chip_${statusLower}`,
+        statusIcon:
+          {
+            Verified: "utility:success",
+            Proposed: "utility:pending",
+            Manual: "utility:user"
+          }[r.status] || "utility:record",
         canVerify: r.status === "Proposed" && !inert,
         canReject: r.status === "Proposed" && !inert,
+        canConfirmManual: r.status === "Manual" && !inert,
+        noSourceData: r.status === "Proposed" && !hasSourceData,
         displayFields,
         verifiedFootnote: this._verifiedFootnote(r),
         _raw: r
@@ -223,13 +268,18 @@ export default class VerificationCard extends LightningElement {
     return this._fmt(v);
   }
 
-  // --- derived getters used by the template ---
+  // --- derived getters ---
 
   get hasRows() {
     return !this.isLoading && !this.error && this.rows.length > 0;
   }
   get isEmpty() {
-    return !this.isLoading && !this.error && this.rows.length === 0;
+    return (
+      !this.isLoading &&
+      !this.error &&
+      this.rows.length === 0 &&
+      this.unreviewedCount === 0
+    );
   }
   get noProposed() {
     return !this.rows.some((r) => r.status === "Proposed");
@@ -304,16 +354,32 @@ export default class VerificationCard extends LightningElement {
     }
   }
 
+  // --- confirm manual handler ---
+
+  async handleConfirmManual(event) {
+    const recordId = event.currentTarget.dataset.recordId;
+    try {
+      this.isLoading = true;
+      await confirmManualRecord({ recordId });
+      await refreshApex(this._wiredData);
+      this._toast(
+        "Confirmed",
+        "Manual record confirmed and marked verified",
+        "success"
+      );
+    } catch (e) {
+      this._toast("Could not confirm", this._extractErrorMessage(e), "error");
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
   // --- utilities ---
 
   _toast(title, message, variant) {
     this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
   }
 
-  /**
-   * Apex errors arrive in different shapes depending on type
-   * (AuraHandledException, DML, generic). Extract a user-readable string.
-   */
   _extractErrorMessage(err) {
     if (!err) return "Unknown error";
     if (typeof err === "string") return err;

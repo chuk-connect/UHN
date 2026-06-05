@@ -48,11 +48,44 @@
         </div>
       </template>
 
+      <!-- Unreviewed legacy banner — shown when null-status records exist.
+           These predate the source sync framework and are not yet actionable.
+           The banner informs the PI so they know more records will appear once
+           the sync handler runs. -->
+      <template lwc:if={hasUnreviewed}>
+        <div class="slds-p-horizontal_medium slds-p-top_small">
+          <div
+            class="slds-notify slds-notify_alert slds-theme_info slds-grid slds-grid_vertical-align-center"
+            role="status"
+          >
+            <lightning-icon
+              icon-name="utility:info"
+              size="xx-small"
+              class="slds-m-right_x-small"
+              alternative-text="Info"
+            ></lightning-icon>
+            <span class="slds-text-body_small">{unreviewedMessage}</span>
+          </div>
+        </div>
+      </template>
+
       <!-- Rows -->
       <template lwc:if={hasRows}>
         <ul class="slds-has-dividers_around-space verification-list">
           <template for:each={rows} for:item="row">
             <li key={row.recordId} class={row.cssClass}>
+              <!-- Status chip header — replaces the left-border colour bar -->
+              <div class="vc-row-topbar">
+                <span class={row.statusChipClass}>
+                  <lightning-icon
+                    icon-name={row.statusIcon}
+                    size="xx-small"
+                    class="vc-chip-icon"
+                    alternative-text={row.status}
+                  ></lightning-icon>
+                  {row.status}
+                </span>
+              </div>
               <div
                 class="slds-grid slds-grid_vertical-align-center slds-grid_align-spread slds-wrap"
               >
@@ -60,6 +93,22 @@
                 <div
                   class="slds-col slds-size_9-of-12 slds-align-middle verification-col_fields"
                 >
+                  <!-- No-source-data warning for Proposed rows awaiting sync -->
+                  <template lwc:if={row.noSourceData}>
+                    <div
+                      class="slds-text-color_weak slds-text-body_small slds-m-bottom_x-small vc-no-source-warning"
+                    >
+                      <lightning-icon
+                        icon-name="utility:warning"
+                        size="xx-small"
+                        class="slds-m-right_xx-small"
+                        alternative-text="Warning"
+                      ></lightning-icon>
+                      Source data not yet synced — verify after the sync handler
+                      runs.
+                    </div>
+                  </template>
+
                   <template for:each={row.displayFields} for:item="f">
                     <div
                       key={f.apiName}
@@ -132,6 +181,17 @@
                       >
                       </lightning-button>
                     </template>
+                    <!-- Confirm Manual — for PI-entered records with no source counterpart -->
+                    <template lwc:if={row.canConfirmManual}>
+                      <lightning-button
+                        label="Confirm"
+                        variant="success"
+                        data-record-id={row.recordId}
+                        onclick={handleConfirmManual}
+                        title="Attest this manually-entered record is accurate"
+                      >
+                      </lightning-button>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -142,10 +202,7 @@
     </lightning-card>
   </div>
 
-  <!-- Reject confirmation modal — outside lightning-card so backdrop covers full viewport.
-       This is a state-transition confirmation, not inline field editing:
-       it captures the reason for excluding a Proposed record, then dispatches
-       to VerificationReconciliationService via the controller. -->
+  <!-- Reject confirmation modal -->
   <template lwc:if={showRejectModal}>
     <section
       role="dialog"

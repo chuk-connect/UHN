@@ -50,6 +50,7 @@ public with sharing class VerificationReconciliationService {
   public static final String EVENT_SOURCE_DRIFT = 'Source Changed Under Verified';
   public static final String EVENT_MANUAL_CREATED = 'Manual Created';
   public static final String EVENT_MANUAL_SUPERSEDED = 'Manual Superseded';
+  public static final String EVENT_REJECTED = 'Rejected';
 
   /**
    * Input DTO for an incoming source-system payload.
@@ -532,6 +533,57 @@ public with sharing class VerificationReconciliationService {
       EVENT_OVERRIDE_APPLIED,
       null,
       JSON.serialize(overrideDelta)
+    );
+  }
+
+  /**
+   * Soft-delete a Proposed record that the PI wants to exclude from verification.
+   * Sets Excluded__c = true and Exclusion_Reason__c if those fields exist on the
+   * object (optional framework fields — degrades gracefully without them).
+   * Always writes a Rejected event regardless of field availability.
+   *
+   * @param recordId the Proposed record to exclude
+   * @param reason   human-readable exclusion reason (may be blank)
+   */
+  public static void rejectRecord(Id recordId, String reason) {
+    if (recordId == null) {
+      throw new VerificationException('recordId is required');
+    }
+
+    Map<Id, SObject> byId = queryByIds(new List<Id>{ recordId });
+    SObject rec = byId.get(recordId);
+    if (rec == null) {
+      throw new VerificationException(
+        'Record not found or not accessible: ' + recordId
+      );
+    }
+
+    Map<String, Schema.SObjectField> fieldMap = rec.getSObjectType()
+      .getDescribe()
+      .fields.getMap();
+
+    // Set exclusion fields only when the object has them — the framework
+    // works with any verifiable object and these are optional per-object fields.
+    if (fieldMap.containsKey('excluded__c')) {
+      rec.put('Excluded__c', true);
+    }
+    if (
+      fieldMap.containsKey('exclusion_reason__c') && String.isNotBlank(reason)
+    ) {
+      rec.put('Exclusion_Reason__c', reason);
+    }
+
+    update rec;
+
+    String afterPayload = String.isNotBlank(reason)
+      ? JSON.serialize(new Map<String, String>{ 'reason' => reason })
+      : null;
+    insert buildEvent(
+      recordId,
+      (String) rec.get('External_Id__c'),
+      EVENT_REJECTED,
+      null,
+      afterPayload
     );
   }
 

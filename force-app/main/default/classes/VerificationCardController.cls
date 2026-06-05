@@ -190,6 +190,12 @@ public with sharing class VerificationCardController {
       fieldMetas.add(fm);
     }
 
+    // Excluded__c is an optional per-object soft-delete flag (set by rejectRecord).
+    // Add the filter dynamically so the query stays safe on objects without the field.
+    String excludedFilter = d.fields.getMap().containsKey('excluded__c')
+      ? ' AND (Excluded__c = false OR Excluded__c = null)'
+      : '';
+
     // Build and execute the query. Sharing rules apply via `with sharing`.
     String soql =
       'SELECT ' +
@@ -200,6 +206,7 @@ public with sharing class VerificationCardController {
       String.escapeSingleQuotes(parentLookupField) +
       ' = :parentRecordId' +
       ' AND Verification_Status__c != \'Superseded\'' + // hide cleanup artefacts
+      excludedFilter +
       ' ORDER BY Verification_Status__c, External_Id__c';
 
     List<SObject> records = Database.query(soql);
@@ -296,8 +303,23 @@ public with sharing class VerificationCardController {
   }
 
   /**
-   * LWC -> server: PI corrected a field on a Verified (or Proposed) row.
-   * The LWC sends only the changed key/value pairs, not the whole record.
+   * LWC -> server: PI clicked "Reject" on a Proposed row.
+   * Routes through VerificationReconciliationService which sets Excluded__c,
+   * Exclusion_Reason__c (when the fields exist), and writes a change event.
+   *
+   * @param recordId the record to exclude
+   * @param reason   optional exclusion reason
+   */
+  @AuraEnabled
+  public static void rejectRecord(Id recordId, String reason) {
+    VerificationReconciliationService.rejectRecord(recordId, reason);
+  }
+
+  /**
+   * Applies PI corrections to a record via the override payload pattern.
+   * Called by external write paths (Flows, admin tools) — NOT by the LWC
+   * directly. The card is read-display + action-dispatch; data edits route
+   * through the workspace modal or record page.
    *
    * @param recordId the record to override
    * @param overrideJson JSON delta of changed fields

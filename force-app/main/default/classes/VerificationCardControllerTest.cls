@@ -137,6 +137,55 @@ private class VerificationCardControllerTest {
   }
 
   /**
+   * rejectRecord — happy path. Creates a Proposed record, rejects it with a
+   * reason, asserts a Verification_Change_Event__c of type 'Rejected' was written.
+   * Excluded__c is not asserted here because the field is optional (framework
+   * degrades gracefully on objects that haven't added it yet).
+   */
+  @IsTest
+  static void rejectRecord_writesChangeEvent() {
+    UHN_Publication_Author__c rec = new UHN_Publication_Author__c(
+      External_Id__c = 'CARDCTRL-REJ-001',
+      Verification_Status__c = 'Proposed',
+      UHN_Contact__c = getTestContactId(),
+      Source_Payload__c = '{"Title__c":"To Reject"}'
+    );
+    insert rec;
+
+    Test.startTest();
+    VerificationCardController.rejectRecord(rec.Id, 'Duplicate');
+    Test.stopTest();
+
+    List<Verification_Change_Event__c> events = [
+      SELECT Event_Type__c
+      FROM Verification_Change_Event__c
+      WHERE External_Id__c = 'CARDCTRL-REJ-001'
+      ORDER BY Occurred_At__c DESC
+      LIMIT 1
+    ];
+    System.assertEquals(1, events.size(), 'Expected one Rejected change event');
+    System.assertEquals(
+      'Rejected',
+      events[0].Event_Type__c,
+      'Event type should be Rejected'
+    );
+  }
+
+  /**
+   * rejectRecord with null recordId — covers the null-guard.
+   */
+  @IsTest
+  static void rejectRecord_nullIdRaises() {
+    Boolean threw = false;
+    try {
+      VerificationCardController.rejectRecord(null, 'No reason');
+    } catch (VerificationException e) {
+      threw = true;
+    }
+    System.assert(threw, 'null recordId should raise VerificationException');
+  }
+
+  /**
    * getCardData with null parentRecordId — covers the input validation guard.
    */
   @IsTest

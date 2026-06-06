@@ -85,6 +85,8 @@ public with sharing class VerificationCardController {
     public List<FieldMeta> fields;
     @AuraEnabled
     public List<VerificationRow> rows;
+    @AuraEnabled
+    public Integer unreviewedCount; // null-status records that predate the framework
   }
 
   /**
@@ -130,9 +132,19 @@ public with sharing class VerificationCardController {
       );
     }
 
-    // Resolve which lookup field on the child points back to the parent record.
-    // Driven by Verification_Binding__mdt so each verifiable object can declare its own.
-    String parentLookupField = resolveParentLookupField(childObjectApiName);
+    // Resolve the binding: parent lookup field and optional one-hop traversal.
+    BindingConfig binding = resolveBinding(childObjectApiName);
+    String parentLookupField = binding.parentLookupField;
+
+    // One-hop traversal: if the card is placed on a grandparent record
+    // (e.g. AAR page), resolve the actual parent Id via the intermediate field.
+    Id effectiveParentId = parentRecordId;
+    if (String.isNotBlank(binding.intermediateParentField)) {
+      effectiveParentId = resolveIntermediateParent(
+        parentRecordId,
+        binding.intermediateParentField
+      );
+    }
 
     List<Schema.FieldSetMember> fieldSetMembers = resolveFieldSet(
       d,
@@ -190,7 +202,26 @@ public with sharing class VerificationCardController {
       fieldMetas.add(fm);
     }
 
-    // Build and execute the query. Sharing rules apply via `with sharing`.
+    // Excluded__c is an optional per-object soft-delete flag (set by rejectRecord).
+    // Add the filter dynamically so the query stays safe on objects without the field.
+    String excludedFilter = d.fields.getMap().containsKey('excluded__c')
+      ? ' AND (Excluded__c = false OR Excluded__c = null)'
+      : '';
+
+    // Count null-status records (pre-framework legacy) so the card can surface
+    // an informational banner. These are excluded from the main rows query.
+    String unreviewedSoql =
+      'SELECT COUNT() FROM ' +
+      String.escapeSingleQuotes(childObjectApiName) +
+      ' WHERE ' +
+      String.escapeSingleQuotes(parentLookupField) +
+      ' = :effectiveParentId' +
+      ' AND Verification_Status__c = null';
+    Integer unreviewedCount = Database.countQuery(unreviewedSoql);
+
+    // Build and execute the main rows query. Sharing rules apply via `with sharing`.
+    // Null-status records are excluded — they have no source payload and cannot
+    // be actioned until the source sync runs. Superseded are hidden as cleanup artefacts.
     String soql =
       'SELECT ' +
       String.join(new List<String>(fieldsToQuery), ', ') +
@@ -198,14 +229,17 @@ public with sharing class VerificationCardController {
       String.escapeSingleQuotes(childObjectApiName) +
       ' WHERE ' +
       String.escapeSingleQuotes(parentLookupField) +
-      ' = :parentRecordId' +
-      ' AND Verification_Status__c != \'Superseded\'' + // hide cleanup artefacts
+      ' = :effectiveParentId' +
+      ' AND Verification_Status__c != null' +
+      ' AND Verification_Status__c != \'Superseded\'' +
+      excludedFilter +
       ' ORDER BY Verification_Status__c, External_Id__c';
 
     List<SObject> records = Database.query(soql);
 
     CardData out = new CardData();
     out.fields = fieldMetas;
+    out.unreviewedCount = unreviewedCount;
     out.rows = new List<VerificationRow>();
     for (SObject so : records) {
       out.rows.add(buildRow(so, fieldMetas));
@@ -296,8 +330,69 @@ public with sharing class VerificationCardController {
   }
 
   /**
-   * LWC -> server: PI corrected a field on a Verified (or Proposed) row.
-   * The LWC sends only the changed key/value pairs, not the whole record.
+   * Queries the parent record's status field — reliable fallback for inertness
+   * when the App Builder `parentStatus` binding is not configured.
+   *
+   * @param parentRecordId the parent record
+   * @param statusFieldApiName API name of the status field (e.g. Status__c)
+   * @return the status value, or null if not accessible / field does not exist
+   */
+  @AuraEnabled
+  public static String getParentStatus(
+    Id parentRecordId,
+    String statusFieldApiName
+  ) {
+    if (parentRecordId == null || String.isBlank(statusFieldApiName)) {
+      return null;
+    }
+    SObjectType t = parentRecordId.getSObjectType();
+    if (!t.getDescribe().isAccessible()) {
+      return null;
+    }
+    String objName = t.getDescribe().getName();
+    try {
+      String soql =
+        'SELECT ' +
+        String.escapeSingleQuotes(statusFieldApiName) +
+        ' FROM ' +
+        String.escapeSingleQuotes(objName) +
+        ' WHERE Id = :parentRecordId WITH USER_MODE LIMIT 1';
+      List<SObject> rows = Database.query(soql);
+      return rows.isEmpty() ? null : (String) rows[0].get(statusFieldApiName);
+    } catch (Exception e) {
+      return null; // Field absent or no FLS — degrade silently
+    }
+  }
+
+  /**
+   * LWC -> server: PI confirmed a Manual record is accurate.
+   * Transitions Manual -> Verified and writes a Manual Confirmed change event.
+   *
+   * @param recordId the Manual record to confirm
+   */
+  @AuraEnabled
+  public static void confirmManualRecord(Id recordId) {
+    VerificationReconciliationService.confirmManualRecord(recordId);
+  }
+
+  /**
+   * LWC -> server: PI clicked "Reject" on a Proposed row.
+   * Routes through VerificationReconciliationService which sets Excluded__c,
+   * Exclusion_Reason__c (when the fields exist), and writes a change event.
+   *
+   * @param recordId the record to exclude
+   * @param reason   optional exclusion reason
+   */
+  @AuraEnabled
+  public static void rejectRecord(Id recordId, String reason) {
+    VerificationReconciliationService.rejectRecord(recordId, reason);
+  }
+
+  /**
+   * Applies PI corrections to a record via the override payload pattern.
+   * Called by external write paths (Flows, admin tools) — NOT by the LWC
+   * directly. The card is read-display + action-dispatch; data edits route
+   * through the workspace modal or record page.
    *
    * @param recordId the record to override
    * @param overrideJson JSON delta of changed fields
@@ -369,34 +464,78 @@ public with sharing class VerificationCardController {
     }
   }
 
+  /** Internal DTO bundling everything the controller needs from a binding record. */
+  private class BindingConfig {
+    String parentLookupField;
+    String intermediateParentField;
+    String parentStatusField;
+  }
+
   /**
-   * Looks up the parent-relationship field for a given child object.
-   * Configured via Verification_Binding__mdt records:
-   *   { Child_Object__c: 'UHN_Publication_Author__c', Parent_Lookup_Field__c: 'AAR__c' }
+   * Resolves the binding config for a given child object.
+   * Falls back to sensible defaults so the card renders before
+   * all metadata records have been configured.
    *
-   * Falls back to a naming convention ("AAR__c") in dev orgs.
-   *
-   * @param childObjectApiName API name to look up
-   * @return parent lookup field API name
+   * @param childObjectApiName API name of the child object
+   * @return populated BindingConfig
    */
-  private static String resolveParentLookupField(String childObjectApiName) {
-    // Custom metadata lookup. If the binding doesn't exist, fall back.
-    // (We deliberately don't throw — devs need the component to render
-    // before they've finished configuring everything.)
+  private static BindingConfig resolveBinding(String childObjectApiName) {
     List<Verification_Binding__mdt> bindings = [
-      SELECT Parent_Lookup_Field__c
+      SELECT
+        Parent_Lookup_Field__c,
+        Intermediate_Parent_Field__c,
+        Parent_Status_Field__c
       FROM Verification_Binding__mdt
       WHERE Child_Object__c = :childObjectApiName
       WITH USER_MODE
       LIMIT 1
     ];
-    if (
-      !bindings.isEmpty() &&
-      String.isNotBlank(bindings[0].Parent_Lookup_Field__c)
-    ) {
-      return bindings[0].Parent_Lookup_Field__c;
+    BindingConfig cfg = new BindingConfig();
+    cfg.parentLookupField = 'AAR__c'; // fallback
+    if (!bindings.isEmpty()) {
+      if (String.isNotBlank(bindings[0].Parent_Lookup_Field__c)) {
+        cfg.parentLookupField = bindings[0].Parent_Lookup_Field__c;
+      }
+      cfg.intermediateParentField = bindings[0].Intermediate_Parent_Field__c;
+      cfg.parentStatusField = bindings[0].Parent_Status_Field__c;
     }
-    return 'AAR__c';
+    return cfg;
+  }
+
+  /**
+   * Resolves the effective parent Id for a one-hop traversal.
+   * Example: card on AAR page → resolve AAR.UHN_Contact__c → use that Contact Id
+   * as the actual parent for the child query.
+   *
+   * @param parentRecordId the Id of the grandparent record
+   * @param intermediateField lookup field on the grandparent pointing to the real parent
+   * @return resolved parent Id, or the original parentRecordId if resolution fails
+   */
+  @SuppressWarnings('PMD.ApexSOQLInjection')
+  private static Id resolveIntermediateParent(
+    Id parentRecordId,
+    String intermediateField
+  ) {
+    SObjectType t = parentRecordId.getSObjectType();
+    String objName = t.getDescribe().getName();
+    try {
+      String soql =
+        'SELECT ' +
+        String.escapeSingleQuotes(intermediateField) +
+        ' FROM ' +
+        String.escapeSingleQuotes(objName) +
+        ' WHERE Id = :parentRecordId WITH USER_MODE LIMIT 1';
+      List<SObject> rows = Database.query(soql);
+      if (!rows.isEmpty()) {
+        Id resolved = (Id) rows[0].get(intermediateField);
+        if (resolved != null) {
+          return resolved;
+        }
+      }
+    } catch (Exception e) {
+      // Field doesn't exist or no access — fall back to original parentRecordId
+    }
+    return parentRecordId;
   }
 
   /**

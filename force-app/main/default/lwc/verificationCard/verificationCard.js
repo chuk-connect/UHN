@@ -3,43 +3,56 @@ import { refreshApex } from "@salesforce/apex";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { subscribe, unsubscribe, onError } from "lightning/empApi";
 import getCardData from "@salesforce/apex/VerificationCardController.getCardData";
+import getParentStatus from "@salesforce/apex/VerificationCardController.getParentStatus";
 import verify from "@salesforce/apex/VerificationCardController.verify";
-import overrideRecord from "@salesforce/apex/VerificationCardController.overrideRecord";
+import rejectRecord from "@salesforce/apex/VerificationCardController.rejectRecord";
+import confirmManualRecord from "@salesforce/apex/VerificationCardController.confirmManualRecord";
 
 /**
  * c-verification-card
  *
- * Drop onto any record page that has verifiable child records. Configured
- * via three @api inputs:
- *   - recordId          (the parent — auto-injected by Lightning)
- *   - childObjectApiName  (e.g. UHN_Publication_Author__c)
- *   - fieldSetName        (which fields to render and make editable)
+ * Read-display + action-dispatch component (per ADR AAR-REC-verification-card-readonly).
+ * The card displays verification state and dispatches state-transition actions.
+ * It never writes to records directly — all mutations route through
+ * VerificationReconciliationService (via the controller).
  *
- * The component is deliberately dumb. All merge logic, all rule logic, and
- * all field-meta resolution happens in Apex. The LWC's only responsibility
- * is to render the shape it receives and forward user actions back to Apex.
+ * Reusable on any object record page. Configure via Verification_Binding__mdt.
  *
- * That separation is what makes the component reusable across Business Hub
- * modules. Adding "the verification card for ethics review" is a page layout
- * change, not a code change.
+ * @api properties:
+ *   recordId            — auto-injected by Lightning on record pages
+ *   childObjectApiName  — e.g. UHN_Publication_Author__c
+ *   fieldSetName        — field set on the child object
+ *   cardTitle           — display label (default "Verification")
+ *   parentStatus        — parent Status__c from App Builder binding (primary inertness signal)
+ *   parentStatusFieldApiName — API name of status field on parent, used as fallback
+ *                              when App Builder binding is not configured
  */
 export default class VerificationCard extends LightningElement {
-  @api recordId; // parent id — auto-injected on record pages
-  @api childObjectApiName; // e.g. UHN_Publication_Author__c
-  @api fieldSetName; // e.g. AAR_Verification
+  @api recordId;
+  @api childObjectApiName;
+  @api fieldSetName;
   @api cardTitle = "Verification";
 
-  @track _wiredData; // raw wire result, kept for refreshApex
+  // Primary inertness signal — bind to parent record Status__c in App Builder.
+  @api parentStatus;
+
+  // Fallback inertness signal — when set, the card queries parent status via Apex
+  // on connect. This ensures inertness works even without App Builder binding.
+  @api parentStatusFieldApiName;
+
+  @track _wiredData;
   @track rows = [];
   @track error;
   @track isLoading = true;
 
-  // Edit modal state. Kept local — we flush to Apex on Save.
-  @track showEditModal = false;
-  @track editingRecordId;
-  @track editingFields = [];
+  // Fallback-resolved parent status (set imperatively on connect)
+  @track _resolvedStatus = null;
 
-  // CDC subscription handle — stored so we can unsubscribe on disconnect.
+  // Reject confirmation state
+  @track showRejectModal = false;
+  @track _rejectingRecordId = null;
+  @track _rejectReason = "";
+
   _cdcSubscription = null;
 
   @wire(getCardData, {
@@ -63,19 +76,29 @@ export default class VerificationCard extends LightningElement {
 
   connectedCallback() {
     this._subscribeCdc();
+    this._initParentStatus();
   }
 
   disconnectedCallback() {
     this._unsubscribeCdc();
   }
 
-  // Subscribe to the CDC channel for the configured child object so the card
-  // refreshes automatically when any related record is added or modified —
-  // without a full page reload. Degrades silently if Change Data Capture
-  // is not enabled for the object in this org.
+  // Fallback: imperatively query parent status when parentStatusFieldApiName is set.
+  // This closes the gap where the App Builder binding was never configured.
+  async _initParentStatus() {
+    if (!this.parentStatusFieldApiName || !this.recordId) return;
+    try {
+      this._resolvedStatus = await getParentStatus({
+        parentRecordId: this.recordId,
+        statusFieldApiName: this.parentStatusFieldApiName
+      });
+    } catch {
+      // Degrade silently — App Builder binding remains authoritative
+    }
+  }
+
   _subscribeCdc() {
     if (!this.childObjectApiName) return;
-    // Channel pattern: /data/AAR_Scholarly_Output__c → /data/AAR_Scholarly_Output__ChangeEvent
     const channel =
       "/data/" + this.childObjectApiName.replace("__c", "__ChangeEvent");
     subscribe(channel, -1, () => {
@@ -84,8 +107,8 @@ export default class VerificationCard extends LightningElement {
       .then((sub) => {
         this._cdcSubscription = sub;
       })
-      .catch(() => {}); // CDC not enabled for this object — no auto-refresh
-    onError(() => {}); // suppress empApi error noise
+      .catch(() => {});
+    onError(() => {});
   }
 
   _unsubscribeCdc() {
@@ -95,20 +118,53 @@ export default class VerificationCard extends LightningElement {
     }
   }
 
+  // --- post-submission inertness ---
+
+  // Checks App Builder binding first (reactive, immediate), then the
+  // Apex-resolved fallback (set once on connect). Either is sufficient.
+  get _isInert() {
+    const status = this.parentStatus || this._resolvedStatus;
+    return (
+      status === "Submitted" ||
+      status === "Under Review" ||
+      status === "Complete"
+    );
+  }
+
+  get isInert() {
+    return this._isInert;
+  }
+  get isNotInert() {
+    return !this._isInert;
+  }
+
+  // --- unreviewed count (legacy records without status) ---
+
+  get unreviewedCount() {
+    return this._wiredData?.data?.unreviewedCount || 0;
+  }
+  get hasUnreviewed() {
+    return this.unreviewedCount > 0;
+  }
+  get unreviewedMessage() {
+    const n = this.unreviewedCount;
+    return (
+      `${n} legacy record${n === 1 ? "" : "s"} exist without verification status — ` +
+      "they predate the source sync and will appear once the sync handler runs."
+    );
+  }
+
   // --- shaping ---
 
-  /**
-   * Take the controller's CardData and produce per-row UI shape.
-   * Note we don't merge anything here — `displayValues` already arrives merged.
-   * We're only computing presentation flags (CSS classes, badge variants,
-   * which fields to render, etc.).
-   */
   _shapeRows(cardData) {
     const fields = cardData.fields || [];
     const rows = cardData.rows || [];
+    const inert = this._isInert;
 
     return rows.map((r) => {
       const overridden = new Set(r.overriddenFieldNames || []);
+      const hasSourceData =
+        r.sourceValues && Object.keys(r.sourceValues).length > 0;
       const displayFields = fields.map((f) => {
         const sourceVal = r.sourceValues
           ? r.sourceValues[f.apiName]
@@ -133,16 +189,26 @@ export default class VerificationCard extends LightningElement {
         };
       });
 
+      const statusLower = (r.status || "default").toLowerCase();
       return {
         recordId: r.recordId,
         status: r.status,
         badgeVariant: this._badgeVariant(r.status),
-        cssClass: `slds-item vc-list-item verification-row verification-row_${(r.status || "").toLowerCase()}`,
-        canVerify: r.status === "Proposed",
-        canEdit: r.status === "Verified" || r.status === "Proposed",
+        cssClass: `slds-item vc-list-item verification-row verification-row_${statusLower}`,
+        statusChipClass: `vc-status-chip vc-status-chip_${statusLower}`,
+        statusIcon:
+          {
+            Verified: "utility:success",
+            Proposed: "utility:pending",
+            Manual: "utility:user"
+          }[r.status] || "utility:record",
+        canVerify: r.status === "Proposed" && !inert,
+        canReject: r.status === "Proposed" && !inert,
+        canConfirmManual: r.status === "Manual" && !inert,
+        noSourceData: r.status === "Proposed" && !hasSourceData,
         displayFields,
         verifiedFootnote: this._verifiedFootnote(r),
-        _raw: r // kept for the edit modal — never bound to template
+        _raw: r
       };
     });
   }
@@ -202,19 +268,24 @@ export default class VerificationCard extends LightningElement {
     return this._fmt(v);
   }
 
-  // --- derived getters used by the template ---
+  // --- derived getters ---
 
   get hasRows() {
     return !this.isLoading && !this.error && this.rows.length > 0;
   }
   get isEmpty() {
-    return !this.isLoading && !this.error && this.rows.length === 0;
+    return (
+      !this.isLoading &&
+      !this.error &&
+      this.rows.length === 0 &&
+      this.unreviewedCount === 0
+    );
   }
   get noProposed() {
     return !this.rows.some((r) => r.status === "Proposed");
   }
 
-  // --- handlers ---
+  // --- verify handlers ---
 
   handleVerifyOne(event) {
     const recordId = event.currentTarget.dataset.recordId;
@@ -222,6 +293,7 @@ export default class VerificationCard extends LightningElement {
   }
 
   handleVerifyAll() {
+    if (this._isInert) return;
     const ids = this.rows
       .filter((r) => r.status === "Proposed")
       .map((r) => r.recordId);
@@ -246,132 +318,57 @@ export default class VerificationCard extends LightningElement {
     }
   }
 
-  handleEditClick(event) {
-    const recordId = event.currentTarget.dataset.recordId;
-    const row = this.rows.find((r) => r.recordId === recordId);
-    if (!row) return;
-    this.editingRecordId = recordId;
-    // Verified_By__c and Verified_At__c are audit stamps — always read-only.
-    // Verification_Status__c and Is_Verified__c are intentionally absent here so
-    // PIs can edit them; they two-way-sync with each other in handleEditChange.
-    const SYSTEM_FIELDS = new Set(["Verified_By__c", "Verified_At__c"]);
-    this.editingFields = row.displayFields.map((f) => ({
-      ...f,
-      isReadOnly: f.editable === false || SYSTEM_FIELDS.has(f.apiName),
-      isPicklist: f.type === "PICKLIST",
-      editValue: f.isBoolean
-        ? String(f._boolValue === true)
-        : f.displayValue === "—"
-          ? ""
-          : f.displayValue,
-      editChecked: f.isBoolean && f._boolValue === true
-    }));
-    this.showEditModal = true;
+  // --- reject handlers ---
+
+  handleRejectOne(event) {
+    this._rejectingRecordId = event.currentTarget.dataset.recordId;
+    this._rejectReason = "";
+    this.showRejectModal = true;
   }
 
-  handleEditChange(event) {
-    const name = event.target.name;
-    const isCheckbox = event.target.type === "checkbox";
-    const value = isCheckbox
-      ? String(event.target.checked)
-      : event.target.value;
-
-    let fields = this.editingFields.map((f) => {
-      if (f.apiName === name) {
-        return {
-          ...f,
-          editValue: value,
-          editChecked: isCheckbox && event.target.checked
-        };
-      }
-      return f;
-    });
-
-    // Two-way sync: Verification_Status__c ↔ Is_Verified__c.
-    // Changing either one in the modal immediately mirrors to the other
-    // so the display is consistent before the PI clicks Save.
-    if (name === "Verification_Status__c") {
-      const nowVerified = value === "Verified";
-      fields = fields.map((f) => {
-        if (f.apiName === "Is_Verified__c") {
-          return {
-            ...f,
-            editChecked: nowVerified,
-            editValue: String(nowVerified)
-          };
-        }
-        return f;
-      });
-    } else if (name === "Is_Verified__c") {
-      const isChecked = event.target.checked;
-      fields = fields.map((f) => {
-        if (f.apiName === "Verification_Status__c") {
-          return { ...f, editValue: isChecked ? "Verified" : "Proposed" };
-        }
-        return f;
-      });
-    }
-
-    this.editingFields = fields;
+  handleRejectReasonChange(event) {
+    this._rejectReason = event.target.value;
   }
 
-  handleEditCancel() {
-    this.showEditModal = false;
-    this.editingRecordId = null;
-    this.editingFields = [];
+  handleRejectCancel() {
+    this.showRejectModal = false;
+    this._rejectingRecordId = null;
+    this._rejectReason = "";
   }
 
-  async handleEditSave() {
-    // Build a delta of only the fields the user actually changed.
-    // This matters: sending the full row would clobber other PIs' work
-    // on shared records. Sending only diffs lets the merge in Apex
-    // do its job at the field level.
-    const original = this.rows.find((r) => r.recordId === this.editingRecordId);
-    const delta = {};
-    for (const f of this.editingFields) {
-      if (f.isReadOnly) continue;
-      const originalField = original.displayFields.find(
-        (of) => of.apiName === f.apiName
-      );
-      if (f.isBoolean) {
-        const newBool = f.editValue === "true";
-        const origBool = originalField
-          ? originalField._boolValue === true
-          : false;
-        if (newBool !== origBool) {
-          delta[f.apiName] = newBool;
-        }
-      } else {
-        const originalValue = originalField ? originalField.displayValue : "";
-        const bothEffectivelyEmpty =
-          f.editValue === "" && originalValue === "—";
-        if (f.editValue !== originalValue && !bothEffectivelyEmpty) {
-          delta[f.apiName] = f.editValue === "" ? null : f.editValue;
-        }
-      }
-    }
-
-    if (Object.keys(delta).length === 0) {
-      this._toast("Nothing changed", "No fields were modified", "info");
-      this.handleEditCancel();
-      return;
-    }
-
+  async handleRejectConfirm() {
+    const recordId = this._rejectingRecordId;
+    const reason = this._rejectReason;
+    this.showRejectModal = false;
+    this._rejectingRecordId = null;
+    this._rejectReason = "";
     try {
       this.isLoading = true;
-      await overrideRecord({
-        recordId: this.editingRecordId,
-        overrideJson: JSON.stringify(delta)
-      });
+      await rejectRecord({ recordId, reason });
+      await refreshApex(this._wiredData);
+      this._toast("Excluded", "Record excluded from verification", "success");
+    } catch (e) {
+      this._toast("Could not reject", this._extractErrorMessage(e), "error");
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  // --- confirm manual handler ---
+
+  async handleConfirmManual(event) {
+    const recordId = event.currentTarget.dataset.recordId;
+    try {
+      this.isLoading = true;
+      await confirmManualRecord({ recordId });
       await refreshApex(this._wiredData);
       this._toast(
-        "Saved",
-        "Corrections applied and record verified",
+        "Confirmed",
+        "Manual record confirmed and marked verified",
         "success"
       );
-      this.handleEditCancel();
     } catch (e) {
-      this._toast("Could not save", this._extractErrorMessage(e), "error");
+      this._toast("Could not confirm", this._extractErrorMessage(e), "error");
     } finally {
       this.isLoading = false;
     }
@@ -383,10 +380,6 @@ export default class VerificationCard extends LightningElement {
     this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
   }
 
-  /**
-   * Apex errors arrive in different shapes depending on type
-   * (AuraHandledException, DML, generic). Extract a user-readable string.
-   */
   _extractErrorMessage(err) {
     if (!err) return "Unknown error";
     if (typeof err === "string") return err;

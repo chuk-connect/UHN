@@ -728,30 +728,40 @@
         <field>UHN_Publication_Author__c.Verified_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <!-- Verification_Change_Event__c is append-only. PI can read the audit log
+         but must never edit it. editable=false here; object-level allowEdit=false
+         enforces this at the DML layer. -->
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Verification_Change_Event__c.Actor_User_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Verification_Change_Event__c.After_Payload__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Verification_Change_Event__c.Before_Payload__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Verification_Change_Event__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Verification_Change_Event__c.Subject_Record_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <!-- UHN_Publication_Author__c — PI needs read on Source_Hash__c so the
+         card controller can display idempotency state. Verification_Status__c
+         is a required field and cannot appear in fieldPermissions. -->
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>UHN_Publication_Author__c.Source_Hash__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>true</hasActivationRequired>

@@ -2,12 +2,9 @@ import { createElement } from "lwc";
 import VerificationCard from "c/verificationCard";
 import { subscribe, unsubscribe } from "lightning/empApi";
 import verify from "@salesforce/apex/VerificationCardController.verify";
-import overrideRecord from "@salesforce/apex/VerificationCardController.overrideRecord";
+import rejectRecord from "@salesforce/apex/VerificationCardController.rejectRecord";
+import confirmManualRecord from "@salesforce/apex/VerificationCardController.confirmManualRecord";
 import getCardData from "@salesforce/apex/VerificationCardController.getCardData";
-
-// The LWC jest-transformer rewrites apex imports as:
-//   import fn from '@salesforce/apex/...'  →  fn = require("...").default
-// Mocks must expose { default: ... } so the binding resolves correctly.
 
 jest.mock(
   "@salesforce/apex/VerificationCardController.getCardData",
@@ -23,8 +20,18 @@ jest.mock(
   { virtual: true }
 );
 jest.mock(
-  "@salesforce/apex/VerificationCardController.overrideRecord",
+  "@salesforce/apex/VerificationCardController.rejectRecord",
   () => ({ default: jest.fn().mockResolvedValue(undefined) }),
+  { virtual: true }
+);
+jest.mock(
+  "@salesforce/apex/VerificationCardController.confirmManualRecord",
+  () => ({ default: jest.fn().mockResolvedValue(undefined) }),
+  { virtual: true }
+);
+jest.mock(
+  "@salesforce/apex/VerificationCardController.getParentStatus",
+  () => ({ default: jest.fn().mockResolvedValue(null) }),
   { virtual: true }
 );
 jest.mock(
@@ -95,17 +102,18 @@ function makeRow(overrides = {}) {
   };
 }
 
-function makeCardData(rows = [makeRow()]) {
-  return { fields: FIELDS, rows };
+function makeCardData(rows = [makeRow()], unreviewedCount = 0) {
+  return { fields: FIELDS, rows, unreviewedCount };
 }
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
-function createEl() {
+function createEl(props = {}) {
   const el = createElement("c-verification-card", { is: VerificationCard });
   el.recordId = "p001";
   el.childObjectApiName = "UHN_Publication_Author__c";
   el.fieldSetName = "AAR_Verification";
+  Object.assign(el, props);
   document.body.appendChild(el);
   return el;
 }
@@ -121,11 +129,6 @@ function findButton(root, label) {
     (b) => b.label === label
   );
 }
-function findButtonIcon(root, altText) {
-  return Array.from(root.querySelectorAll("lightning-button-icon")).find(
-    (b) => b.alternativeText === altText
-  );
-}
 
 afterEach(() => {
   while (document.body.firstChild)
@@ -139,7 +142,6 @@ describe("initial state", () => {
   it("renders no spinner when wire has no data (isEmpty)", async () => {
     const el = createEl();
     await flushPromises();
-    // adapter emits {data:undefined} immediately → isLoading=false, rows=[]
     expect(el.shadowRoot.querySelector("lightning-spinner")).toBeNull();
   });
 
@@ -155,7 +157,6 @@ describe("initial state", () => {
 describe("error state", () => {
   it("renders error box on wire error — body.message", async () => {
     const el = createEl();
-    // error(body, status, statusText) — first arg IS the body
     getCardData.error({ message: "Apex blew up" });
     await flushPromises();
     const alert = el.shadowRoot.querySelector('[role="alert"]');
@@ -224,6 +225,13 @@ describe("row rendering", () => {
     expect(findButton(el.shadowRoot, "Verify")).toBeTruthy();
   });
 
+  it("Proposed row has a Reject button", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow({ status: "Proposed" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Reject")).toBeTruthy();
+  });
+
   it("Verified row has no Verify button", async () => {
     const el = createEl();
     getCardData.emit(
@@ -233,6 +241,17 @@ describe("row rendering", () => {
     );
     await flushPromises();
     expect(findButton(el.shadowRoot, "Verify")).toBeFalsy();
+  });
+
+  it("Verified row has no Reject button", async () => {
+    const el = createEl();
+    getCardData.emit(
+      makeCardData([
+        makeRow({ status: "Verified", verifiedAt: "2026-01-01T00:00:00Z" })
+      ])
+    );
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Reject")).toBeFalsy();
   });
 
   it("Verified row shows verified footnote", async () => {
@@ -282,6 +301,17 @@ describe("row rendering", () => {
     const btn = findButton(el.shadowRoot, "Verify All Proposed");
     expect(btn).toBeTruthy();
     expect(btn.disabled).toBe(true);
+  });
+
+  it("no inline edit modal is present in the DOM", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow({ status: "Proposed" })]));
+    await flushPromises();
+    // There must be no edit icon that opens inline field editing
+    const editIcons = Array.from(
+      el.shadowRoot.querySelectorAll("lightning-button-icon")
+    ).filter((b) => b.alternativeText === "Edit overrides");
+    expect(editIcons).toHaveLength(0);
   });
 });
 
@@ -357,59 +387,91 @@ describe("verify actions", () => {
   });
 });
 
-// ── edit modal ────────────────────────────────────────────────────────────────
+// ── reject action ─────────────────────────────────────────────────────────────
 
-describe("edit modal", () => {
-  async function openModal(el) {
-    getCardData.emit(
-      makeCardData([makeRow({ status: "Proposed", recordId: "a001" })])
-    );
-    await flushPromises();
-    findButtonIcon(el.shadowRoot, "Edit overrides").click();
-    await flushPromises();
-  }
-
-  it("opens when edit icon is clicked", async () => {
+describe("reject action", () => {
+  it("opens rejection modal when Reject is clicked", async () => {
     const el = createEl();
-    await openModal(el);
+    getCardData.emit(makeCardData([makeRow({ recordId: "a001" })]));
+    await flushPromises();
+    findButton(el.shadowRoot, "Reject").click();
+    await flushPromises();
     expect(el.shadowRoot.querySelector('[role="dialog"]')).not.toBeNull();
   });
 
-  it("closes when Cancel is clicked", async () => {
+  it("closes rejection modal when Cancel is clicked", async () => {
     const el = createEl();
-    await openModal(el);
+    getCardData.emit(makeCardData([makeRow({ recordId: "a001" })]));
+    await flushPromises();
+    findButton(el.shadowRoot, "Reject").click();
+    await flushPromises();
     el.shadowRoot.querySelector(".slds-button_neutral").click();
     await flushPromises();
     expect(el.shadowRoot.querySelector('[role="dialog"]')).toBeNull();
   });
 
-  it("Verified_By__c is rendered as read-only in modal", async () => {
+  it("calls rejectRecord with recordId and reason on confirm", async () => {
     const el = createEl();
-    await openModal(el);
-    const readonlyLabels = Array.from(
-      el.shadowRoot.querySelectorAll(
-        ".modal-field_readonly .slds-form-element__label"
-      )
-    ).map((n) => n.textContent);
-    expect(readonlyLabels).toContain("By");
+    getCardData.emit(makeCardData([makeRow({ recordId: "a001" })]));
+    await flushPromises();
+    findButton(el.shadowRoot, "Reject").click();
+    await flushPromises();
+    // Simulate typing a reason
+    const input = el.shadowRoot.querySelector("lightning-input");
+    input.value = "Duplicate";
+    input.dispatchEvent(
+      new CustomEvent("change", { detail: { value: "Duplicate" } })
+    );
+    await flushPromises();
+    el.shadowRoot.querySelector(".slds-button_destructive").click();
+    await flushPromises();
+    expect(rejectRecord).toHaveBeenCalledWith({
+      recordId: "a001",
+      reason: expect.any(String)
+    });
   });
 });
 
-// ── handleEditSave: nothing-changed path ──────────────────────────────────────
+// ── post-submission inertness ─────────────────────────────────────────────────
 
-describe("handleEditSave — nothing changed", () => {
-  it("does not call overrideRecord when no fields were modified", async () => {
+describe("post-submission inertness", () => {
+  it("hides Verify and Reject buttons when parentStatus is Submitted", async () => {
+    const el = createEl({ parentStatus: "Submitted" });
+    getCardData.emit(makeCardData([makeRow({ status: "Proposed" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Verify")).toBeFalsy();
+    expect(findButton(el.shadowRoot, "Reject")).toBeFalsy();
+  });
+
+  it("hides Verify All Proposed when parentStatus is Submitted", async () => {
+    const el = createEl({ parentStatus: "Submitted" });
+    getCardData.emit(makeCardData([makeRow({ status: "Proposed" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Verify All Proposed")).toBeFalsy();
+  });
+
+  it("hides actions when parentStatus is Under Review", async () => {
+    const el = createEl({ parentStatus: "Under Review" });
+    getCardData.emit(makeCardData([makeRow({ status: "Proposed" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Verify")).toBeFalsy();
+    expect(findButton(el.shadowRoot, "Reject")).toBeFalsy();
+  });
+
+  it("shows Verify and Reject when parentStatus is Draft", async () => {
+    const el = createEl({ parentStatus: "Draft" });
+    getCardData.emit(makeCardData([makeRow({ status: "Proposed" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Verify")).toBeTruthy();
+    expect(findButton(el.shadowRoot, "Reject")).toBeTruthy();
+  });
+
+  it("shows Verify and Reject when parentStatus is undefined", async () => {
     const el = createEl();
-    getCardData.emit(
-      makeCardData([makeRow({ status: "Proposed", recordId: "a001" })])
-    );
+    getCardData.emit(makeCardData([makeRow({ status: "Proposed" })]));
     await flushPromises();
-    findButtonIcon(el.shadowRoot, "Edit overrides").click();
-    await flushPromises();
-    // Click Save without changing anything
-    el.shadowRoot.querySelector(".slds-button_brand").click();
-    await flushPromises();
-    expect(overrideRecord).not.toHaveBeenCalled();
+    expect(findButton(el.shadowRoot, "Verify")).toBeTruthy();
+    expect(findButton(el.shadowRoot, "Reject")).toBeTruthy();
   });
 });
 
@@ -503,5 +565,101 @@ describe("field value rendering", () => {
     );
     const texts = values.map((v) => v.textContent.trim());
     expect(texts).toContain("No");
+  });
+});
+
+// ── unreviewed legacy banner ──────────────────────────────────────────────────
+
+describe("unreviewed legacy records banner", () => {
+  it("shows banner when unreviewedCount > 0", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow()], 154));
+    await flushPromises();
+    const banner = el.shadowRoot.querySelector('[role="status"]');
+    expect(banner).not.toBeNull();
+    expect(banner.textContent).toContain("154");
+  });
+
+  it("does not show banner when unreviewedCount is 0", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow()], 0));
+    await flushPromises();
+    expect(el.shadowRoot.querySelector('[role="status"]')).toBeNull();
+  });
+
+  it("shows empty state when rows = 0 AND unreviewedCount = 0", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([], 0));
+    await flushPromises();
+    expect(el.shadowRoot.textContent).toContain("No records to verify");
+  });
+
+  it("does NOT show empty state when rows = 0 but unreviewedCount > 0", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([], 5));
+    await flushPromises();
+    expect(el.shadowRoot.textContent).not.toContain("No records to verify");
+  });
+});
+
+// ── confirm manual action ─────────────────────────────────────────────────────
+
+describe("confirm manual action", () => {
+  it("Manual row has a Confirm button when not inert", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow({ status: "Manual" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Confirm")).toBeTruthy();
+  });
+
+  it("Proposed row has no Confirm button", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow({ status: "Proposed" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Confirm")).toBeFalsy();
+  });
+
+  it("Confirm button calls confirmManualRecord and refreshes", async () => {
+    const el = createEl();
+    getCardData.emit(makeCardData([makeRow({ status: "Manual" })]));
+    await flushPromises();
+    const btn = findButton(el.shadowRoot, "Confirm");
+    btn.click();
+    await flushPromises();
+    expect(confirmManualRecord).toHaveBeenCalledWith({ recordId: "a001" });
+  });
+
+  it("hides Confirm button when inert", async () => {
+    const el = createEl({ parentStatus: "Submitted" });
+    getCardData.emit(makeCardData([makeRow({ status: "Manual" })]));
+    await flushPromises();
+    expect(findButton(el.shadowRoot, "Confirm")).toBeFalsy();
+  });
+});
+
+// ── no-source-data warning ────────────────────────────────────────────────────
+
+describe("no source data warning", () => {
+  it("shows warning on Proposed row with empty sourceValues", async () => {
+    const el = createEl();
+    getCardData.emit(
+      makeCardData([makeRow({ status: "Proposed", sourceValues: {} })])
+    );
+    await flushPromises();
+    expect(el.shadowRoot.querySelector(".vc-no-source-warning")).not.toBeNull();
+  });
+
+  it("does NOT show warning on Proposed row that has source data", async () => {
+    const el = createEl();
+    getCardData.emit(
+      makeCardData([
+        makeRow({
+          status: "Proposed",
+          sourceValues: { Title__c: "From Source" }
+        })
+      ])
+    );
+    await flushPromises();
+    expect(el.shadowRoot.querySelector(".vc-no-source-warning")).toBeNull();
   });
 });

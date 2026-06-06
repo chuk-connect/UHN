@@ -2,16 +2,18 @@
   <div class="card-wrapper">
     <lightning-card title={cardTitle} icon-name="standard:approval">
       <template lwc:if={hasRows}>
-        <div slot="actions">
-          <lightning-button
-            label="Verify All Proposed"
-            variant="brand"
-            icon-name="utility:check"
-            onclick={handleVerifyAll}
-            disabled={noProposed}
-          >
-          </lightning-button>
-        </div>
+        <template lwc:if={isNotInert}>
+          <div slot="actions">
+            <lightning-button
+              label="Verify All Proposed"
+              variant="brand"
+              icon-name="utility:check"
+              onclick={handleVerifyAll}
+              disabled={noProposed}
+            >
+            </lightning-button>
+          </div>
+        </template>
       </template>
 
       <!-- Loading -->
@@ -46,11 +48,44 @@
         </div>
       </template>
 
+      <!-- Unreviewed legacy banner — shown when null-status records exist.
+           These predate the source sync framework and are not yet actionable.
+           The banner informs the PI so they know more records will appear once
+           the sync handler runs. -->
+      <template lwc:if={hasUnreviewed}>
+        <div class="slds-p-horizontal_medium slds-p-top_small">
+          <div
+            class="slds-notify slds-notify_alert slds-theme_info slds-grid slds-grid_vertical-align-center"
+            role="status"
+          >
+            <lightning-icon
+              icon-name="utility:info"
+              size="xx-small"
+              class="slds-m-right_x-small"
+              alternative-text="Info"
+            ></lightning-icon>
+            <span class="slds-text-body_small">{unreviewedMessage}</span>
+          </div>
+        </div>
+      </template>
+
       <!-- Rows -->
       <template lwc:if={hasRows}>
         <ul class="slds-has-dividers_around-space verification-list">
           <template for:each={rows} for:item="row">
             <li key={row.recordId} class={row.cssClass}>
+              <!-- Status chip header — replaces the left-border colour bar -->
+              <div class="vc-row-topbar">
+                <span class={row.statusChipClass}>
+                  <lightning-icon
+                    icon-name={row.statusIcon}
+                    size="xx-small"
+                    class="vc-chip-icon"
+                    alternative-text={row.status}
+                  ></lightning-icon>
+                  {row.status}
+                </span>
+              </div>
               <div
                 class="slds-grid slds-grid_vertical-align-center slds-grid_align-spread slds-wrap"
               >
@@ -58,6 +93,22 @@
                 <div
                   class="slds-col slds-size_9-of-12 slds-align-middle verification-col_fields"
                 >
+                  <!-- No-source-data warning for Proposed rows awaiting sync -->
+                  <template lwc:if={row.noSourceData}>
+                    <div
+                      class="slds-text-color_weak slds-text-body_small slds-m-bottom_x-small vc-no-source-warning"
+                    >
+                      <lightning-icon
+                        icon-name="utility:warning"
+                        size="xx-small"
+                        class="slds-m-right_xx-small"
+                        alternative-text="Warning"
+                      ></lightning-icon>
+                      Source data not yet synced — verify after the sync handler
+                      runs.
+                    </div>
+                  </template>
+
                   <template for:each={row.displayFields} for:item="f">
                     <div
                       key={f.apiName}
@@ -104,7 +155,7 @@
                   </template>
                 </div>
 
-                <!-- Actions -->
+                <!-- Actions — only rendered when card is not inert -->
                 <div
                   class="slds-col slds-size_3-of-12 slds-align-middle verification-col_actions"
                 >
@@ -120,15 +171,26 @@
                       >
                       </lightning-button>
                     </template>
-                    <template lwc:if={row.canEdit}>
-                      <lightning-button-icon
-                        icon-name="utility:edit"
-                        alternative-text="Edit overrides"
+                    <template lwc:if={row.canReject}>
+                      <lightning-button
+                        label="Reject"
+                        variant="destructive-text"
                         data-record-id={row.recordId}
-                        onclick={handleEditClick}
+                        onclick={handleRejectOne}
                         class="slds-m-left_x-small"
                       >
-                      </lightning-button-icon>
+                      </lightning-button>
+                    </template>
+                    <!-- Confirm Manual — for PI-entered records with no source counterpart -->
+                    <template lwc:if={row.canConfirmManual}>
+                      <lightning-button
+                        label="Confirm"
+                        variant="success"
+                        data-record-id={row.recordId}
+                        onclick={handleConfirmManual}
+                        title="Attest this manually-entered record is accurate"
+                      >
+                      </lightning-button>
                     </template>
                   </div>
                 </div>
@@ -140,13 +202,13 @@
     </lightning-card>
   </div>
 
-  <!-- Edit modal — outside lightning-card and card-wrapper so the backdrop covers the full viewport -->
-  <template lwc:if={showEditModal}>
+  <!-- Reject confirmation modal -->
+  <template lwc:if={showRejectModal}>
     <section
       role="dialog"
       tabindex="-1"
       aria-modal="true"
-      aria-labelledby="modal-heading"
+      aria-labelledby="reject-modal-heading"
       class="slds-modal slds-fade-in-open"
     >
       <div class="slds-modal__container">
@@ -154,7 +216,7 @@
           <button
             type="button"
             class="slds-button slds-button_icon slds-modal__close"
-            onclick={handleEditCancel}
+            onclick={handleRejectCancel}
           >
             <lightning-icon
               icon-name="utility:close"
@@ -162,73 +224,40 @@
               alternative-text="Close"
             ></lightning-icon>
           </button>
-          <h2 id="modal-heading" class="slds-modal__title slds-hyphenate">
-            Edit values
+          <h2
+            id="reject-modal-heading"
+            class="slds-modal__title slds-hyphenate"
+          >
+            Exclude record
           </h2>
         </header>
         <div class="slds-modal__content slds-p-around_medium">
-          <template for:each={editingFields} for:item="f">
-            <div key={f.apiName} class="edit-field-item">
-              <template lwc:if={f.isReadOnly}>
-                <div
-                  class="slds-form-element slds-form-element_stacked modal-field_readonly"
-                >
-                  <span class="slds-form-element__label vc-form-label"
-                    >{f.label}</span
-                  >
-                  <div class="slds-form-element__control">
-                    <span class="slds-form-element__static vc-form-static"
-                      >{f.displayValue}</span
-                    >
-                  </div>
-                </div>
-              </template>
-              <template lwc:elseif={f.isBoolean}>
-                <lightning-input
-                  type="checkbox"
-                  label={f.label}
-                  name={f.apiName}
-                  checked={f.editChecked}
-                  onchange={handleEditChange}
-                >
-                </lightning-input>
-              </template>
-              <template lwc:elseif={f.isPicklist}>
-                <lightning-combobox
-                  label={f.label}
-                  name={f.apiName}
-                  value={f.editValue}
-                  options={f.picklistValues}
-                  onchange={handleEditChange}
-                >
-                </lightning-combobox>
-              </template>
-              <template lwc:else>
-                <lightning-input
-                  label={f.label}
-                  name={f.apiName}
-                  value={f.editValue}
-                  onchange={handleEditChange}
-                >
-                </lightning-input>
-              </template>
-            </div>
-          </template>
+          <p class="slds-m-bottom_small slds-text-body_regular">
+            This record will be excluded from the verification set. Provide a
+            reason (optional).
+          </p>
+          <lightning-input
+            label="Exclusion reason"
+            value={_rejectReason}
+            onchange={handleRejectReasonChange}
+            placeholder="e.g. Duplicate, Not applicable, Out of scope"
+          >
+          </lightning-input>
         </div>
         <footer class="slds-modal__footer">
           <button
             type="button"
             class="slds-button slds-button_neutral"
-            onclick={handleEditCancel}
+            onclick={handleRejectCancel}
           >
             Cancel
           </button>
           <button
             type="button"
-            class="slds-button slds-button_brand"
-            onclick={handleEditSave}
+            class="slds-button slds-button_destructive"
+            onclick={handleRejectConfirm}
           >
-            Save &amp; Verify
+            Confirm Exclusion
           </button>
         </footer>
       </div>

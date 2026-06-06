@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>63.0</apiVersion>
     <isExposed>true</isExposed>
     <masterLabel>Verification Card</masterLabel>
-    <description>Drop-in component for verifying source-system data against PI judgment. Reusable across Business Hub modules. Configure the child object and field set per page placement.</description>
+    <description
+  >Drop-in component for verifying source-system data against PI judgment. Reusable across Business Hub modules. Configure the child object and field set per page placement.</description>
     <targets>
         <target>lightning__RecordPage</target>
         <target>lightning__AppPage</target>
@@ -12,18 +13,70 @@
         <target>lightningCommunity__Default</target>
     </targets>
     <targetConfigs>
-        <targetConfig targets="lightning__RecordPage,lightning__AppPage,lightning__HomePage">
-            <property name="cardTitle" type="String" label="Card Title" default="Verification"/>
-            <property name="childObjectApiName" type="String" label="Child Object API Name"
-                      description="e.g. UHN_Publication_Author__c"/>
-            <property name="fieldSetName" type="String" label="Field Set Name"
-                      description="Field set on the child object that defines which fields to render"/>
+        <targetConfig
+      targets="lightning__RecordPage,lightning__AppPage,lightning__HomePage"
+    >
+            <property
+        name="cardTitle"
+        type="String"
+        label="Card Title"
+        default="Verification"
+      />
+            <property
+        name="childObjectApiName"
+        type="String"
+        label="Child Object API Name"
+        description="e.g. UHN_Publication_Author__c"
+      />
+            <property
+        name="fieldSetName"
+        type="String"
+        label="Field Set Name"
+        description="Field set on the child object that defines which fields to render"
+      />
+            <property
+        name="parentStatus"
+        type="String"
+        label="Parent Record Status"
+        description="Bind to the parent record Status__c field in App Builder. When Submitted, Under Review, or Complete the card becomes read-only (all action buttons are hidden)."
+      />
+            <property
+        name="parentStatusFieldApiName"
+        type="String"
+        label="Parent Status Field API Name"
+        description="API name of the status field on the parent object (e.g. Status__c). When set, the card self-queries parent status as a reliable fallback — even when parentStatus binding is not configured."
+      />
         </targetConfig>
         <targetConfig targets="lightningCommunity__Default">
-            <property name="cardTitle" type="String" label="Card Title" default="Verification"/>
-            <property name="childObjectApiName" type="String" label="Child Object API Name"/>
-            <property name="fieldSetName" type="String" label="Field Set Name"/>
-            <property name="recordId" type="String" label="Parent Record Id"/>
+            <property
+        name="cardTitle"
+        type="String"
+        label="Card Title"
+        default="Verification"
+      />
+            <property
+        name="childObjectApiName"
+        type="String"
+        label="Child Object API Name"
+      />
+            <property
+        name="fieldSetName"
+        type="String"
+        label="Field Set Name"
+      />
+            <property name="recordId" type="String" label="Parent Record Id" />
+            <property
+        name="parentStatus"
+        type="String"
+        label="Parent Record Status"
+        description="Bind to the parent record Status__c field. When Submitted, Under Review, or Complete the card becomes read-only."
+      />
+            <property
+        name="parentStatusFieldApiName"
+        type="String"
+        label="Parent Status Field API Name"
+        description="API name of the status field on the parent object (e.g. Status__c). Fallback for when parentStatus binding is not configured."
+      />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

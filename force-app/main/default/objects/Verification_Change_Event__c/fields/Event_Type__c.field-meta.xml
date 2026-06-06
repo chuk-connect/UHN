@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Event_Type__c</fullName>
-    <description>The transition that occurred. Constrained to the values the service emits.</description>
+    <description
+  >The transition that occurred. Constrained to the values the service emits.</description>
     <label>Event Type</label>
     <required>true</required>
     <trackTrending>false</trackTrending>
@@ -44,6 +45,16 @@
                 <fullName>Manual Superseded</fullName>
                 <default>false</default>
                 <label>Manual Superseded</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Manual Confirmed</fullName>
+                <default>false</default>
+                <label>Manual Confirmed</label>
             </value>
         </valueSetDefinition>
     </valueSet>

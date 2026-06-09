@@ -5,6 +5,7 @@
   "devName": "UHN_AAR__c_Detail",
   "id": "bh1117-aar-detail-route-001",
   "label": "AAR Detail",
+  "objectApiName": "UHN_AAR__c",
   "routeType": "detail-a0h",
   "type": "route",
   "urlPrefix": "aar"

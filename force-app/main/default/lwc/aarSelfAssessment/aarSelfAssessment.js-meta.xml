@@ -5,7 +5,6 @@
     <targets>
         <target>lightning__RecordPage</target>
         <target>lightningCommunity__Page</target>
-        <target>lightningCommunity__Default_Page</target>
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__RecordPage">
@@ -16,9 +15,7 @@
         label="Read Only"
       />
         </targetConfig>
-        <targetConfig
-      targets="lightningCommunity__Page,lightningCommunity__Default_Page"
-    >
+        <targetConfig targets="lightningCommunity__Page">
             <property name="recordId" type="String" label="AAR Record Id" />
             <property
         name="isReadOnly"

@@ -1132,11 +1132,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>UHN_AAR__c.Institute__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>UHN_AAR__c.Invited_Talks__c</field>
         <readable>true</readable>
     </fieldPermissions>

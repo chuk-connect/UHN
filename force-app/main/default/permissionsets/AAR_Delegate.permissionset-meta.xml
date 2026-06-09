@@ -22,11 +22,6 @@
     </classAccesses>
     <fieldPermissions>
         <editable>false</editable>
-        <field>UHN_AAR__c.Account__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>UHN_AAR__c.Attestation_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -53,11 +48,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_AAR__c.Completion_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>UHN_AAR__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -148,11 +138,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>UHN_AAR__c.Hours_Completing_AAR__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>UHN_AAR__c.Institute__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -343,11 +328,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>UHN_AAR__c.Research_Assistant_Count__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>UHN_AAR__c.Review_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

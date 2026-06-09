@@ -747,11 +747,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>UHN_AAR__c.Account__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>UHN_AAR__c.Attestation_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -778,11 +773,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>UHN_AAR__c.Completion_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>UHN_AAR__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -903,11 +893,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>UHN_AAR__c.Research_Keywords__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>UHN_AAR__c.Review_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

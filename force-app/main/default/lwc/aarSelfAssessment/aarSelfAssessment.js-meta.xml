@@ -15,14 +15,5 @@
         label="Read Only"
       />
         </targetConfig>
-        <targetConfig targets="lightningCommunity__Page">
-            <property name="recordId" type="String" label="AAR Record Id" />
-            <property
-        name="isReadOnly"
-        type="Boolean"
-        default="false"
-        label="Read Only"
-      />
-        </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

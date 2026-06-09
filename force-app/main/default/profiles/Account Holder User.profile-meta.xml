@@ -177,11 +177,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>AAR_Scholarly_Output__c.AAR__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>AAR_Scholarly_Output__c.Data_Origin__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -243,11 +238,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AAR_Scholarly_Output__c.Verified_By__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>AAR_Submission__c.AAR_Record__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1107,11 +1097,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>AAR_Appointment__c.AAR_Record__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>AAR_Appointment__c.Appointment_Title__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1162,11 +1147,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>AAR_Grant__c.AAR_Record__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>AAR_Grant__c.Additional_Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1198,11 +1178,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Grant__c.Managed_By_UHN__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>AAR_HQP__c.AAR_Record__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1282,11 +1257,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>AAR_Startup__c.AAR_Record__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>AAR_Startup__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1298,11 +1268,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AAR_Startup__c.Scientist_Role__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>AAR_Teaching__c.AAR_Record__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1353,11 +1318,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Verification_Change_Event__c.Subject_Record_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>UHN_Publication_Author__c.AAR__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

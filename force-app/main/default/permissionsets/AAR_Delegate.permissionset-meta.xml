@@ -412,11 +412,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>AAR_Scholarly_Output__c.AAR__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>AAR_Scholarly_Output__c.Data_Origin__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -482,11 +477,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>AAR_Submission__c.AAR_Record__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>AAR_Submission__c.Evaluator_Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -498,11 +488,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>AAR_Submission__c.Evaluator_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>UHN_Publication_Author__c.AAR__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

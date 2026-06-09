@@ -1540,12 +1540,6 @@
         <field>Verification__mdt.Verified_By__c</field>
         <readable>false</readable>
     </fieldPermissions>
-    <flowAccesses>
-        <enabled>false</enabled>
-        <flow>
-sfdc_default_ReportExport_Protection_Flow;
-    </flow>
-    </flowAccesses>
     <layoutAssignments>
         <layout>AAR_Recognition__c-AAR Recognition Layout</layout>
     </layoutAssignments>

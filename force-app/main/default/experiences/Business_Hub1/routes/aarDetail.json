@@ -1,0 +1,12 @@
+{
+  "activeViewId": "bh1117-aar-detail-view-001",
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "configurationTags": [],
+  "devName": "UHN_AAR__c_Detail",
+  "id": "bh1117-aar-detail-route-001",
+  "label": "AAR Detail",
+  "objectApiName": "UHN_AAR__c",
+  "routeType": "detail-a0h",
+  "type": "route",
+  "urlPrefix": "aar"
+}

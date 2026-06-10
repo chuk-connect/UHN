@@ -1,0 +1,172 @@
+<template>
+  <lightning-card title="Self-Assessment" icon-name="standard:survey">
+    <div class="slds-p-around_medium">
+      <template if:true={isLoading}>
+        <lightning-spinner
+          alternative-text="Loading"
+          size="medium"
+        ></lightning-spinner>
+      </template>
+      <template if:false={isLoading}>
+        <lightning-record-edit-form
+          record-id={recordId}
+          object-api-name="UHN_AAR__c"
+          onsuccess={handleSuccess}
+          onerror={handleError}
+          onload={handleLoad}
+        >
+          <lightning-messages></lightning-messages>
+
+          <!-- Research narrative -->
+          <div class="slds-section slds-is-open slds-m-bottom_medium">
+            <h3
+              class="slds-section__title slds-theme_shade slds-p-around_x-small"
+            >
+              Research Profile
+            </h3>
+            <div class="slds-section__content slds-p-top_small">
+              <lightning-input-field
+                field-name="Lay_Summary__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Circumstances_Productivity__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Top_Constraints__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Research_Career_Stage__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Research_Keywords__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Protected_Time_Research__c"
+              ></lightning-input-field>
+            </div>
+          </div>
+
+          <!-- Clinical duties -->
+          <div class="slds-section slds-is-open slds-m-bottom_medium">
+            <h3
+              class="slds-section__title slds-theme_shade slds-p-around_x-small"
+            >
+              Clinical & Teaching
+            </h3>
+            <div class="slds-section__content slds-p-top_small">
+              <lightning-input-field
+                field-name="Clinical_Duties__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Service_Narrative__c"
+              ></lightning-input-field>
+            </div>
+          </div>
+
+          <!-- Trainee supervision -->
+          <div class="slds-section slds-is-open slds-m-bottom_medium">
+            <h3
+              class="slds-section__title slds-theme_shade slds-p-around_x-small"
+            >
+              Trainee Supervision
+            </h3>
+            <div class="slds-section__content slds-p-top_small">
+              <lightning-input-field
+                field-name="Supervision_Narrative__c"
+              ></lightning-input-field>
+              <div class="slds-grid slds-wrap slds-gutters_small">
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field
+                    field-name="Graduate_Student_Count__c"
+                  ></lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field
+                    field-name="Postdoc_Count__c"
+                  ></lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field
+                    field-name="Research_Assistant_Count__c"
+                  ></lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field
+                    field-name="Other_Trainee_Count__c"
+                  ></lightning-input-field>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Leave -->
+          <div class="slds-section slds-is-open slds-m-bottom_medium">
+            <h3
+              class="slds-section__title slds-theme_shade slds-p-around_x-small"
+            >
+              Leave of Absence (if applicable)
+            </h3>
+            <div class="slds-section__content slds-p-top_small">
+              <div class="slds-grid slds-wrap slds-gutters_small">
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field
+                    field-name="Leave_Start_Date__c"
+                  ></lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field
+                    field-name="Leave_End_Date__c"
+                  ></lightning-input-field>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Attestation checkboxes -->
+          <div class="slds-section slds-is-open slds-m-bottom_medium">
+            <h3
+              class="slds-section__title slds-theme_shade slds-p-around_x-small"
+            >
+              Declarations &amp; Compliance
+            </h3>
+            <div class="slds-section__content slds-p-top_small">
+              <lightning-input-field
+                field-name="CMaRS_Updated__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Grants_Good_Standing__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Mandatory_Training_Complete__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Patient_Engagement_Survey__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Form_Confirmed_Accurate__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Form_Feedback__c"
+              ></lightning-input-field>
+              <lightning-input-field
+                field-name="Hours_Completing_AAR__c"
+              ></lightning-input-field>
+            </div>
+          </div>
+
+          <template if:false={isReadOnly}>
+            <div class="slds-p-top_medium">
+              <lightning-button
+                label="Save"
+                variant="brand"
+                type="submit"
+                onclick={handleSave}
+              >
+              </lightning-button>
+            </div>
+          </template>
+        </lightning-record-edit-form>
+      </template>
+    </div>
+  </lightning-card>
+</template>

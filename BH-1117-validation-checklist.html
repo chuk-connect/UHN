@@ -1,0 +1,1399 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>
+      BH-1117 Validation Checklist — AAR PI Experience &amp; Submission MVP
+    </title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-size: 11pt;
+        color: #1a1a2e;
+        background: #f4f6fa;
+        padding: 32px 40px;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      .cover {
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 60%,
+          #0f3460 100%
+        );
+        color: #fff;
+        border-radius: 8px;
+        padding: 36px 40px 30px;
+        margin-bottom: 28px;
+      }
+      .cover .badge {
+        display: inline-block;
+        background: #e94560;
+        color: #fff;
+        font-size: 8.5pt;
+        font-weight: 700;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        border-radius: 3px;
+        padding: 3px 9px;
+        margin-bottom: 12px;
+      }
+      .cover h1 {
+        font-size: 18pt;
+        font-weight: 700;
+        line-height: 1.3;
+        margin-bottom: 6px;
+      }
+      .cover .subtitle {
+        font-size: 10pt;
+        opacity: 0.8;
+        margin-bottom: 20px;
+      }
+      .cover .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .cover .meta-cell {
+        font-size: 9pt;
+      }
+      .cover .meta-cell .lbl {
+        opacity: 0.65;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        font-size: 8pt;
+        display: block;
+        margin-bottom: 2px;
+      }
+      .cover .meta-cell .val {
+        font-weight: 600;
+      }
+
+      .section {
+        background: #fff;
+        border-radius: 7px;
+        border: 1px solid #e0e4ef;
+        margin-bottom: 22px;
+        overflow: hidden;
+        page-break-inside: avoid;
+      }
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 20px 12px;
+        border-bottom: 1px solid #e0e4ef;
+        background: #f8f9fc;
+      }
+      .section-header .icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+      .icon-must {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+      .icon-perm {
+        background: #e3f2fd;
+        color: #1565c0;
+      }
+      .icon-test {
+        background: #f3e5f5;
+        color: #6a1b9a;
+      }
+      .icon-deploy {
+        background: #fff8e1;
+        color: #f57f17;
+      }
+      .icon-revert {
+        background: #e8eaf6;
+        color: #283593;
+      }
+      .icon-files {
+        background: #e0f7fa;
+        color: #00695c;
+      }
+      .icon-lwc {
+        background: #fce4ec;
+        color: #c62828;
+      }
+      .icon-exp {
+        background: #fff3e0;
+        color: #bf360c;
+      }
+      .section-header h2 {
+        font-size: 11.5pt;
+        font-weight: 700;
+        flex: 1;
+      }
+      .section-header .pill {
+        font-size: 8.5pt;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .pill-pass {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+      .pill-warn {
+        background: #fff3e0;
+        color: #e65100;
+      }
+      .pill-info {
+        background: #e3f2fd;
+        color: #1565c0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th {
+        background: #f2f4f8;
+        text-align: left;
+        font-size: 8.5pt;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        color: #5f6b8a;
+        padding: 8px 14px;
+        border-bottom: 1px solid #e0e4ef;
+      }
+      td {
+        padding: 10px 14px;
+        border-bottom: 1px solid #eef1f7;
+        vertical-align: top;
+        font-size: 10pt;
+        line-height: 1.45;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: #f7f9ff;
+      }
+
+      .status-cell {
+        width: 90px;
+        text-align: center;
+        white-space: nowrap;
+      }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 8.5pt;
+        font-weight: 700;
+        padding: 3px 9px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      .status-pass {
+        background: #e8f5e9;
+        color: #1b5e20;
+      }
+      .status-na {
+        background: #f1f3f6;
+        color: #78849e;
+      }
+      .status-warn {
+        background: #fff3e0;
+        color: #e65100;
+      }
+      .status-verify {
+        background: #e3f2fd;
+        color: #1565c0;
+      }
+
+      .req-id {
+        font-size: 8.5pt;
+        font-weight: 700;
+        color: #8a94b0;
+        white-space: nowrap;
+      }
+      .req-name {
+        font-weight: 600;
+        margin-bottom: 3px;
+      }
+      .req-detail {
+        font-size: 9.5pt;
+        color: #4a5370;
+      }
+
+      code {
+        font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+        font-size: 9pt;
+        background: #f0f2f8;
+        border-radius: 3px;
+        padding: 1px 4px;
+        color: #2b4590;
+      }
+
+      .pre-block {
+        font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+        font-size: 8.5pt;
+        background: #1a1a2e;
+        color: #a8d8ea;
+        border-radius: 5px;
+        padding: 14px 18px;
+        margin: 10px 14px 14px;
+        line-height: 1.6;
+        white-space: pre;
+        overflow-x: auto;
+      }
+
+      .note {
+        background: #fffde7;
+        border-left: 4px solid #ffc107;
+        padding: 10px 14px;
+        margin: 0 14px 14px;
+        font-size: 9.5pt;
+        border-radius: 0 4px 4px 0;
+        color: #5d4037;
+      }
+
+      .test-summary {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        padding: 16px 20px;
+      }
+      .test-cell {
+        text-align: center;
+        padding: 12px 8px;
+        border-radius: 6px;
+        border: 1px solid #e0e4ef;
+      }
+      .test-cell .num {
+        font-size: 22pt;
+        font-weight: 700;
+      }
+      .test-cell .lbl {
+        font-size: 8.5pt;
+        color: #5f6b8a;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 3px;
+      }
+      .tc-done {
+        background: #e8f5e9;
+      }
+      .tc-done .num {
+        color: #2e7d32;
+      }
+      .tc-warn {
+        background: #fff3e0;
+      }
+      .tc-warn .num {
+        color: #e65100;
+      }
+      .tc-info {
+        background: #e3f2fd;
+      }
+      .tc-info .num {
+        color: #1565c0;
+      }
+
+      .file-tag {
+        display: inline-block;
+        font-family: "Cascadia Code", "Consolas", monospace;
+        font-size: 8pt;
+        background: #e8eaf6;
+        color: #283593;
+        border-radius: 3px;
+        padding: 1px 6px;
+        margin: 1px 2px;
+      }
+      .action-tag {
+        display: inline-block;
+        font-size: 7.5pt;
+        font-weight: 700;
+        border-radius: 3px;
+        padding: 1px 6px;
+        margin-right: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .tag-new {
+        background: #e8f5e9;
+        color: #1b5e20;
+      }
+      .tag-mod {
+        background: #fff3e0;
+        color: #bf360c;
+      }
+      .tag-skip {
+        background: #f1f3f6;
+        color: #78849e;
+      }
+
+      @media print {
+        body {
+          background: #fff;
+          padding: 16px 20px;
+        }
+        .section {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── COVER ── -->
+    <div class="cover">
+      <div class="badge">BH-1117 · Epic MVP Phase 1</div>
+      <h1>AAR PI Experience &amp; Submission<br />Validation Checklist</h1>
+      <div class="subtitle">
+        Business Hub — Annual Activity Report · PI-Facing Experience Cloud
+        Portal
+      </div>
+      <div class="meta-grid">
+        <div class="meta-cell">
+          <span class="lbl">Ticket</span><span class="val">BH-1117</span>
+        </div>
+        <div class="meta-cell">
+          <span class="lbl">Branch</span
+          ><span class="val">feature/bh-1117</span>
+        </div>
+        <div class="meta-cell">
+          <span class="lbl">Target Org</span
+          ><span class="val">UHN-SANDBOX</span>
+        </div>
+        <div class="meta-cell">
+          <span class="lbl">API Version</span><span class="val">63.0</span>
+        </div>
+        <div class="meta-cell">
+          <span class="lbl">Date</span><span class="val">2026-06-09</span>
+        </div>
+        <div class="meta-cell">
+          <span class="lbl">Author</span
+          ><span class="val">Chuck / Claude Code</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DELIVERY SUMMARY ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-must">📦</div>
+        <h2>Delivery Summary</h2>
+        <span class="pill pill-pass">7 Deliverables</span>
+      </div>
+      <div class="test-summary">
+        <div class="test-cell tc-done">
+          <div class="num">2</div>
+          <div class="lbl">New LWCs</div>
+        </div>
+        <div class="test-cell tc-done">
+          <div class="num">1</div>
+          <div class="lbl">Permission Set</div>
+        </div>
+        <div class="test-cell tc-done">
+          <div class="num">2</div>
+          <div class="lbl">Profiles Patched</div>
+        </div>
+        <div class="test-cell tc-info">
+          <div class="num">1</div>
+          <div class="lbl">Quick Action</div>
+        </div>
+      </div>
+      <div class="note">
+        <strong>Dependencies:</strong> BH-1121 (Verification Framework) and
+        BH-1159 (Record Types) must be deployed first. Both are confirmed
+        deployed to UHN-SANDBOX as of 2026-06-04.
+      </div>
+    </div>
+
+    <!-- ── PROFILE FLS: ADMIN ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-perm">🔑</div>
+        <h2>Profile FLS — System Administrator</h2>
+        <span class="pill pill-pass">Patched</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px">ID</th>
+            <th>Check</th>
+            <th class="status-cell">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="req-id">A-01</td>
+            <td>
+              <div class="req-name">UHN_AAR__c — 33 missing fields added</div>
+              <div class="req-detail">
+                Includes: <code>Circumstances_Productivity__c</code>,
+                <code>Clinical_Duties__c</code>, <code>CMaRS_Updated__c</code>,
+                <code>Form_Confirmed_Accurate__c</code>,
+                <code>Lay_Summary__c</code>,
+                <code>Mandatory_Training_Complete__c</code>, and 27 others. All
+                <code>readable=true</code>; formula/rollup fields
+                <code>editable=false</code>.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">A-02</td>
+            <td>
+              <div class="req-name">
+                UHN_AAR__c — Grant_*, Pub_* rollup fields visible
+              </div>
+              <div class="req-detail">
+                11 Grant_* fields and 11 Pub_* aggregate/payload fields:
+                <code>readable</code> false→true.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">A-03</td>
+            <td>
+              <div class="req-name">
+                8 AAR child objects — objectPermissions added
+              </div>
+              <div class="req-detail">
+                <code>AAR_Appointment__c</code>, <code>AAR_Grant__c</code>,
+                <code>AAR_HQP__c</code>, <code>AAR_IP_Disclosure__c</code>,
+                <code>AAR_Outreach__c</code>,
+                <code>AAR_Professional_Activity__c</code>,
+                <code>AAR_Startup__c</code>, <code>AAR_Teaching__c</code> — all
+                with Create/Delete/Edit/Read/ModifyAll/ViewAll.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">A-04</td>
+            <td>
+              <div class="req-name">
+                8 AAR child objects — all field permissions added
+              </div>
+              <div class="req-detail">
+                All custom fields on each child object added with
+                <code>readable=true</code>, <code>editable=true</code>.
+                Totalling ~70 new fieldPermission entries.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">A-05</td>
+            <td>
+              <div class="req-name">
+                AAR_Criteria__c, AAR_Submission__c, Verification_Change_Event__c
+                fields visible
+              </div>
+              <div class="req-detail">
+                All formerly invisible fields on these objects set to
+                <code>readable=true</code>.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">A-06</td>
+            <td>
+              <div class="req-name">
+                Sandbox validation step — navigate to any AAR record
+              </div>
+              <div class="req-detail">
+                Log in as System Administrator, open a
+                <code>UHN_AAR__c</code> record. All self-assessment fields
+                should be visible and editable. Verification rollup panels
+                should show data.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Verify</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── PROFILE FLS: ACCOUNT HOLDER USER ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-perm">👤</div>
+        <h2>Profile FLS — Account Holder User (PI)</h2>
+        <span class="pill pill-pass">Patched</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px">ID</th>
+            <th>Check</th>
+            <th class="status-cell">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="req-id">P-01</td>
+            <td>
+              <div class="req-name">
+                UHN_AAR__c — objectPermissions added (Create/Edit/Read; no
+                Delete)
+              </div>
+              <div class="req-detail">
+                PIs can read and edit their own AAR record; they cannot delete
+                it.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">P-02</td>
+            <td>
+              <div class="req-name">
+                VerificationCardController — Apex class access enabled
+              </div>
+              <div class="req-detail">
+                <code>enabled</code> false→true. Also enabled
+                <code>VerificationReconciliationService</code> and
+                <code>AAR_RecordTypeAssignmentService</code>.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">P-03</td>
+            <td>
+              <div class="req-name">30+ UHN_AAR__c fields visible to PI</div>
+              <div class="req-detail">
+                Self-assessment fields (<code>Lay_Summary__c</code>,
+                <code>CMaRS_Updated__c</code>, etc.) set editable=true.
+                Source/system fields (<code>Grant_*</code>, <code>Pub_*</code>,
+                <code>External_Id__c</code>) set readable=true, editable=false.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">P-04</td>
+            <td>
+              <div class="req-name">
+                8 AAR child objects — objectPermissions + field permissions
+                added
+              </div>
+              <div class="req-detail">
+                <code>AAR_Appointment__c</code>, <code>AAR_Grant__c</code>,
+                <code>AAR_HQP__c</code>, <code>AAR_IP_Disclosure__c</code>,
+                <code>AAR_Outreach__c</code>,
+                <code>AAR_Professional_Activity__c</code>,
+                <code>AAR_Startup__c</code>, <code>AAR_Teaching__c</code> — PI
+                can Create/Edit/Delete/Read own records.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">P-05</td>
+            <td>
+              <div class="req-name">
+                AAR_Scholarly_Output__c — objectPermissions added (Read only)
+              </div>
+              <div class="req-detail">
+                PI can read source publications; cannot create/delete
+                (source-system controlled). Required for verificationCard to
+                render.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">P-06</td>
+            <td>
+              <div class="req-name">
+                AAR_Submission__c — objectPermissions added (Create/Read)
+              </div>
+              <div class="req-detail">
+                PI can create a submission record on submit; cannot edit the
+                evaluator review fields.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">P-07</td>
+            <td>
+              <div class="req-name">
+                AAR_Criteria__c — objectPermissions added (Read only)
+              </div>
+              <div class="req-detail">
+                PI can see criteria weighting but cannot modify.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">P-08</td>
+            <td>
+              <div class="req-name">
+                Verification_Change_Event__c — objectPermissions + fields (Read
+                only)
+              </div>
+              <div class="req-detail">
+                PI can view audit trail of verification events.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">P-09</td>
+            <td>
+              <div class="req-name">
+                Sandbox validation — log in as a PI community user
+              </div>
+              <div class="req-detail">
+                Navigate to an AAR record via the Business Hub portal. Confirm
+                self-assessment fields are visible and editable. Confirm
+                publications verification card renders. Confirm evaluator fields
+                on AAR_Submission__c are read-only.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Verify</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── LWC: aarSelfAssessment ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-lwc">⚡</div>
+        <h2>LWC: aarSelfAssessment</h2>
+        <span class="pill pill-pass">New Component</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px">ID</th>
+            <th>Check</th>
+            <th class="status-cell">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="req-id">SA-01</td>
+            <td>
+              <div class="req-name">Component created at correct path</div>
+              <div class="req-detail">
+                <code>force-app/main/default/lwc/aarSelfAssessment/</code> —
+                three files: <code>.html</code>, <code>.js</code>,
+                <code>.js-meta.xml</code>
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">SA-02</td>
+            <td>
+              <div class="req-name">
+                Exposed to RecordPage and Community targets
+              </div>
+              <div class="req-detail">
+                Targets: <code>lightning__RecordPage</code>,
+                <code>lightningCommunity__Page</code>,
+                <code>lightningCommunity__Default_Page</code>. Properties:
+                <code>recordId</code> (String),
+                <code>isReadOnly</code> (Boolean).
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">SA-03</td>
+            <td>
+              <div class="req-name">
+                Form sections cover all self-assessment fields
+              </div>
+              <div class="req-detail">
+                Research Profile (Lay_Summary, Career Stage, Keywords, Protected
+                Time), Clinical &amp; Teaching (Clinical_Duties,
+                Service_Narrative), Trainee Supervision (counts +
+                Supervision_Narrative), Leave (Start/End dates), Declarations
+                (CMaRS, Grants, Training, Patient Engagement, Form Confirmed,
+                Feedback, Hours).
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">SA-04</td>
+            <td>
+              <div class="req-name">
+                Uses lightning-record-edit-form with toast on save/error
+              </div>
+              <div class="req-detail">
+                No Apex controller dependency — uses standard LDS form with
+                <code>ShowToastEvent</code> success/error handling.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">SA-05</td>
+            <td>
+              <div class="req-name">
+                Sandbox validation — open AAR record in Experience Cloud
+              </div>
+              <div class="req-detail">
+                Self-assessment form renders, all sections visible. Save a field
+                and confirm toast appears. Toggle
+                <code>isReadOnly=true</code> and confirm form is non-editable.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Verify</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── LWC: aarSubmitAction ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-lwc">🚀</div>
+        <h2>LWC: aarSubmitAction (Quick Action)</h2>
+        <span class="pill pill-pass">New Component</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px">ID</th>
+            <th>Check</th>
+            <th class="status-cell">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="req-id">SB-01</td>
+            <td>
+              <div class="req-name">Component created as ScreenAction</div>
+              <div class="req-detail">
+                Target: <code>lightning__RecordAction</code> with
+                <code>actionType=ScreenAction</code>. Also exposed to
+                <code>lightningCommunity__Page</code>.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">SB-02</td>
+            <td>
+              <div class="req-name">
+                Pre-flight checklist wires CMaRS, Grants, Training, Form fields
+              </div>
+              <div class="req-detail">
+                Uses <code>@wire(getRecord)</code> to read
+                <code>CMaRS_Updated__c</code>,
+                <code>Grants_Good_Standing__c</code>,
+                <code>Mandatory_Training_Complete__c</code>,
+                <code>Form_Confirmed_Accurate__c</code>. Submit button disabled
+                if any is false.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">SB-03</td>
+            <td>
+              <div class="req-name">
+                On submit: sets Status__c = "Submitted" + Submission_Date__c
+              </div>
+              <div class="req-detail">
+                Uses <code>updateRecord</code> from
+                <code>lightning/uiRecordApi</code>. Dispatches
+                <code>CloseActionScreenEvent</code> and success toast on
+                completion.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">SB-04</td>
+            <td>
+              <div class="req-name">
+                Quick Action metadata wired to UHN_AAR__c
+              </div>
+              <div class="req-detail">
+                <code
+                  >force-app/main/default/quickActions/UHN_AAR__c.Submit_AAR.quickAction-meta.xml</code
+                >
+                created with type <code>LightningWebComponent</code>, subtype
+                <code>ScreenAction</code>.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">SB-05</td>
+            <td>
+              <div class="req-name">
+                Sandbox validation — click "Submit AAR" action on AAR record
+              </div>
+              <div class="req-detail">
+                With all four checkboxes true: modal opens, no error list,
+                Submit button enabled. Click Submit → Status changes to
+                "Submitted", Submission_Date__c populated. With any checkbox
+                false: Submit button disabled, error list shown.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Verify</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">SB-06</td>
+            <td>
+              <div class="req-name">
+                Add "Submit AAR" to AAR record page action bar
+              </div>
+              <div class="req-detail">
+                In Setup → Object Manager → UHN_AAR__c → Page Layouts (or via
+                Lightning App Builder), add the <code>Submit AAR</code> quick
+                action to the AAR record page highlights panel action bar.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Post-Deploy</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── PERMISSION SET: AAR_Delegate ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-perm">🤝</div>
+        <h2>Permission Set: AAR PI Delegate</h2>
+        <span class="pill pill-pass">New Perm Set</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px">ID</th>
+            <th>Check</th>
+            <th class="status-cell">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="req-id">D-01</td>
+            <td>
+              <div class="req-name">
+                AAR_Delegate.permissionset-meta.xml created
+              </div>
+              <div class="req-detail">
+                Label: "AAR PI Delegate". Grants UHN_AAR__c (Read/Edit), all AAR
+                child objects, AAR_Scholarly_Output__c (Read), AAR_Submission__c
+                (Create/Read), Verification_Change_Event__c (Read).
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">D-02</td>
+            <td>
+              <div class="req-name">
+                Apex class access — VerificationCardController,
+                VerificationReconciliationService,
+                AAR_RecordTypeAssignmentService
+              </div>
+              <div class="req-detail">
+                All three enabled so delegates can use the verification card and
+                record type assignment.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">D-03</td>
+            <td>
+              <div class="req-name">
+                Record type visibility — Manual_Entry and Proposed/Verified for
+                publications
+              </div>
+              <div class="req-detail">
+                Delegates can create manual-entry scholarly outputs and view all
+                publication record types.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">D-04</td>
+            <td>
+              <div class="req-name">
+                Sandbox validation — assign AAR_Delegate perm set to a test
+                community user
+              </div>
+              <div class="req-detail">
+                Log in as the delegate user. Navigate to the PI's AAR record.
+                Confirm Edit access is available. Confirm evaluator fields
+                remain read-only.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Verify</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── EXPERIENCE CLOUD ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-exp">🌐</div>
+        <h2>Experience Cloud — AAR PI View</h2>
+        <span class="pill pill-pass">New Page + Route</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px">ID</th>
+            <th>Check</th>
+            <th class="status-cell">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="req-id">EC-01</td>
+            <td>
+              <div class="req-name">
+                aarDetail view created in Business_Hub1
+              </div>
+              <div class="req-detail">
+                <code>experiences/Business_Hub1/views/aarDetail.json</code> —
+                includes <code>forceCommunity:recordHeadline</code>,
+                <code>c:aarSelfAssessment</code>, and
+                <code>c:verificationCard</code> for publications. Route type:
+                <code>detail-a0h</code> (UHN_AAR__c key prefix).
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">EC-02</td>
+            <td>
+              <div class="req-name">aarDetail route created</div>
+              <div class="req-detail">
+                <code>experiences/Business_Hub1/routes/aarDetail.json</code> —
+                <code>urlPrefix: "aar"</code>,
+                <code>routeType: "detail-a0h"</code>. URL pattern:
+                <code>/aar/{recordId}</code>.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-pass">✓ Done</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">EC-03</td>
+            <td>
+              <div class="req-name">
+                Sandbox validation — navigate to AAR record in Experience
+                Builder
+              </div>
+              <div class="req-detail">
+                In Experience Builder, open the Business Hub site. Navigate to
+                an AAR record URL (<code>/aar/a0h...</code>). Confirm page
+                renders with self-assessment form and publications verification
+                card.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Verify</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">EC-04</td>
+            <td>
+              <div class="req-name">
+                Multi-institute branding — deferred to BH-1118
+              </div>
+              <div class="req-detail">
+                Institute-specific navigation and branding for 5 UHN institutes
+                (PMCF, Krembil, KITE, Princess Margaret, Toronto General) is out
+                of scope for this MVP phase.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-na">Deferred</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="req-id">EC-05</td>
+            <td>
+              <div class="req-name">
+                Institute-specific document upload — deferred
+              </div>
+              <div class="req-detail">
+                CV and activity summary upload via
+                ContentDocument/ContentVersion is deferred pending document
+                requirements from each institute.
+              </div>
+            </td>
+            <td class="status-cell">
+              <span class="status status-na">Deferred</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── DEPLOYMENT ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-deploy">🚀</div>
+        <h2>Deployment Steps</h2>
+        <span class="pill pill-info">Run in Order</span>
+      </div>
+      <div class="note">
+        Deploy from the feature branch <code>feature/bh-1117</code>. Do not
+        deploy from master until PR is approved and sandbox-validated.
+      </div>
+      <div class="pre-block">
+        # 1. Commit all changes git add
+        force-app/main/default/profiles/Admin.profile-meta.xml git add
+        "force-app/main/default/profiles/Account Holder User.profile-meta.xml"
+        git add force-app/main/default/lwc/aarSelfAssessment/ git add
+        force-app/main/default/lwc/aarSubmitAction/ git add
+        force-app/main/default/permissionsets/AAR_Delegate.permissionset-meta.xml
+        git add
+        force-app/main/default/quickActions/UHN_AAR__c.Submit_AAR.quickAction-meta.xml
+        git add
+        force-app/main/default/experiences/Business_Hub1/views/aarDetail.json
+        git add
+        force-app/main/default/experiences/Business_Hub1/routes/aarDetail.json
+        git commit -m "BH-1117: AAR PI Experience MVP — profiles, LWCs, perm
+        set, quick action, community page" git push -u origin feature/bh-1117 #
+        2. Deploy to UHN-SANDBOX sfdx force:source:deploy -p force-app -u
+        UHN-SANDBOX --wait 30 # 3. Verify deployment status sfdx
+        force:source:status -u UHN-SANDBOX # 4. Open PR into master gh pr create
+        --base master --head feature/bh-1117 \ --title "BH-1117: AAR PI
+        Experience &amp; Submission MVP" \ --body "Profiles patched,
+        aarSelfAssessment + aarSubmitAction LWCs, AAR_Delegate perm set,
+        community page."
+      </div>
+    </div>
+
+    <!-- ── REVERT ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-revert">↩</div>
+        <h2>Revert Instructions</h2>
+        <span class="pill pill-warn">Reversible</span>
+      </div>
+      <div class="note">
+        All changes are on <code>feature/bh-1117</code>. Master is untouched
+        until the PR merges. To revert the entire delivery:
+      </div>
+      <div class="pre-block">
+        # Option A — Delete the branch and re-deploy the current master to
+        sandbox git checkout master sfdx force:source:deploy -p force-app -u
+        UHN-SANDBOX --wait 30 # Option B — Revert specific files to their master
+        baseline git checkout master -- "force-app/main/default/profiles/Account
+        Holder User.profile-meta.xml" git checkout master --
+        force-app/main/default/profiles/Admin.profile-meta.xml git checkout
+        master -- force-app/main/default/lwc/aarSelfAssessment/ git checkout
+        master -- force-app/main/default/lwc/aarSubmitAction/ # Then redeploy
+        the reverted files sfdx force:source:deploy -p
+        force-app/main/default/profiles -u UHN-SANDBOX sfdx force:source:deploy
+        -p force-app/main/default/lwc -u UHN-SANDBOX # Option C — Delete the new
+        permission set from org after reverting the file sfdx force:mdapi:delete
+        -m PermissionSet:AAR_Delegate -u UHN-SANDBOX
+      </div>
+    </div>
+
+    <!-- ── FILES CHANGED ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-files">📁</div>
+        <h2>Files Changed</h2>
+        <span class="pill pill-info">10 Files</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>File</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="action-tag tag-mod">MOD</span></td>
+            <td>
+              <span class="file-tag">profiles/Admin.profile-meta.xml</span>
+            </td>
+            <td>
+              +33 UHN_AAR__c fields, +8 child object perms, +70 child field
+              perms, +5 Verification_Change_Event__c fields
+            </td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-mod">MOD</span></td>
+            <td>
+              <span class="file-tag"
+                >profiles/Account Holder User.profile-meta.xml</span
+              >
+            </td>
+            <td>
+              +UHN_AAR__c object perms, +3 Apex class access, +30 field perms,
+              +AAR_Scholarly_Output__c &amp; AAR_Submission__c object perms
+            </td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-new">NEW</span></td>
+            <td>
+              <span class="file-tag"
+                >lwc/aarSelfAssessment/aarSelfAssessment.html</span
+              >
+            </td>
+            <td>
+              5-section self-assessment form using lightning-record-edit-form
+            </td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-new">NEW</span></td>
+            <td>
+              <span class="file-tag"
+                >lwc/aarSelfAssessment/aarSelfAssessment.js</span
+              >
+            </td>
+            <td>Load/save/error handlers; isReadOnly support</td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-new">NEW</span></td>
+            <td>
+              <span class="file-tag"
+                >lwc/aarSelfAssessment/aarSelfAssessment.js-meta.xml</span
+              >
+            </td>
+            <td>Exposed to RecordPage + Community targets</td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-new">NEW</span></td>
+            <td>
+              <span class="file-tag"
+                >lwc/aarSubmitAction/aarSubmitAction.html</span
+              >
+            </td>
+            <td>Pre-flight checklist + submit/cancel UI</td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-new">NEW</span></td>
+            <td>
+              <span class="file-tag"
+                >lwc/aarSubmitAction/aarSubmitAction.js</span
+              >
+            </td>
+            <td>Wire gates + updateRecord to set Status__c=Submitted</td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-new">NEW</span></td>
+            <td>
+              <span class="file-tag"
+                >lwc/aarSubmitAction/aarSubmitAction.js-meta.xml</span
+              >
+            </td>
+            <td>ScreenAction target for lightning__RecordAction</td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-new">NEW</span></td>
+            <td>
+              <span class="file-tag"
+                >permissionsets/AAR_Delegate.permissionset-meta.xml</span
+              >
+            </td>
+            <td>
+              Delegate perm set — mirrors PI access without evaluator write
+              rights
+            </td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-new">NEW</span></td>
+            <td>
+              <span class="file-tag"
+                >quickActions/UHN_AAR__c.Submit_AAR.quickAction-meta.xml</span
+              >
+            </td>
+            <td>ScreenAction quick action wired to aarSubmitAction LWC</td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-new">NEW</span></td>
+            <td>
+              <span class="file-tag"
+                >experiences/Business_Hub1/views/aarDetail.json</span
+              >
+            </td>
+            <td>
+              Community AAR detail view — headline + self-assessment +
+              publications verification
+            </td>
+          </tr>
+          <tr>
+            <td><span class="action-tag tag-new">NEW</span></td>
+            <td>
+              <span class="file-tag"
+                >experiences/Business_Hub1/routes/aarDetail.json</span
+              >
+            </td>
+            <td>Route type detail-a0h, URL prefix /aar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── SIGN OFF ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="icon icon-must">✅</div>
+        <h2>Sign-Off</h2>
+        <span class="pill pill-warn">Required Before Merge</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>By</th>
+            <th>Date</th>
+            <th class="status-cell">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Deploy to UHN-SANDBOX passes with 0 component errors</td>
+            <td></td>
+            <td></td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Pending</span>
+            </td>
+          </tr>
+          <tr>
+            <td>PI community user smoke test complete (P-09 above)</td>
+            <td></td>
+            <td></td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Pending</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Submit AAR action fires and sets Status correctly (SB-05)</td>
+            <td></td>
+            <td></td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Pending</span>
+            </td>
+          </tr>
+          <tr>
+            <td>AAR Delegate perm set assigned + verified (D-04)</td>
+            <td></td>
+            <td></td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Pending</span>
+            </td>
+          </tr>
+          <tr>
+            <td>PR approved on GitHub</td>
+            <td></td>
+            <td></td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Pending</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Merge to master + annotated tag <code>bh-1117</code> created
+            </td>
+            <td></td>
+            <td></td>
+            <td class="status-cell">
+              <span class="status status-verify">☐ Pending</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

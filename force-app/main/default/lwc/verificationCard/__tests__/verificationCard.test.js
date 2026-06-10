@@ -1,10 +1,10 @@
 import { createElement } from "lwc";
 import VerificationCard from "c/verificationCard";
 import { subscribe, unsubscribe } from "lightning/empApi";
+import getCardData from "@salesforce/apex/VerificationCardController.getCardData";
 import verify from "@salesforce/apex/VerificationCardController.verify";
 import rejectRecord from "@salesforce/apex/VerificationCardController.rejectRecord";
 import confirmManualRecord from "@salesforce/apex/VerificationCardController.confirmManualRecord";
-import getCardData from "@salesforce/apex/VerificationCardController.getCardData";
 
 jest.mock(
   "@salesforce/apex/VerificationCardController.getCardData",

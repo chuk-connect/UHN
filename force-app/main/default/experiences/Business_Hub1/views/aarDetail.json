@@ -1,0 +1,80 @@
+{
+  "appPageId": "6517fb70-a233-4397-a619-4d61af0361ea",
+  "componentName": "siteforce:sldsOneColLayout",
+  "dataProviders": [],
+  "id": "bh1117-aar-detail-view-001",
+  "label": "AAR Detail",
+  "regions": [
+    {
+      "id": "bh1117-aar-header-region",
+      "regionName": "header",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "forceCommunity:recordHeadline",
+          "id": "bh1117-aar-headline",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "recordId": "{!recordId}"
+          },
+          "componentName": "c:aarSelfAssessment",
+          "id": "bh1117-aar-self-assessment",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        },
+        {
+          "componentAttributes": {
+            "cardTitle": "Publications Verification",
+            "childObjectApiName": "AAR_Scholarly_Output__c",
+            "fieldSetName": "Scholarly_Output_Verification",
+            "recordId": "{!recordId}"
+          },
+          "componentName": "c:verificationCard",
+          "id": "bh1117-aar-pub-verification",
+          "renderPriority": "NEUTRAL",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "bh1117-aar-content-region",
+      "regionName": "content",
+      "type": "region"
+    },
+    {
+      "id": "bh1117-aar-footer-region",
+      "regionName": "footer",
+      "type": "region"
+    },
+    {
+      "components": [
+        {
+          "componentAttributes": {
+            "customHeadTags": "",
+            "description": "Principal Investigator Annual Activity Report",
+            "title": "Annual Activity Report"
+          },
+          "componentName": "forceCommunity:seoAssistant",
+          "id": "bh1117-aar-seo",
+          "renditionMap": {},
+          "type": "component"
+        }
+      ],
+      "id": "bh1117-aar-hidden-region",
+      "regionName": "sfdcHiddenRegion",
+      "type": "region"
+    }
+  ],
+  "themeLayoutType": "Inner",
+  "type": "view",
+  "viewType": "detail-a0h"
+}
